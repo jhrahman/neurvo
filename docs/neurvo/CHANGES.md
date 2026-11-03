@@ -61,3 +61,9 @@ Default stays Light (`user_default_theme = light`). Each user can switch any tim
 | File | Reason |
 |---|---|
 | `lib/redmine/menu_manager/top_menu/quick_add_menu.rb` | Header "+" button now reads "Create" (Jira-style) with the same dropdown |
+
+## Loader
+
+| File | Reason |
+|---|---|
+| `frontend/src/global_styles/neurvo/_loader.sass` (new) | Animated Neurvo mark replaces the green-squares loader (`.op-loading-indicator`) and the global Primer spinner. CSS-only, light/dark variants, honours reduced motion. Turbo progress bar uses the brand gradient |

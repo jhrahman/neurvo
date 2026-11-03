@@ -1,0 +1,58 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+
+// Neurvo loader: the brand mark draws itself (line, three nodes, green sparks).
+$neurvo-loader-light: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 360 276%22%3E%3Cstyle%3E .l%7Bstroke-dasharray:1;animation:d 2.4s ease-in-out infinite%7D .n%7Btransform-box:fill-box;transform-origin:center;transform:scale(0)%7D .a%7Banimation:p1 2.4s infinite%7D.b%7Banimation:p2 2.4s infinite%7D.c%7Banimation:p3 2.4s infinite%7D .g%7Btransform-box:fill-box;transform-origin:center;opacity:0%7D .g1%7Banimation:t1 2.4s infinite%7D.g2%7Banimation:t2 2.4s infinite%7D.g3%7Banimation:t3 2.4s infinite%7D @keyframes d%7B0%25%7Bstroke-dashoffset:1;opacity:0%7D8%25%7Bstroke-dashoffset:1;opacity:1%7D50%25%7Bstroke-dashoffset:0%7D86%25%7Bstroke-dashoffset:0;opacity:1%7D96%25,100%25%7Bstroke-dashoffset:0;opacity:0%7D%7D @keyframes p1%7B0%25%7Btransform:scale(0)%7D10%25,86%25%7Btransform:scale(1)%7D96%25,100%25%7Btransform:scale(0)%7D%7D @keyframes p2%7B0%25,14%25%7Btransform:scale(0)%7D26%25,86%25%7Btransform:scale(1)%7D96%25,100%25%7Btransform:scale(0)%7D%7D @keyframes p3%7B0%25,38%25%7Btransform:scale(0)%7D50%25,86%25%7Btransform:scale(1)%7D96%25,100%25%7Btransform:scale(0)%7D%7D @keyframes t1%7B0%25,50%25%7Bopacity:0;transform:scale(.3)%7D60%25,86%25%7Bopacity:1;transform:scale(1)%7D96%25,100%25%7Bopacity:0;transform:scale(.3)%7D%7D @keyframes t2%7B0%25,58%25%7Bopacity:0;transform:scale(.3)%7D68%25,86%25%7Bopacity:1;transform:scale(1)%7D96%25,100%25%7Bopacity:0;transform:scale(.3)%7D%7D @keyframes t3%7B0%25,66%25%7Bopacity:0;transform:scale(.3)%7D76%25,86%25%7Bopacity:1;transform:scale(1)%7D96%25,100%25%7Bopacity:0;transform:scale(.3)%7D%7D @media (prefers-reduced-motion:reduce)%7B*%7Banimation:none!important;transform:none!important;opacity:1!important;stroke-dashoffset:0!important%7D%7D %3C/style%3E%3Cg transform=%22translate(-30,-10)%22%3E%3Cpath class=%22l%22 pathLength=%221%22 d=%22M80 150 L170 240 L330 60%22 fill=%22none%22 stroke=%22%231276B9%22 stroke-width=%2234%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3Ccircle class=%22n a%22 cx=%2280%22 cy=%22150%22 r=%2240%22 fill=%22%231276B9%22/%3E%3Ccircle class=%22n b%22 cx=%22170%22 cy=%22240%22 r=%2244%22 fill=%22%231276B9%22/%3E%3Ccircle class=%22n c%22 cx=%22330%22 cy=%2260%22 r=%2248%22 fill=%22%231276B9%22/%3E%3Ccircle class=%22g g1%22 cx=%22250%22 cy=%22215%22 r=%2215%22 fill=%22%238DC543%22/%3E%3Ccircle class=%22g g2%22 cx=%22150%22 cy=%2295%22 r=%2213%22 fill=%22%238DC543%22/%3E%3Ccircle class=%22g g3%22 cx=%22376%22 cy=%22160%22 r=%2213%22 fill=%22%238DC543%22/%3E%3C/g%3E%3C/svg%3E")
+$neurvo-loader-dark: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 360 276%22%3E%3Cstyle%3E .l%7Bstroke-dasharray:1;animation:d 2.4s ease-in-out infinite%7D .n%7Btransform-box:fill-box;transform-origin:center;transform:scale(0)%7D .a%7Banimation:p1 2.4s infinite%7D.b%7Banimation:p2 2.4s infinite%7D.c%7Banimation:p3 2.4s infinite%7D .g%7Btransform-box:fill-box;transform-origin:center;opacity:0%7D .g1%7Banimation:t1 2.4s infinite%7D.g2%7Banimation:t2 2.4s infinite%7D.g3%7Banimation:t3 2.4s infinite%7D @keyframes d%7B0%25%7Bstroke-dashoffset:1;opacity:0%7D8%25%7Bstroke-dashoffset:1;opacity:1%7D50%25%7Bstroke-dashoffset:0%7D86%25%7Bstroke-dashoffset:0;opacity:1%7D96%25,100%25%7Bstroke-dashoffset:0;opacity:0%7D%7D @keyframes p1%7B0%25%7Btransform:scale(0)%7D10%25,86%25%7Btransform:scale(1)%7D96%25,100%25%7Btransform:scale(0)%7D%7D @keyframes p2%7B0%25,14%25%7Btransform:scale(0)%7D26%25,86%25%7Btransform:scale(1)%7D96%25,100%25%7Btransform:scale(0)%7D%7D @keyframes p3%7B0%25,38%25%7Btransform:scale(0)%7D50%25,86%25%7Btransform:scale(1)%7D96%25,100%25%7Btransform:scale(0)%7D%7D @keyframes t1%7B0%25,50%25%7Bopacity:0;transform:scale(.3)%7D60%25,86%25%7Bopacity:1;transform:scale(1)%7D96%25,100%25%7Bopacity:0;transform:scale(.3)%7D%7D @keyframes t2%7B0%25,58%25%7Bopacity:0;transform:scale(.3)%7D68%25,86%25%7Bopacity:1;transform:scale(1)%7D96%25,100%25%7Bopacity:0;transform:scale(.3)%7D%7D @keyframes t3%7B0%25,66%25%7Bopacity:0;transform:scale(.3)%7D76%25,86%25%7Bopacity:1;transform:scale(1)%7D96%25,100%25%7Bopacity:0;transform:scale(.3)%7D%7D @media (prefers-reduced-motion:reduce)%7B*%7Banimation:none!important;transform:none!important;opacity:1!important;stroke-dashoffset:0!important%7D%7D %3C/style%3E%3Cg transform=%22translate(-30,-10)%22%3E%3Cpath class=%22l%22 pathLength=%221%22 d=%22M80 150 L170 240 L330 60%22 fill=%22none%22 stroke=%22%234FA8E8%22 stroke-width=%2234%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3Ccircle class=%22n a%22 cx=%2280%22 cy=%22150%22 r=%2240%22 fill=%22%234FA8E8%22/%3E%3Ccircle class=%22n b%22 cx=%22170%22 cy=%22240%22 r=%2244%22 fill=%22%234FA8E8%22/%3E%3Ccircle class=%22n c%22 cx=%22330%22 cy=%2260%22 r=%2248%22 fill=%22%234FA8E8%22/%3E%3Ccircle class=%22g g1%22 cx=%22250%22 cy=%22215%22 r=%2215%22 fill=%22%238DC543%22/%3E%3Ccircle class=%22g g2%22 cx=%22150%22 cy=%2295%22 r=%2213%22 fill=%22%238DC543%22/%3E%3Ccircle class=%22g g3%22 cx=%22376%22 cy=%22160%22 r=%2213%22 fill=%22%238DC543%22/%3E%3C/g%3E%3C/svg%3E")
+
+@mixin neurvo-loader($width)
+  background: $neurvo-loader-light no-repeat center / contain
+  width: $width
+  height: calc(#{$width} * 276 / 360)
+
+  [data-color-mode="dark"] &
+    background-image: $neurvo-loader-dark
+
+.op-loading-indicator
+  @include neurvo-loader(5.5rem)
+  left: calc(50% - 2.75rem)
+  overflow: visible
+
+  div
+    display: none
+
+#global-loading-indicator
+  svg
+    display: none
+
+  &::before
+    content: ""
+    display: block
+    @include neurvo-loader(5.5rem)
+
+.turbo-progress-bar
+  height: 3px
+  background: linear-gradient(90deg, #1276B9, #8DC543)
