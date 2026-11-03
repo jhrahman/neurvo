@@ -42,12 +42,12 @@ statuses:
 
 types:
   - { key: epic,           name: "Epic",            color: "#8250DF", renames: [],             statuses: [todo, in_progress, blocked, done, wont_do] }
-  - { key: story,          name: "Story",           color: "#1F883D", renames: ["User story"], statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
-  - { key: task,           name: "Task",            color: "#1276B9", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: story,          form_section: "Delivery", name: "Story",           color: "#1F883D", renames: ["User story"], statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: task,           form_section: "Delivery", name: "Task",            color: "#1276B9", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
   - { key: subtask,        name: "Sub-task",        color: "#54AEFF", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
-  - { key: bug,            name: "Bug",             color: "#CF222E", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, reopened, blocked, done, wont_do] }
-  - { key: feature_request, name: "Feature Request", color: "#0969DA", renames: ["Feature"],   statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
-  - { key: change_request, name: "Change Request",  color: "#BC4C00", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: bug,            form_section: "Bug details", name: "Bug",             color: "#CF222E", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, reopened, blocked, done, wont_do] }
+  - { key: feature_request, form_section: "Request", name: "Feature Request", color: "#0969DA", renames: ["Feature"],   statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: change_request, form_section: "Request", name: "Change Request",  color: "#BC4C00", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
   - { key: milestone,      name: "Milestone",       color: "#6E7781", renames: [],             statuses: [todo, in_progress, done], milestone: true }
 
 obsolete_types: ["Summary task", "All CFS", "Required CF"]

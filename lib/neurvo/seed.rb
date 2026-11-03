@@ -169,7 +169,25 @@ module Neurvo
         end
         [conf["key"], field]
       end
-      @types.each_value { |type| type.default_variant.reload.save! }
+      seed_form_layouts
+    end
+
+    FORM_SECTIONS = {
+      details: %w[priority sprint target_versions category date],
+      people: %w[assignee responsible],
+      estimates_and_progress: %w[story_points estimated_time remaining_time percentage_done]
+    }.freeze
+
+    def seed_form_layouts
+      data["types"].each do |conf|
+        variant = @types.fetch(conf["key"]).default_variant.reload
+        fields = data["custom_fields"].select { |f| f["types"].include?(conf["key"]) }
+                                      .map { |f| @custom_fields.fetch(f["key"]).attribute_name }
+        sections = FORM_SECTIONS.except(*(conf["milestone"] ? [:estimates_and_progress] : [])).to_a
+        sections.unshift([conf["form_section"], fields]) if fields.any?
+        variant.attribute_groups = sections
+        variant.save!
+      end
     end
 
     def seed_roles
