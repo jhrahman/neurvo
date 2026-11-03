@@ -130,3 +130,4 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 |---|---|
 | `frontend/src/global_styles/neurvo/_motion.sass` (new) | Consistent 120–200 ms transitions on controls, card lift on boards, slide-in side panels, pop-in menus; off with reduced motion. Cross-document view transitions were tried and dropped: they conflict with Turbo |
 | `lib/neurvo/seed.rb` | Gravatar disabled (no hashed staff e-mails sent to gravatar.com); uploaded avatars and initials remain |
+| `lib/redmine/menu_manager/top_menu/help_menu.rb`, `config/locales/en.yml` | With `show_community_links` off, the help menu keeps User guides, Shortcuts and API docs, drops vendor/community links and credits OpenProject |

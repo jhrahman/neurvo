@@ -4810,6 +4810,8 @@ en:
       no_results_title_text: There is currently no news to report.
   no_results_title_text: There is currently nothing to display.
 
+  neurvo:
+    based_on_openproject: "Neurvo is based on OpenProject"
   noscript_description: "You need to activate JavaScript in order to use Neurvo!"
   noscript_heading: "JavaScript disabled"
   noscript_learn_more: "Learn more"

@@ -34,7 +34,8 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                  OpenProject::Static::Links.cache_key,
                  I18n.locale,
                  OpenProject::Static::Links.help_link,
-                 EnterpriseToken.active?]
+                 EnterpriseToken.active?,
+                 community_links?]
     OpenProject::Cache.fetch(cache_key) do
       if OpenProject::Static::Links.help_link_overridden?
         render(Primer::Beta::IconButton.new(icon: item.icon,
@@ -68,8 +69,10 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                             test_selector: "header-help-button",
                             "aria-label": I18n.t(:label_help))
 
-      add_onboarding_item(menu)
-      menu.with_divider
+      if community_links?
+        add_onboarding_item(menu)
+        menu.with_divider
+      end
       add_help_and_support_items(menu)
       menu.with_divider
       add_additional_help_items(menu)
@@ -109,6 +112,9 @@ module Redmine::MenuManager::TopMenu::HelpMenu
         )
       end
       menu_group.with_item(**link_options_for(:user_guides))
+      menu_group.with_item(**link_options_for(:shortcuts))
+      next unless community_links?
+
       menu_group.with_item(href: OpenProject::Configuration.youtube_channel,
                            label: t(:label_videos),
                            content_arguments: {
@@ -117,7 +123,6 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                              data: { allow_external_link: true }
                            },
                            test_selector: "op-menu--item-action")
-      menu_group.with_item(**link_options_for(:shortcuts))
       menu_group.with_item(**link_options_for(:forums))
       menu_group.with_item(**link_options_for(
         EnterpriseToken.active? ? :enterprise_support : :enterprise_support_as_community
@@ -131,6 +136,15 @@ module Redmine::MenuManager::TopMenu::HelpMenu
 
       if OpenProject::Static::Links.has? :impressum
         menu_group.with_item(**link_options_for(:impressum))
+      end
+
+      unless community_links?
+        menu_group.with_item(**link_options_for(:api_docs))
+        menu_group.with_item(href: "https://www.openproject.org",
+                             label: t("neurvo.based_on_openproject"),
+                             content_arguments: { target: "_blank", rel: "noopener", data: { allow_external_link: true } },
+                             test_selector: "op-menu--item-action")
+        next
       end
 
       menu_group.with_item(**link_options_for(:data_privacy))
@@ -166,6 +180,10 @@ module Redmine::MenuManager::TopMenu::HelpMenu
       menu_group.with_item(**link_options_for(:crowdin))
       menu_group.with_item(**link_options_for(:api_docs))
     end
+  end
+
+  def community_links?
+    OpenProject::Configuration.show_community_links?
   end
 
   def link_options_for(key, options = {})
