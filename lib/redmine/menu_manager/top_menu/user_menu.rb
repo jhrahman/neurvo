@@ -56,7 +56,7 @@ module Redmine::MenuManager::TopMenu::UserMenu
       avatar_image_alt_text: I18n.t("label_user_menu")
     )
 
-    render Primer::Alpha::Dialog.new(title: I18n.t("label_user_menu"),
+    dialog = render Primer::Alpha::Dialog.new(title: I18n.t("label_user_menu"),
                                      visually_hide_title: true,
                                      size: User.current.logged? ? :small : :medium,
                                      position: :right) do |dialog|
@@ -74,6 +74,9 @@ module Redmine::MenuManager::TopMenu::UserMenu
         end
       end
     end
+
+    # The color mode form lives outside the dialog: Primer keeps dialogs containing a form open on outside clicks.
+    User.current.logged? ? dialog + render(partial: "my/color_mode_form") : dialog
   end
 
   def lateral_user_menu_button(dialog, avatar)

@@ -106,3 +106,4 @@ Dark = Neurvo Dark (default), Ash, Pure black, One Dark Pro, Dracula, Tokyo Nigh
 | File | Reason |
 |---|---|
 | `frontend/src/app/shared/directives/a11y/keyboard-shortcut.service.ts` | `⌘K` / `Ctrl+K` focuses global search (browser default prevented); `c` opens the Create menu (Jira-style) |
+| `lib/redmine/menu_manager/top_menu/user_menu.rb`, `app/views/my/_color_mode_form.html.erb` (new) | Color mode form rendered outside the user-menu dialog so an outside click closes the panel (Primer keeps dialogs containing a form open) |

@@ -43,7 +43,8 @@ RSpec.describe "my/_color_mode_menu" do
     let(:theme) { "light" }
 
     it "posts the chosen theme to the settings endpoint and marks light as pressed" do
-      expect(rendered).to have_css("form[action='/my/settings']")
+      expect(rendered).to have_css("button[form='op-color-mode-form'][name='pref[theme]'][value='light']")
+      expect(rendered).to have_no_css("form")
       expect(rendered).to have_button("Light", aria: { pressed: "true" })
       expect(rendered).to have_button("Dark", aria: { pressed: "false" })
     end
