@@ -77,6 +77,12 @@ export class KeyboardShortcutService {
     'mod+k': (event) => {
       event?.preventDefault();
       this.accessKey('quickSearch')();
+      window.setTimeout(() => {
+        const input = document.activeElement;
+        if (input instanceof HTMLInputElement) {
+          input.select();
+        }
+      }, 250);
     },
     'c': () => document.querySelector<HTMLElement>('[data-test-selector="quick-add-menu-button"]')?.click(),
     'k': () => this.focusPrevItem(),
