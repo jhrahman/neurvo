@@ -40,6 +40,11 @@ module Neurvo
     UPSTREAM_DEMO_IDENTIFIERS = %w[demo-project your-scrum-project dev-empty dev-work-package-sharing
                                    dev-large dev-large-child dev-custom-fields].freeze
     KEPT_LOGINS = %w[admin qa].freeze
+    FORM_SECTIONS = {
+      details: %w[priority sprint target_versions category date],
+      people: %w[assignee responsible],
+      estimates_and_progress: %w[story_points estimated_time remaining_time percentage_done]
+    }.freeze
 
     attr_reader :data, :log, :today
 
@@ -171,12 +176,6 @@ module Neurvo
       end
       seed_form_layouts
     end
-
-    FORM_SECTIONS = {
-      details: %w[priority sprint target_versions category date],
-      people: %w[assignee responsible],
-      estimates_and_progress: %w[story_points estimated_time remaining_time percentage_done]
-    }.freeze
 
     def seed_form_layouts
       data["types"].each do |conf|

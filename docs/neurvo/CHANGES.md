@@ -136,3 +136,4 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `lib/neurvo/seed.rb` | Members star their projects (Favorite projects on Home) |
 | `modules/meeting/app/components/meetings/widgets/meetings.rb`, its spec | Upstream bug: "My meetings" listed meeting-series templates next to the real occurrences |
 | `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml` | Team rituals: daily stand-up, weekly bug triage (with critical bugs on the agenda), sprint review & retro, sprint planning, release go/no-go; team time zone Asia/Dhaka |
+| `docker-compose.yml` | `OPENPROJECT_ONBOARDING__ENABLED=false`: the upstream tour walks through demo projects that Neurvo does not ship |
