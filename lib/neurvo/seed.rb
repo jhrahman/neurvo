@@ -265,6 +265,7 @@ module Neurvo
       create_boards
       create_queries
       create_meetings
+      create_wiki_pages
     end
 
     def create_project(conf)
@@ -471,6 +472,16 @@ module Neurvo
       return name.to_sym unless name.start_with?("cf_")
 
       @custom_fields.fetch(name.delete_prefix("cf_")).column_name.to_sym
+    end
+
+    def create_wiki_pages
+      data["wiki_pages"].each do |conf|
+        project = @projects.fetch(conf["project"])
+        wiki = project.wiki || Wiki.create!(project:, start_page: data["wiki_pages"].first["title"])
+        parent = conf["parent"] && wiki.pages.find_by!(title: conf["parent"])
+        wiki.pages.create!(title: conf["title"], text: conf["text"], author: user(conf["author"]), parent:)
+      end
+      say "Wiki: #{data['wiki_pages'].pluck('title').join(', ')}"
     end
 
     # --- meetings --------------------------------------------------------

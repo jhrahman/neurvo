@@ -40,6 +40,8 @@ Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes 
 - Comments contain real @mentions, so inboxes fill up about 5 minutes after seeding (journal aggregation), as long as
   the `worker` container is running.
 - Project statuses (on track / at risk / off track) with explanations.
+- Team handbook in the ShopEase wiki: workflow and definition of done, bug lifecycle and severity, sprint rituals,
+  release checklist.
 - Team (password `Neurvo-Dev-2026!`): ayesha.karim (PM), daniel.brooks (tech lead), rafi.hasan, sofia.martins,
   kenji.watanabe, priya.nair (developers), nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
 
