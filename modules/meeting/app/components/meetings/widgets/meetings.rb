@@ -49,11 +49,13 @@ module Meetings
               .meetings
               .visible(current_user)
               .participated_by(current_user)
+              .not_templated
               .upcoming
           else
             ::Meeting
               .visible(current_user)
               .participated_by(current_user)
+              .not_templated
               .upcoming
               .includes(:project)
           end

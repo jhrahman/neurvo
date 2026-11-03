@@ -52,7 +52,8 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       if: Proc.new { User.current.logged? }
     },
     {
-      name: "news"
+      name: "news",
+      if: Proc.new { EnabledModule.exists?(name: "news") }
     },
     {
       name: "community",

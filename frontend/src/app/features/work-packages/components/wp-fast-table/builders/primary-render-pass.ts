@@ -146,7 +146,11 @@ public readonly injector:Injector,
    * @param row
    */
   public refresh(row:RowRenderInfo, workPackage:WorkPackageResource, body:HTMLElement) {
-    const oldRow = body.querySelector<HTMLTableRowElement>(`.${row.classIdentifier}`)!;
+    const oldRow = body.querySelector<HTMLTableRowElement>(`.${row.classIdentifier}`);
+    if (!oldRow) {
+      return;
+    }
+
     let replacement:HTMLElement|null = null;
 
     switch (row.renderType) {
@@ -161,7 +165,7 @@ public readonly injector:Injector,
         break;
     }
 
-    if (replacement !== null && oldRow) {
+    if (replacement !== null) {
       oldRow.replaceWith(replacement);
     }
   }

@@ -131,3 +131,8 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `frontend/src/global_styles/neurvo/_motion.sass` (new) | Consistent 120–200 ms transitions on controls, card lift on boards, slide-in side panels, pop-in menus; off with reduced motion. Cross-document view transitions were tried and dropped: they conflict with Turbo |
 | `lib/neurvo/seed.rb` | Gravatar disabled (no hashed staff e-mails sent to gravatar.com); uploaded avatars and initials remain |
 | `lib/redmine/menu_manager/top_menu/help_menu.rb`, `config/locales/en.yml` | With `show_community_links` off, the help menu keeps User guides, Shortcuts and API docs, drops vendor/community links and credits OpenProject |
+| `frontend/src/app/features/work-packages/components/wp-fast-table/builders/primary-render-pass.ts` | Upstream bug: refreshing a row that is not in this table crashed (My page with the same work package in two widgets). Early return when the row is missing |
+| `config/initializers/homescreen.rb` | News block only when some project uses the News module |
+| `lib/neurvo/seed.rb` | Members star their projects (Favorite projects on Home) |
+| `modules/meeting/app/components/meetings/widgets/meetings.rb`, its spec | Upstream bug: "My meetings" listed meeting-series templates next to the real occurrences |
+| `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml` | Team rituals: daily stand-up, weekly bug triage (with critical bugs on the agenda), sprint review & retro, sprint planning, release go/no-go; team time zone Asia/Dhaka |

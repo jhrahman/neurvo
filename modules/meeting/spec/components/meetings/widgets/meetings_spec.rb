@@ -94,6 +94,18 @@ RSpec.describe Meetings::Widgets::Meetings, type: :component do
         end
       end
 
+      context "with a meeting series template the user participates in" do
+        let!(:series_template) do
+          create(:meeting, project: project_red, author:, start_time: 1.week.from_now, template: true).tap do |meeting|
+            create(:meeting_participant, meeting:, user: admin, invited: true)
+          end
+        end
+
+        it "lists only real meetings, not the template" do
+          expect(rendered_component).to have_list_item(count: 2)
+        end
+      end
+
       it "renders meetings items from all projects", :aggregate_failures do
         expect(rendered_component).to have_list_item(count: 2)
         expect(rendered_component).to have_link href: project_meeting_path(project_red, meeting_red)

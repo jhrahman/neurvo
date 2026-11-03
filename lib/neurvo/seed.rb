@@ -216,6 +216,7 @@ module Neurvo
         user.force_password_change = false
         user.activate
         user.save!
+        user.pref.update!(time_zone: data["time_zone"])
         group = Group.find_or_create_by!(lastname: conf["group"])
         group.group_users.find_or_create_by!(user_id: user.id)
         [conf["key"], user]
@@ -245,6 +246,7 @@ module Neurvo
       complete_previous_sprints
       create_boards
       create_queries
+      create_meetings
     end
 
     def create_project(conf)
@@ -255,6 +257,7 @@ module Neurvo
       @types.each_value { |type| project.project_types.create!(type_id: type.id, variant_id: type.default_variant.id) }
       conf["members"].each do |key|
         Member.create!(project:, principal: user(key), roles: [role_for(key)])
+        Favorite.create!(user: user(key), favorited: project)
       end
       conf["categories"].each { |name| project.categories.create!(name:) }
       create_versions(project, conf["versions"] || [])
@@ -432,6 +435,64 @@ module Neurvo
       return name.to_sym unless name.start_with?("cf_")
 
       @custom_fields.fetch(name.delete_prefix("cf_")).column_name.to_sym
+    end
+
+    # --- meetings --------------------------------------------------------
+
+    def local_time(day, time)
+      Time.find_zone!(data["time_zone"]).parse("#{today + day} #{time}")
+    end
+
+    def create_meetings
+      data["meetings"].each do |conf|
+        meeting = conf["recurring"] ? create_meeting_series(conf) : create_meeting(conf)
+        add_participants(meeting, conf)
+        add_agenda(meeting, conf)
+        conf["recurring"] ? finalize_series(meeting.recurring_meeting) : meeting.open!
+        say "Meeting #{conf['title']}"
+      end
+    end
+
+    def meeting_attributes(conf)
+      { title: conf["title"], author: user(conf["author"]), project: @projects.fetch(conf["project"]),
+        start_time: local_time(conf["day"], conf["time"]), duration: conf["duration"] / 60.0 }
+    end
+
+    def create_meeting_series(conf)
+      attributes = meeting_attributes(conf)
+      series = RecurringMeeting.create!(**attributes, current_schedule_start: attributes[:start_time],
+                                                      frequency: conf["recurring"], interval: 1,
+                                                      time_zone: data["time_zone"])
+      create_meeting(conf, template: true, recurring_meeting: series)
+    end
+
+    def create_meeting(conf, **extra)
+      result = Meetings::CreateService.new(user: user(conf["author"])).call(**meeting_attributes(conf), **extra)
+      raise "Could not create meeting #{conf['title']}: #{result.errors.full_messages.join(', ')}" if result.failure?
+
+      result.result
+    end
+
+    def add_participants(meeting, conf)
+      conf["attendees"].each do |key|
+        meeting.participants.find_or_initialize_by(user: user(key))
+               .update!(invited: true, participation_status: :accepted)
+      end
+    end
+
+    def add_agenda(meeting, conf)
+      conf["agenda"].each do |item|
+        work_package = item["wp"] && @refs.fetch(item["wp"])
+        MeetingAgendaItem.create!(meeting:, author: user(conf["author"]), duration_in_minutes: item["duration"],
+                                  item_type: work_package ? :work_package : :simple,
+                                  title: item["title"], work_package:)
+      end
+    end
+
+    def finalize_series(series)
+      call = RecurringMeetings::TemplateCompletedService.new(user: series.author, recurring_meeting: series.reload)
+                                                        .call(notify: false, first_occurrence: series.first_occurrence.to_time)
+      raise "Could not finalize #{series.title}: #{call.message}" if call.failure?
     end
 
     def convert_to_semantic_identifiers
