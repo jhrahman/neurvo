@@ -55,3 +55,9 @@ Default stays Light (`user_default_theme = light`). Each user can switch any tim
 | `frontend/src/global_styles/neurvo/` (new) | Neurvo-only styles; first file moves Rails flash and Angular toasts to the bottom-right with a slide-in |
 | `frontend/src/global_styles/openproject.sass` | Imports `neurvo/_index.sass` |
 | `frontend/src/stimulus/controllers/flash.controller.ts`, `frontend/src/app/shared/components/toaster/toast.service.ts` | Success toasts auto-hide after 4 s instead of 5 s. Errors and warnings stay until dismissed |
+
+## Header
+
+| File | Reason |
+|---|---|
+| `lib/redmine/menu_manager/top_menu/quick_add_menu.rb` | Header "+" button now reads "Create" (Jira-style) with the same dropdown |
