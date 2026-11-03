@@ -137,3 +137,5 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `modules/meeting/app/components/meetings/widgets/meetings.rb`, its spec | Upstream bug: "My meetings" listed meeting-series templates next to the real occurrences |
 | `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml` | Team rituals: daily stand-up, weekly bug triage (with critical bugs on the agenda), sprint review & retro, sprint planning, release go/no-go; team time zone Asia/Dhaka |
 | `docker-compose.yml` | `OPENPROJECT_ONBOARDING__ENABLED=false`: the upstream tour walks through demo projects that Neurvo does not ship |
+| `app/helpers/highlighting_helper.rb`, `spec/helpers/highlighting_helper_spec.rb` | Upstream bug: the type/status/priority color stylesheet was cached publicly per version tag without the color mode, so light and dark users got each other's colors (type names unreadable in dark). The tag now includes mode and contrast |
+| `lib/neurvo/seed_data.yml`, `spec/lib/neurvo/seed_type_colors_spec.rb` (new) | Type colors checked at 4.5:1 or better in every light and dark palette (Sub-task teal, Milestone slate) |

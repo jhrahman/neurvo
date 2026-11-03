@@ -30,7 +30,14 @@
 
 module HighlightingHelper
   def highlight_css_version_tag(max_updated_at = highlight_css_updated_at)
-    OpenProject::Cache::CacheKey.expand [max_updated_at, Meetings::Statuses::AVAILABLE]
+    OpenProject::Cache::CacheKey.expand [max_updated_at, Meetings::Statuses::AVAILABLE, highlight_css_color_mode]
+  end
+
+  # The stylesheet differs per color mode and contrast, but is cached publicly per version tag.
+  def highlight_css_color_mode
+    pref = User.current.pref
+    mode = pref.dark_color_mode? ? "dark" : "light"
+    pref.increase_theme_contrast? ? "#{mode}-high-contrast" : mode
   end
 
   def highlight_css_updated_at
