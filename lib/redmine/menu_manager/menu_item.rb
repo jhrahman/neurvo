@@ -42,6 +42,9 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
               :enterprise_feature,
               :show_divider_before
 
+  # Premium-gated entries that stay reachable: administrators need the Design page for the Neurvo themes.
+  ENTERPRISE_FEATURES_ALWAYS_VISIBLE = %w[define_custom_style].freeze
+
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/PerceivedComplexity
   def initialize(name, url, options)
@@ -178,7 +181,13 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   end
 
   def enterprise_feature_missing?
-    @enterprise_feature.present? && !EnterpriseToken.allows_to?(@enterprise_feature)
+    @enterprise_feature.present? &&
+      ENTERPRISE_FEATURES_ALWAYS_VISIBLE.exclude?(@enterprise_feature.to_s) &&
+      !EnterpriseToken.allows_to?(@enterprise_feature)
+  end
+
+  def enterprise_feature_hidden?
+    enterprise_feature_missing? && Setting.hide_enterprise_features?
   end
 
   def show_divider_before?

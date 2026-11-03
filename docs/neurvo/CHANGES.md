@@ -67,3 +67,19 @@ Default stays Light (`user_default_theme = light`). Each user can switch any tim
 | File | Reason |
 |---|---|
 | `frontend/src/global_styles/neurvo/_loader.sass` (new) | Animated Neurvo mark replaces the green-squares loader (`.op-loading-indicator`) and the global Primer spinner. CSS-only, light/dark variants, honours reduced motion. Turbo progress bar uses the brand gradient |
+
+## Hiding Enterprise-only (premium) features
+
+Hide only: token checks are untouched and the code stays. An admin can show everything again with
+`OPENPROJECT_HIDE__ENTERPRISE__FEATURES=false`, `OPENPROJECT_EE__HIDE__BANNERS=false`, `OPENPROJECT_EE__MANAGER__VISIBLE=true`
+and `OPENPROJECT_SHOW__COMMUNITY__LINKS=true`. `define_custom_style` (Design page) stays reachable for the theme settings.
+
+| File | Reason |
+|---|---|
+| `docker-compose.yml` | Dev defaults for the four env vars above (banners, Enterprise admin page, community/"New features" blocks) |
+| `config/constants/settings/definition.rb` | New setting `hide_enterprise_features` (default true) |
+| `lib/redmine/menu_manager/menu_item.rb` | `enterprise_feature_hidden?`; exempt list; no upsell badge for exempt features |
+| `lib/redmine/menu_manager/menu_helper.rb` | `visible_node?` skips hidden Enterprise entries (global, project, admin, module menus) |
+| `lib/redmine/menu_manager/top_menu/help_menu.rb` | Help-menu "Upgrade" link follows `ee_hide_banners` |
+| `lib/open_project/menu.rb` | Submenu groups drop items flagged with the Enterprise icon (work package "Shared with…", meeting templates) |
+| `spec/lib/open_project/hide_enterprise_menu_entries_spec.rb` (new) | Covers the above |

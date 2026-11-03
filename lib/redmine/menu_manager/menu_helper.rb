@@ -396,6 +396,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def visible_node?(menu, node)
+    return false if node.try(:enterprise_feature_hidden?)
     return true if hidden_menu_items.blank?
 
     hidden_nodes = hidden_menu_items[menu.to_s] || []

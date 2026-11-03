@@ -30,7 +30,12 @@
 
 module OpenProject
   module Menu
-    MenuGroup = Data.define(:header, :children)
+    MenuGroup = Data.define(:header, :children) do
+      def initialize(header:, children:)
+        children = children.reject { it.try(:show_enterprise_icon) } if Setting.hide_enterprise_features?
+        super
+      end
+    end
     MenuItem = Data.define(:title, :href, :selected, :favorited, :icon, :count, :show_enterprise_icon) do
       def initialize(title:, href:, selected:, favorited: false, icon: nil, count: nil, show_enterprise_icon: false)
         super

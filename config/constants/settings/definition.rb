@@ -476,6 +476,11 @@ module Settings
         default: true,
         writable: false
       },
+      hide_enterprise_features: {
+        description: "Hide menu entries of features that require an Enterprise token and are not available",
+        default: true,
+        format: :boolean
+      },
       ee_hide_banners: {
         description: "Hide the Enterprise enterprise banners",
         default: false
