@@ -1,0 +1,322 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# Neurvo sample workspace: a small product company ("ShopEase") plus Neurvo itself and the platform team.
+# Dates are offsets in days from the day the seed runs, so the data always looks current.
+
+statuses:
+  - { key: todo,        name: "To Do",        color: "#8C959F", renames: ["New"], default: true }
+  - { key: in_progress, name: "In Progress",  color: "#1276B9", renames: ["In progress"] }
+  - { key: in_review,   name: "In Review",    color: "#8250DF", renames: ["Specified"] }
+  - { key: ready_qa,    name: "Ready for QA", color: "#1B998B", renames: ["Developed"] }
+  - { key: in_qa,       name: "In QA",        color: "#D97706", renames: ["In testing"] }
+  - { key: reopened,    name: "Reopened",     color: "#CF222E", renames: ["Test failed"] }
+  - { key: blocked,     name: "Blocked",      color: "#82071E", renames: ["On hold"] }
+  - { key: done,        name: "Done",         color: "#1F883D", renames: ["Closed"], closed: true, done_ratio: 100 }
+  - { key: wont_do,     name: "Won't Do",     color: "#57606A", renames: ["Rejected"], closed: true }
+
+types:
+  - { key: epic,           name: "Epic",            color: "#8250DF", renames: [],             statuses: [todo, in_progress, blocked, done, wont_do] }
+  - { key: story,          name: "Story",           color: "#1F883D", renames: ["User story"], statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: task,           name: "Task",            color: "#1276B9", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: subtask,        name: "Sub-task",        color: "#54AEFF", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: bug,            name: "Bug",             color: "#CF222E", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, reopened, blocked, done, wont_do] }
+  - { key: feature_request, name: "Feature Request", color: "#0969DA", renames: ["Feature"],   statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: change_request, name: "Change Request",  color: "#BC4C00", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: milestone,      name: "Milestone",       color: "#6E7781", renames: [],             statuses: [todo, in_progress, done], milestone: true }
+
+obsolete_types: ["Summary task", "All CFS", "Required CF"]
+
+priorities:
+  - { name: "Low",      renames: ["Low"] }
+  - { name: "Medium",   renames: ["Normal"], default: true }
+  - { name: "High",     renames: ["High"] }
+  - { name: "Critical", renames: ["Immediate"] }
+
+templates:
+  bug: |
+    **Summary**
+    One sentence describing the defect.
+
+    **Steps to reproduce**
+    1.
+    2.
+    3.
+
+    **Expected result**
+
+    **Actual result**
+
+    **Evidence**
+    Screenshots, logs or a screen recording (attach below).
+  story: |
+    **As a** <type of user> **I want** <goal> **so that** <reason>.
+
+    **Acceptance criteria**
+    - [ ]
+    - [ ]
+
+    **Out of scope**
+  feature_request: |
+    **Problem**
+    What problem does this solve, and for whom?
+
+    **Proposed solution**
+
+    **Business value**
+    Who asked for it and what changes if we build it?
+
+    **Alternatives considered**
+  change_request: |
+    **Requested change**
+
+    **Reason for change**
+
+    **Impact**
+    Scope, schedule, cost and risk.
+
+    **Approval**
+    Approved by / date.
+  task: |
+    **What needs to be done**
+
+    **Definition of done**
+    - [ ]
+
+custom_fields:
+  - { key: severity,     name: "Severity",       format: list,   options: ["Critical", "Major", "Minor", "Trivial"],            types: [bug] }
+  - { key: environment,  name: "Environment",    format: list,   options: ["Development", "QA", "Staging", "Production"],       types: [bug] }
+  - { key: platform,     name: "Platform",       format: list,   options: ["Web", "iOS", "Android", "API", "Infrastructure"],   types: [bug] }
+  - { key: found_in,     name: "Found in build", format: string,                                                                  types: [bug] }
+  - { key: fixed_in,     name: "Fixed in build", format: string,                                                                  types: [bug, story, task] }
+  - { key: requested_by, name: "Requested by",   format: string,                                                                  types: [feature_request, change_request] }
+  - { key: impact,       name: "Business impact", format: list,  options: ["High", "Medium", "Low"],                            types: [feature_request, change_request] }
+
+roles:
+  - { name: "Project Manager", copy_from: "Project admin" }
+  - { name: "Developer",       copy_from: "Member" }
+  - { name: "QA Engineer",     copy_from: "Member" }
+  - { name: "DevOps Engineer", copy_from: "Member" }
+
+users:
+  - { key: ayesha, first: "Ayesha", last: "Karim",    title: "Product Manager",       group: "Product",    role: "Project Manager" }
+  - { key: daniel, first: "Daniel", last: "Brooks",   title: "Tech Lead",             group: "Developers", role: "Project Manager" }
+  - { key: rafi,   first: "Rafi",   last: "Hasan",    title: "Backend Developer",     group: "Developers", role: "Developer" }
+  - { key: sofia,  first: "Sofia",  last: "Martins",  title: "Frontend Developer",    group: "Developers", role: "Developer" }
+  - { key: kenji,  first: "Kenji",  last: "Watanabe", title: "Mobile Developer",      group: "Developers", role: "Developer" }
+  - { key: priya,  first: "Priya",  last: "Nair",     title: "Full-stack Developer",  group: "Developers", role: "Developer" }
+  - { key: nusrat, first: "Nusrat", last: "Jahan",    title: "QA Lead",               group: "QA",         role: "QA Engineer" }
+  - { key: marco,  first: "Marco",  last: "Rossi",    title: "QA Automation Engineer", group: "QA",        role: "QA Engineer" }
+  - { key: lena,   first: "Lena",   last: "Fischer",  title: "QA Engineer",           group: "QA",         role: "QA Engineer" }
+  - { key: tanvir, first: "Tanvir", last: "Ahmed",    title: "DevOps Engineer",       group: "DevOps",     role: "DevOps Engineer" }
+
+modules: [work_package_tracking, backlogs, board_view, gantt, calendar_view, documents, meetings, activity, github, gitlab]
+
+projects:
+  - key: SHOP
+    name: "ShopEase"
+    description: "Our e-commerce product. Parent project for the web storefront and the mobile apps; product-wide defects are triaged on the SQA Defects board."
+    members: [ayesha, daniel, rafi, sofia, kenji, priya, nusrat, marco, lena, tanvir]
+    categories: []
+    sprints: false
+
+  - key: WEB
+    name: "ShopEase Web"
+    parent: SHOP
+    description: "Customer-facing storefront (Next.js) and checkout."
+    members: [ayesha, daniel, rafi, sofia, priya, nusrat, marco, lena, tanvir]
+    categories: ["Checkout", "Search", "Catalogue", "Account", "Payments"]
+    sprints: true
+    versions:
+      - { name: "Web 3.4.0", status: closed, start: -42, due: -14, description: "Saved addresses, faster category pages." }
+      - { name: "Web 3.5.0", status: open,   start: -14, due: 11,  description: "Checkout v2 and typo-tolerant search." }
+      - { name: "Web 3.6.0", status: open,   start: 11,  due: 39,  description: "Guest checkout and wishlist sharing." }
+    boards:
+      - { name: "Web Kanban", kind: status, statuses: [todo, in_progress, in_review, ready_qa, in_qa, done] }
+
+  - key: MOB
+    name: "ShopEase Mobile"
+    parent: SHOP
+    description: "iOS and Android apps (React Native)."
+    members: [ayesha, daniel, kenji, priya, nusrat, marco, lena]
+    categories: ["Orders", "Notifications", "Payments", "Login"]
+    sprints: true
+    versions:
+      - { name: "Mobile 2.8.0", status: open, start: -14, due: 18, description: "Order push notifications, Android 14 fixes." }
+
+  - key: OPS
+    name: "Platform & DevOps"
+    description: "Infrastructure, CI/CD, observability and data protection for all products."
+    members: [daniel, tanvir, rafi, nusrat]
+    categories: ["CI/CD", "Kubernetes", "Database", "Monitoring", "Security"]
+    sprints: true
+
+  - key: NEU
+    name: "Neurvo"
+    description: "Our own project management tool. Dogfooding: features and bugs for Neurvo itself."
+    members: [ayesha, daniel, priya, sofia, nusrat, tanvir]
+    categories: ["UI", "Workflow", "Integrations"]
+    sprints: true
+    versions:
+      - { name: "Neurvo 0.1 (MVP)", status: open, start: -14, due: 14, description: "Branding, themes, Jira-style workflow and SQA board." }
+      - { name: "Neurvo 0.2",       status: open, start: 14,  due: 45, description: "Docmost integration and Slack notifications." }
+
+sqa_board:
+  project: SHOP
+  name: "SQA Defects"
+  statuses: [todo, in_progress, ready_qa, in_qa, reopened, done]
+
+queries:
+  - { project: SHOP, name: "Open bugs (all products)",  types: [bug], open: true, subprojects: true, sort: [[priority, desc], [updated_at, desc]], columns: [id, subject, type, status, assigned_to, priority, cf_severity, cf_environment, project] }
+  - { project: SHOP, name: "Ready for QA",             statuses: [ready_qa, in_qa], subprojects: true, sort: [[updated_at, desc]], columns: [id, subject, type, status, assigned_to, priority, cf_fixed_in, project] }
+  - { project: SHOP, name: "Production incidents",     types: [bug], cf: { environment: "Production" }, subprojects: true, sort: [[priority, desc]], columns: [id, subject, status, assigned_to, priority, cf_severity, project] }
+  - { project: SHOP, name: "Feature & change requests", types: [feature_request, change_request], open: true, subprojects: true, sort: [[updated_at, desc]], columns: [id, subject, type, status, cf_requested_by, cf_impact, project] }
+  - { project: OPS,  name: "Open infrastructure work", open: true, sort: [[priority, desc]], columns: [id, subject, type, status, assigned_to, priority, category] }
+
+# Work packages. `ref` lets children, relations and comments point at an item.
+# sprint: previous | current | next. Statuses/types use the keys above.
+work_packages:
+  WEB:
+    - { ref: web_epic_checkout, type: epic, subject: "Checkout v2: one-page checkout", status: in_progress, assignee: daniel, author: ayesha, priority: High, version: "Web 3.5.0", start: -20, due: 25,
+        description: "Replace the 4-step checkout with a single page. Target: +8% checkout conversion, -30% time to order." }
+    - { ref: web_saved_cards, parent: web_epic_checkout, type: story, subject: "Pay with a saved card at checkout", status: in_progress, assignee: sofia, author: ayesha, priority: High, sprint: current, points: 8, version: "Web 3.5.0", category: "Checkout",
+        description: "**As a** returning shopper **I want** to pick one of my saved cards **so that** I can pay without typing card details.\n\n**Acceptance criteria**\n- [x] Saved cards listed with brand, last 4 digits and expiry\n- [ ] Expired cards shown disabled\n- [ ] 3-D Secure challenge still triggered when the bank requires it" }
+    - { ref: web_cards_ui, parent: web_saved_cards, type: subtask, subject: "Saved-card selector component", status: in_review, assignee: sofia, author: sofia, sprint: current, points: 3, category: "Checkout" }
+    - { ref: web_cards_api, parent: web_saved_cards, type: subtask, subject: "GET /payment-methods endpoint with PSP token lookup", status: done, assignee: rafi, author: rafi, sprint: current, points: 3, category: "Payments", fixed_in: "3.5.0-rc.1" }
+    - { ref: web_cards_e2e, parent: web_saved_cards, type: subtask, subject: "E2E tests: saved-card payment incl. 3-D Secure", status: todo, assignee: marco, author: nusrat, sprint: current, points: 2, category: "Checkout" }
+    - { ref: web_promo, parent: web_epic_checkout, type: story, subject: "Apply promo code inline without page reload", status: ready_qa, assignee: priya, author: ayesha, priority: Medium, sprint: current, points: 5, version: "Web 3.5.0", category: "Checkout", fixed_in: "3.5.0-rc.2" }
+    - { ref: web_guest, parent: web_epic_checkout, type: story, subject: "Guest checkout with email-only account", status: todo, author: ayesha, priority: Medium, sprint: next, points: 8, version: "Web 3.6.0", category: "Checkout" }
+    - { ref: web_epic_search, type: epic, subject: "Search relevance improvements", status: in_progress, assignee: rafi, author: ayesha, priority: Medium, version: "Web 3.5.0", start: -30, due: 11 }
+    - { ref: web_typo, parent: web_epic_search, type: story, subject: "Typo-tolerant product search", status: in_progress, assignee: rafi, author: ayesha, priority: High, sprint: current, points: 5, version: "Web 3.5.0", category: "Search" }
+    - { ref: web_synonyms, parent: web_epic_search, type: story, subject: "Search synonyms managed by merchandisers", status: todo, author: ayesha, sprint: next, points: 5, category: "Search" }
+    - { ref: web_addresses, type: story, subject: "Saved addresses in account", status: done, assignee: priya, author: ayesha, sprint: previous, points: 5, version: "Web 3.4.0", category: "Account", fixed_in: "3.4.0" }
+    - { ref: web_lcp_task, type: task, subject: "Lazy-load below-the-fold images on category pages", status: done, assignee: sofia, author: daniel, sprint: previous, points: 3, version: "Web 3.4.0", category: "Catalogue" }
+    - { ref: web_fr_wishlist, type: feature_request, subject: "Share wishlist via link", status: todo, author: ayesha, priority: Medium, version: "Web 3.6.0", requested_by: "Customer Success (12 tickets in Q3)", impact: "Medium",
+        description: "**Problem**\nShoppers screenshot their wishlist to share gift ideas; links would bring the recipient straight to the products.\n\n**Business value**\nRequested in 12 support tickets last quarter; expected to lift gift purchases before the holidays." }
+    - { ref: web_fr_storefront_dark, type: feature_request, subject: "Dark mode for the storefront", status: todo, author: sofia, priority: Low, requested_by: "Design team", impact: "Low" }
+    - { ref: web_cr_shipping, type: change_request, subject: "Raise free-shipping threshold from $50 to $75", status: in_progress, assignee: priya, author: ayesha, priority: High, sprint: current, points: 2, version: "Web 3.5.0", requested_by: "Finance (CFO approval 28 Oct)", impact: "High",
+        description: "**Requested change**\nFree shipping applies from $75 instead of $50 (cart total after discounts).\n\n**Reason for change**\nCarrier rates rose 18% in October.\n\n**Impact**\nBanner copy, cart progress bar, checkout totals and 3 email templates.\n\n**Approval**\nApproved by Finance on 28 Oct." }
+    - { ref: web_cr_cookie, type: change_request, subject: "Update cookie banner text after legal review", status: done, assignee: sofia, author: ayesha, sprint: previous, points: 1, version: "Web 3.4.0", requested_by: "Legal", impact: "Medium" }
+    - { ref: bug_promo_total, type: bug, subject: "Order total not updated after removing a promo code", status: in_progress, assignee: priya, author: lena, priority: High, sprint: current, version: "Web 3.5.0", category: "Checkout",
+        severity: Major, environment: QA, platform: Web, found_in: "3.5.0-rc.2",
+        description: "**Summary**\nRemoving an applied promo code leaves the discounted total on screen.\n\n**Steps to reproduce**\n1. Add any product over $40 to the cart\n2. Apply code `AUTUMN10` at checkout\n3. Remove the code with the ✕ next to it\n\n**Expected result**\nOrder total returns to the full price.\n\n**Actual result**\nTotal stays discounted until the page is reloaded; the payment request uses the discounted amount.\n\n**Evidence**\nHAR file and screen recording attached in the QA channel." }
+    - { ref: bug_expiry_500, type: bug, subject: "Payment page returns 500 when the card expires this month", status: todo, assignee: rafi, author: nusrat, priority: Critical, sprint: current, version: "Web 3.5.0", category: "Payments",
+        severity: Critical, environment: Staging, platform: Web, found_in: "3.5.0-rc.2",
+        description: "**Steps to reproduce**\n1. Log in as a user with a saved card expiring in the current month (test card 4000 0000 0000 3220, exp 11/26)\n2. Go to checkout and select the card\n3. Press **Pay now**\n\n**Expected result**\nPayment succeeds (card is valid until the end of the month).\n\n**Actual result**\nHTTP 500. Sentry: `ArgumentError: invalid date` in `PaymentMethods::ExpiryValidator`." }
+    - { ref: bug_lcp, type: bug, subject: "Category page LCP 6.2s on mobile: images not lazy-loaded", status: ready_qa, assignee: sofia, author: marco, priority: Medium, sprint: current, category: "Catalogue",
+        severity: Minor, environment: QA, platform: Web, found_in: "3.4.0", fixed_in: "3.5.0-rc.2" }
+    - { ref: bug_cart_badge, type: bug, subject: "Cart badge shows items from the previous session after logout", status: reopened, assignee: sofia, author: lena, priority: High, sprint: current, version: "Web 3.5.0", category: "Account",
+        severity: Major, environment: QA, platform: Web, found_in: "3.5.0-rc.1", fixed_in: "3.5.0-rc.2",
+        description: "**Steps to reproduce**\n1. Log in, add 2 items to the cart\n2. Log out via the account menu\n3. Look at the cart badge in the header\n\n**Expected result**\nBadge is empty.\n\n**Actual result**\nBadge still shows 2 until a hard refresh." }
+    - { ref: bug_trailing_space, type: bug, subject: "Search returns no results when the query ends with a space", status: done, assignee: rafi, author: lena, priority: Medium, sprint: previous, version: "Web 3.4.0", category: "Search",
+        severity: Minor, environment: QA, platform: Web, found_in: "3.4.0-rc.3", fixed_in: "3.4.0" }
+    - { ref: bug_postcode, type: bug, subject: "Address form accepts invalid UK postcodes", status: in_qa, assignee: priya, author: lena, priority: Medium, sprint: current, category: "Account",
+        severity: Minor, environment: QA, platform: Web, found_in: "3.5.0-rc.1", fixed_in: "3.5.0-rc.2" }
+    - { ref: bug_email_tz, type: bug, subject: "Order confirmation email shows UTC instead of the shopper's local time", status: todo, assignee: rafi, author: nusrat, priority: Medium, category: "Checkout",
+        severity: Minor, environment: Production, platform: Web, found_in: "3.4.0" }
+    - { ref: bug_rate_limit, type: bug, subject: "Login locks accounts after 3 failed attempts instead of 5", status: ready_qa, assignee: rafi, author: marco, priority: High, sprint: current, category: "Account",
+        severity: Major, environment: Staging, platform: Web, found_in: "3.5.0-rc.1", fixed_in: "3.5.0-rc.2" }
+    - { ref: bug_safari, type: bug, subject: "Mini-cart dropdown overlaps the header on Safari 17", status: todo, assignee: sofia, author: lena, priority: Low, category: "Catalogue",
+        severity: Trivial, environment: QA, platform: Web, found_in: "3.5.0-rc.2" }
+    - { ref: web_release_ms, type: milestone, subject: "Web 3.5.0 release", status: todo, assignee: daniel, author: daniel, version: "Web 3.5.0", start: 11, due: 11 }
+
+  MOB:
+    - { ref: mob_epic_push, type: epic, subject: "Push notifications for order updates", status: in_progress, assignee: kenji, author: ayesha, priority: High, version: "Mobile 2.8.0", start: -14, due: 18 }
+    - { ref: mob_push_shipped, parent: mob_epic_push, type: story, subject: "Notify shoppers when an order ships", status: in_progress, assignee: kenji, author: ayesha, priority: High, sprint: current, points: 5, version: "Mobile 2.8.0", category: "Notifications" }
+    - { ref: mob_push_prefs, parent: mob_epic_push, type: story, subject: "Notification preferences screen", status: todo, assignee: kenji, author: ayesha, sprint: next, points: 3, version: "Mobile 2.8.0", category: "Notifications" }
+    - { ref: mob_fr_biometric, type: feature_request, subject: "Biometric login (Face ID / fingerprint)", status: todo, author: ayesha, priority: Medium, requested_by: "App Store reviews", impact: "High" }
+    - { ref: bug_android_crash, type: bug, subject: "Crash on Android 14 when opening order history offline", status: in_progress, assignee: kenji, author: nusrat, priority: Critical, sprint: current, version: "Mobile 2.8.0", category: "Orders",
+        severity: Critical, environment: QA, platform: Android, found_in: "2.8.0 (412)",
+        description: "**Steps to reproduce**\n1. Open the app on a Pixel 7 (Android 14) and log in\n2. Switch on airplane mode\n3. Open **Orders → History**\n\n**Expected result**\nCached orders or an offline message.\n\n**Actual result**\nApp closes. Crashlytics: `NullPointerException at OrdersRepository.kt:88`." }
+    - { ref: bug_apple_pay, type: bug, subject: "Apple Pay sheet closes silently when the card is declined", status: todo, assignee: kenji, author: lena, priority: High, sprint: current, category: "Payments",
+        severity: Major, environment: Staging, platform: iOS, found_in: "2.8.0 (410)" }
+    - { ref: bug_ptr, type: bug, subject: "Pull-to-refresh spinner never stops on slow 3G", status: ready_qa, assignee: kenji, author: marco, priority: Medium, sprint: current, category: "Orders",
+        severity: Minor, environment: QA, platform: iOS, found_in: "2.8.0 (405)", fixed_in: "2.8.0 (412)" }
+    - { ref: bug_nan_price, type: bug, subject: "Price shows \"$NaN\" for products with tiered pricing", status: done, assignee: priya, author: lena, priority: High, sprint: previous, category: "Orders",
+        severity: Major, environment: QA, platform: Android, found_in: "2.7.2", fixed_in: "2.8.0 (401)" }
+
+  OPS:
+    - { ref: ops_epic_zero, type: epic, subject: "Zero-downtime deployments", status: in_progress, assignee: tanvir, author: daniel, priority: High, start: -21, due: 21 }
+    - { ref: ops_bluegreen, parent: ops_epic_zero, type: task, subject: "Blue/green deployment for the API on Kubernetes", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 8, category: "Kubernetes" }
+    - { ref: ops_probes, parent: ops_epic_zero, type: task, subject: "Readiness and liveness probes for all services", status: done, assignee: tanvir, author: tanvir, sprint: previous, points: 3, category: "Kubernetes" }
+    - { ref: ops_ci_cache, type: task, subject: "Cache npm and Gradle dependencies in CI (build time 14 min → 6 min)", status: in_review, assignee: tanvir, author: daniel, priority: Medium, sprint: current, points: 3, category: "CI/CD" }
+    - { ref: ops_vault, type: task, subject: "Rotate database credentials automatically with Vault", status: todo, assignee: tanvir, author: daniel, priority: Medium, sprint: next, points: 5, category: "Security" }
+    - { ref: ops_alerts, type: task, subject: "Page on-call for checkout error rate > 2% for 5 minutes", status: todo, assignee: tanvir, author: nusrat, priority: High, sprint: current, points: 2, category: "Monitoring" }
+    - { ref: bug_backup, type: bug, subject: "Nightly database backup fails silently when the volume is > 90% full", status: in_progress, assignee: tanvir, author: tanvir, priority: Critical, sprint: current, category: "Database",
+        severity: Critical, environment: Production, platform: Infrastructure, found_in: "n/a",
+        description: "**Summary**\nThe 02:00 backup CronJob exits 0 even when `pg_dump` fails for lack of disk space. The last good backup is from 3 days ago.\n\n**Expected result**\nJob fails, alert fires, backup is retried on the secondary volume.\n\n**Actual result**\nJob reports success; no alert." }
+    - { ref: ops_cr_pg17, type: change_request, subject: "Upgrade PostgreSQL 15 → 17 on staging", status: todo, assignee: tanvir, author: daniel, priority: Medium, sprint: next, points: 5, category: "Database", requested_by: "Engineering", impact: "Medium" }
+
+  NEU:
+    - { ref: neu_epic_jira, type: epic, subject: "Jira-style workflow for the team", status: in_progress, assignee: daniel, author: ayesha, priority: High, version: "Neurvo 0.1 (MVP)", start: -14, due: 14 }
+    - { ref: neu_keys, parent: neu_epic_jira, type: story, subject: "Readable issue keys like NEU-123", status: done, assignee: priya, author: ayesha, sprint: current, points: 3, version: "Neurvo 0.1 (MVP)", category: "Workflow" }
+    - { ref: neu_sqa_board, parent: neu_epic_jira, type: story, subject: "SQA Defects board across products", status: done, assignee: priya, author: nusrat, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", category: "Workflow" }
+    - { ref: neu_palette, parent: neu_epic_jira, type: story, subject: "Command palette (⌘K) for search and navigation", status: in_progress, assignee: priya, author: daniel, priority: Medium, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", category: "UI" }
+    - { ref: neu_themes, type: story, subject: "Light and dark palettes per user", status: done, assignee: sofia, author: ayesha, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", category: "UI" }
+    - { ref: neu_bug_menu, type: bug, subject: "User menu does not close when clicking outside", status: done, assignee: sofia, author: nusrat, priority: Medium, sprint: current, version: "Neurvo 0.1 (MVP)", category: "UI",
+        severity: Minor, environment: QA, platform: Web, found_in: "0.1.0-dev", fixed_in: "0.1.0-dev" }
+    - { ref: neu_epic_docmost, type: epic, subject: "Docmost integration (Confluence-style docs)", status: todo, assignee: daniel, author: ayesha, version: "Neurvo 0.2" }
+    - { ref: neu_docmost_links, parent: neu_epic_docmost, type: story, subject: "Link Docmost pages to issues with previews", status: todo, author: ayesha, sprint: next, points: 8, version: "Neurvo 0.2", category: "Integrations" }
+    - { ref: neu_fr_slack, type: feature_request, subject: "Slack notifications for status changes", status: todo, author: nusrat, priority: Medium, version: "Neurvo 0.2", requested_by: "QA team", impact: "Medium" }
+
+relations:
+  - { from: bug_promo_total, to: web_promo, type: relates }
+  - { from: bug_expiry_500, to: web_saved_cards, type: relates }
+  - { from: bug_expiry_500, to: web_release_ms, type: blocks }
+  - { from: bug_cart_badge, to: web_release_ms, type: blocks }
+  - { from: bug_lcp, to: web_lcp_task, type: relates }
+  - { from: ops_bluegreen, to: ops_probes, type: follows }
+  - { from: bug_backup, to: ops_alerts, type: relates }
+
+comments:
+  bug_cart_badge:
+    - { by: sofia, text: "Fixed in 3.5.0-rc.2: we now clear the cart store on the `logout` event. Moving to Ready for QA." }
+    - { by: lena,  text: "Still reproducible when logging out through SSO (Google). The SSO logout redirect skips the `logout` event. Reopening; video in the QA channel." }
+    - { by: daniel, text: "@Sofia let's clear the cart on session expiry server-side too, not only in the client." }
+  bug_promo_total:
+    - { by: lena,  text: "Also happens with percentage codes, not only fixed-amount ones." }
+    - { by: priya, text: "Root cause: totals are memoised per cart version and removing a code doesn't bump the version. Fix in progress." }
+  bug_expiry_500:
+    - { by: rafi, text: "We compare against the 1st of the month instead of the last day. Taking this first thing tomorrow." }
+  bug_postcode:
+    - { by: priya, text: "Switched to the libpostal-based validator. Please retest with the postcodes from the QA sheet." }
+    - { by: lena,  text: "Testing now; 34/40 cases pass so far." }
+  bug_android_crash:
+    - { by: kenji, text: "Repository assumes a non-null network response. Adding an offline cache path with Room." }
+  web_promo:
+    - { by: priya,  text: "Ready on QA env, build 3.5.0-rc.2." }
+    - { by: marco,  text: "Automated regression for promo codes added to the nightly suite." }
+  bug_backup:
+    - { by: tanvir, text: "Mitigation: freed 120 GB and triggered a manual backup (succeeded 09:14). Permanent fix: `set -o pipefail` and a size check before the dump." }
+  web_cr_shipping:
+    - { by: ayesha, text: "Finance confirmed the new threshold goes live together with 3.5.0." }
+
+sprint_goals:
+  previous: "Saved addresses live and category pages under 2.5s LCP."
+  current: "Checkout v2 feature-complete on QA; zero Critical bugs open for 3.5.0."
+  next: "Guest checkout and order notifications ready for beta."

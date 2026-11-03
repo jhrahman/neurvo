@@ -107,3 +107,9 @@ Dark = Neurvo Dark (default), Ash, Pure black, One Dark Pro, Dracula, Tokyo Nigh
 |---|---|
 | `frontend/src/app/shared/directives/a11y/keyboard-shortcut.service.ts` | `⌘K` / `Ctrl+K` focuses global search (browser default prevented); `c` opens the Create menu (Jira-style) |
 | `lib/redmine/menu_manager/top_menu/user_menu.rb`, `app/views/my/_color_mode_form.html.erb` (new) | Color mode form rendered outside the user-menu dialog so an outside click closes the panel (Primer keeps dialogs containing a form open) |
+
+## Sample workspace
+
+New files only: `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml`, `lib/tasks/neurvo.rake` (`rake neurvo:seed`).
+It switches the instance to semantic issue keys, renames/creates statuses, types and priorities, adds bug fields and
+roles, rebuilds workflows, and creates the team, projects, sprints, releases, issues, boards and saved views.
