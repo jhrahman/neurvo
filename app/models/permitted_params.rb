@@ -270,6 +270,8 @@ class PermittedParams
   def pref
     params.fetch(:pref, {}).permit(:time_zone,
                                    :theme,
+                                   :light_palette,
+                                   :dark_palette,
                                    :increase_theme_contrast,
                                    :force_light_theme_contrast,
                                    :force_dark_theme_contrast,

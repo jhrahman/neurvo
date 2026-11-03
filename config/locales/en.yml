@@ -448,6 +448,8 @@ en:
         increase_theme_contrast: "Increase theme contrast"
         mode_guideline: "Some modes will overwrite custom theme colors for accessibility and legibility. Please select Light mode for full custom theme support."
         theme: "Color mode"
+        light_palette: "Light palette"
+        dark_palette: "Dark palette"
         time_zone: "Time zone"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
         workdays: "Working days"
@@ -6612,6 +6614,20 @@ en:
     dark: "Dark"
     light: "Light"
     sync_with_os: "Automatic (match OS color mode)"
+    palette: "Palette"
+    palettes:
+      light:
+        default: "Neurvo Light"
+        warm: "Warm (eye-friendly)"
+        paper: "Paper"
+        solarized: "Solarized Light"
+      dark:
+        default: "Neurvo Dark"
+        ash: "Ash"
+        black: "Pure black"
+        onedark: "One Dark Pro"
+        dracula: "Dracula"
+        tokyo: "Tokyo Night"
   time:
     am: "am"
     formats:

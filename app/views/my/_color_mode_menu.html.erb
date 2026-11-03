@@ -46,4 +46,31 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       end %>
+  <%
+    pref = User.current.pref
+    palette_modes = case pref.theme
+                    when "light" then %w[light]
+                    when "dark" then %w[dark]
+                    else %w[light dark]
+                    end
+  %>
+  <% palette_modes.each do |mode| %>
+    <% palettes = mode == "light" ? UserPreference::LIGHT_PALETTES : UserPreference::DARK_PALETTES %>
+    <% current = pref.public_send("#{mode}_palette") %>
+    <div class="neurvo-palette-swatches mt-2" role="group" aria-label="<%= t("themes.palette") %>">
+      <% palettes.each do |palette| %>
+        <% label = t("themes.palettes.#{mode}.#{palette}") %>
+        <button type="submit"
+                class="neurvo-swatch"
+                name="pref[<%= mode %>_palette]"
+                value="<%= palette %>"
+                data-mode="<%= mode %>"
+                data-palette="<%= palette %>"
+                data-test-selector="op-palette-<%= mode %>-<%= palette %>"
+                aria-pressed="<%= (current == palette).to_s %>"
+                aria-label="<%= label %>"
+                title="<%= label %>"></button>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

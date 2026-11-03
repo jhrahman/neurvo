@@ -13,6 +13,14 @@
                   "type": "string",
                   "enum": ["light", "dark", "sync_with_os"]
                 },
+                "light_palette": {
+                  "type": "string",
+                  "enum": ["default", "warm", "paper", "solarized"]
+                },
+                "dark_palette": {
+                  "type": "string",
+                  "enum": ["default", "ash", "black", "onedark", "dracula", "tokyo"]
+                },
                 "increase_theme_contrast": {
                   "type": "boolean"
                 },

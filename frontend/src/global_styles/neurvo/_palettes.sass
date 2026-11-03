@@ -1,0 +1,144 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+
+// Neurvo palettes: each overrides a small set of Primer tokens, everything else follows from them.
+// A palette is selected per color mode through data-neurvo-light-palette / data-neurvo-dark-palette on <body>.
+// All text pairs are checked for WCAG AA (4.5:1).
+
+@mixin neurvo-palette-tokens($p)
+  --bgColor-default: #{map-get($p, bg)}
+  --bgColor-muted: #{map-get($p, muted)}
+  --bgColor-inset: #{map-get($p, inset)}
+  --borderColor-default: #{map-get($p, bd)}
+  --borderColor-muted: #{map-get($p, bdm)}
+  --fgColor-default: #{map-get($p, fg)}
+  --fgColor-muted: #{map-get($p, fgm)}
+  --overlay-bgColor: #{map-get($p, overlay)}
+  --body-background: #{map-get($p, bg)}
+  --body-font-color: #{map-get($p, fg)}
+  --control-bgColor-rest: #{map-get($p, muted)}
+  --button-default-bgColor-rest: #{map-get($p, muted)}
+  --main-menu-bg-color: #{map-get($p, bg)}
+  --fgColor-accent: #{map-get($p, accent)} !important
+  --fgColor-link: #{map-get($p, accent)} !important
+  --accent-color: #{map-get($p, accent)} !important
+  @if map-has-key($p, header)
+    --header-bg-color: #{map-get($p, header)}
+    --main-menu-bg-selected-background: #{map-get($p, accent)}
+
+@mixin neurvo-palette($mode, $name, $p)
+  [data-color-mode="#{$mode}"][data-#{$mode}-theme][data-neurvo-#{$mode}-palette="#{$name}"]
+    @include neurvo-palette-tokens($p)
+
+  @media (prefers-color-scheme: #{$mode})
+    [data-color-mode="auto"][data-#{$mode}-theme][data-neurvo-#{$mode}-palette="#{$name}"]
+      @include neurvo-palette-tokens($p)
+
+@include neurvo-palette("light", "warm", (bg: #FBF7F0, muted: #F4EEE3, inset: #EFE8DA, bd: #D9CFBB, bdm: #E6DDCB, fg: #3B3226, fgm: #6B5D4B, overlay: #FFFCF7, accent: #1F5F8F, header: #3F6E8C))
+@include neurvo-palette("light", "paper", (bg: #F5F6F8, muted: #ECEEF2, inset: #E3E6EB, bd: #CDD2DA, bdm: #DADEE4, fg: #1D2430, fgm: #525C6B, overlay: #FFFFFF, accent: #1B5FA3, header: #2B3A4F))
+@include neurvo-palette("light", "solarized", (bg: #FDF6E3, muted: #EEE8D5, inset: #E7E0CA, bd: #CFC6A8, bdm: #DDD5BA, fg: #073642, fgm: #475D64, overlay: #FDF6E3, accent: #165E94, header: #1F6FA8))
+@include neurvo-palette("dark", "ash", (bg: #313338, muted: #2B2D31, inset: #1E1F22, bd: #4A4D55, bdm: #3A3C42, fg: #DBDEE1, fgm: #A3A8B0, overlay: #2B2D31, accent: #7AB4FF))
+@include neurvo-palette("dark", "black", (bg: #000000, muted: #0B0B0C, inset: #000000, bd: #2E3238, bdm: #1E2126, fg: #E8EAED, fgm: #A0A5AD, overlay: #101114, accent: #6CB0FF))
+@include neurvo-palette("dark", "onedark", (bg: #282C34, muted: #21252B, inset: #1D2026, bd: #3E4451, bdm: #323842, fg: #ABB2BF, fgm: #9AA3B2, overlay: #21252B, accent: #61AFEF))
+@include neurvo-palette("dark", "dracula", (bg: #282A36, muted: #21222C, inset: #191A21, bd: #44475A, bdm: #343746, fg: #F8F8F2, fgm: #B4B8D2, overlay: #21222C, accent: #8AB8FF))
+@include neurvo-palette("dark", "tokyo", (bg: #1A1B26, muted: #16161E, inset: #13141C, bd: #343A55, bdm: #292E42, fg: #C0CAF5, fgm: #9AA5CE, overlay: #16161E, accent: #7AA2F7))
+
+.neurvo-palette-swatches
+  display: flex
+  flex-wrap: wrap
+  gap: 0.5rem
+  align-items: center
+
+.neurvo-swatch
+  appearance: none
+  cursor: pointer
+  width: 1.75rem
+  height: 1.75rem
+  border-radius: 50%
+  padding: 0
+  border: 2px solid var(--swatch-border, var(--borderColor-default))
+  background: linear-gradient(135deg, var(--swatch-bg) 55%, var(--swatch-accent) 55%)
+  position: relative
+
+  &:hover
+    transform: scale(1.1)
+
+  &[aria-pressed="true"]
+    box-shadow: 0 0 0 2px var(--bgColor-default), 0 0 0 4px var(--fgColor-accent)
+
+  &:focus-visible
+    outline: 2px solid var(--fgColor-accent)
+    outline-offset: 2px
+
+.neurvo-swatch[data-mode="light"][data-palette="default"]
+  --swatch-bg: #FFFFFF
+  --swatch-accent: #1A67A3
+  --swatch-border: #D1D9E0
+
+.neurvo-swatch[data-mode="light"][data-palette="warm"]
+  --swatch-bg: #FBF7F0
+  --swatch-accent: #1F5F8F
+  --swatch-border: #D9CFBB
+
+.neurvo-swatch[data-mode="light"][data-palette="paper"]
+  --swatch-bg: #F5F6F8
+  --swatch-accent: #1B5FA3
+  --swatch-border: #CDD2DA
+
+.neurvo-swatch[data-mode="light"][data-palette="solarized"]
+  --swatch-bg: #FDF6E3
+  --swatch-accent: #165E94
+  --swatch-border: #CFC6A8
+
+.neurvo-swatch[data-mode="dark"][data-palette="default"]
+  --swatch-bg: #0D1117
+  --swatch-accent: #4493F8
+  --swatch-border: #3D444D
+
+.neurvo-swatch[data-mode="dark"][data-palette="ash"]
+  --swatch-bg: #313338
+  --swatch-accent: #7AB4FF
+  --swatch-border: #4A4D55
+
+.neurvo-swatch[data-mode="dark"][data-palette="black"]
+  --swatch-bg: #000000
+  --swatch-accent: #6CB0FF
+  --swatch-border: #2E3238
+
+.neurvo-swatch[data-mode="dark"][data-palette="onedark"]
+  --swatch-bg: #282C34
+  --swatch-accent: #61AFEF
+  --swatch-border: #3E4451
+
+.neurvo-swatch[data-mode="dark"][data-palette="dracula"]
+  --swatch-bg: #282A36
+  --swatch-accent: #8AB8FF
+  --swatch-border: #44475A
+
+.neurvo-swatch[data-mode="dark"][data-palette="tokyo"]
+  --swatch-bg: #1A1B26
+  --swatch-accent: #7AA2F7
+  --swatch-border: #343A55

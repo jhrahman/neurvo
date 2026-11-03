@@ -49,12 +49,32 @@ RSpec.describe "my/_color_mode_menu" do
     end
   end
 
+  context "when the light theme is active with the warm palette" do
+    let(:theme) { "light" }
+
+    before do
+      allow(user.pref).to receive(:light_palette).and_return("warm")
+      render partial: "my/color_mode_menu"
+    end
+
+    it "offers the light palettes and marks the chosen one" do
+      expect(rendered).to have_button("Warm (eye-friendly)", aria: { pressed: "true" })
+      expect(rendered).to have_button("Paper", aria: { pressed: "false" })
+      expect(rendered).to have_no_button("One Dark Pro")
+    end
+  end
+
   context "when the dark theme is active" do
     let(:theme) { "dark" }
 
     it "marks dark as pressed" do
       expect(rendered).to have_button("Dark", aria: { pressed: "true" })
       expect(rendered).to have_button("Light", aria: { pressed: "false" })
+    end
+
+    it "offers the dark palettes" do
+      expect(rendered).to have_button("One Dark Pro")
+      expect(rendered).to have_no_button("Warm (eye-friendly)")
     end
   end
 end

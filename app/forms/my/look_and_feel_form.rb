@@ -48,6 +48,13 @@ class My::LookAndFeelForm < ApplicationForm
         theme_options_for_select.each { |(label, value)| select.option(value:, label:) }
       end
 
+      { light_palette: UserPreference::LIGHT_PALETTES, dark_palette: UserPreference::DARK_PALETTES }.each do |name, palettes|
+        mode = name.to_s.delete_suffix("_palette")
+        fg.select_list(name:, label: attribute_name(name), include_blank: false, input_width: :small) do |select|
+          palettes.each { |palette| select.option(value: palette, label: helpers.t("themes.palettes.#{mode}.#{palette}")) }
+        end
+      end
+
       fg.check_box_group(data: { my__look_and_feel_target: "autoThemeContrast" }) do |group|
         group.check_box name: :force_light_theme_contrast,
                         label: attribute_name(:force_light_theme_contrast),

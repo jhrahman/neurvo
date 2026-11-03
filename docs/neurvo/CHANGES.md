@@ -83,3 +83,20 @@ and `OPENPROJECT_SHOW__COMMUNITY__LINKS=true`. `define_custom_style` (Design pag
 | `lib/redmine/menu_manager/top_menu/help_menu.rb` | Help-menu "Upgrade" link follows `ee_hide_banners` |
 | `lib/open_project/menu.rb` | Submenu groups drop items flagged with the Enterprise icon (work package "Shared with…", meeting templates) |
 | `spec/lib/open_project/hide_enterprise_menu_entries_spec.rb` (new) | Covers the above |
+
+## Palettes (light and dark variations)
+
+Each user picks a palette per color mode: Light = Neurvo Light (default), Warm, Paper, Solarized Light;
+Dark = Neurvo Dark (default), Ash, Pure black, One Dark Pro, Dracula, Tokyo Night. All text pairs checked at 4.5:1 or better.
+
+| File | Reason |
+|---|---|
+| `frontend/src/global_styles/neurvo/_palettes.sass` (new) | Palettes as Primer token overrides keyed by `data-neurvo-light-palette` / `data-neurvo-dark-palette`; also swatch styles |
+| `config/schemas/user_preferences.schema.json` | New preference properties `light_palette`, `dark_palette` |
+| `app/models/user_preference.rb` | Palette lists and getters with fallback to `default` |
+| `app/models/permitted_params.rb` | Permits the two palette params |
+| `app/helpers/application_helper.rb` | Emits the palette `data-` attributes on `<body>` |
+| `app/forms/my/look_and_feel_form.rb` | Light/Dark palette selects on Account settings > Interface |
+| `app/views/my/_color_mode_menu.html.erb` | Palette swatches in the avatar menu |
+| `config/locales/en.yml` | Palette names and labels |
+| `spec/models/user_preference_spec.rb`, `spec/views/my/color_mode_menu_spec.rb` | Cover palettes |

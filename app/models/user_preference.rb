@@ -40,6 +40,8 @@ class UserPreference < ApplicationRecord
 
   COLOR_MODES = %i[light dark].freeze
   THEMES = (COLOR_MODES + %i[sync_with_os]).freeze
+  LIGHT_PALETTES = %w[default warm paper solarized].freeze
+  DARK_PALETTES = %w[default ash black onedark dracula tokyo].freeze
 
   ##
   # Retrieve keys from settings, and allow accessing
@@ -131,6 +133,14 @@ class UserPreference < ApplicationRecord
 
   def theme
     super.presence || Setting.user_default_theme
+  end
+
+  def light_palette
+    settings[:light_palette].presence_in(LIGHT_PALETTES) || "default"
+  end
+
+  def dark_palette
+    settings[:dark_palette].presence_in(DARK_PALETTES) || "default"
   end
 
   def increase_theme_contrast=(value)

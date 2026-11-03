@@ -306,6 +306,8 @@ module ApplicationHelper
 
     theme_options = {
       auto_theme_switcher_theme_value: theme,
+      neurvo_light_palette: pref.light_palette,
+      neurvo_dark_palette: pref.dark_palette,
       auto_theme_switcher_desktop_light_high_contrast_logo_class: "op-logo--link_high_contrast",
       auto_theme_switcher_mobile_white_logo_class: "op-logo--icon_white"
     }

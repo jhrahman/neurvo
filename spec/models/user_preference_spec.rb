@@ -63,6 +63,31 @@ RSpec.describe UserPreference do
     end
   end
 
+  describe "color palettes" do
+    it "defaults both modes to the Neurvo palettes" do
+      expect(preference.light_palette).to eq "default"
+      expect(preference.dark_palette).to eq "default"
+    end
+
+    context "with chosen palettes" do
+      let(:settings) { { light_palette: "warm", dark_palette: "onedark" } }
+
+      it "returns them" do
+        expect(preference.light_palette).to eq "warm"
+        expect(preference.dark_palette).to eq "onedark"
+      end
+    end
+
+    context "with an unknown palette" do
+      let(:settings) { { light_palette: "neon", dark_palette: "warm" } }
+
+      it "falls back to the default" do
+        expect(preference.light_palette).to eq "default"
+        expect(preference.dark_palette).to eq "default"
+      end
+    end
+  end
+
   describe "sort order" do
     it_behaves_like "accepts real and false booleans",
                     :comments_in_reverse_order=,
