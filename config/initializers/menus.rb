@@ -148,6 +148,10 @@ Redmine::MenuManager.map :account_menu do |menu|
             caption: I18n.t("my_page.label"),
             icon: :person,
             if: ->(_) { User.current.logged? }
+  menu.push :color_mode,
+            { controller: "/my", action: "interface" },
+            partial: "my/color_mode_menu",
+            if: ->(_) { User.current.logged? }
   menu.push :my_profile,
             { controller: "/users", action: "show", id: "me" },
             caption: :label_my_activity,

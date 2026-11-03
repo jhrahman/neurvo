@@ -37,3 +37,13 @@ and the Nextcloud/XWiki "OpenProject integration" app names, which are third-par
 |---|---|
 | `docker-compose.yml` | `OPENPROJECT_DEVELOPMENT__HIGHLIGHT__ENABLED` defaults to `false` so the header no longer shows the "development" stripe text |
 | `app/seeders/standard.yml` | Neurvo welcome title and text (no openproject.org marketing links); "get started in Neurvo" |
+
+## Theme
+
+| File | Reason |
+|---|---|
+| `app/views/my/_color_mode_menu.html.erb` (new) | One-click Light/Dark switch in the avatar menu; posts to the existing `PATCH /my/settings`, so no new route or API |
+| `config/initializers/menus.rb` | Registers the `:color_mode` partial item in the account menu |
+| `spec/views/my/color_mode_menu_spec.rb` (new) | Covers the menu partial |
+
+Default stays Light (`user_default_theme = light`). Each user can switch any time from the avatar menu or Account settings > Interface.
