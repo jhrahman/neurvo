@@ -82,7 +82,7 @@ and `OPENPROJECT_SHOW__COMMUNITY__LINKS=true`. `define_custom_style` (Design pag
 | `lib/redmine/menu_manager/menu_helper.rb` | `visible_node?` skips hidden Enterprise entries (global, project, admin, module menus) |
 | `lib/redmine/menu_manager/top_menu/help_menu.rb` | Help-menu "Upgrade" link follows `ee_hide_banners` |
 | `lib/open_project/menu.rb` | Submenu groups drop items flagged with the Enterprise icon (work package "Shared with…", meeting templates) |
-| `spec/lib/open_project/hide_enterprise_menu_entries_spec.rb` (new) | Covers the above |
+| `spec/lib/redmine/menu_manager/menu_item_enterprise_spec.rb`, `spec/lib/open_project/menu/menu_group_spec.rb` (new) | Cover the above |
 
 ## Palettes (light and dark variations)
 

@@ -43,7 +43,7 @@ RSpec.describe "my/_color_mode_menu" do
     let(:theme) { "light" }
 
     it "posts the chosen theme to the settings endpoint and marks light as pressed" do
-      expect(rendered).to have_selector("form[action='/my/settings']")
+      expect(rendered).to have_css("form[action='/my/settings']")
       expect(rendered).to have_button("Light", aria: { pressed: "true" })
       expect(rendered).to have_button("Dark", aria: { pressed: "false" })
     end
@@ -58,9 +58,9 @@ RSpec.describe "my/_color_mode_menu" do
     end
 
     it "offers the light palettes and marks the chosen one" do
-      expect(rendered).to have_button("Warm (eye-friendly)", aria: { pressed: "true" })
-      expect(rendered).to have_button("Paper", aria: { pressed: "false" })
-      expect(rendered).to have_no_button("One Dark Pro")
+      expect(rendered).to have_css("button[aria-label='Warm (eye-friendly)'][aria-pressed='true']")
+      expect(rendered).to have_css("button[aria-label='Paper'][aria-pressed='false']")
+      expect(rendered).to have_no_css("button[aria-label='One Dark Pro']")
     end
   end
 
@@ -73,8 +73,8 @@ RSpec.describe "my/_color_mode_menu" do
     end
 
     it "offers the dark palettes" do
-      expect(rendered).to have_button("One Dark Pro")
-      expect(rendered).to have_no_button("Warm (eye-friendly)")
+      expect(rendered).to have_css("button[aria-label='One Dark Pro']")
+      expect(rendered).to have_no_css("button[aria-label='Warm (eye-friendly)']")
     end
   end
 end
