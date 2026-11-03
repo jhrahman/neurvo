@@ -1,0 +1,67 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+
+// Neurvo sign-in: a centred card with the brand mark instead of the bordered grey box.
+
+$neurvo-mark-light: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 360.0 276.0%22 width=%22360%22 height=%22276%22%3E%3Cg transform=%22translate(-30,-10)%22%3E%3Cpath d=%22M80 150 L170 240 L330 60%22 fill=%22none%22 stroke=%22%231276B9%22 stroke-width=%2234%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%2280%22 cy=%22150%22 r=%2240%22 fill=%22%231276B9%22/%3E%3Ccircle cx=%22170%22 cy=%22240%22 r=%2244%22 fill=%22%231276B9%22/%3E%3Ccircle cx=%22330%22 cy=%2260%22 r=%2248%22 fill=%22%231276B9%22/%3E%3Ccircle cx=%22250%22 cy=%22215%22 r=%2215%22 fill=%22%238DC543%22/%3E%3Ccircle cx=%22150%22 cy=%2295%22 r=%2213%22 fill=%22%238DC543%22/%3E%3Ccircle cx=%22376%22 cy=%22160%22 r=%2213%22 fill=%22%238DC543%22/%3E%3Ccircle cx=%22240%22 cy=%2260%22 r=%229%22 fill=%22%231276B9%22/%3E%3Ccircle cx=%2240%22 cy=%22240%22 r=%229%22 fill=%22%231276B9%22/%3E%3Ccircle cx=%22305%22 cy=%22190%22 r=%228%22 fill=%22%231276B9%22/%3E%3C/g%3E%3C/svg%3E")
+$neurvo-mark-dark: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 360.0 276.0%22 width=%22360%22 height=%22276%22%3E%3Cg transform=%22translate(-30,-10)%22%3E%3Cpath d=%22M80 150 L170 240 L330 60%22 fill=%22none%22 stroke=%22%234FA8E8%22 stroke-width=%2234%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%2280%22 cy=%22150%22 r=%2240%22 fill=%22%234FA8E8%22/%3E%3Ccircle cx=%22170%22 cy=%22240%22 r=%2244%22 fill=%22%234FA8E8%22/%3E%3Ccircle cx=%22330%22 cy=%2260%22 r=%2248%22 fill=%22%234FA8E8%22/%3E%3Ccircle cx=%22250%22 cy=%22215%22 r=%2215%22 fill=%22%238DC543%22/%3E%3Ccircle cx=%22150%22 cy=%2295%22 r=%2213%22 fill=%22%238DC543%22/%3E%3Ccircle cx=%22376%22 cy=%22160%22 r=%2213%22 fill=%22%238DC543%22/%3E%3Ccircle cx=%22240%22 cy=%2260%22 r=%229%22 fill=%22%234FA8E8%22/%3E%3Ccircle cx=%2240%22 cy=%22240%22 r=%229%22 fill=%22%234FA8E8%22/%3E%3Ccircle cx=%22305%22 cy=%22190%22 r=%228%22 fill=%22%234FA8E8%22/%3E%3C/g%3E%3C/svg%3E")
+
+body.controller-account
+  #content-wrapper,
+  #content
+    background: var(--bgColor-muted)
+
+  // The provider hook can render nothing but comments; then the "or sign in with" divider is noise
+  .login-auth-providers:not(:has(.login-auth-provider-list > *))
+    display: none
+
+  #login-form.form.-bordered
+    max-width: 26rem
+    margin: 8vh auto 2rem
+    padding: 2.5rem 2rem 2rem
+    background: var(--overlay-bgColor, var(--bgColor-default))
+    border: 1px solid var(--borderColor-muted)
+    border-radius: 0.75rem
+    box-shadow: var(--shadow-floating-small)
+
+    &::before
+      content: ""
+      display: block
+      width: 3.5rem
+      height: 2.7rem
+      margin: 0 auto 1rem
+      background: $neurvo-mark-light no-repeat center / contain
+
+    > h1
+      text-align: center
+      font-size: 1.5rem
+      margin-bottom: 1.5rem
+
+    > .form--separator
+      display: none
+
+  &[data-color-mode="dark"] #login-form.form.-bordered::before
+    background-image: $neurvo-mark-dark

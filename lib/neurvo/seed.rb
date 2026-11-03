@@ -110,6 +110,7 @@ module Neurvo
       Setting.work_packages_identifier = Setting::WorkPackageIdentifier::SEMANTIC
       Setting.default_projects_modules = data["modules"].map(&:to_s)
       Setting.default_projects_public = false
+      Setting.self_registration = Setting::SelfRegistration.disabled
       Setting.plugin_openproject_avatars = Setting.plugin_openproject_avatars.merge("enable_gravatars" => false)
     end
 

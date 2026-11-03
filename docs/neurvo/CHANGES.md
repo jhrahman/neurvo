@@ -139,3 +139,11 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `docker-compose.yml` | `OPENPROJECT_ONBOARDING__ENABLED=false`: the upstream tour walks through demo projects that Neurvo does not ship |
 | `app/helpers/highlighting_helper.rb`, `spec/helpers/highlighting_helper_spec.rb` | Upstream bug: the type/status/priority color stylesheet was cached publicly per version tag without the color mode, so light and dark users got each other's colors (type names unreadable in dark). The tag now includes mode and contrast |
 | `lib/neurvo/seed_data.yml`, `spec/lib/neurvo/seed_type_colors_spec.rb` (new) | Type colors checked at 4.5:1 or better in every light and dark palette (Sub-task teal, Milestone slate) |
+
+## Sign-in and boards
+
+| File | Reason |
+|---|---|
+| `frontend/src/global_styles/neurvo/_login.sass` (new) | Centred sign-in card with the Neurvo mark on a muted background; hides the empty "or sign in with" divider when no SSO provider renders |
+| `frontend/src/global_styles/neurvo/_boards.sass` (new) | Board columns show "To Do" instead of "Status / To Do" |
+| `lib/neurvo/seed.rb` | Self-registration disabled: admins invite team members |
