@@ -303,14 +303,15 @@ comments:
     - { by: priya, text: "Root cause: totals are memoised per cart version and removing a code doesn't bump the version. Fix in progress." }
   bug_expiry_500:
     - { by: rafi, text: "We compare against the 1st of the month instead of the last day. Taking this first thing tomorrow." }
+    - { by: nusrat, text: "@Rafi this blocks the 3.5.0 release, please keep me posted. @Daniel FYI for go/no-go." }
   bug_postcode:
     - { by: priya, text: "Switched to the libpostal-based validator. Please retest with the postcodes from the QA sheet." }
-    - { by: lena,  text: "Testing now; 34/40 cases pass so far." }
+    - { by: lena,  text: "Testing now; 34/40 cases pass so far. @Priya the six failures are all Northern Ireland (BT) postcodes." }
   bug_android_crash:
     - { by: kenji, text: "Repository assumes a non-null network response. Adding an offline cache path with Room." }
   web_promo:
     - { by: priya,  text: "Ready on QA env, build 3.5.0-rc.2." }
-    - { by: marco,  text: "Automated regression for promo codes added to the nightly suite." }
+    - { by: marco,  text: "Automated regression for promo codes added to the nightly suite. @Lena can you take the exploratory pass?" }
   bug_backup:
     - { by: tanvir, text: "Mitigation: freed 120 GB and triggered a manual backup (succeeded 09:14). Permanent fix: `set -o pipefail` and a size check before the dump." }
   web_cr_shipping:

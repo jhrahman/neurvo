@@ -71,6 +71,7 @@ module Neurvo
           rebuild_projects
           convert_to_semantic_identifiers
         end
+        create_comments
       end
       say "Done. Log in as any team member with password #{DEFAULT_PASSWORD}"
     end
@@ -234,6 +235,7 @@ module Neurvo
         user.activate
         user.save!
         user.pref.update!(time_zone: data["time_zone"])
+        user.notification_settings.create! if user.notification_settings.none?
         group = Group.find_or_create_by!(lastname: conf["group"])
         group.group_users.find_or_create_by!(user_id: user.id)
         [conf["key"], user]
@@ -258,7 +260,6 @@ module Neurvo
         create_work_packages(project, data.dig("work_packages", conf["key"]) || [])
       end
       create_relations
-      create_comments
       close_released_versions
       complete_previous_sprints
       create_boards
@@ -368,14 +369,27 @@ module Neurvo
       end
     end
 
+    # Comments notify assignees, watchers and mentioned people, so every inbox starts with real activity.
     def create_comments
-      data["comments"].each do |ref, comments|
-        work_package = @refs.fetch(ref)
-        comments.each do |comment|
-          result = AddWorkPackageNoteService.new(user: user(comment["by"]), work_package: work_package.reload)
-                                            .call(comment["text"], send_notifications: false)
-          raise "Could not comment on #{work_package.subject}: #{result.errors.full_messages.join(', ')}" if result.failure?
+      Journal::NotificationConfiguration.with(true) do
+        data["comments"].each do |ref, comments|
+          work_package = @refs.fetch(ref)
+          comments.each do |comment|
+            result = AddWorkPackageNoteService.new(user: user(comment["by"]), work_package: work_package.reload)
+                                              .call(with_mentions(comment["text"]), send_notifications: true)
+            raise "Could not comment on #{work_package.subject}: #{result.errors.full_messages.join(', ')}" if result.failure?
+          end
         end
+      end
+    end
+
+    def with_mentions(text)
+      text.gsub(/@([A-Z][a-z]+)/) do |match|
+        mentioned = @users.values.detect { |u| u.firstname == Regexp.last_match(1) }
+        next match unless mentioned
+
+        %(<mention class="mention" data-id="#{mentioned.id}" data-type="user" data-text="@#{mentioned.name}">) +
+          %(@#{mentioned.name}</mention>)
       end
     end
 
