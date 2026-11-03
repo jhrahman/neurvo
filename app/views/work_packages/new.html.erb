@@ -40,5 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_for :content_body do %>
   <%= render WorkPackages::FullView::CreateComponent.new(type: params[:type],
-                                                         project: @project) %>
+                                                         project: @project,
+                                                         default_project: params[:default_project]) %>
 <% end %>

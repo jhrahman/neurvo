@@ -6,11 +6,12 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(type:, project:)
-        super
+      def initialize(type:, project:, default_project: nil)
+        super()
 
         @type = type
         @project = project
+        @default_project = default_project
       end
     end
   end

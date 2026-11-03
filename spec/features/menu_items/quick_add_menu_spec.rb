@@ -124,7 +124,7 @@ RSpec.describe "Quick-add menu", :js do
 
     current_user { create(:user) }
 
-    it "shows only the project types within a project and only those types in projects the user can add work packages in" do
+    it "offers the types of all projects the user can add work packages in, preselecting the current project" do
       visit project_path(project_with_permission)
 
       quick_add.expect_visible
@@ -133,15 +133,18 @@ RSpec.describe "Quick-add menu", :js do
       quick_add.expect_user_invite present: false
       quick_add.expect_work_package_type type_bug.name
       quick_add.expect_work_package_type other_type.name, present: false
-      quick_add.expect_work_package_type other_project_type.name, present: false
+      quick_add.expect_work_package_type other_project_type.name
       quick_add.click_link type_bug.name
 
       expect(page)
-        .to have_current_path new_project_work_packages_path(project_id: project_with_permission, type: type_bug.id)
+        .to have_current_path new_work_package_path(type: type_bug.id, default_project: project_with_permission.identifier)
 
       visit project_path(project_without_permission)
 
-      quick_add.expect_invisible
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.click_link other_project_type.name
+      expect(page).to have_current_path new_work_package_path(type: other_project_type.id)
 
       visit home_path
 

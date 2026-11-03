@@ -113,3 +113,12 @@ Dark = Neurvo Dark (default), Ash, Pure black, One Dark Pro, Dracula, Tokyo Nigh
 New files only: `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml`, `lib/tasks/neurvo.rake` (`rake neurvo:seed`).
 It switches the instance to semantic issue keys, renames/creates statuses, types and priorities, adds bug fields and
 roles, rebuilds workflows, and creates the team, projects, sprints, releases, issues, boards and saved views.
+
+## Global Create (Jira-style)
+
+| File | Reason |
+|---|---|
+| `lib/redmine/menu_manager/top_menu/quick_add_menu.rb` | Create lists the types of every project the user can add to and always opens the global form, preselecting the current project |
+| `app/views/work_packages/new.html.erb`, `app/components/work_packages/full_view/create_component.{rb,html.erb}` | Pass `default_project` to the create form |
+| `frontend/src/app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component.ts`, `frontend/src/app/features/work-packages/components/wp-new/wp-create.component.ts` | Preselect the default project in the global create form (still changeable) |
+| `spec/features/menu_items/quick_add_menu_spec.rb` | Follows the new behaviour (feature spec; needs a browser, not run on Apple Silicon) |

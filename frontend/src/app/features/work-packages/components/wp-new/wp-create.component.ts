@@ -207,6 +207,9 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     if (parent) {
       defaults._links.parent = { href: this.apiV3Service.work_packages.id(parent).path };
     }
+    if (!project && this.stateParams.defaultProject) {
+      defaults._links.project = { href: this.apiV3Service.projects.id(this.stateParams.defaultProject as string).path };
+    }
 
     return this.wpCreate.createOrContinueWorkPackage(project, type, defaults);
   }

@@ -112,11 +112,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def visible_types
     @visible_types ||= begin
       if user_can_create_work_package?
-        if in_project_context?
-          @project.enabled_types
-        else
-          Type.enabled_in(Project.allowed_to(User.current, :add_work_packages))
-        end
+        Type.enabled_in(Project.allowed_to(User.current, :add_work_packages))
       else
         Type.none
       end
@@ -124,23 +120,16 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_create_link(type_id, type_name)
-    if in_project_context?
-      { caption: type_name,
-        href: new_project_work_packages_path(project_id: @project.identifier, type: type_id),
-        classes: "__hl_inline_type_#{type_id}" }
-    else
-      { caption: type_name,
-        href: new_work_package_path(type: type_id),
-        classes: "__hl_inline_type_#{type_id}" }
-    end
+    default_project = @project.identifier if in_project_context? &&
+                                             User.current.allowed_in_project?(:add_work_packages, @project)
+
+    { caption: type_name,
+      href: new_work_package_path(type: type_id, default_project:),
+      classes: "__hl_inline_type_#{type_id}" }
   end
 
   def user_can_create_work_package?
-    if in_project_context?
-      User.current.allowed_in_project?(:add_work_packages, @project)
-    else
-      User.current.allowed_in_any_project?(:add_work_packages)
-    end
+    User.current.allowed_in_any_project?(:add_work_packages)
   end
 
   def show_quick_add_menu?

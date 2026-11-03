@@ -41,7 +41,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
   template: `
     <wp-new-full-view
-      [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier }"
+      [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier, defaultProject: defaultProject }"
       [routedFromAngular]="routedFromAngular"
     ></wp-new-full-view>
   `,
@@ -53,6 +53,7 @@ export class WorkPackageFullCreateEntryComponent {
   @Input() type:string;
   @Input() parentId?:string;
   @Input() projectIdentifier?:string;
+  @Input() defaultProject?:string;
   @Input() routedFromAngular:boolean;
 
   constructor() {
