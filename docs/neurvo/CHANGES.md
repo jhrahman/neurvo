@@ -100,3 +100,9 @@ Dark = Neurvo Dark (default), Ash, Pure black, One Dark Pro, Dracula, Tokyo Nigh
 | `app/views/my/_color_mode_menu.html.erb` | Palette swatches in the avatar menu |
 | `config/locales/en.yml` | Palette names and labels |
 | `spec/models/user_preference_spec.rb`, `spec/views/my/color_mode_menu_spec.rb` | Cover palettes |
+
+## Keyboard
+
+| File | Reason |
+|---|---|
+| `frontend/src/app/shared/directives/a11y/keyboard-shortcut.service.ts` | `⌘K` / `Ctrl+K` focuses global search (browser default prevented); `c` opens the Create menu (Jira-style) |

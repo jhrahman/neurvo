@@ -57,7 +57,7 @@ export class KeyboardShortcutService {
   private readonly configurationService = inject(ConfigurationService);
 
   // maybe move it to a .constant
-  private shortcuts:Record<string, () => void> = {
+  private shortcuts:Record<string, (event?:Event) => void> = {
     '?': () => this.showHelpModal(),
     'g m': this.globalAction('myPagePath'),
     'g o': this.projectScoped('projectPath'),
@@ -74,6 +74,11 @@ export class KeyboardShortcutService {
     'm': this.accessKey('moreMenu'),
     'p': this.accessKey('projectSearch'),
     's': this.accessKey('quickSearch'),
+    'mod+k': (event) => {
+      event?.preventDefault();
+      this.accessKey('quickSearch')();
+    },
+    'c': () => document.querySelector<HTMLElement>('[data-test-selector="quick-add-menu-button"]')?.click(),
     'k': () => this.focusPrevItem(),
     'j': () => this.focusNextItem(),
   };
