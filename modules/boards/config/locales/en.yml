@@ -48,5 +48,5 @@ en:
 
   plugin_openproject_boards:
     description: "Provides board views."
-    name: "OpenProject Boards"
+    name: "Neurvo Boards"
   project_module_board_view: "Boards"

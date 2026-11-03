@@ -29,7 +29,7 @@ en:
   ee:
     upsell:
       ldap_groups:
-        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
+        description: 'Synchronize LDAP groups with Neurvo groups to manage users, change their permissions and facilitate user management across groups.'
         title: 'LDAP group synchronization'
   ldap_groups:
     label_group_key: 'LDAP group filter key'
@@ -37,14 +37,14 @@ en:
     label_synchronize: 'Discover LDAP groups'
     settings:
       name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+      name_attribute_text: 'The LDAP attribute used for naming the Neurvo group when created by a filter'
 
     synchronized_filters:
       add_new: 'Add synchronized LDAP filter'
       destroy:
         confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
         heading: 'Remove synchronized filter %{name}?'
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
+        removed_groups: "Warning: This will remove the following groups from Neurvo and remove it from all projects!"
         title: 'Remove synchronized filter %{name}'
         verification_html: "Enter the filter name %{name} to verify the deletion."
       form:
@@ -52,10 +52,10 @@ en:
           Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection.
 
           Leave this option empty to reuse the base DN of the connection
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with Neurvo.'
+        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the Neurvo group name.'
         member_lookup_attribute_text: >
-          Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN.
+          Leave empty to use the default reverse lookup: Neurvo searches for users whose memberOf attribute matches the group DN.
           This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
 
           Set this to the attribute name on group entries that lists member DNs to use forward lookup instead.
@@ -73,19 +73,19 @@ en:
       destroy:
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
         heading: 'Remove synchronized group %{name}?'
-        info: "The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        info: "The Neurvo group itself and members added outside this LDAP synchronization will not be removed."
         title: 'Remove synchronized group %{name}'
       form:
         auth_source_text: 'Select which LDAP connection should be used.'
         dn_text: 'Enter the full DN of the group in LDAP'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+        group_text: 'Select an existing Neurvo group that members of the LDAP group shall be synchronized with'
         sync_users_text: >
-          If you enable this option, found users will also be automatically created in OpenProject.
-          Without it, only existing accounts in OpenProject will be added to groups.
+          If you enable this option, found users will also be automatically created in Neurvo.
+          Without it, only existing accounts in Neurvo will be added to groups.
       help_text_html: |
-        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        This module allows you to set up a synchronization between LDAP and Neurvo groups.
         <br/>
-        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
+        By default, Neurvo uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
         This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
         <br/>
         If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
@@ -102,4 +102,4 @@ en:
         description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     description: "Synchronization of LDAP group memberships."
-    name: "OpenProject LDAP groups"
+    name: "Neurvo LDAP groups"

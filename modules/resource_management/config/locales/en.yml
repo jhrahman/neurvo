@@ -86,7 +86,7 @@ en:
     resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
   plugin_openproject_resource_management:
     description: Provides resource management and capacity planning.
-    name: OpenProject Resource Management
+    name: Neurvo Resource Management
   project_module_resource_management: Resource management
   resource_management:
     action:

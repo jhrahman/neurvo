@@ -23,4 +23,4 @@ en:
   label_job_status_plural: "Job statuses"
   plugin_openproject_job_status:
     description: "Listing and status of background jobs."
-    name: "OpenProject Job status"
+    name: "Neurvo Job status"

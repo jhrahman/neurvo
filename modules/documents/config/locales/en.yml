@@ -185,6 +185,6 @@ en:
   permission_manage_documents: "Manage documents"
   permission_view_documents: "View documents"
   plugin_openproject_documents:
-    description: "An OpenProject plugin to allow creation of documents in projects."
-    name: "OpenProject Documents"
+    description: "A Neurvo plugin to allow creation of documents in projects."
+    name: "Neurvo Documents"
   project_module_documents: "Documents"

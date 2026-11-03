@@ -60,7 +60,7 @@ RSpec.describe ExternalLinkWarningController do
         get :show, params: { url: "https://example.com" }
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include("Leaving OpenProject")
+        expect(response.body).to include("Leaving Neurvo")
         expect(response.body).to include("https://example.com")
       end
 
@@ -97,7 +97,7 @@ RSpec.describe ExternalLinkWarningController do
           get :show, params: { url: "https://example.com" }
 
           expect(response).to have_http_status(:success)
-          expect(response.body).to include("Leaving OpenProject")
+          expect(response.body).to include("Leaving Neurvo")
           expect(response.body).to include("https://example.com")
         end
       end

@@ -9,5 +9,5 @@ en:
   permission_view_calendar: "View calendars"
   plugin_openproject_calendar:
     description: "Provides calendar views."
-    name: "OpenProject Calendar"
+    name: "Neurvo Calendar"
   project_module_calendar_view: "Calendars"

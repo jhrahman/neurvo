@@ -11,7 +11,7 @@ en:
 
   plugin_openproject_xls_export:
     description: "Export issue lists as Excel spreadsheets (.xls)."
-    name: "OpenProject XLS Export"
+    name: "Neurvo XLS Export"
   print_with_description: "Print preview with description"
   sentence_separator_or: "or"
 

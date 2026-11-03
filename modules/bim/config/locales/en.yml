@@ -151,7 +151,7 @@ en:
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1_text: "Application will receive full read & write access to the Neurvo BCF API v2.1 to perform actions on your behalf."
 
   permission_delete_bcf: "Delete BCF issues"
   permission_manage_bcf: "Import and manage BCF issues"
@@ -163,8 +163,8 @@ en:
   permission_view_ifc_models: "View IFC models"
   permission_view_linked_issues: "View BCF issues"
   plugin_openproject_bim:
-    description: "This OpenProject plugin introduces BIM and BCF functionality."
-    name: "OpenProject BIM and BCF functionality"
+    description: "This Neurvo plugin introduces BIM and BCF functionality."
+    name: "Neurvo BIM and BCF functionality"
 
   project_module_bcf: "BCF"
   project_module_bim: "BCF"

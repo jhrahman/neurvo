@@ -6,7 +6,7 @@ en:
         allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: ACS (Assertion consumer service) URL
         authn_requests_signed: Sign SAML AuthnRequests
-        certificate: Certificate used by OpenProject for SAML requests
+        certificate: Certificate used by Neurvo for SAML requests
         digest_method: Digest algorithm
         display_name: Name
         format: "Format"
@@ -19,7 +19,7 @@ en:
         limit_self_registration: Limit self registration
         metadata_url: Identity provider metadata URL
         name_identifier_format: Name identifier format
-        private_key: Corresponding private key for OpenProject SAML requests
+        private_key: Corresponding private key for Neurvo SAML requests
         scope: Scope
         secret: Secret
         signature_method: Signature algorithm
@@ -42,19 +42,19 @@ en:
     delete_title: Delete SAML provider
     info:
       description: >
-        Use these parameters to configure your identity provider connection to OpenProject.
+        Use these parameters to configure your identity provider connection to Neurvo.
       title: "SAML Protocol Configuration Parameters"
     instructions:
       allowed_clock_drift: >
         Tolerance in seconds applied when validating the timestamps of the identity provider response.
-        Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity
+        Fractions of a second are accepted. Use this only if the clocks of Neurvo and the identity
         provider are known to be out of sync, and keep the value as low as possible (Default: 0).
       authn_requests_signed: >
-        If checked, OpenProject will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
+        If checked, Neurvo will sign the SAML AuthnRequest. You will have to provide a signing certificate and private key using the fields below.
       certificate: >
-        Enter the X509 PEM-formatted certificate used by OpenProject for signing SAML requests.
+        Enter the X509 PEM-formatted certificate used by Neurvo for signing SAML requests.
       digest_method: >
-        Select the digest algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        Select the digest algorithm to use for the SAML request signature performed by Neurvo (Default: %{default_option}).
       display_name: >
         The name of the provider. This will be displayed as the login button and in the list of providers.
       documentation_link: >
@@ -74,8 +74,8 @@ en:
       limit_self_registration: >
         If enabled users can only register using this provider if the self registration setting allows for it.
       mapping: >
-        Configure the mapping between the SAML response and user attributes in OpenProject.
-        You can configure multiple attribute names to look for. OpenProject will choose the first available attribute
+        Configure the mapping between the SAML response and user attributes in Neurvo.
+        You can configure multiple attribute names to look for. Neurvo will choose the first available attribute
         from the SAML response.
       mapping_firstname: >
         SAML attributes from the response used for the given name.
@@ -102,22 +102,22 @@ en:
       request_uid: >
         SAML attribute to request for the internal user ID. By default, the name_id will be used for this field.
       requested_attributes: >
-        These attributes are added to the SAML request XML to communicate to the identity provider which attributes OpenProject requires.
+        These attributes are added to the SAML request XML to communicate to the identity provider which attributes Neurvo requires.
       requested_format: >
         The format of the requested attribute. This is used to specify the format of the attribute in the SAML request.
         Please see [documentation on configuring requested attributes](docs_url) for more information.
       signature_method: >
-        Select the signature algorithm to use for the SAML request signature performed by OpenProject (Default: %{default_option}).
+        Select the signature algorithm to use for the SAML request signature performed by Neurvo (Default: %{default_option}).
       sp_entity_id: >
-        The entity ID of the service provider (SP). Sometimes also referred to as Audience. This is the unique client identifier of the OpenProject instance.
+        The entity ID of the service provider (SP). Sometimes also referred to as Audience. This is the unique client identifier of the Neurvo instance.
       sp_metadata_endpoint: >
-        This is the URL where the OpenProject SAML metadata is available.
+        This is the URL where the Neurvo SAML metadata is available.
         Optionally use it to configure your identity provider.
       want_assertions_encrypted: >
         If enabled, require the identity provider to encrypt the assertion response using the certificate pair that you provide.
       want_assertions_signed: >
-        If checked, OpenProject will required signed responses from the identity provider using its own certificate keypair.
-        OpenProject will verify the signature against the certificate from the basic configuration section.
+        If checked, Neurvo will required signed responses from the identity provider using its own certificate keypair.
+        Neurvo will verify the signature against the certificate from the basic configuration section.
     menu_title: SAML providers
     metadata_parser:
       error: "Failed to retrieve the identity provider metadata: %{error}"
@@ -131,7 +131,7 @@ en:
       attribute_mapping: Attribute mapping
       attribute_mapping_text: >
         The following fields control which attributes provided by the SAML identity provider
-        are used to provide user attributes in OpenProject
+        are used to provide user attributes in Neurvo
       label_add_new: New SAML identity provider
       label_automatic_configuration: Automatic configuration
       label_configuration_details: "Identity provider endpoints and certificates"
@@ -141,12 +141,12 @@ en:
       label_empty_title: "No SAML providers configured yet."
       label_mapping: Mapping
       label_metadata: Metadata
-      label_metadata_endpoint: OpenProject metadata endpoint
-      label_openproject_information: OpenProject information
+      label_metadata_endpoint: Neurvo metadata endpoint
+      label_openproject_information: Neurvo information
       label_requested_attribute_for: "Requested attribute for: %{attribute}"
       label_uid: Internal user id
       metadata:
-        dialog: "This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:"
+        dialog: "This is the URL where the Neurvo SAML metadata is available. Optionally use it to configure your identity provider:"
 
       no_results_table: No SAML identity providers have been defined yet.
       notice_created: A new SAML identity provider was successfully created.
@@ -154,7 +154,7 @@ en:
       request_attributes:
         format: 'Attribute format'
         legend: >
-          These attributes are added to the SAML XML metadata to signify to the identify provider which attributes OpenProject requires.
+          These attributes are added to the SAML XML metadata to signify to the identify provider which attributes Neurvo requires.
           You may still need to explicitly configure your identity provider to send these attributes. Please refer to your IdP's documentation.
         name: 'Requested attribute key'
         title: 'Requested attributes'
@@ -167,8 +167,8 @@ en:
         configuration_metadata: "This information has been pre-filled using the supplied metadata. In most cases, they do not require editing."
         display_name: "Configure the display name of the SAML provider."
         encryption: "Configure assertion signatures and encryption for SAML requests and responses."
-        encryption_form: "You may optionally want to encrypt the assertion response, or have requests from OpenProject signed."
-        mapping: "Manually adjust the mapping between the SAML response and user attributes in OpenProject."
+        encryption_form: "You may optionally want to encrypt the assertion response, or have requests from Neurvo signed."
+        mapping: "Manually adjust the mapping between the SAML response and user attributes in Neurvo."
         metadata: "Pre-fill configuration using a metadata URL or by pasting metadata XML"
         metadata_form: "If your identity provider has a metadata endpoint or XML download, add it below to pre-fill the configuration."
         metadata_form_banner: "Editing the metadata may override existing values in other sections. "
@@ -176,7 +176,7 @@ en:
       seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
       singular: SAML identity provider
       upsell:
-        description: Connect OpenProject to a SAML identity provider
+        description: Connect Neurvo to a SAML identity provider
         title: "Single Sign-On (SSO) with SAML"
     settings:
       metadata_none: "I don't have metadata"

@@ -40,7 +40,7 @@ en:
             Your file (%{fileName}) could not be uploaded due to system restrictions.
             Please contact your administrator for more information.
           413: >
-            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}.
+            Your file (%{fileName}) is bigger than what Neurvo can upload to %{storageType}.
             You can upload it directly to %{storageType} first and then link the file.
           507: >
             Your file (%{fileName}) is bigger than the storage quota allows.

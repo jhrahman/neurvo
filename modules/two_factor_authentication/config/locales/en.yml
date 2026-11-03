@@ -52,11 +52,11 @@ en:
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
   plugin_openproject_two_factor_authentication:
     description: >-
-      This OpenProject plugin authenticates your users using two-factor authentication by means of
+      This Neurvo plugin authenticates your users using two-factor authentication by means of
       one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell
       phone via SMS or voice call.
 
-    name: "OpenProject Two-factor authentication"
+    name: "Neurvo Two-factor authentication"
   text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Resend one-time password by:"
 

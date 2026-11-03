@@ -339,8 +339,8 @@ en:
   permission_start_complete_sprint: "Start/complete sprint"
   permission_view_sprints: "View sprints"
   plugin_openproject_backlogs:
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
-    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with Neurvo in Scrum projects."
+    name: "Neurvo Backlogs"
 
   project_module_backlogs: "Backlogs"
 
