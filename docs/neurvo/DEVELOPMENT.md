@@ -8,24 +8,23 @@ Tested target: MacBook Air (Apple Silicon), Docker Desktop with about 8 GB of me
 2. From the repo root:
 
    ```bash
+   docker network create gateway                                        # hocuspocus joins it; normally made by the optional TLS stack
    cp docker-compose.override.example.yml docker-compose.override.yml   # publishes ports 3000 and 4200
-   bin/compose setup      # installs gems and npm packages into volumes (first run takes a while)
-   bin/compose run        # starts db, cache, frontend (background) and backend (foreground)
+   bin/compose setup      # builds images, installs gems and npm packages, migrates and seeds the database
+   bin/compose start      # db, cache, hocuspocus and the frontend dev server
+   bin/compose up -d backend
    ```
 
-   `config/database.yml` must not exist (it doesn't in this repo).
-3. In a second terminal, create the schema and demo data:
-
-   ```bash
-   bin/compose exec backend bundle exec rails db:migrate db:seed
-   ```
-4. Open <http://localhost:3000> and log in as `admin` / `admin` (you are asked to change the password).
+   `config/database.yml` must not exist (it doesn't in this repo). The first `setup` takes 15 to 30 minutes.
+   The `DEV_UID`/`DEV_GID` warnings from compose are harmless.
+3. Open <http://localhost:3000> and log in as `admin` / `admin`. The demo seed creates 7 projects and 41 work packages.
+   The login page title should read "Sign in | Neurvo".
 
 ## Daily use
 
 | Task | Command |
 |---|---|
-| Start everything in the background | `bin/compose start` |
+| Start everything in the background | `bin/compose start && bin/compose up -d backend` |
 | Follow backend logs | `bin/compose logs -f backend` |
 | Stop | `bin/compose stop` |
 | Run specs | `bin/compose rspec spec/models/setting_spec.rb` |
