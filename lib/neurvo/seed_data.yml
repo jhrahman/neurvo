@@ -141,6 +141,7 @@ projects:
   - key: SHOP
     name: "ShopEase"
     description: "Our e-commerce product. Parent project for the web storefront and the mobile apps; product-wide defects are triaged on the SQA Defects board."
+    status: { code: on_track, explanation: "Web 3.5.0 and Mobile 2.8.0 on schedule; two Critical bugs under active work." }
     members: [ayesha, daniel, rafi, sofia, kenji, priya, nusrat, marco, lena, tanvir]
     categories: []
     sprints: false
@@ -149,6 +150,7 @@ projects:
     name: "ShopEase Web"
     parent: SHOP
     description: "Customer-facing storefront (Next.js) and checkout."
+    status: { code: at_risk, explanation: "3.5.0 release depends on WEB-18 (payment 500) and WEB-20 (reopened cart bug)." }
     members: [ayesha, daniel, rafi, sofia, priya, nusrat, marco, lena, tanvir]
     categories: ["Checkout", "Search", "Catalogue", "Account", "Payments"]
     sprints: true
@@ -163,6 +165,7 @@ projects:
     name: "ShopEase Mobile"
     parent: SHOP
     description: "iOS and Android apps (React Native)."
+    status: { code: on_track, explanation: "Push notifications in progress; Android 14 crash is the top priority." }
     members: [ayesha, daniel, kenji, priya, nusrat, marco, lena]
     categories: ["Orders", "Notifications", "Payments", "Login"]
     sprints: true
@@ -172,6 +175,7 @@ projects:
   - key: OPS
     name: "Platform & DevOps"
     description: "Infrastructure, CI/CD, observability and data protection for all products."
+    status: { code: off_track, explanation: "Backups failed silently for 3 days; fix and alerting in progress (OPS-7)." }
     members: [daniel, tanvir, rafi, nusrat]
     categories: ["CI/CD", "Kubernetes", "Database", "Monitoring", "Security"]
     sprints: true
@@ -179,6 +183,7 @@ projects:
   - key: NEU
     name: "Neurvo"
     description: "Our own project management tool. Dogfooding: features and bugs for Neurvo itself."
+    status: { code: on_track, explanation: "MVP scope done except the command palette." }
     members: [ayesha, daniel, priya, sofia, nusrat, tanvir]
     categories: ["UI", "Workflow", "Integrations"]
     sprints: true
@@ -324,7 +329,8 @@ sprint_goals:
 
 time_zone: "Asia/Dhaka"
 
-# Team rituals. `day` is an offset from the seed date; `time` is local (time_zone above).
+# Team rituals. `day` is an offset from the seed date, `sprint_day` from the current sprint's Monday;
+# `time` is local (time_zone above).
 meetings:
   - { project: WEB, title: "Daily stand-up", recurring: working_days, day: 1, time: "09:30", duration: 15, author: daniel,
       attendees: [daniel, rafi, sofia, priya, nusrat, marco, lena],
@@ -333,11 +339,11 @@ meetings:
       attendees: [nusrat, lena, marco, daniel, ayesha, rafi, sofia, kenji, priya],
       agenda: [{ title: "New bugs since last triage: severity and owner", duration: 10 }, { wp: bug_expiry_500, duration: 5 },
                { wp: bug_android_crash, duration: 5 }, { wp: bug_cart_badge, duration: 5 }, { title: "Production incidents review", duration: 5 }] }
-  - { project: WEB, title: "Sprint 24 review & retrospective", day: 4, time: "15:00", duration: 60, author: daniel,
+  - { project: WEB, title: "Sprint 24 review & retrospective", sprint_day: 11, time: "15:00", duration: 60, author: daniel,
       attendees: [ayesha, daniel, rafi, sofia, priya, nusrat, marco, lena],
       agenda: [{ title: "Demo: pay with a saved card", duration: 10 }, { wp: web_promo, duration: 10 },
                { title: "Retro: what went well, what to improve", duration: 30 }, { title: "Action items and owners", duration: 10 }] }
-  - { project: WEB, title: "Sprint 25 planning", day: 7, time: "10:00", duration: 90, author: ayesha,
+  - { project: WEB, title: "Sprint 25 planning", sprint_day: 14, time: "10:00", duration: 90, author: ayesha,
       attendees: [ayesha, daniel, rafi, sofia, priya, nusrat, marco, lena],
       agenda: [{ title: "Sprint goal", duration: 10 }, { wp: web_guest, duration: 25 }, { wp: web_synonyms, duration: 20 },
                { title: "Capacity and leave", duration: 10 }, { title: "Commitment", duration: 10 }] }

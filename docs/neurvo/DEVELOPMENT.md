@@ -35,6 +35,11 @@ Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes 
 - Bug fields: Severity, Environment, Platform, Found in build, Fixed in build. Per-type description templates.
 - Sprints (previous completed, current active, next in planning), releases, boards (SQA Defects in SHOP, Web Kanban),
   saved views (Open bugs, Ready for QA, Production incidents, Feature & change requests).
+- Meetings: daily stand-up, weekly bug triage (critical bugs on the agenda), sprint review & retro, sprint planning,
+  release go/no-go. Sprints run Monday–Friday; all times in Asia/Dhaka.
+- Comments contain real @mentions, so inboxes fill up about 5 minutes after seeding (journal aggregation), as long as
+  the `worker` container is running.
+- Project statuses (on track / at risk / off track) with explanations.
 - Team (password `Neurvo-Dev-2026!`): ayesha.karim (PM), daniel.brooks (tech lead), rafi.hasan, sofia.martins,
   kenji.watanabe, priya.nair (developers), nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
 
@@ -51,3 +56,23 @@ Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes 
 
 Do not start the optional services in `docker/dev/` (Keycloak, Nextcloud, GitLab, MinIO and so on) unless a task needs them.
 The frontend dev server (Angular) is slow on the first compile; wait until the backend log shows the page can be served.
+
+## Memory (Docker Desktop with 8 GB)
+
+The Angular dev server alone needs about 4 GB while compiling. With backend, worker, database and a test database
+running, it can be OOM-killed (`neurvo-frontend-1` exits with 137). Stop what you don't need
+(`bin/compose stop db-test` after running specs) or give Docker Desktop 10–12 GB if your Mac allows it.
+
+## Running specs
+
+Browser (feature) specs need Selenium images that have no arm64 builds, so `bin/compose rspec` cannot start on Apple
+Silicon. Model, helper, view, component and request specs run fine without them:
+
+```bash
+bin/compose up -d db-test
+bin/compose run --rm --no-deps --entrypoint bash backend-test -lc 'bundle exec rspec spec/models/user_preference_spec.rb'
+bin/compose stop db-test
+```
+
+The first run needs `RAILS_ENV=test bundle exec rails db:create db:schema:load` inside the same container.
+

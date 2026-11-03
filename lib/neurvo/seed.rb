@@ -271,6 +271,8 @@ module Neurvo
       project = Project.create!(name: conf["name"], identifier: conf["key"], description: conf["description"],
                                 workspace_type: "project",
                                 public: false, parent: conf["parent"] && @projects.fetch(conf["parent"]),
+                                status_code: conf.dig("status", "code"),
+                                status_explanation: conf.dig("status", "explanation"),
                                 enabled_module_names: data["modules"])
       @types.each_value { |type| project.project_types.create!(type_id: type.id, variant_id: type.default_variant.id) }
       conf["members"].each do |key|
@@ -297,7 +299,7 @@ module Neurvo
     def create_sprints(project)
       @sprints ||= {}
       number = { "MOB" => 11, "OPS" => 31, "NEU" => 1 }.fetch(project.identifier, 24)
-      current_start = today - 7
+      current_start = current_sprint_start
       sprints = {
         "previous" => { offset: -14, status: :completed, number: number - 1 },
         "current" => { offset: 0, status: :active, number: },
@@ -314,6 +316,8 @@ module Neurvo
       end
     end
 
+    def current_sprint_start = today.beginning_of_week - 7.days
+
     # --- work packages ---------------------------------------------------
 
     def create_work_packages(project, items)
@@ -325,6 +329,7 @@ module Neurvo
 
     def create_work_package(project, conf)
       type = @types.fetch(conf["type"])
+      sprint = conf["sprint"] && @sprints.dig(project.identifier, conf["sprint"])
       attributes = {
         project:, type:, subject: conf["subject"],
         description: conf["description"] || type.default_variant.default_work_package_description,
@@ -335,10 +340,10 @@ module Neurvo
         parent: conf["parent"] && @refs.fetch(conf["parent"]),
         version: conf["version"] && @versions.fetch(conf["version"]),
         category: conf["category"] && project.categories.find_by!(name: conf["category"]),
-        sprint: conf["sprint"] && @sprints.dig(project.identifier, conf["sprint"]),
+        sprint:,
         story_points: conf["points"],
-        start_date: conf["start"] && (today + conf["start"]),
-        due_date: conf["due"] && (today + conf["due"]),
+        start_date: conf["start"] ? today + conf["start"] : sprint&.start_date,
+        due_date: conf["due"] ? today + conf["due"] : sprint&.finish_date,
         schedule_manually: true,
         custom_field_values: custom_values(conf)
       }.compact
@@ -470,8 +475,9 @@ module Neurvo
 
     # --- meetings --------------------------------------------------------
 
-    def local_time(day, time)
-      Time.find_zone!(data["time_zone"]).parse("#{today + day} #{time}")
+    def local_time(conf)
+      date = conf["sprint_day"] ? current_sprint_start + conf["sprint_day"] : today + conf["day"]
+      Time.find_zone!(data["time_zone"]).parse("#{date} #{conf['time']}")
     end
 
     def create_meetings
@@ -486,7 +492,7 @@ module Neurvo
 
     def meeting_attributes(conf)
       { title: conf["title"], author: user(conf["author"]), project: @projects.fetch(conf["project"]),
-        start_time: local_time(conf["day"], conf["time"]), duration: conf["duration"] / 60.0 }
+        start_time: local_time(conf), duration: conf["duration"] / 60.0 }
     end
 
     def create_meeting_series(conf)
