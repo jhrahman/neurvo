@@ -56,6 +56,7 @@ x-op-backend: &backend
     OPENPROJECT_WEB_MAX__THREADS: 1
     OPENPROJECT_WEB_MIN__THREADS: 1
     OPENPROJECT_WEB_WORKERS: 0
+    OPENPROJECT_DEVELOPMENT__HIGHLIGHT__ENABLED: "${OPENPROJECT_DEVELOPMENT__HIGHLIGHT__ENABLED:-false}"
     PIDFILE: /home/dev/openproject/tmpfs/pids/server.pid
     RAILS_ENV: development
   volumes:

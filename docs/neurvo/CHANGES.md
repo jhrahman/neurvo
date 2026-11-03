@@ -30,3 +30,10 @@ and the Nextcloud/XWiki "OpenProject integration" app names, which are third-par
 | `config/constants/settings/definition.rb` | Default `app_title` is "Neurvo" (still overridable in admin or `OPENPROJECT_APP__TITLE`) |
 | `app/views/user_mailer/test_mail.{html,text}.erb` | Hard-coded product name in test mail |
 | `spec/models/setting_spec.rb`, `spec/controllers/external_link_warning_controller_spec.rb` | Follow the renamed strings |
+
+## Dev environment and seed data
+
+| File | Reason |
+|---|---|
+| `docker-compose.yml` | `OPENPROJECT_DEVELOPMENT__HIGHLIGHT__ENABLED` defaults to `false` so the header no longer shows the "development" stripe text |
+| `app/seeders/standard.yml` | Neurvo welcome title and text (no openproject.org marketing links); "get started in Neurvo" |

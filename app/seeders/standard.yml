@@ -328,7 +328,7 @@ projects:
           options:
             t_name: "Getting started"
             t_text: |
-              We are glad you joined! We suggest to try a few things to get started in OpenProject.
+              We are glad you joined! We suggest to try a few things to get started in Neurvo.
 
               Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
@@ -736,7 +736,7 @@ projects:
           options:
             t_name: "Getting started"
             t_text: |
-              We are glad you joined! We suggest to try a few things to get started in OpenProject.
+              We are glad you joined! We suggest to try a few things to get started in Neurvo.
 
               _Try the following steps:_
 
@@ -1274,20 +1274,16 @@ workflows:
       - :default_status_closed
 
 welcome:
-  t_title: "Welcome to OpenProject!"
+  t_title: "Welcome to Neurvo!"
   t_text: |
-    OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+    Neurvo is Neural Soft's project management and issue tracking platform: plan work, track issues, run boards and sprints, and keep your team's documents in one place.
 
     Core features and use cases:
 
-    * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-    * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-    * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-    * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-    * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-    * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-    * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-
-    Welcome to the future of project management.
+    * Task Management and Issue Tracking
+    * Agile Boards (Scrum and Kanban)
+    * Backlogs and Sprints
+    * Project Planning and Roadmap
+    * Team Collaboration and Documentation
 
     For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
