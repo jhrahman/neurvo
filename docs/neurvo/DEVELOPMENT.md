@@ -63,6 +63,14 @@ The Angular dev server alone needs about 4 GB while compiling. With backend, wor
 running, it can be OOM-killed (`neurvo-frontend-1` exits with 137). Stop what you don't need
 (`bin/compose stop db-test` after running specs) or give Docker Desktop 10–12 GB if your Mac allows it.
 
+Upstream lets the dev server grow to an 8 GB heap. Cap it in your local `docker-compose.override.yml`:
+
+```yaml
+services:
+  frontend:
+    command: "node --max_old_space_size=3072 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0"
+```
+
 ## Running specs
 
 Browser (feature) specs need Selenium images that have no arm64 builds, so `bin/compose rspec` cannot start on Apple
