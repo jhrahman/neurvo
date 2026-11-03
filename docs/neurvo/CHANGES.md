@@ -123,3 +123,10 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `frontend/src/app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component.ts`, `frontend/src/app/features/work-packages/components/wp-new/wp-create.component.ts` | Preselect the default project in the global create form (still changeable) |
 | `spec/features/menu_items/quick_add_menu_spec.rb` | Follows the new behaviour (feature spec; needs a browser, not run on Apple Silicon) |
 | `frontend/src/app/core/enterprise/banners.service.ts`, `frontend/src/app/features/work-packages/components/wp-buttons/wp-share-button/*` | Hide the work package share button when sharing is Enterprise-only and banners are hidden |
+
+## Motion and privacy
+
+| File | Reason |
+|---|---|
+| `frontend/src/global_styles/neurvo/_motion.sass` (new) | Consistent 120–200 ms transitions on controls, card lift on boards, slide-in side panels, pop-in menus; off with reduced motion. Cross-document view transitions were tried and dropped: they conflict with Turbo |
+| `lib/neurvo/seed.rb` | Gravatar disabled (no hashed staff e-mails sent to gravatar.com); uploaded avatars and initials remain |

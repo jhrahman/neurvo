@@ -1,0 +1,103 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+
+// Neurvo motion: short, consistent transitions so the UI feels responsive without getting in the way.
+
+$neurvo-ease: cubic-bezier(0.2, 0, 0, 1)
+$neurvo-fast: 120ms
+$neurvo-medium: 200ms
+
+:root
+  --neurvo-ease: #{$neurvo-ease}
+  --neurvo-fast: #{$neurvo-fast}
+  --neurvo-medium: #{$neurvo-medium}
+
+// Interactive controls ease their colors, borders and shadows instead of snapping
+.Button,
+.ActionListContent,
+.op-app-header--primer-button,
+.op-app-menu--item a,
+.main-menu--children-menu-item,
+.op-sidebar--body a,
+.SegmentedControl-item,
+.UnderlineNav-item,
+.tabnav-tab,
+.FormControl-input,
+.FormControl-select,
+.neurvo-swatch,
+a
+  transition: color $neurvo-fast $neurvo-ease, background-color $neurvo-fast $neurvo-ease, border-color $neurvo-fast $neurvo-ease, box-shadow $neurvo-fast $neurvo-ease, transform $neurvo-fast $neurvo-ease, opacity $neurvo-fast $neurvo-ease
+
+.Button:active:not(:disabled)
+  transform: scale(0.98)
+
+// Board cards lift slightly on hover, like physical cards
+.op-wp-single-card
+  transition: box-shadow $neurvo-medium $neurvo-ease, transform $neurvo-medium $neurvo-ease
+
+  &:hover
+    transform: translateY(-1px)
+    box-shadow: var(--shadow-resting-medium)
+
+// Table rows highlight smoothly
+.wp-table--row,
+.Box-row,
+.op-border-box-grid--row
+  transition: background-color $neurvo-fast $neurvo-ease
+
+// Side panels slide in from their edge
+@keyframes neurvo-slide-in-right
+  from
+    transform: translateX(1.5rem)
+    opacity: 0
+
+@keyframes neurvo-slide-in-left
+  from
+    transform: translateX(-1.5rem)
+    opacity: 0
+
+dialog.Overlay--placement-right[open]
+  animation: neurvo-slide-in-right $neurvo-medium $neurvo-ease
+
+dialog.Overlay--placement-left[open]
+  animation: neurvo-slide-in-left $neurvo-medium $neurvo-ease
+
+// Dropdown menus and popovers fade in
+@keyframes neurvo-pop-in
+  from
+    opacity: 0
+    transform: translateY(-4px)
+
+.ActionMenu-modal,
+anchored-position[popover]:popover-open
+  animation: neurvo-pop-in $neurvo-fast $neurvo-ease
+
+@media (prefers-reduced-motion: reduce)
+  *,
+  *::before,
+  *::after
+    transition-duration: 0ms !important
+    animation-duration: 0ms !important
