@@ -73,7 +73,7 @@ export class ToastService {
     return this.stack;
   }
 
-  public add(toast:IToast, timeoutAfter = 5000):IToast {
+  public add(toast:IToast, timeoutAfter = 4000):IToast {
     // Remove flash messages
     removeSuccessFlashMessages();
 

@@ -47,3 +47,11 @@ and the Nextcloud/XWiki "OpenProject integration" app names, which are third-par
 | `spec/views/my/color_mode_menu_spec.rb` (new) | Covers the menu partial |
 
 Default stays Light (`user_default_theme = light`). Each user can switch any time from the avatar menu or Account settings > Interface.
+
+## Toasts
+
+| File | Reason |
+|---|---|
+| `frontend/src/global_styles/neurvo/` (new) | Neurvo-only styles; first file moves Rails flash and Angular toasts to the bottom-right with a slide-in |
+| `frontend/src/global_styles/openproject.sass` | Imports `neurvo/_index.sass` |
+| `frontend/src/stimulus/controllers/flash.controller.ts`, `frontend/src/app/shared/components/toaster/toast.service.ts` | Success toasts auto-hide after 4 s instead of 5 s. Errors and warnings stay until dismissed |
