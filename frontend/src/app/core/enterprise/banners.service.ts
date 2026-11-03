@@ -43,6 +43,10 @@ export class BannersService {
     this._bannersHidden = documentElement.body.classList.contains('ee-banners-hidden');
   }
 
+  public get bannersHidden():boolean {
+    return this._bannersHidden;
+  }
+
   public showBannerFor(feature:string):boolean {
     if (this._bannersHidden) {
       return false;

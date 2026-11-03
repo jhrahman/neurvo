@@ -1,27 +1,29 @@
-<button
-  class="button toolbar-icon"
-  data-test-selector="op-wp-share-button"
-  [title]="text.share"
-  (click)="openModal()"
-  >
-  <svg
-    share-android-icon
-    class="button--icon"
-    size="small"
-  ></svg>
-  @if ((shareCount$ | async); as shareCount) {
-    <span class="button--text">
-      <span class="badge"
-      [textContent]="shareCount"></span>
-    </span>
-  }
-
-  @if (showEnterpriseIcon) {
+@if (visible) {
+  <button
+    class="button toolbar-icon"
+    data-test-selector="op-wp-share-button"
+    [title]="text.share"
+    (click)="openModal()"
+    >
     <svg
-      op-enterprise-addons-icon
-      class="button--icon upsell-colored"
+      share-android-icon
+      class="button--icon"
       size="small"
     ></svg>
-  }
+    @if ((shareCount$ | async); as shareCount) {
+      <span class="button--text">
+        <span class="badge"
+        [textContent]="shareCount"></span>
+      </span>
+    }
 
-</button>
+    @if (showEnterpriseIcon) {
+      <svg
+        op-enterprise-addons-icon
+        class="button--icon upsell-colored"
+        size="small"
+      ></svg>
+    }
+
+  </button>
+}

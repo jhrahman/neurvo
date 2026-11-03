@@ -122,3 +122,4 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `app/views/work_packages/new.html.erb`, `app/components/work_packages/full_view/create_component.{rb,html.erb}` | Pass `default_project` to the create form |
 | `frontend/src/app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component.ts`, `frontend/src/app/features/work-packages/components/wp-new/wp-create.component.ts` | Preselect the default project in the global create form (still changeable) |
 | `spec/features/menu_items/quick_add_menu_spec.rb` | Follows the new behaviour (feature spec; needs a browser, not run on Apple Silicon) |
+| `frontend/src/app/core/enterprise/banners.service.ts`, `frontend/src/app/features/work-packages/components/wp-buttons/wp-share-button/*` | Hide the work package share button when sharing is Enterprise-only and banners are hidden |
