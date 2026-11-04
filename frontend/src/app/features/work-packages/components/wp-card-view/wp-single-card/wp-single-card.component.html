@@ -9,6 +9,7 @@
   [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
   [title]="cardTitle()"
+  [attr.aria-label]="isBoardCard ? boardCardLabel() : null"
   (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
   (keydown.enter)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
   (keydown.space)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
@@ -70,7 +71,7 @@
     </edit-form>
   }
 
-  @if (!isNewResource(workPackage)) {
+  @if (!isNewResource(workPackage) && !isBoardCard) {
     <div
       class="op-wp-single-card--content">
       <span
@@ -174,6 +175,157 @@
           class="op-wp-single-card--content-dates"
           containerType="single-view" />
       }
+    </div>
+  }
+
+  @if (isBoardCard) {
+    <div class="op-board-card" data-test-selector="op-board-card">
+      <div class="op-board-card--summary"
+        data-test-selector="op-wp-single-card--content-subject"
+        [textContent]="wpSubject(workPackage)"></div>
+
+      @if (lozenge; as label) {
+        <span class="op-board-card--lozenge"
+          data-test-selector="op-board-card--lozenge"
+          [attr.data-tone]="label.tone"
+          [title]="label.label">{{ label.label }}</span>
+      }
+
+      @if (cardCoverImageShown(workPackage)) {
+        <img
+          [src]="bcfSnapshotPath(workPackage)"
+          class="op-board-card--cover"
+          alt="">
+      }
+
+      @if (showStatusButton) {
+        <wp-status-button [workPackage]="workPackage"
+          [small]="true"
+          class="op-board-card--status" />
+      }
+
+      <div class="op-board-card--footer">
+        <span class="op-board-card--type"
+          data-test-selector="op-wp-single-card--content-type"
+          [ngClass]="typeBackgroundClass"
+          [title]="wpTypeAttribute(workPackage)">
+          <span class="op-board-card--visually-hidden" [textContent]="wpTypeAttribute(workPackage)"></span>
+          <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
+            @switch (glyph) {
+              @case ('bug') {
+                <circle cx="8" cy="4.3" r="1.7" fill="currentColor" />
+                <ellipse cx="8" cy="9.8" rx="3.2" ry="4" fill="currentColor" />
+                <path d="M2.5 7.6H5M11 7.6h2.5M2.5 11.2H5M11 11.2h2.5M3.6 4.2l2 1.4M12.4 4.2l-2 1.4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+              }
+              @case ('story') {
+                <path d="M4 2.5h8v11l-4-3-4 3z" fill="currentColor" />
+              }
+              @case ('epic') {
+                <path d="M9.2 1.5 3.5 9h3.7l-.9 5.5L12.5 7H8.8z" fill="currentColor" />
+              }
+              @case ('task') {
+                <path d="M3.5 8.5 6.7 11.7 12.5 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              }
+              @case ('subtask') {
+                <rect x="2.5" y="2.5" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <rect x="7.5" y="7.5" width="6" height="6" rx="1" fill="currentColor" />
+              }
+              @case ('request') {
+                <path d="M8 13V3.5M3.8 7.5 8 3.3l4.2 4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              }
+              @case ('support') {
+                <path d="M2.5 3.5h11v7.5H8.6L5.5 13.8V11h-3z" fill="currentColor" />
+              }
+              @case ('milestone') {
+                <path d="M8 1.8 14.2 8 8 14.2 1.8 8z" fill="currentColor" />
+              }
+              @default {
+                <rect x="3.5" y="3.5" width="9" height="9" rx="1.5" fill="currentColor" />
+              }
+            }
+          </svg>
+        </span>
+
+        <a class="op-board-card--key"
+          data-test-selector="op-board-card--key"
+          [class.-closed]="closed"
+          [href]="fullWorkPackageLink(workPackage)"
+          [ngClass]="uiStateLinkClass"
+          (click)="emitStateLinkClicked($event, workPackage)">{{ workPackage.formattedId }}</a>
+
+        @if (storyPoints !== null) {
+          <span class="op-board-card--points"
+            data-test-selector="op-board-card--points"
+            [title]="text.storyPoints">{{ storyPoints }}</span>
+        }
+
+        @if (isBlocked) {
+          <svg class="op-board-card--flag" viewBox="0 0 16 16" width="14" height="14" role="img"
+            [attr.aria-label]="text.blocked">
+            <title>{{ text.blocked }}</title>
+            <path d="M3.5 14V2.5M3.5 3h8.5l-2 3 2 3H3.5" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          </svg>
+        }
+
+        @if (dueLabel) {
+          <span class="op-board-card--due"
+            data-test-selector="op-board-card--due"
+            [class.-overdue]="dueState === 'overdue'"
+            [class.-soon]="dueState === 'soon'"
+            [title]="dueTitle">
+            <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
+              <rect x="2.5" y="3.5" width="11" height="10" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path d="M2.5 7h11M5.5 2v3M10.5 2v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            {{ dueLabel }}
+          </span>
+        }
+
+        <span class="op-board-card--spacer"></span>
+
+        @if (priorityLevel; as level) {
+          <svg class="op-board-card--priority"
+            data-test-selector="op-board-card--priority"
+            viewBox="0 0 16 16" width="16" height="16" role="img"
+            [attr.data-level]="level"
+            [attr.aria-label]="text.priority(priorityName!)">
+            <title>{{ text.priority(priorityName!) }}</title>
+            @switch (level) {
+              @case ('highest') {
+                <path d="M3 8.5 8 3.5l5 5M3 13.5 8 8.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              }
+              @case ('high') {
+                <path d="M3 10.5 8 5.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              }
+              @case ('medium') {
+                <path d="M3 6.5h10M3 10.5h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              }
+              @case ('low') {
+                <path d="M3 5.5 8 10.5l5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              }
+              @case ('lowest') {
+                <path d="M3 2.5 8 7.5l5-5M3 8 8 13l5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              }
+            }
+          </svg>
+        }
+
+        @if (workPackage.assignee) {
+          <op-principal [principal]="workPackage.assignee"
+            [hideName]="true"
+            [link]="false"
+            avatarImageAltText="{{ text.assigneeAlt(workPackage.assignee.name) }}"
+            size="mini"
+            class="op-board-card--assignee"
+            data-test-selector="op-wp-single-card--content-assignee" />
+        } @else {
+          <span class="op-board-card--assignee -empty"
+            data-test-selector="op-board-card--unassigned"
+            role="img"
+            [attr.aria-label]="text.unassigned"
+            [title]="text.unassigned"></span>
+        }
+      </div>
     </div>
   }
 </div>

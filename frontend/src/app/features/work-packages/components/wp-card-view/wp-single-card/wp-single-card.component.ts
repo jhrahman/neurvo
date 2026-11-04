@@ -76,6 +76,22 @@ import {
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { StatusClosedStateService } from 'core-app/features/work-packages/components/wp-card-view/services/status-closed-state.service';
+import {
+  dueState,
+  DueState,
+  isBlockedStatus,
+  lozengeTone,
+  parseCalendarDate,
+  priorityLevel,
+  PriorityLevel,
+  typeGlyph,
+  TypeGlyph,
+} from './board-card.presenter';
+
+export type WorkPackageCardVariant = 'default'|'board';
+
+type HalLinkMap = Record<string, { title?:string }|undefined>;
 
 const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
@@ -117,6 +133,9 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showAsGhost = false;
 
+  /** `board` renders the compact Jira-style card used on boards. */
+  @Input() public variant:WorkPackageCardVariant = 'default';
+
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -138,6 +157,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   readonly timezoneService = inject(TimezoneService);
   readonly schemaCache = inject(SchemaCacheService);
   readonly keepTabService = inject(KeepTabService);
+  readonly statusClosedState = inject(StatusClosedStateService);
 
   public uiStateLinkClass:string = uiStateLinkClass;
 
@@ -153,6 +173,12 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     baseLineIconRemoved: this.I18n.t('js.baseline.icon_tooltip.removed'),
     assigneeAlt:(assignee:string) =>
       this.I18n.t('js.label_assignee_alt_text', { name: assignee }),
+    storyPoints: this.I18n.t('js.card.story_points'),
+    blocked: this.I18n.t('js.card.blocked'),
+    priority:(name:string) => this.I18n.t('js.card.priority', { name }),
+    due:(date:string) => this.I18n.t('js.card.due', { date }),
+    overdue:(date:string) => this.I18n.t('js.card.overdue', { date }),
+    unassigned: this.I18n.t('js.card.unassigned'),
   };
 
   public isNewResource = isNewResource;
@@ -162,6 +188,12 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   combinedDateDisplayField = CombinedDateDisplayField;
 
   ngOnInit():void {
+    if (this.variant === 'board') {
+      this.statusClosedState.whenLoaded()
+        .pipe(this.untilDestroyed())
+        .subscribe(() => this.cdRef.markForCheck());
+    }
+
     // Update selection state
     // Use merge instead of combineLatest: params$ only emits on uiRouter transitions and
     // may never emit on pages that don't use uiRouter (e.g. boards). With merge, any
@@ -229,9 +261,87 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_inline`]: this.showAsInlineCard,
       [`${base}_closed`]: this.isClosed,
       [`${base}_ghosted`]: this.showAsGhost,
+      [`${base}_board`]: this.variant === 'board',
+      [`${base}_blocked`]: this.variant === 'board' && this.isBlocked,
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
     };
+  }
+
+  public get isBoardCard():boolean {
+    return this.variant === 'board' && !isNewResource(this.workPackage);
+  }
+
+  /** Closed either because the host says so or because the work package's status is closed */
+  public get closed():boolean {
+    return this.isClosed || this.statusClosedState.isClosed((this.workPackage.status as StatusResource|undefined)?.id);
+  }
+
+  public get isBlocked():boolean {
+    return isBlockedStatus((this.workPackage.status as StatusResource|undefined)?.name);
+  }
+
+  /** The parent (usually the epic) or, failing that, the category, shown as a coloured label. */
+  public get lozenge():{ label:string, tone:number }|null {
+    const links = (this.workPackage.$source as { _links?:HalLinkMap })._links;
+    const label = [links?.parent?.title, links?.category?.title].find((title) => !!title);
+
+    return label ? { label, tone: lozengeTone(label) } : null;
+  }
+
+  public get glyph():TypeGlyph {
+    return typeGlyph(this.workPackage.type?.name);
+  }
+
+  public get typeBackgroundClass():string {
+    return Highlighting.backgroundClass('type', this.workPackage.type.id!);
+  }
+
+  public get priorityName():string|null {
+    return (this.workPackage.priority as { name?:string }|undefined)?.name ?? null;
+  }
+
+  public get priorityLevel():PriorityLevel|null {
+    return priorityLevel(this.priorityName);
+  }
+
+  public get storyPoints():number|null {
+    const points = (this.workPackage.$source as { storyPoints?:number|null }).storyPoints;
+    return typeof points === 'number' ? points : null;
+  }
+
+  public get dueState():DueState|null {
+    return dueState(this.workPackage.dueDate, this.closed);
+  }
+
+  public get dueLabel():string|null {
+    const date = this.workPackage.dueDate ? parseCalendarDate(this.workPackage.dueDate) : null;
+    if (!date) {
+      return null;
+    }
+
+    return date.toLocaleDateString(document.documentElement.lang || undefined, { month: 'short', day: 'numeric' });
+  }
+
+  public get dueTitle():string|null {
+    const label = this.dueLabel;
+    if (!label) {
+      return null;
+    }
+
+    return this.dueState === 'overdue' ? this.text.overdue(label) : this.text.due(label);
+  }
+
+  public boardCardLabel():string {
+    const wp = this.workPackage;
+    const assignee = (wp.assignee as { name?:string }|undefined)?.name;
+
+    return [
+      `${wp.formattedId} ${wp.subject}`,
+      (wp.status as StatusResource).name,
+      this.priorityName && this.text.priority(this.priorityName),
+      assignee ?? this.text.unassigned,
+    ].filter(Boolean).join(', ');
   }
 
   cardTitle():string {

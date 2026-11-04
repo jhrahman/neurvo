@@ -1,6 +1,7 @@
 @import 'helpers'
 
-$board-list-max-width: 300px
+// Column width (320px) plus the gutter between columns
+$board-list-max-width: 328px
 $board-list-top-offset: 18px
 
 .boards-list--container
@@ -56,6 +57,8 @@ $board-list-top-offset: 18px
   flex: 0 0 $board-list-max-width
   max-width: $board-list-max-width
   position: relative
+  padding-right: 8px
+  box-sizing: border-box
 
   &:first-of-type
     margin-left: 5px

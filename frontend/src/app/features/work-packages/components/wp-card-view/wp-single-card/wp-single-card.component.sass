@@ -198,3 +198,232 @@
       border: none
       box-shadow: none
       padding: 15px
+
+// ------------------------------------------------------------------
+// Board variant: compact Jira-style card (summary, label, footer)
+// ------------------------------------------------------------------
+
+.op-wp-single-card_board
+  --op-wp-single-card-bg-color: var(--bgColor-default)
+  padding: 10px 12px
+  border-color: var(--borderColor-muted)
+  border-radius: 4px
+  box-shadow: var(--shadow-resting-small, 0 1px 1px rgba(9, 30, 66, 0.25))
+  transition: background-color 120ms ease, box-shadow 120ms ease, border-color 120ms ease
+
+  &:hover
+    --op-wp-single-card-bg-color: var(--bgColor-muted)
+    box-shadow: var(--shadow-resting-medium, 0 3px 6px rgba(9, 30, 66, 0.25))
+
+  &.op-wp-single-card_draggable
+    cursor: grab
+
+  &:focus-visible
+    outline: 2px solid var(--borderColor-accent-emphasis)
+    outline-offset: 1px
+
+  &.op-wp-single-card_selected
+    --op-wp-single-card-bg-color: var(--bgColor-accent-muted)
+    border-color: var(--borderColor-accent-emphasis)
+
+  &.op-wp-single-card_blocked
+    --op-wp-single-card-bg-color: var(--bgColor-attention-muted)
+    border-color: var(--borderColor-attention-muted)
+
+  &.op-wp-single-card_closed:not(.op-wp-single-card_selected):not(.op-wp-single-card_blocked)
+    --op-wp-single-card-bg-color: var(--bgColor-default)
+
+  .op-wp-single-card--highlighting
+    display: none
+
+  .op-wp-single-card--card-actions
+    top: 8px
+    right: 4px
+
+@media (prefers-reduced-motion: reduce)
+  .op-wp-single-card_board
+    transition: none
+
+.op-board-card
+  display: flex
+  flex: 1
+  flex-direction: column
+  gap: 8px
+  min-width: 0
+
+  &--summary
+    display: -webkit-box
+    -webkit-box-orient: vertical
+    -webkit-line-clamp: 3
+    overflow: hidden
+    overflow-wrap: anywhere
+    color: var(--fgColor-default)
+    font-size: 14px
+    line-height: 20px
+
+  &--lozenge
+    align-self: flex-start
+    max-width: 100%
+    padding: 1px 6px
+    overflow: hidden
+    border-radius: 3px
+    background: var(--bgColor-neutral-emphasis)
+    color: var(--fgColor-onEmphasis)
+    font-size: 11px
+    font-weight: 700
+    letter-spacing: 0.02em
+    line-height: 14px
+    text-overflow: ellipsis
+    text-transform: uppercase
+    white-space: nowrap
+
+    &[data-tone='0']
+      background: var(--bgColor-success-emphasis)
+    &[data-tone='1']
+      background: var(--bgColor-accent-emphasis)
+    &[data-tone='2']
+      background: var(--bgColor-done-emphasis)
+    &[data-tone='3']
+      background: var(--bgColor-attention-emphasis)
+      color: var(--fgColor-default)
+    &[data-tone='4']
+      background: var(--bgColor-severe-emphasis)
+    &[data-tone='5']
+      background: var(--bgColor-sponsors-emphasis)
+    &[data-tone='6']
+      background: var(--bgColor-danger-emphasis)
+    &[data-tone='7']
+      background: var(--bgColor-neutral-emphasis)
+
+  &--cover
+    max-height: 160px
+    width: 100%
+    border-radius: 3px
+    object-fit: cover
+
+  &--status
+    align-self: flex-start
+    max-width: 100%
+
+  &--footer
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 4px 6px
+    min-height: 24px
+
+  &--spacer
+    flex: 1
+
+  // Keeps the type name available to screen readers; the badge itself only shows a glyph
+  &--visually-hidden
+    position: absolute
+    width: 1px
+    height: 1px
+    overflow: hidden
+    clip-path: inset(50%)
+    text-transform: uppercase
+    white-space: nowrap
+
+  &--type
+    position: relative
+    display: inline-grid
+    flex: none
+    width: 16px
+    height: 16px
+    place-items: center
+    border-radius: 3px
+    color: #fff
+
+  &--key
+    flex: none
+    color: var(--fgColor-muted)
+    font-size: 12px
+    font-weight: 600
+    font-variant-numeric: tabular-nums
+    text-decoration: none
+
+    &:hover
+      color: var(--fgColor-accent)
+      text-decoration: underline
+
+    &.-closed
+      text-decoration: line-through
+
+  &--points
+    flex: none
+    min-width: 18px
+    padding: 0 6px
+    border-radius: 9px
+    background: var(--bgColor-neutral-muted)
+    color: var(--fgColor-muted)
+    font-size: 12px
+    font-weight: 600
+    line-height: 18px
+    text-align: center
+    font-variant-numeric: tabular-nums
+
+  &--flag
+    flex: none
+    color: var(--fgColor-danger)
+
+  &--due
+    display: inline-flex
+    flex: none
+    align-items: center
+    gap: 4px
+    padding: 0 4px
+    border-radius: 3px
+    color: var(--fgColor-muted)
+    font-size: 12px
+    line-height: 18px
+    white-space: nowrap
+
+    &.-soon
+      color: var(--fgColor-attention)
+
+    &.-overdue
+      background: var(--bgColor-danger-muted)
+      color: var(--fgColor-danger)
+      font-weight: 600
+
+  &--priority
+    flex: none
+    color: var(--fgColor-muted)
+
+    &[data-level='highest']
+      color: var(--fgColor-danger)
+    &[data-level='high']
+      color: var(--fgColor-severe)
+    &[data-level='medium']
+      color: var(--fgColor-attention)
+    &[data-level='low'],
+    &[data-level='lowest']
+      color: var(--fgColor-accent)
+
+  &--assignee
+    flex: none
+    margin-right: 0
+
+    &.-empty
+      display: inline-block
+      width: 24px
+      height: 24px
+      border: 1.5px dashed var(--borderColor-emphasis)
+      border-radius: 50%
+
+// Inline "new card" form on boards: type and subject use the full card width
+.op-wp-single-card_board.op-wp-single-card_new
+  padding: 12px 28px 12px 12px
+
+  .op-wp-single-card-content.-new
+    display: flex
+    flex-direction: column
+    gap: 8px
+    width: 100%
+    min-width: 0
+
+  .op-wp-single-card-content--type,
+  .op-wp-single-card-content--subject
+    display: block
+    width: 100%

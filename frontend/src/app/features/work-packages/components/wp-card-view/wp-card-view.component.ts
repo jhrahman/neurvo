@@ -64,6 +64,7 @@ import type {
   SortableListsDropEvent,
   SortableListsRemovedEvent,
 } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
+import { WorkPackageCardVariant } from 'core-app/features/work-packages/components/wp-card-view/wp-single-card/wp-single-card.component';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -135,6 +136,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   /** Whether on special mobile version of the cards shall be shown */
   @Input() public shrinkOnMobile = false;
+
+  @Input() public variant:WorkPackageCardVariant = 'default';
 
   /** Container reference */
   @ViewChild('container', { static: true }) public container:ElementRef<HTMLElement>;

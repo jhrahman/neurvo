@@ -87,7 +87,7 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      drag_and_drop_list(from:, to:, elements: "wp-single-card", handler: ".op-wp-single-card--content")
+      drag_and_drop_list(from:, to:, elements: "wp-single-card", handler: ".op-wp-single-card--content, .op-board-card")
     end
 
     def select_work_package(work_package)

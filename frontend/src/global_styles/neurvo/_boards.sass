@@ -29,3 +29,20 @@
   small,
   br
     display: none
+
+// Column header like Jira: small uppercase name followed by the card count
+.op-board-list--header
+  .title-container
+    flex: 0 1 auto
+
+  h2.editable-toolbar-title--fixed
+    margin: 0
+    color: var(--fgColor-muted)
+    font-size: 12px
+    font-weight: 600
+    letter-spacing: 0.04em
+    line-height: 20px
+    text-transform: uppercase
+
+  .toolbar-title--container:empty
+    display: none

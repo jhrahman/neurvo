@@ -64,7 +64,7 @@ work_packages:
     platform: Infrastructure
     found_in: "n/a"
     description: "**Summary**\nThe 02:00 backup CronJob exits 0 even when `pg_dump` fails for lack of disk space. The last good backup is from 3 days ago.\n\n**Expected result**\nJob fails, alert fires, backup is retried on the secondary volume.\n\n**Actual result**\nJob reports success; no alert."
-  - { ref: ops_cr_pg17, type: change_request, subject: "Upgrade PostgreSQL 15 to 17 on staging", status: todo, assignee: tanvir, author: daniel, priority: Medium, sprint: next, points: 5, category: "Database", requested_by: "Engineering", impact: "Medium" }
+  - { ref: ops_cr_pg17, type: change_request, subject: "Upgrade PostgreSQL 15 to 17 on staging", status: blocked, assignee: tanvir, author: daniel, priority: Medium, sprint: next, points: 5, category: "Database", requested_by: "Engineering", impact: "Medium" }
   - { ref: ops_alert_tracking, type: task, subject: "Alert when GoFleet live-tracking latency p95 exceeds 5 seconds", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 2, category: "Monitoring" }
   - { ref: ops_pm_restore, type: task, subject: "Postmortem action: restore the latest backup weekly and alert on backup age and size", status: todo, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 3, category: "Database" }
   - { ref: ops_pm_runbook, type: task, subject: "Postmortem action: write the backup and restore runbook", status: in_review, assignee: tanvir, author: daniel, sprint: current, points: 2, category: "Database" }

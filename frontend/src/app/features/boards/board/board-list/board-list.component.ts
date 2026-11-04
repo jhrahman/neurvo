@@ -90,6 +90,7 @@ import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builde
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import {
   HalEvent,
   HalEventsService,
@@ -190,7 +191,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       areYouSure: this.i18n.t('js.text_are_you_sure'),
       unnamed_list: this.i18n.t('js.boards.label_unnamed_list'),
       click_to_remove: this.i18n.t('js.boards.click_to_remove_list'),
+      cardsCount: (count:number) => this.i18n.t('js.card.cards_count', { count }),
     };
+  }
+
+  /** Number of cards in this list, shown next to the list name */
+  public cardCount = 0;
+
+  /** Columns of closed statuses show a check mark, like the Done column in Jira */
+  public get isDoneColumn():boolean {
+    return this.board.actionAttribute === 'status'
+      && (this.actionResource as StatusResource|undefined)?.isClosed === true;
   }
 
   /** Are we allowed to remove and drag & drop elements ? */
@@ -268,6 +279,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     // Listen to changes to action attribute
     this.listenToActionAttributeChanges();
+
+    this.querySpace.results
+      .values$()
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe((results) => {
+        this.cardCount = results.total ?? results.elements.length;
+        this.cdRef.markForCheck();
+      });
 
     this.querySpace.query
       .values$()

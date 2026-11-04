@@ -28,6 +28,14 @@
             class="-small" />
         }
       </h3>
+      @if (isDoneColumn) {
+        <svg class="op-board-list--done" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+          <path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      }
+      <span class="op-board-list--count"
+        data-test-selector="op-board-list--count"
+        [attr.aria-label]="text.cardsCount(cardCount)">{{ cardCount }}</span>
       <board-list-menu class="op-board-list--menu"
         data-test-selector="op-board-list--menu"
         [board]="board"
@@ -53,6 +61,7 @@
         [orderIsMembership]="board.isFree"
         [cardsRemovable]="board.isFree && canDragOutOf"
         [showInfoButton]="true"
+        variant="board"
         [highlightingMode]="board.highlightingMode"
         [showStatusButton]="showCardStatusButton()"
         (itemClicked)="openFullViewOnDoubleClick($event)"

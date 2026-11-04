@@ -191,6 +191,13 @@ en:
         entire_card_by: "Entire card by"
         inline: "Highlight inline:"
       remove_from_list: "Remove card from list"
+      story_points: "Story points"
+      blocked: "Blocked"
+      priority: "Priority: %{name}"
+      due: "Due %{date}"
+      overdue: "Overdue since %{date}"
+      unassigned: "Unassigned"
+      cards_count: "%{count} cards"
     chart:
       axis_criteria: "Axis criteria"
       errors:

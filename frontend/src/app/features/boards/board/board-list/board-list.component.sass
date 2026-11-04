@@ -1,6 +1,6 @@
 @import 'helpers'
 
-$board-list-max-width: 300px
+$board-list-max-width: 320px  // matches the column width in board-list-container
 
 .op-board-list
   height: 100%
@@ -47,6 +47,7 @@ $board-list-max-width: 300px
 
   &--menu
     visibility: hidden
+    margin-left: auto
 
   &--query-container
     // 100% - board header height
@@ -59,7 +60,7 @@ $board-list-max-width: 300px
       display: grid
       // In order to enable automatic scrolling within the card view,
       // it is important that second container is limited in the height, so that it is scrollable.
-      grid-template: 34px minmax(0, 1fr) / 1fr
+      grid-template: 34px minmax(0, 1fr) / minmax(0, 1fr)
 
   // Make the button sticky so that it does not scroll,
   // Unfortunately we cannot let the card container scroll because there seem to be a Chrome bug,
@@ -70,3 +71,51 @@ $board-list-max-width: 300px
     position: sticky
     top: 0px
     z-index: 1
+
+// ------------------------------------------------------------------
+// Jira-style column: soft panel, uppercase name, card count
+// ------------------------------------------------------------------
+
+.op-board-list
+  border-radius: 6px
+  background: var(--bgColor-muted)
+
+  // The coloured status bar is replaced by the panel look
+  &--action-bar
+    display: none
+
+  &--header
+    gap: 6px
+    padding: 12px 12px 6px 16px
+
+    h3, h2
+      margin: 0
+      color: var(--fgColor-muted)
+      font-size: 12px
+      font-weight: 600
+      letter-spacing: 0.04em
+      text-transform: uppercase
+
+  &--count
+    color: var(--fgColor-muted)
+    font-size: 12px
+    font-weight: 600
+    font-variant-numeric: tabular-nums
+
+  &--done
+    color: var(--fgColor-success)
+    flex: none
+
+  &--add-button
+    background: transparent
+    box-shadow: none
+    border: 1px dashed var(--borderColor-default)
+    color: var(--fgColor-muted)
+    transition: background-color 120ms ease, border-color 120ms ease
+
+    &:hover
+      background: var(--bgColor-neutral-muted)
+      border-color: var(--borderColor-emphasis)
+
+  &--button-container
+    background: transparent
