@@ -1,0 +1,95 @@
+# Neurvo production stack. See docs/neurvo/DEPLOY.md.
+#   cp .env.prod.example .env.prod  (edit it), then:
+#   docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --build
+
+x-neurvo: &neurvo
+  build:
+    context: .
+    dockerfile: docker/prod/Dockerfile
+    target: slim
+  image: neurvo/neurvo:${NEURVO_VERSION:-latest}
+  restart: unless-stopped
+  environment: &neurvo-env
+    OPENPROJECT_HTTPS: "true"
+    OPENPROJECT_HOST__NAME: ${NEURVO_HOST:?Set NEURVO_HOST in .env.prod}
+    OPENPROJECT_HSTS: "true"
+    OPENPROJECT_RAILS__CACHE__STORE: memcache
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: ""
+    OPENPROJECT_EE__HIDE__BANNERS: "true"
+    OPENPROJECT_HIDE__ENTERPRISE__FEATURES: "true"
+    OPENPROJECT_SHOW__COMMUNITY__LINKS: "false"
+    DATABASE_URL: postgres://neurvo:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.prod}@db/neurvo?pool=20&encoding=unicode&reconnect=true
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE:?Set SECRET_KEY_BASE in .env.prod}
+    RAILS_MIN_THREADS: 4
+    RAILS_MAX_THREADS: 16
+  volumes:
+    - assets:/var/openproject/assets
+
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: neurvo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: neurvo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U neurvo"]
+      interval: 10s
+      retries: 10
+
+  cache:
+    image: memcached:1.6
+    restart: unless-stopped
+
+  seeder:
+    <<: *neurvo
+    command: ./docker/prod/seeder
+    restart: on-failure
+    depends_on:
+      db: { condition: service_healthy }
+
+  web:
+    <<: *neurvo
+    command: ./docker/prod/web
+    depends_on:
+      seeder: { condition: service_completed_successfully }
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-H", "X-Forwarded-Proto: https", "-H", "Host: ${NEURVO_HOST}", "http://localhost:8080/health_checks/default"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  worker:
+    <<: *neurvo
+    command: ./docker/prod/worker
+    depends_on:
+      seeder: { condition: service_completed_successfully }
+
+  cron:
+    <<: *neurvo
+    command: /app/docker/prod/cron
+    depends_on:
+      seeder: { condition: service_completed_successfully }
+
+  # Terminates HTTPS and gets a free Let's Encrypt certificate for NEURVO_HOST automatically.
+  proxy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    command: caddy reverse-proxy --from ${NEURVO_HOST} --to web:8080
+    volumes:
+      - caddy_data:/data
+    depends_on:
+      - web
+
+volumes:
+  pgdata:
+  assets:
+  caddy_data:

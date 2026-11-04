@@ -168,3 +168,8 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 
 - `frontend/src/global_styles/neurvo/_work_packages.sass`: the work package status button uses the solid status colour with bold white text (was a pale tint with coloured text).
 - `lib/neurvo/seed_data.yml`: To Do, Ready for QA and In QA colours darkened so white text keeps enough contrast.
+
+## Neurvo README and production stack
+
+- `README.md`: rewritten for Neurvo (what differs, local setup for Mac and Windows, server deployment).
+- `docker-compose.prod.yml`, `.env.prod.example`, `docs/neurvo/DEPLOY.md`: production Docker Compose stack and guide; `.gitignore` ignores `.env.prod`.

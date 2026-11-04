@@ -1,96 +1,88 @@
-# OpenProject
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/opf/openproject)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/opf/openproject)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/opf/openproject/dev)
-[![Github Tests](https://github.com/opf/openproject/actions/workflows/test-core.yml/badge.svg?branch=dev)](https://github.com/opf/openproject/actions/workflows/test-core.yml)
+# Neurvo
 
-**We empower teams to achieve great things together for the good of society.**
+**The taste of Jira, for free.** Neurvo is Ocean IT Solutions' project management and ticketing platform for software, QA and DevOps teams: issues, Jira-style boards, sprints, releases, a roadmap, wiki and meetings in one self-hosted tool.
 
-OpenProject is a web-based open source project management software for teams and organizations that require transparency, flexibility, and data sovereignty.
-Manage projects, portfolios, products, tasks, bugs, agile workflows, roadmaps, and team collaboration in a single platform. OpenProject can be self-hosted and is designed for organizations looking for an open source enterprise-ready alternative to tools such as Jira, MS Project, Monday, Asana, YouTrack while maintaining full control over their data and infrastructure.
+Neurvo is a customized and improved fork of [OpenProject](https://www.openproject.org) 17.9.6 (GPLv3). Everything OpenProject offers still works; Neurvo makes the everyday dev/QA path simpler and nicer.
 
-OpenProject is trusted by organizations worldwide, including enterprises, public institutions, and highly regulated industries.
+## What's different from OpenProject
 
-![Screenshot of OpenProject, showing the GitHub tab on a work package](GitHub-tab-new.png)
+- **Jira-style boards**: compact cards with type badge, issue key, story points, due date, priority and avatar; blocked cards are flagged; columns show counts.
+- **Dev/QA workflow out of the box**: types Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support Request and Milestone; statuses To Do, In Progress, In Review, Ready for QA, In QA, Done (plus Reopened, Blocked, Waiting on Customer, Won't Do); readable issue keys such as `GOFLEET-15`; bug and support fields and description templates.
+- **Readable status colors**: solid color with bold white text.
+- **Modern Home page** with your work, active sprints, recent activity and an overview.
+- **Create without friction**: the project is pre-selected with a short hint instead of a blocking notice.
+- **In-app confirmations** instead of browser pop-ups.
+- **Sample workspace** (GoFleet, QuickCart, Platform & DevOps, Neurvo) with boards, sprints, releases, wiki and meetings, so a new team can see the flow immediately.
+- **Share a local instance** through a tunnel with `bin/neurvo-share`.
+- Branding as Neurvo / Ocean IT Solutions. Enterprise-only features are neither unlocked nor bypassed.
 
-**OpenProject's key features include:**
+The full list of changes to upstream files is in [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md).
 
-* [Project and portfolio management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-* [Agile boards, Kanban, Scrum, SAFe](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-* [Project planning and scheduling with Gantt charts](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-* [Product and release planning](https://www.openproject.org/collaboration-software-features/product-development/)
-* [Task management and team collaboration](https://www.openproject.org/collaboration-software-features/task-management/)
-* [Time tracking, cost reporting, and budgeting](https://www.openproject.org/collaboration-software-features/time-tracking/)
-* [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
-* [Team collaboration, wikis, forums, news](https://www.openproject.org/collaboration-software-features/team-collaboration/)
-* [Meeting agendas and meeting minutes](https://www.openproject.org/collaboration-software-features/meeting-management/)
-* [Integrations: Nextcloud, XWiki, GitHub, GitLab, and more](https://www.openproject.org/integrations/)
+## Run it on your computer (Mac or Windows)
 
-More information can be found on our [website](https://www.openproject.org).
+You need **Docker Desktop**, about 8 GB of memory for it (10 to 12 GB is more comfortable), 20 GB free disk space and Git. The first setup takes 15 to 30 minutes.
 
-## Start now with OpenProject
+### Mac
 
-- **Free Trial**: [Start a 14-days free trial of OpenProject](https://start.openproject.com/).
-- **Community Edition**, free of charge: Download OpenProject and get started with the self-hosted Community edition. If you want to run an instance of OpenProject in production (or for evaluation), refer to our in-depth [installation guides](https://www.openproject.org/download-and-installation/).
-- **Enterprise Edition**: Sign up for the Enterprise version, choose between cloud or on-premises and benefit from comprehensive support and Enterprise add-ons.
-- **Documentation**: Explore our [comprehensive documentation](https://www.openproject.org/docs/) to help you get up and running quickly.
-- **Training**: [Book one of our training or consulting offers](https://www.openproject.org/training-and-consulting/#training-signup) to get your team on board in no time.
+```bash
+brew install --cask docker        # then start Docker Desktop (Settings > Resources > Memory: 8 GB or more)
+git clone <your-neurvo-repo-url> neurvo && cd neurvo
+git checkout neurvo
+```
 
-## Report bugs
+### Windows
 
-You found a bug? Please [report it](https://www.openproject.org/docs/development/report-a-bug/) to our [OpenProject Community](https://community.openproject.org/projects/openproject). Thank you!
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) with the **WSL 2** backend and [WSL](https://learn.microsoft.com/windows/wsl/install) (`wsl --install` in an admin PowerShell, then restart).
+2. In Docker Desktop: Settings > Resources > WSL integration, enable your Ubuntu distro; give it 8 GB or more of memory.
+3. Open the **Ubuntu** terminal and run everything below there. Clone **inside the Linux file system** (for example `~/neurvo`), not under `/mnt/c`, otherwise it is very slow.
 
-## Contribute
+```bash
+git clone <your-neurvo-repo-url> neurvo && cd neurvo
+git checkout neurvo
+```
 
-OpenProject is supported by its Community members, both companies and individuals.
+### Then, on both
 
-We are always looking for new members to our Community, so if you are interested in improving OpenProject we would be glad to welcome and support you getting into the code. There are guides as well, e.g. a [Quick Start for Developers](https://www.openproject.org/docs/development/development-environment/), but don't hesitate to simply [contact us](https://www.openproject.org/contact) if you have questions.
+```bash
+docker network create gateway
+cp docker-compose.override.example.yml docker-compose.override.yml
+bin/compose setup                  # builds, installs, migrates, seeds (15-30 min, once)
+bin/compose start
+bin/compose up -d backend worker
+bin/compose exec backend bundle exec rake neurvo:seed    # optional: the sample workspace
+```
 
-Working on OpenProject comes with the satisfaction of working on a widely used open source application.
+Open <http://localhost:3000> and sign in as `admin` / `admin` (you are asked to change the password). With the sample workspace, the team members (for example `imran.chowdhury`, `daniel.brooks`, `nusrat.jahan`) use the password `Neurvo-Dev-2026!`.
 
-Also, if you do not want to be limited to working on open source in your free time, OpenProject GmbH, the company contributing to the OpenProject development, [is hiring](https://www.openproject.org/career/).
+Daily use: `bin/compose start && bin/compose up -d backend worker` to start, `bin/compose stop` to stop. If a page looks unstyled, the frontend dev server ran out of memory: `bin/compose up -d frontend`. More tips, running specs and sharing your local copy: [docs/neurvo/DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md).
 
+## Deploy to a server
 
-## Stay in contact
+Production uses Docker Compose on a Linux server (Ubuntu 22.04+ is fine): 4 vCPU, 8 GB RAM and 40 GB disk are a good start for about 100 users. Full guide, including backups and updates: [docs/neurvo/DEPLOY.md](docs/neurvo/DEPLOY.md).
 
-Here you can find our [contact information](https://www.openproject.org/contact/). As we regularly update OpenProject, we recommend staying in touch – here is where you can find us:
+```bash
+# 1. On the server: install Docker, point a DNS name (e.g. neurvo.yourcompany.com) at it, open ports 80 and 443
+curl -fsSL https://get.docker.com | sh
 
-- [OpenProject Community](https://www.openproject.org/blog/community-instance/) with [forum discussions](https://community.openproject.org/projects/openproject/forums): The open instance where we develop our features – transparent and open for discussions, bug reports or feature requests.
-- [LinkedIn](https://www.linkedin.com/company/18706985)
-- [Reddit](https://www.reddit.com/r/openproject/)
-- [Fosstodon](https://fosstodon.org/@openproject)
-- [Bluesky](https://bsky.app/profile/openproject.bsky.social)
+# 2. Get the code and configure
+git clone <your-neurvo-repo-url> neurvo && cd neurvo && git checkout neurvo
+cp .env.prod.example .env.prod
+nano .env.prod                      # set NEURVO_HOST, POSTGRES_PASSWORD, SECRET_KEY_BASE (openssl rand -hex 64)
 
-## Security / responsible disclosure
+# 3. Build and start (the first build takes 20-40 minutes)
+docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --build
+```
 
-We take security very seriously at OpenProject. We value any kind of feedback that
-will keep our Community secure. If you happen to come across a security issue we urge
-you to disclose it to us privately to allow our users and Community enough time to
-upgrade. Security issues will always take precedence over anything else in the pipeline.
+Open `https://<your host>`; HTTPS certificates are issued automatically. Sign in as `admin` / `admin` and change the password immediately.
 
-For more information on how to disclose a security vulnerability, [please see this page](docs/security-and-privacy/statement-on-security/README.md).
+## Documentation
 
-## License
+- [NEURVO.md](NEURVO.md): product vision, guardrails and conventions for contributors
+- [docs/neurvo/DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md): local development
+- [docs/neurvo/DEPLOY.md](docs/neurvo/DEPLOY.md): production deployment
+- [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md): changes to upstream files, to keep merging upstream updates easy
+- OpenProject's own [user guide](https://www.openproject.org/docs/user-guide/) applies to everything Neurvo inherits
 
-OpenProject is licensed under the terms of the GNU General Public License version 3.
-See [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE) files for details.
+## License and credits
 
-## Credits
-
-### Icons
-
-Thanks to Vincent Le Moign and his fabulous Minicons icons on [webalys.com](http://www.webalys.com/minicons/icons-free-pack.php).
-
-### OpenProject icon font
-
-Published and created by the OpenProject Foundation (OPF) under [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/)
-with icons from the following sources
-[Minicons Free Vector Icons Pack](http://www.webalys.com/minicons) and
-[User Interface Design framework](http://www.webalys.com/design-interface-application-framework.php) both by webalys
-
-**Creative Commons License**
-
-OpenProject Icon Font by the OpenProject Foundation (OPF) is licensed under Creative Commons Attribution 3.0 Unported License
-and Free for both personal and commercial use. You can copy, adapt, remix, distribute or transmit it.
-
-Under this condition: provide a mention of the "OpenProject Foundation" and a link back to OpenProject www.openproject.org.
+Neurvo is based on [OpenProject](https://www.openproject.org) and, like it, is licensed under the GNU GPL v3; see [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE). Many thanks to the OpenProject community.
