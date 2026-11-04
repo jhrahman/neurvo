@@ -173,3 +173,8 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 
 - `README.md`: rewritten for Neurvo (what differs, local setup for Mac and Windows, server deployment).
 - `docker-compose.prod.yml`, `.env.prod.example`, `docs/neurvo/DEPLOY.md`: production Docker Compose stack and guide; `.gitignore` ignores `.env.prod`.
+
+## Role-based access for the sample team
+
+- `lib/neurvo/seed_data.yml`, `lib/neurvo/seed.rb`: Developer, QA Engineer, DevOps Engineer and Designer roles with explicit least-privilege permission sets (no longer copies of Member); Project Manager is Project admin minus technical rights; per-role workflow with a QA quality gate.
+- `docs/neurvo/ROLES.md`: credentials, what each role can and cannot do, and what was tested.

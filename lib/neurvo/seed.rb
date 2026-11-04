@@ -222,12 +222,26 @@ module Neurvo
 
     def seed_roles
       @roles = data["roles"].to_h do |conf|
-        source = ProjectRole.find_by!(name: conf["copy_from"])
         role = ProjectRole.find_or_initialize_by(name: conf["name"])
-        role.permissions = source.permissions
+        role.permissions = role_permissions(conf)
         role.save!
         [conf["name"], role]
       end
+    end
+
+    def role_permissions(conf)
+      return ProjectRole.find_by!(name: conf["copy_from"]).permissions - conf["without"].map(&:to_sym) if conf["copy_from"]
+
+      (conf["sets"].flat_map { |set| data["permission_sets"].fetch(set) } + conf["permissions"].to_a).uniq.map(&:to_sym)
+    end
+
+    def gated_role?(role)
+      data["roles"].any? { |conf| conf["name"] == role.name && conf["gated"] }
+    end
+
+    def quality_gated?(role, type_key, new_status_key)
+      gate = data["quality_gate"]
+      gated_role?(role) && gate["types"].include?(type_key) && gate["statuses"].include?(new_status_key)
     end
 
     def workflow_roles
@@ -238,10 +252,12 @@ module Neurvo
     def seed_workflows
       data["types"].each do |conf|
         variant = @types.fetch(conf["key"]).default_variant
-        statuses = conf["statuses"].map { |key| @statuses.fetch(key) }
+        statuses = conf["statuses"].map { |key| [key, @statuses.fetch(key)] }
         Workflow.where(type_variant: variant).delete_all
         rows = workflow_roles.flat_map do |role|
-          statuses.product(statuses).reject { |a, b| a == b }.map do |old_status, new_status|
+          statuses.product(statuses).reject { |(a, _), (b, _)| a == b }
+                  .reject { |_, (new_key, _)| quality_gated?(role, conf["key"], new_key) }
+                  .map do |(_, old_status), (_, new_status)|
             { type_variant_id: variant.id, role_id: role.id, old_status_id: old_status.id,
               new_status_id: new_status.id, assignee: false, author: false }
           end

@@ -80,6 +80,7 @@ Open `https://<your host>`; HTTPS certificates are issued automatically. Sign in
 - [NEURVO.md](NEURVO.md): product vision, guardrails and conventions for contributors
 - [docs/neurvo/DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md): local development
 - [docs/neurvo/DEPLOY.md](docs/neurvo/DEPLOY.md): production deployment
+- [docs/neurvo/ROLES.md](docs/neurvo/ROLES.md): sample roles, permissions and logins
 - [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md): changes to upstream files, to keep merging upstream updates easy
 - OpenProject's own [user guide](https://www.openproject.org/docs/user-guide/) applies to everything Neurvo inherits
 

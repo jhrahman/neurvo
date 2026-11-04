@@ -141,12 +141,51 @@ custom_fields:
   - { key: customer,     name: "Customer",       format: string,                                                                  types: [support_request] }
   - { key: channel,      name: "Support channel", format: list,  options: ["Email", "Live chat", "Phone", "Customer portal", "In-app"], types: [support_request] }
 
+permission_sets:
+  viewer: [view_project, view_work_packages, view_project_activity, search_project, view_sprints, view_calendar,
+           view_wiki_pages, view_wiki_edits, view_documents, view_meetings, view_news, view_members, show_board_views,
+           view_project_attributes, view_project_phases, view_work_package_watchers, view_shared_work_packages,
+           view_team_planner, view_timelines, view_file_links, view_linked_issues, view_changesets,
+           view_commit_author_statistics, browse_repository, read_files, show_github_content, show_gitlab_content,
+           view_messages, view_internal_comments, view_own_time_entries]
+  contributor: [add_work_packages, edit_work_packages, work_package_assigned, add_work_package_comments,
+                edit_own_work_package_comments, add_internal_comments, edit_own_internal_comments,
+                add_work_package_attachments, add_work_package_watchers, delete_work_package_watchers, save_queries,
+                manage_subtasks, manage_work_package_relations, log_own_time, edit_own_time_entries, comment_news,
+                add_messages, edit_own_messages, delete_own_messages, edit_wiki_pages]
+  engineer: [move_work_packages, copy_work_packages, assign_versions, manage_sprint_items, export_work_packages,
+             create_meetings, edit_meetings, manage_agendas, manage_wiki_page_links]
+
+# Industry-standard least privilege. Project Manager owns the project; engineers deliver and test; only
+# DevOps additionally manages releases; Designers work on design tasks and documents. Nobody but an
+# administrator can change types, workflows, modules or archive projects.
 roles:
-  - { name: "Project Manager", copy_from: "Project admin" }
-  - { name: "Developer",       copy_from: "Member" }
-  - { name: "QA Engineer",     copy_from: "Member" }
-  - { name: "DevOps Engineer", copy_from: "Member" }
-  - { name: "Designer",        copy_from: "Member" }
+  - name: "Project Manager"
+    copy_from: "Project admin"
+    without: [manage_types, select_project_modules, archive_project, copy_projects, add_subprojects, manage_repository,
+              manage_bcf, delete_bcf, manage_ifc_models, view_ifc_models, manage_public_bcf_queries, save_bcf_queries,
+              edit_hourly_rates, edit_own_hourly_rate, view_hourly_rates, view_own_hourly_rate, edit_budgets,
+              view_budgets, select_custom_fields, allocate_user_resources, assign_users_to_generic_allocations]
+  - name: "Developer"
+    sets: [viewer, contributor, engineer]
+    permissions: [commit_access]
+    gated: true
+  - name: "QA Engineer"
+    sets: [viewer, contributor, engineer]
+    permissions: [manage_public_queries, manage_wiki, manage_documents]
+  - name: "DevOps Engineer"
+    sets: [viewer, contributor, engineer]
+    permissions: [commit_access, manage_versions, manage_news, manage_wiki, manage_public_queries, manage_board_views]
+    gated: true
+  - name: "Designer"
+    sets: [viewer, contributor]
+    permissions: [manage_documents, create_files, write_files, manage_wiki_page_links]
+    gated: true
+
+# Quality gate: gated roles (Developer, DevOps, Designer) cannot move these types into these statuses.
+quality_gate:
+  types: [story, bug, feature_request, change_request]
+  statuses: [in_qa, done]
 
 users:
   - { key: imran,  first: "Imran",  last: "Chowdhury", title: "Product Manager",       group: "Product",    role: "Project Manager" }
