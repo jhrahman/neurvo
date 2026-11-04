@@ -66,3 +66,30 @@ describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
     expect(notCancelled).toBe(true);
   });
 });
+
+describe('addTurboGlobalListeners — closing overlays before caching', () => {
+  let controller:AbortController;
+
+  beforeEach(() => {
+    controller = new AbortController();
+    addTurboGlobalListeners(document, controller.signal);
+  });
+
+  afterEach(() => {
+    controller.abort();
+    document.body.innerHTML = '';
+  });
+
+  it('closes open dialogs and popovers so the snapshot shows them closed', () => {
+    document.body.innerHTML = '<dialog id="panel"></dialog><div id="menu" popover></div>';
+    const dialog = document.querySelector<HTMLDialogElement>('#panel')!;
+    const popover = document.querySelector<HTMLElement>('#menu')!;
+    dialog.showModal();
+    popover.showPopover();
+
+    document.dispatchEvent(new CustomEvent('turbo:before-cache'));
+
+    expect(dialog.open).toBe(false);
+    expect(popover.matches(':popover-open')).toBe(false);
+  });
+});

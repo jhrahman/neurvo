@@ -147,3 +147,4 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `frontend/src/global_styles/neurvo/_login.sass` (new) | Centred sign-in card with the Neurvo mark on a muted background; hides the empty "or sign in with" divider when no SSO provider renders |
 | `frontend/src/global_styles/neurvo/_boards.sass` (new) | Board columns show "To Do" instead of "Status / To Do" |
 | `lib/neurvo/seed.rb` | Self-registration disabled: admins invite team members |
+| `frontend/src/turbo/turbo-global-listeners.ts`, its spec | Upstream bug: dialogs and popovers open while navigating away were saved in Turbo's page snapshot, so the user menu flashed open on the next visit to that page. They are closed before caching |

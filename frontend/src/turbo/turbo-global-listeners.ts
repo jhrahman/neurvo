@@ -88,6 +88,13 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
   target.addEventListener('turbo:render', runOnRenderAndLoad, { signal });
   target.addEventListener('DOMContentLoaded', runOnRenderAndLoad, { signal });
 
+  // Turbo shows the cached snapshot as a preview on the next visit, so anything
+  // left open here would flash open again before the fresh page renders.
+  target.addEventListener('turbo:before-cache', () => {
+    target.querySelectorAll<HTMLDialogElement>('dialog[open]').forEach((dialog) => dialog.close());
+    target.querySelectorAll<HTMLElement>('[popover]:popover-open').forEach((popover) => popover.hidePopover());
+  }, { signal });
+
   target.addEventListener('turbo:before-morph-element', (event) => {
     // In case the element is an OpenProject custom dom element, morphing is prevented.
     if (isOpenProjectCustomElement(event.target)) {
