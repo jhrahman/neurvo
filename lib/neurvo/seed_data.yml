@@ -29,6 +29,12 @@
 # Neurvo sample workspace: a small product company ("ShopEase") plus Neurvo itself and the platform team.
 # Dates are offsets in days from the day the seed runs, so the data always looks current.
 
+organization:
+  name: "Ocean IT Solutions"
+  welcome_title: "Welcome to Neurvo!"
+  welcome_text: |
+    Neurvo is Ocean IT Solutions' project management and issue tracking platform: plan work, track issues, run boards and sprints, and keep your team's documents in one place.
+
 statuses:
   - { key: todo,        name: "To Do",        color: "#8C959F", renames: ["New"], default: true }
   - { key: in_progress, name: "In Progress",  color: "#1276B9", renames: ["In progress"] }
@@ -257,7 +263,7 @@ work_packages:
         description: "**Steps to reproduce**\n1. Log in, add 2 items to the cart\n2. Log out via the account menu\n3. Look at the cart badge in the header\n\n**Expected result**\nBadge is empty.\n\n**Actual result**\nBadge still shows 2 until a hard refresh." }
     - { ref: bug_trailing_space, type: bug, subject: "Search returns no results when the query ends with a space", status: done, assignee: rafi, author: lena, priority: Medium, sprint: previous, version: "Web 3.4.0", category: "Search",
         severity: Minor, environment: QA, platform: Web, found_in: "3.4.0-rc.3", fixed_in: "3.4.0" }
-    - { ref: bug_postcode, type: bug, subject: "Address form accepts invalid UK postcodes", status: in_qa, assignee: priya, author: lena, priority: Medium, sprint: current, category: "Account",
+    - { ref: bug_postcode, type: bug, subject: "Address form accepts invalid UK postcodes", status: in_qa, assignee: lena, author: lena, priority: Medium, sprint: current, category: "Account",
         severity: Minor, environment: QA, platform: Web, found_in: "3.5.0-rc.1", fixed_in: "3.5.0-rc.2" }
     - { ref: bug_email_tz, type: bug, subject: "Order confirmation email shows UTC instead of the shopper's local time", status: todo, assignee: rafi, author: nusrat, priority: Medium, category: "Checkout",
         severity: Minor, environment: Production, platform: Web, found_in: "3.4.0" }
@@ -283,6 +289,9 @@ work_packages:
     - { ref: sr_csv_export, type: support_request, subject: "How do I export my order history as CSV?", status: done, assignee: marco, author: marco, priority: Low, category: "Account",
         customer: "Greenleaf Stores", channel: "Customer portal", impact: "Low",
         description: "**Customer request**\nWants a spreadsheet of all orders for the year.\n\n**Reply sent / resolution**\nExplained Account > Orders > Export. Customer confirmed it worked." }
+    - { ref: web_qa_plan, type: task, subject: "Regression test plan for the Web 3.5.0 release candidate", status: in_progress, assignee: nusrat, author: daniel, priority: High, sprint: current, points: 3, category: "Checkout",
+        description: "**What needs to be done**\nCover checkout v2, promo codes, search and account flows on the release candidate; agree the scope with Daniel.\n\n**Definition of done**\n- [x] Test cases reviewed\n- [ ] Executed on staging\n- [ ] Results shared at the go/no-go meeting" }
+    - { ref: web_qa_smoke, type: task, subject: "Smoke-test checklist for the go/no-go meeting", status: todo, assignee: nusrat, author: daniel, priority: Medium, start: -4, due: -1, category: "Checkout" }
 
   MOB:
     - { ref: mob_epic_push, type: epic, subject: "Push notifications for order updates", status: in_progress, assignee: kenji, author: ayesha, priority: High, version: "Mobile 2.8.0", start: -14, due: 18 }
@@ -444,7 +453,7 @@ wiki_pages:
       | In Progress | Assignee | You start working; one item at a time where possible |
       | In Review | Assignee | Pull request open and linked |
       | Ready for QA | Reviewer / assignee | Merged and deployed to QA; fill in **Fixed in build** |
-      | In QA | QA engineer | Testing has started |
+      | In QA | QA engineer | Testing has started; you take over the assignment |
       | Done | QA engineer | Acceptance criteria verified on QA or staging |
       | Reopened | QA engineer | Fails verification; comment with steps and evidence |
 

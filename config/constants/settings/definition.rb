@@ -90,7 +90,7 @@ module Settings
         default: "Neurvo"
       },
       organization_name: {
-        default: "My Organization"
+        default: "Ocean IT Solutions"
       },
       attachment_default_charset: {
         description: "Fallback charset used when serving text attachments whose encoding was not detected on upload",

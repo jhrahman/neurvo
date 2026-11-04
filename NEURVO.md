@@ -5,7 +5,7 @@
 
 ## What Neurvo is
 
-Neurvo is Neural Soft's internal project management and ticketing platform: **"the taste of Jira, for free."**
+Neurvo is Ocean IT Solutions' internal project management and ticketing platform: **"the taste of Jira, for free."**
 It is a customized fork of **OpenProject v17.9.6** (GPLv3), developed with AI-assisted development (Claude Code).
 
 - **Users**: ~100 people now, growing. Software engineers, SQA engineers, DevOps engineers and project managers.

@@ -111,6 +111,9 @@ module Neurvo
       Setting.default_projects_modules = data["modules"].map(&:to_s)
       Setting.default_projects_public = false
       Setting.self_registration = Setting::SelfRegistration.disabled
+      Setting.organization_name = data.dig("organization", "name")
+      Setting.welcome_title = data.dig("organization", "welcome_title")
+      Setting.welcome_text = data.dig("organization", "welcome_text")
       Setting.plugin_openproject_avatars = Setting.plugin_openproject_avatars.merge("enable_gravatars" => false)
     end
 

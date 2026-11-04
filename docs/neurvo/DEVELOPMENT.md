@@ -46,6 +46,8 @@ Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes 
 - Project statuses (on track / at risk / off track) with explanations.
 - Team handbook in the ShopEase wiki: workflow and definition of done, bug lifecycle and severity, support process,
   sprint rituals, release checklist.
+- Organization: Ocean IT Solutions (Administration > System settings > Organization name); shown on the Home page.
+- QA hand-over: tickets in In QA are assigned to a QA engineer; the QA lead has regression and smoke-test tasks (one overdue).
 - Team (password `Neurvo-Dev-2026!`): ayesha.karim (PM), daniel.brooks (tech lead), rafi.hasan, sofia.martins,
   kenji.watanabe, priya.nair (developers), nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
 
