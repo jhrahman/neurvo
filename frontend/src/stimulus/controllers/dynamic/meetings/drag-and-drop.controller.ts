@@ -29,6 +29,7 @@
 import GenericDragAndDropController from '../generic-drag-and-drop.controller';
 import { appendCollapsedState } from '../../../helpers/meetings-helpers';
 import { hasUnsavedChanges } from '../../../helpers/meetings-helpers';
+import { confirmDiscardChanges } from 'core-common/app-confirm';
 
 export default class extends GenericDragAndDropController {
   protected override buildData(el:Element, target:Element):FormData {
@@ -41,7 +42,7 @@ export default class extends GenericDragAndDropController {
 
   override async drop(el:Element, target:Element, source:Element|null, sibling:Element|null) {
     if (hasUnsavedChanges()) {
-      if (!window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
+      if (!(await confirmDiscardChanges())) {
         this.cancelDrag();
         return;
       }

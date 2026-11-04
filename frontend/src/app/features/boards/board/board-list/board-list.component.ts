@@ -99,6 +99,7 @@ import { firstValueFrom } from 'rxjs';
 import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { appConfirm } from 'core-common/app-confirm';
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -315,16 +316,22 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public deleteList(query?:QueryResource) {
     query = query || this.query;
 
-    if (!window.confirm(this.text.areYouSure)) {
-      return;
-    }
+    void appConfirm({
+      message: this.text.areYouSure,
+      confirmLabel: this.i18n.t('js.button_delete'),
+      danger: true,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
-    this
-      .apiv3Service
-      .queries
-      .id(query)
-      .delete()
-      .subscribe(() => this.onRemove.emit());
+      this
+        .apiv3Service
+        .queries
+        .id(query)
+        .delete()
+        .subscribe(() => this.onRemove.emit());
+    });
   }
 
   public renameQuery(query:QueryResource, value:string) {

@@ -43,6 +43,7 @@ import { BcfViewpointItem } from 'core-app/features/bim/bcf/api/viewpoints/bcf-v
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { filter, take } from 'rxjs/operators';
+import { appConfirm } from 'core-common/app-confirm';
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
@@ -226,16 +227,22 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   protected deleteViewpoint(workPackage:WorkPackageResource, index:number):void {
-    if (!window.confirm(this.text.text_are_you_sure)) {
-      return;
-    }
+    void appConfirm({
+      message: this.text.text_are_you_sure,
+      confirmLabel: this.I18n.t('js.button_delete'),
+      danger: true,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
-    this.viewpointsService
-      .deleteViewPoint$(workPackage, index)
-      .subscribe(() => {
-        this.toastService.addSuccess(this.text.notice_successful_delete);
-        this.gallery.preview.close();
-      });
+      this.viewpointsService
+        .deleteViewPoint$(workPackage, index)
+        .subscribe(() => {
+          this.toastService.addSuccess(this.text.notice_successful_delete);
+          this.gallery.preview.close();
+        });
+    });
   }
 
   public saveViewpoint(workPackage:WorkPackageResource) {

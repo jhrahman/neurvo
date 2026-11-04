@@ -27,10 +27,14 @@
 //++
 
 import { ApplicationController } from 'stimulus-use';
+import * as Turbo from '@hotwired/turbo';
 import { TurboBeforeVisitEvent } from '@hotwired/turbo';
+import { confirmDiscardChanges } from 'core-common/app-confirm';
 
 export class BeforeunloadController extends ApplicationController {
   private abortController = new AbortController();
+  private approvedVisit = false;
+  private replayingClick = false;
 
   connect() {
     super.connect();
@@ -43,6 +47,7 @@ export class BeforeunloadController extends ApplicationController {
     document.addEventListener('turbo:load', this, { signal });
     document.addEventListener('turbo:render', this, { signal });
     document.addEventListener('submit', this, { signal });
+    document.addEventListener('click', this, { signal, capture: true });
   }
 
   disconnect() {
@@ -63,6 +68,9 @@ export class BeforeunloadController extends ApplicationController {
       case 'submit':
         window.OpenProject.pageState = 'submitted';
         break;
+      case 'click':
+        this.confirmLinkClick(evt as MouseEvent);
+        break;
       default:
         break;
     }
@@ -77,16 +85,83 @@ export class BeforeunloadController extends ApplicationController {
       return;
     }
 
-    if (window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
+    if (evt.type === 'turbo:before-visit') {
+      this.confirmVisit(evt as TurboBeforeVisitEvent);
       return;
     }
 
-    // Cancel the event
+    // Browsers only allow their own dialog when the tab is closed or reloaded
     evt.preventDefault();
+    evt.returnValue = '';
+  }
 
-    // Chrome requires returnValue to be set
-    if (evt.type === 'beforeunload') {
-      evt.returnValue = '';
+  // Not every link goes through Turbo (target="_top" links and the work package side menu load a new
+  // page), which would show the browser's own leave-page prompt.
+  private confirmLinkClick(evt:MouseEvent) {
+    const link = (evt.target as Element|null)?.closest<HTMLAnchorElement>('a[href]');
+
+    if (this.replayingClick || !link || !this.leavesPage(link, evt) || !window.OpenProject.pageHasUnsavedChanges) {
+      return;
     }
+
+    evt.preventDefault();
+    evt.stopImmediatePropagation();
+
+    void confirmDiscardChanges().then((discard) => {
+      if (!discard) {
+        return;
+      }
+
+      this.approve(() => {
+        this.replayingClick = true;
+        link.click();
+        this.replayingClick = false;
+      });
+    });
+  }
+
+  private leavesPage(link:HTMLAnchorElement, evt:MouseEvent):boolean {
+    const plainClick = evt.button === 0 && !evt.metaKey && !evt.ctrlKey && !evt.shiftKey && !evt.altKey;
+    const url = new URL(link.href, window.location.href);
+    const samePage = url.pathname === window.location.pathname && url.search === window.location.search;
+    const opensTab = link.target !== '' && link.target !== '_top' && link.target !== '_self';
+    const hasOwnBehavior = link.hasAttribute('download')
+      || ['turboMethod', 'turboStream', 'method', 'turboConfirm', 'remote'].some((name) => name in link.dataset)
+      || (link.dataset.controller ?? '').includes('dialog')
+      || (!!link.dataset.turboFrame && link.dataset.turboFrame !== '_top');
+
+    return plainClick
+      && !evt.defaultPrevented
+      && url.origin === window.location.origin
+      && !samePage
+      && !opensTab
+      && !hasOwnBehavior;
+  }
+
+  private approve(navigate:() => void) {
+    window.OpenProject.pageState = 'submitted';
+    this.approvedVisit = true;
+    try {
+      navigate();
+    } finally {
+      this.approvedVisit = false;
+    }
+  }
+
+  private confirmVisit(evt:TurboBeforeVisitEvent) {
+    if (this.approvedVisit) {
+      return;
+    }
+
+    evt.preventDefault();
+    const { url } = evt.detail;
+
+    void confirmDiscardChanges().then((discard) => {
+      if (!discard) {
+        return;
+      }
+
+      this.approve(() => Turbo.visit(url));
+    });
   }
 }

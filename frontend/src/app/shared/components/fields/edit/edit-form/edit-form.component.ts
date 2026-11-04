@@ -47,6 +47,7 @@ import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/
 import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { firstValueFrom } from 'rxjs';
 import * as Turbo from '@hotwired/turbo';
+import { confirmDiscardChanges } from 'core-common/app-confirm';
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -103,9 +104,16 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
       // Show confirmation message when transitioning to a new state
       // that's not within the edit mode.
       if (!this.editFormRouting || this.editFormRouting.blockedTransition(transition)) {
-        if (requiresConfirmation && !window.confirm(confirmText)) {
-          this.undoCanceledBrowserBackTransition(transition);
-          return false;
+        if (requiresConfirmation) {
+          return confirmDiscardChanges(confirmText).then((discard) => {
+            if (!discard) {
+              this.undoCanceledBrowserBackTransition(transition);
+              return false;
+            }
+
+            this.cancel(false);
+            return true;
+          });
         }
 
         this.cancel(false);

@@ -189,6 +189,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
       this.$state.go(this.cancelState, this.$state.params);
     } else {
       const link = this.stateParams.projectPath ? this.pathHelper.workPackagesPath(this.stateParams.projectPath) : this.pathHelper.workPackagesPath(null);
+      window.OpenProject.pageState = 'submitted';
       window.location.href = (link + window.location.search);
     }
   }

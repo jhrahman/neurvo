@@ -60,6 +60,7 @@ import {
   UrlParamsHelperService,
 } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { appConfirm } from 'core-common/app-confirm';
 
 @Directive({
   selector: '[opSettingsContextMenu]',
@@ -290,9 +291,16 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
         onClick: (event) => {
-          if (this.allowQueryAction(event, 'delete')
-            && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
-            this.wpListService.delete();
+          if (this.allowQueryAction(event, 'delete')) {
+            void appConfirm({
+              message: this.I18n.t('js.text_query_destroy_confirmation'),
+              confirmLabel: this.I18n.t('js.button_delete'),
+              danger: true,
+            }).then((confirmed) => {
+              if (confirmed) {
+                this.wpListService.delete();
+              }
+            });
           }
 
           return true;

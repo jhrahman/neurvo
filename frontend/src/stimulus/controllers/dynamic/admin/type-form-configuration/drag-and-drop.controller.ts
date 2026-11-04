@@ -27,6 +27,7 @@
 //++
 
 import GenericDragAndDropController from '../../generic-drag-and-drop.controller';
+import { confirmDiscardChanges } from 'core-common/app-confirm';
 
 export default class extends GenericDragAndDropController {
   protected buildData(el:Element, target:Element):FormData {
@@ -44,7 +45,7 @@ export default class extends GenericDragAndDropController {
 
   async drop(el:Element, target:Element, source:Element|null, sibling:Element|null) {
     if (this.element.querySelector('[data-edit-mode="true"]')) {
-      if (!window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
+      if (!(await confirmDiscardChanges())) {
         this.cancelDrag();
         return;
       }

@@ -37,6 +37,7 @@ import { BoardService } from 'core-app/features/boards/board/board.service';
 import { StateService } from '@uirouter/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { selectableTitleIdentifier, triggerEditingEvent } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
+import { appConfirm } from 'core-common/app-confirm';
 
 @Directive({
   selector: '[boardsToolbarMenu]',
@@ -96,10 +97,20 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
         onClick: () => {
-          if (this.board.id
-            && this.board.grid.delete
-            && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
-            void this.http
+          if (!this.board.id || !this.board.grid.delete) {
+            return true;
+          }
+
+          void appConfirm({
+            message: this.I18n.t('js.text_query_destroy_confirmation'),
+            confirmLabel: this.I18n.t('js.button_delete'),
+            danger: true,
+          }).then((confirmed) => {
+            if (!confirmed) {
+              return;
+            }
+
+            this.http
               .delete(
                 `/projects/${this.board.projectId}/boards/${this.board.id}`,
                 { responseType: 'json' },
@@ -109,7 +120,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
                   window.location.href = response.redirect_url;
                 },
               );
-          }
+          });
 
           return true;
         },

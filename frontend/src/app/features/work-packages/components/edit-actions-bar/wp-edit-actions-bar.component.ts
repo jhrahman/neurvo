@@ -29,6 +29,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { confirmDiscardChanges } from 'core-common/app-confirm';
 
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
@@ -79,6 +81,19 @@ export class WorkPackageEditActionsBarComponent {
   }
 
   public cancel():void {
+    if (!isNewResource(this.editForm.resource) || !window.OpenProject.pageHasUnsavedChanges) {
+      this.discard();
+      return;
+    }
+
+    void confirmDiscardChanges().then((discard) => {
+      if (discard) {
+        this.discard();
+      }
+    });
+  }
+
+  private discard():void {
     this.editForm.cancel();
     this.onCancel.emit();
   }

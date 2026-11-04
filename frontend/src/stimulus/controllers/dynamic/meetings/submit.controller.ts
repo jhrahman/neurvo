@@ -31,6 +31,7 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { BeforeunloadController } from '../../beforeunload.controller';
 import { appendCollapsedState } from '../../../helpers/meetings-helpers';
 import { hasUnsavedChanges } from '../../../helpers/meetings-helpers';
+import { appConfirm, confirmDiscardChanges } from 'core-common/app-confirm';
 
 export default class extends ApplicationController {
   static services:ServiceKey[] = ['turboRequests'];
@@ -58,7 +59,7 @@ export default class extends ApplicationController {
     this.beforeUnloadController = this.application.getControllerForElementAndIdentifier(document.body, 'beforeunload') as BeforeunloadController;
   }
 
-  interceptOutcomeFormSubmission(event:SubmitEvent):void {
+  async interceptOutcomeFormSubmission(event:SubmitEvent):Promise<void> {
     event.preventDefault();
 
     if (this.isSubmittingOutcomeForm) {
@@ -70,10 +71,12 @@ export default class extends ApplicationController {
 
     const otherOpenForms = outcomeContainer ? Array.from(outcomeContainer.querySelectorAll('form.meeting-agenda-item-outcome-form')).filter((f) => f !== form) : [];
 
-    if (otherOpenForms.length > 0) {
-      if (!window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
-        return;
-      }
+    if (otherOpenForms.length > 0 && !(await confirmDiscardChanges())) {
+      return;
+    }
+
+    if (this.isSubmittingOutcomeForm) {
+      return;
     }
 
     this.isSubmittingOutcomeForm = true;
@@ -95,13 +98,13 @@ export default class extends ApplicationController {
     });
   }
 
-  intercept(event:Event):void {
+  async intercept(event:Event):Promise<void> {
     event.preventDefault();
 
     const target = event.currentTarget as HTMLElement;
 
     const confirmMessage = target.dataset.confirmMessage;
-    if (confirmMessage && !window.confirm(confirmMessage)) {
+    if (confirmMessage && !(await appConfirm({ message: confirmMessage }))) {
       return;
     }
 
@@ -110,12 +113,12 @@ export default class extends ApplicationController {
 
     appendCollapsedState(url.searchParams);
 
-    this.handleClick(url.toString(), method);
+    await this.handleClick(url.toString(), method);
   }
 
-  private handleClick(url:string, method:string):void {
+  private async handleClick(url:string, method:string):Promise<void> {
     if (hasUnsavedChanges()) {
-      if (window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
+      if (await confirmDiscardChanges()) {
         window.OpenProject.pageState = 'pristine';
         void this.sendRequest(url, method);
       }

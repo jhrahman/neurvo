@@ -37,6 +37,7 @@ import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-re
 import { Observable, switchMap } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { appConfirm } from 'core-common/app-confirm';
 
 @Component({
   selector: 'opce-time-entry-trigger-actions',
@@ -100,22 +101,28 @@ export class TriggerActionsEntryComponent {
   }
 
   deleteTimeEntry() {
-    if (!window.confirm(this.text.areYouSure)) {
-      return;
-    }
+    void appConfirm({
+      message: this.text.areYouSure,
+      confirmLabel: this.i18n.t('js.button_delete'),
+      danger: true,
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
-    this.loadEntry()
-      .pipe(
-        switchMap((entry) => this
-          .apiv3Service
-          .time_entries
-          .id(entry)
-          .delete()),
-      )
-      .subscribe(
-        () => window.location.reload(),
-        (error) => this.toastService.addError(error || this.text.error),
-      );
+      this.loadEntry()
+        .pipe(
+          switchMap((entry) => this
+            .apiv3Service
+            .time_entries
+            .id(entry)
+            .delete()),
+        )
+        .subscribe(
+          () => window.location.reload(),
+          (error) => this.toastService.addError(error || this.text.error),
+        );
+    });
   }
 
   protected loadEntry():Observable<TimeEntryResource> {

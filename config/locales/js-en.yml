@@ -877,6 +877,12 @@ en:
         focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
       filter_chip:
         remove: "Remove"
+    confirm_dialog:
+      title: "Please confirm"
+      discard_title: "Discard unsaved changes?"
+      discard_text: "You have unsaved changes on this page. If you leave now, they will be lost."
+      discard_confirm: "Discard changes"
+      keep_editing: "Keep editing"
     text_are_you_sure: "Are you sure?"
     text_are_you_sure_to_cancel: "You have unsaved changes on this page. Are you sure you want to discard them?"
     text_data_lost: "All entered data will be lost."
