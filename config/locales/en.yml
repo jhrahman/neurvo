@@ -4812,6 +4812,48 @@ en:
 
   neurvo:
     based_on_openproject: "Neurvo is based on OpenProject"
+    home:
+      title: "Home"
+      greeting:
+        morning: "Good morning, %{name}"
+        afternoon: "Good afternoon, %{name}"
+        evening: "Good evening, %{name}"
+      summary:
+        overdue:
+          one: "%{count} of your items is overdue."
+          other: "%{count} of your items are overdue."
+        open:
+          one: "%{count} open item is assigned to you."
+          other: "%{count} open items are assigned to you."
+        none: "Nothing is assigned to you. Pick up work from a board."
+      tiles:
+        assigned: "Assigned to me"
+        overdue: "Overdue"
+        ready_for_qa: "Ready for QA"
+        open_bugs: "Open bugs"
+      my_work:
+        title: "My open work"
+        view_all: "View all my work"
+        empty: "Nothing assigned to you"
+        empty_hint: "Pick up work from a board or the backlog."
+        due: "Due %{date}"
+        overdue: "Overdue since %{date}"
+      recent:
+        title: "Recently updated"
+        empty: "No recent activity"
+        empty_hint: "Updates to work you can see will show up here."
+        updated: "%{user} updated %{time} ago"
+        view_all: "View all activity"
+      sprints:
+        title: "Active sprints"
+        empty: "No active sprints"
+        empty_hint: "Start a sprint from a project backlog."
+        progress: "%{done} of %{total} done"
+        days_left:
+          zero: "ends today"
+          one: "%{count} day left"
+          other: "%{count} days left"
+        no_goal: "No sprint goal set"
   noscript_description: "You need to activate JavaScript in order to use Neurvo!"
   noscript_heading: "JavaScript disabled"
   noscript_learn_more: "Learn more"

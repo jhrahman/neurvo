@@ -1,0 +1,301 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+
+.attributes-group.-project-context.-project-chosen
+  background: none
+  border-color: transparent
+  padding: 0
+
+.attributes-key-value--value-container:has(> .neurvo-field-hint)
+  flex-wrap: wrap
+
+.neurvo-field-hint
+  flex-basis: 100%
+
+.neurvo-confirm
+  width: min(440px, calc(100vw - 32px))
+  max-width: none
+  padding: 0
+  border: 1px solid var(--borderColor-default)
+  border-radius: 12px
+  background: var(--overlay-bgColor, var(--bgColor-default))
+  color: var(--fgColor-default)
+  box-shadow: var(--shadow-floating-large, 0 8px 32px rgba(1, 4, 9, 0.35))
+  animation: neurvo-confirm-in 160ms cubic-bezier(0.2, 0.8, 0.2, 1)
+
+  &::backdrop
+    background: rgba(1, 4, 9, 0.5)
+    animation: neurvo-confirm-fade 160ms ease-out
+
+  &--header
+    padding: 20px 24px 0
+
+  &--title
+    margin: 0
+    font-size: 16px
+    font-weight: 600
+    line-height: 1.4
+
+  &--body
+    padding: 8px 24px 20px
+    color: var(--fgColor-muted)
+    font-size: 14px
+    line-height: 1.5
+
+  &--footer
+    display: flex
+    justify-content: flex-end
+    gap: 8px
+    padding: 12px 24px
+    border-top: 1px solid var(--borderColor-muted)
+
+@keyframes neurvo-confirm-in
+  from
+    opacity: 0
+    transform: translateY(8px) scale(0.97)
+
+@keyframes neurvo-confirm-fade
+  from
+    opacity: 0
+
+@media (prefers-reduced-motion: reduce)
+  .neurvo-confirm,
+  .neurvo-confirm::backdrop
+    animation: none
+
+.neurvo-home-hero
+  flex: 1 1 100%
+  padding: 24px 28px 28px
+  border: 1px solid var(--borderColor-default)
+  border-radius: 12px
+  background: linear-gradient(135deg, var(--bgColor-accent-muted), var(--bgColor-default) 65%)
+
+  &--eyebrow
+    margin: 0 0 4px
+    color: var(--fgColor-muted)
+    font-size: 13px
+    font-weight: 500
+
+  &--title
+    margin: 0
+    font-size: 28px
+    font-weight: 600
+    line-height: 1.25
+    letter-spacing: -0.01em
+
+  &--summary
+    margin: 6px 0 20px
+    color: var(--fgColor-muted)
+
+.neurvo-home-tiles
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr))
+  gap: 12px
+  margin: 0
+  padding: 0
+  list-style: none
+
+.neurvo-home-tile
+  display: grid
+  grid-template-columns: auto 1fr
+  grid-template-areas: "icon count" "label label"
+  align-items: center
+  column-gap: 12px
+  row-gap: 8px
+  padding: 14px 16px
+  border: 1px solid var(--borderColor-default)
+  border-radius: 10px
+  background: var(--bgColor-default)
+  color: var(--fgColor-default)
+  text-decoration: none
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease
+
+  &:hover
+    transform: translateY(-2px)
+    border-color: var(--borderColor-accent-emphasis)
+    box-shadow: var(--shadow-resting-medium)
+    color: var(--fgColor-default)
+    text-decoration: none
+
+  &--icon
+    grid-area: icon
+    display: grid
+    place-items: center
+    width: 32px
+    height: 32px
+    border-radius: 8px
+    background: var(--bgColor-neutral-muted)
+    color: var(--fgColor-muted)
+
+  &--count
+    grid-area: count
+    font-size: 28px
+    font-weight: 600
+    line-height: 1
+    font-variant-numeric: tabular-nums
+
+  &--label
+    grid-area: label
+    color: var(--fgColor-muted)
+    font-size: 13px
+
+  &.-danger .neurvo-home-tile--icon
+    background: var(--bgColor-danger-muted)
+    color: var(--fgColor-danger)
+
+  &.-attention .neurvo-home-tile--icon
+    background: var(--bgColor-attention-muted)
+    color: var(--fgColor-attention)
+
+.neurvo-wp-row
+  display: grid
+  grid-template-columns: minmax(0, 1fr) auto
+  grid-template-areas: "main status" "sub sub"
+  align-items: center
+  column-gap: 12px
+  row-gap: 2px
+  width: 100%
+  min-width: 0
+
+  &--main
+    grid-area: main
+    display: flex
+    gap: 8px
+    min-width: 0
+    color: var(--fgColor-default)
+    font-weight: 500
+    text-decoration: none
+
+    &:hover
+      color: var(--fgColor-accent)
+      text-decoration: none
+
+      .neurvo-wp-row--subject
+        text-decoration: underline
+
+  &--key
+    flex: none
+    color: var(--fgColor-muted)
+    font-variant-numeric: tabular-nums
+
+  &--subject
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+  &--status
+    grid-area: status
+    display: inline-flex
+    align-items: center
+    gap: 6px
+    color: var(--fgColor-muted)
+    font-size: 12px
+    white-space: nowrap
+
+  &--sub
+    grid-area: sub
+    display: flex
+    flex-wrap: wrap
+    gap: 0 6px
+    min-width: 0
+    color: var(--fgColor-muted)
+    font-size: 12px
+
+    > * + *::before
+      content: "·"
+      margin-right: 6px
+
+    @media screen and (max-width: 760px)
+      gap: 0 12px
+
+      > * + *::before
+        content: none
+
+  &--type
+    font-weight: 600
+    letter-spacing: 0.03em
+    text-transform: uppercase
+
+.neurvo-dot
+  display: inline-block
+  width: 8px
+  height: 8px
+  border-radius: 50%
+
+.neurvo-overdue
+  color: var(--fgColor-danger)
+  font-weight: 600
+
+.neurvo-sprint
+  width: 100%
+
+  &--head
+    display: flex
+    align-items: baseline
+    justify-content: space-between
+    gap: 12px
+
+  &--meta
+    color: var(--fgColor-muted)
+    font-size: 12px
+
+  &--goal
+    margin: 4px 0 10px
+    color: var(--fgColor-muted)
+    font-size: 13px
+
+  &--stats
+    display: flex
+    justify-content: space-between
+    margin-top: 6px
+    color: var(--fgColor-muted)
+    font-size: 12px
+
+.neurvo-progress
+  height: 8px
+  overflow: hidden
+  border-radius: 4px
+  background: var(--bgColor-neutral-muted)
+
+  &--bar
+    display: block
+    height: 100%
+    border-radius: 4px
+    background: var(--bgColor-success-emphasis)
+    transition: width 600ms cubic-bezier(0.2, 0.8, 0.2, 1)
+
+@media (prefers-reduced-motion: no-preference)
+  .neurvo-home-tile
+    animation: neurvo-home-rise 360ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards
+
+    @for $i from 1 through 4
+      li:nth-child(#{$i}) > &
+        animation-delay: #{($i - 1) * 60}ms
+
+@keyframes neurvo-home-rise
+  from
+    opacity: 0
+    transform: translateY(8px)

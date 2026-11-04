@@ -34,8 +34,24 @@ require "open_project/static/links"
 OpenProject::Static::Homescreen.manage :blocks do |blocks|
   blocks.push(
     {
+      name: "overview",
+      if: Proc.new { User.current.logged? }
+    },
+    {
+      name: "my_work",
+      if: Proc.new { User.current.logged? }
+    },
+    {
+      name: "recent_activity",
+      if: Proc.new { User.current.logged? }
+    },
+    {
+      name: "active_sprints",
+      if: Proc.new { User.current.logged? }
+    },
+    {
       name: "welcome",
-      if: Proc.new { Setting.welcome_on_homescreen? && Setting.welcome_text.present? }
+      if: Proc.new { !User.current.logged? && Setting.welcome_on_homescreen? && Setting.welcome_text.present? }
     },
     {
       name: "favorite_projects"
@@ -46,10 +62,6 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     },
     {
       name: "meetings"
-    },
-    {
-      name: "my_account",
-      if: Proc.new { User.current.logged? }
     },
     {
       name: "news",

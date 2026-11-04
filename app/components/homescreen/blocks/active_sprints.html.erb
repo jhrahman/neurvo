@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  widget_wrapper do |container|
+    if sprints.empty?
+      container.with_body(classes: "op-widget-box--empty") do
+        render(Primer::Beta::Blankslate.new(test_selector: "active-sprints-widget-empty")) do |component|
+          component.with_visual_icon(icon: :iterations)
+          component.with_heading(tag: :h3).with_content(I18n.t("neurvo.home.sprints.empty"))
+          component.with_description { I18n.t("neurvo.home.sprints.empty_hint") }
+        end
+      end
+    else
+      sprints.each do |sprint|
+        container.with_row do
+          progress = progress_for(sprint)
+          helpers.tag.div(class: "neurvo-sprint", data: { test_selector: "neurvo-sprint" }) do
+            helpers.safe_join([
+              helpers.tag.div(class: "neurvo-sprint--head") do
+                helpers.safe_join([
+                  render(Primer::Beta::Link.new(href: backlog_path(sprint), font_weight: :bold)) { sprint.name },
+                  helpers.tag.span("#{sprint.project.name} · #{days_left(sprint)}", class: "neurvo-sprint--meta")
+                ])
+              end,
+              helpers.tag.p(goal_for(sprint), class: "neurvo-sprint--goal"),
+              helpers.tag.div(class: "neurvo-progress", role: "progressbar", aria: { valuenow: progress.percent, valuemin: 0, valuemax: 100, label: sprint.name }) do
+                helpers.tag.span(class: "neurvo-progress--bar", style: "width: #{progress.percent}%")
+              end,
+              helpers.tag.div(class: "neurvo-sprint--stats") do
+                helpers.safe_join([
+                  helpers.tag.span(I18n.t("neurvo.home.sprints.progress", done: progress.done, total: progress.total)),
+                  helpers.tag.span(dates_for(sprint))
+                ])
+              end
+            ])
+          end
+        end
+      end
+    end
+  end
+%>
