@@ -148,3 +148,4 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `frontend/src/global_styles/neurvo/_boards.sass` (new) | Board columns show "To Do" instead of "Status / To Do" |
 | `lib/neurvo/seed.rb` | Self-registration disabled: admins invite team members |
 | `frontend/src/turbo/turbo-global-listeners.ts`, its spec | Upstream bug: dialogs and popovers open while navigating away were saved in Turbo's page snapshot, so the user menu flashed open on the next visit to that page. They are closed before caching |
+| `config/constants/settings/definition.rb` | `security_badge_displayed` defaults to false: the OpenProject release-check badge (Home page Administration block, Admin > Information) called releases.openproject.com with the instance UUID on every view. `OPENPROJECT_SECURITY__BADGE__DISPLAYED=true` turns it back on |

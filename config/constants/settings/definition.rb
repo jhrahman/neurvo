@@ -1143,9 +1143,9 @@ module Settings
         default: nil,
         writable: false
       },
-      # Display update / security badge, enabled by default
+      # Neurvo: off by default, the badge reports the instance UUID to releases.openproject.com
       security_badge_displayed: {
-        default: true
+        default: false
       },
       security_badge_url: {
         description: "URL of the update check badge",
