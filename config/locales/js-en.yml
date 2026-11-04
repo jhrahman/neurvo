@@ -774,6 +774,9 @@ en:
         label: "Project autocompletion"
       click_to_switch_to_project: "Project: %{projectname}"
       context: "Project context"
+      hint_on_create: >
+        The project decides who can see and work on this ticket, its workflow and fields,
+        and which boards, sprints and versions it can be planned in.
       not_available: "Project N/A"
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes.

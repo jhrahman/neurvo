@@ -68,6 +68,11 @@
               <div class="attributes-key-value--value-container">
                 <op-editable-attribute-field [resource]="workPackage"
                 [fieldName]="descriptor.name" />
+                @if (projectContext.id && descriptor.name === 'project') {
+                  <p class="neurvo-field-hint color-fg-muted f6 mt-1 mb-0"
+                     data-test-selector="op-wp-project-hint"
+                     [textContent]="text.project.hint"></p>
+                }
               </div>
             </div>
           }

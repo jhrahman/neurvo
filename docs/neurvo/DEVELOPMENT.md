@@ -54,6 +54,7 @@ Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes 
 | Stop | `bin/compose stop` |
 | Run specs | `bin/compose rspec spec/models/setting_spec.rb` |
 | Rails console | `bin/compose exec backend bundle exec rails console` |
+| Pick up edits to `js-en.yml` in the frontend | `bin/compose exec backend bundle exec rake assets:export_locales` |
 | Wipe everything (needs `setup` again) | `bin/compose reset` |
 
 Do not start the optional services in `docker/dev/` (Keycloak, Nextcloud, GitLab, MinIO and so on) unless a task needs them.
@@ -64,6 +65,7 @@ The frontend dev server (Angular) is slow on the first compile; wait until the b
 The Angular dev server alone needs about 4 GB while compiling. With backend, worker, database and a test database
 running, it can be OOM-killed (`neurvo-frontend-1` exits with 137). Stop what you don't need
 (`bin/compose stop db-test` after running specs) or give Docker Desktop 10–12 GB if your Mac allows it.
+The worker grows over a long session (2 GB+); `bin/compose restart worker` gives that memory back.
 
 Upstream lets the dev server grow to an 8 GB heap. Cap it in your local `docker-compose.override.yml`:
 
