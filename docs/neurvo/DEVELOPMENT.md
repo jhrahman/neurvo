@@ -81,6 +81,8 @@ Before you share the link:
   people you trust, or change those passwords, and delete the `qa` admin account.
 - This is development mode: error pages show stack traces and source snippets.
 - Stop `cloudflared` (Ctrl+C) when you are done; quick-tunnel URLs change on every start.
+- Run the frontend with `--no-hmr` (see the override below). With hot module replacement each page loads ~250
+  extra component files, and Cloudflare answers the burst with 429, so logos, icons and avatars go missing.
 
 ## Memory (Docker Desktop with 8 GB)
 
@@ -94,7 +96,7 @@ Upstream lets the dev server grow to an 8 GB heap. Cap it in your local `docker-
 ```yaml
 services:
   frontend:
-    command: "node --max_old_space_size=3072 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0"
+    command: "node --max_old_space_size=3072 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --no-hmr"
 ```
 
 ## Running specs
