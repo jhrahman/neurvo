@@ -71,8 +71,9 @@ cloudflared tunnel --url http://localhost:3100     # terminal 2: prints the publ
 ```
 
 The proxy hides the dev-only pages (`/letter_opener` with every email incl. password resets, `/good_job`,
-`/lookbook`, `/rails/*`). Rails accepts `*.trycloudflare.com` hosts (`OPENPROJECT_DEV_EXTRA_HOSTS` in
-`docker-compose.yml`).
+`/lookbook`, `/rails/*`). Rails keeps seeing `http://localhost:3000`, so its host name and HTTPS settings need no
+change and the admin "Hostname/HTTPS mode setup mismatch" warnings do not appear; the proxy maps links,
+redirects and form values between that and the public URL.
 
 Before you share the link:
 
