@@ -1,0 +1,278 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# Platform & DevOps: infrastructure, CI/CD and the engineering handbook shared by GoFleet and QuickCart.
+
+project:
+  key: OPS
+  name: "Platform & DevOps"
+  description: "Infrastructure, CI/CD, observability and data protection for GoFleet and QuickCart. Home of the engineering handbook."
+  lead: daniel
+  status: { code: off_track, explanation: "Backups failed silently for 3 days; fix and restore verification in progress (OPS-4)." }
+  members: [daniel, tanvir, rafi, priya, nusrat]
+  categories: ["CI/CD", "Kubernetes", "Database", "Monitoring", "Security", "Cost"]
+  sprints:
+    prefix: "Platform"
+    number: 31
+    goals:
+      previous: "Health probes on every service."
+      current: "Backups verified and alerting in place; blue/green deployments for the API."
+      next: "Automatic credential rotation and PostgreSQL 17 on staging."
+  boards:
+    - { name: "Platform Kanban", types: [task, bug, change_request, story], statuses: [todo, in_progress, in_review, blocked, done] }
+
+work_packages:
+  - { ref: ops_epic_zero, type: epic, subject: "Zero-downtime deployments", status: in_progress, assignee: tanvir, author: daniel, priority: High, start: -21, due: 21 }
+  - { ref: ops_bluegreen, parent: ops_epic_zero, type: task, subject: "Blue/green deployment for the API on Kubernetes", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 8, category: "Kubernetes" }
+  - { ref: ops_alerts, type: task, subject: "Page on-call when the checkout error rate exceeds 2% for 5 minutes (QuickCart)", status: todo, assignee: tanvir, author: nusrat, priority: High, sprint: current, points: 2, category: "Monitoring" }
+  - ref: ops_bug_backup
+    type: bug
+    subject: "Nightly database backup fails silently when the volume is more than 90% full"
+    status: in_progress
+    assignee: tanvir
+    author: tanvir
+    priority: Critical
+    sprint: current
+    category: "Database"
+    severity: Critical
+    environment: Production
+    platform: Infrastructure
+    found_in: "n/a"
+    description: "**Summary**\nThe 02:00 backup CronJob exits 0 even when `pg_dump` fails for lack of disk space. The last good backup is from 3 days ago.\n\n**Expected result**\nJob fails, alert fires, backup is retried on the secondary volume.\n\n**Actual result**\nJob reports success; no alert."
+  - { ref: ops_cr_pg17, type: change_request, subject: "Upgrade PostgreSQL 15 to 17 on staging", status: todo, assignee: tanvir, author: daniel, priority: Medium, sprint: next, points: 5, category: "Database", requested_by: "Engineering", impact: "Medium" }
+  - { ref: ops_alert_tracking, type: task, subject: "Alert when GoFleet live-tracking latency p95 exceeds 5 seconds", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 2, category: "Monitoring" }
+  - { ref: ops_pm_restore, type: task, subject: "Postmortem action: restore the latest backup weekly and alert on backup age and size", status: todo, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 3, category: "Database" }
+  - { ref: ops_pm_runbook, type: task, subject: "Postmortem action: write the backup and restore runbook", status: in_review, assignee: tanvir, author: daniel, sprint: current, points: 2, category: "Database" }
+relations:
+  - { from: ops_bug_backup, to: ops_alerts, type: relates }
+  - { from: ops_pm_restore, to: ops_bug_backup, type: relates }
+  - { from: ops_pm_runbook, to: ops_bug_backup, type: relates }
+
+comments:
+  ops_bug_backup:
+    - { by: tanvir, text: "Mitigation: freed 120 GB and triggered a manual backup (succeeded 09:14). Permanent fix: `set -o pipefail` and a size check before the dump." }
+    - { by: daniel, text: "@Tanvir please also add the restore test to the weekly job. A backup we have never restored is not a backup." }
+  ops_alert_tracking:
+    - { by: tanvir, text: "Dashboard is live; the alert rule is in review. @Priya can you confirm the metric name from the tracking gateway?" }
+
+queries:
+  - { name: "Open infrastructure work", open: true, sort: [[priority, desc]], columns: [id, subject, type, status, assigned_to, priority, category] }
+
+meetings:
+  - { title: "Release go/no-go: QuickCart 5.9.0", day: 10, time: "14:00", duration: 30, author: daniel,
+      attendees: [daniel, tanvir, nusrat, ayesha, marco],
+      agenda: [{ title: "Open Critical and Major bugs", duration: 10 }, { title: "Rollback plan and on-call", duration: 10 }, { title: "Decision", duration: 10 }] }
+  - { title: "Release go/no-go: GoFleet 2.5.0", day: 11, time: "14:00", duration: 30, author: daniel,
+      attendees: [daniel, tanvir, nusrat, imran, lena],
+      agenda: [{ title: "Open Critical and Major bugs", duration: 10 }, { title: "Rollback plan and on-call", duration: 10 }, { title: "Decision", duration: 10 }] }
+wiki_pages:
+  - title: "Engineering handbook"
+    author: daniel
+    text: |
+      # Engineering handbook
+
+      How Ocean IT Solutions plans, builds, tests and ships software. It applies to GoFleet, QuickCart and Neurvo. If something here no longer matches how we work, change the page.
+
+      - [[Workflow and definition of done]]
+      - [[Bug lifecycle and severity]]
+      - [[Sprint rituals]]
+      - [[Release checklist]]
+      - [[Postmortem: nightly backup failure]]
+
+      ## The software lifecycle at a glance
+
+      | Phase | What happens | Where in Neurvo |
+      |---|---|---|
+      | Discover | Ideas and customer problems are collected | Feature Request, Support Request |
+      | Define | Product writes stories with acceptance criteria; design prototypes | Epic, Story, Design tasks |
+      | Plan | Refinement, estimates, sprint planning | Backlog, Sprint board |
+      | Build | Branch, code, pull request, review | Story, Task, Sub-task |
+      | Verify | QA tests on the release candidate | Ready for QA, In QA, Bug triage |
+      | Release | Go/no-go, deploy, monitor | Release plan board, Milestone |
+      | Operate | Monitor, respond, learn | Support queue, incident review |
+
+      ## Ticket types
+
+      | Type | Use it for |
+      |---|---|
+      | Epic | A large outcome that spans several sprints |
+      | Story | A user-visible change with acceptance criteria |
+      | Task / Sub-task | Technical work, spikes (prefix **Spike:**), design (prefix **Design:**) |
+      | Bug | A defect; always fill in severity, environment, platform and build |
+      | Feature Request | An idea from customers or sales, not yet committed |
+      | Change Request | A scope change after commitment, with impact and approval |
+      | Support Request | A customer question or problem |
+      | Milestone | A release date |
+
+      Create anything from **+ Create** in the header (or press **c**). Search with **Ctrl+K**.
+  - title: "Workflow and definition of done"
+    parent: "Engineering handbook"
+    author: daniel
+    text: |
+      # Workflow and definition of done
+
+      **To Do → In Progress → In Review → Ready for QA → In QA → Done**
+
+      Side states: **Blocked** (say why in a comment and link the blocker), **Reopened** (bugs that failed QA), **Won't Do**.
+
+      | Status | Who moves it | When |
+      |---|---|---|
+      | In Progress | Assignee | You start working; one item at a time where possible |
+      | In Review | Assignee | Pull request open and linked |
+      | Ready for QA | Reviewer / assignee | Merged and deployed to QA; fill in **Fixed in build** |
+      | In QA | QA engineer | Testing has started; you take over the assignment |
+      | Done | QA engineer | Acceptance criteria verified on QA or staging |
+      | Reopened | QA engineer | Fails verification; comment with steps and evidence |
+
+      ## Definition of ready
+
+      - Clear acceptance criteria (stories) or steps to reproduce (bugs)
+      - Estimated in story points; anything above 8 points is split
+      - Design linked for user-facing work
+      - No open questions for product
+
+      ## Definition of done
+
+      - Code reviewed and merged, CI green
+      - Unit and integration tests added or updated
+      - QA verified; automated regression added where it makes sense
+      - Accessibility checked for UI changes
+      - Release notes line written for user-facing changes
+      - Feature flag plan and monitoring in place for risky changes
+  - title: "Bug lifecycle and severity"
+    parent: "Engineering handbook"
+    author: nusrat
+    text: |
+      # Bug lifecycle and severity
+
+      Every bug gets **Severity**, **Environment**, **Platform** and **Found in build**. The Bug template asks for steps to reproduce, expected and actual result, and evidence.
+
+      | Severity | Meaning | Response |
+      |---|---|---|
+      | Critical | Data loss, payments or dispatch broken, crash for many users, security issue | Fix now; blocks the release |
+      | Major | Core feature broken, no reasonable workaround | Fix in the current sprint |
+      | Minor | Feature works with a workaround or limited impact | Plan in the next sprints |
+      | Trivial | Cosmetic | When convenient |
+
+      **Priority** is the business decision (when we fix it); **Severity** is the technical impact (how bad it is).
+
+      ## Lifecycle
+
+      New (To Do) → In Progress → In Review → Ready for QA → In QA → Done. A bug that fails verification goes to **Reopened** with evidence and returns to the developer.
+
+      ## Triage
+
+      Each product has a weekly bug triage (see the meetings calendar): confirm severity, assign an owner, put it in a sprint or close it. Production bugs are triaged the same day by the QA lead.
+
+      ## Metrics we watch
+
+      - Open Critical and Major bugs per release (must be zero at go/no-go)
+      - Reopen rate (target under 10%)
+      - Escaped defects: bugs found in production per release
+  - title: "Sprint rituals"
+    parent: "Engineering handbook"
+    author: daniel
+    text: |
+      # Sprint rituals
+
+      Two-week sprints, Monday to Friday.
+
+      | Ritual | When | Length |
+      |---|---|---|
+      | Daily stand-up | Every working day, about 09:30 | 15 min |
+      | Backlog refinement | Weekly, mid-week | 45 min |
+      | Bug triage | Weekly | 30 min |
+      | Sprint review and retrospective | Last Friday of the sprint, 15:00 | 60 min |
+      | Sprint planning | First Monday of the sprint, 10:00 | 90 min |
+
+      Each sprint has a **sprint goal** (see Backlogs). Stand-up walks the board from right to left: what is closest to done gets attention first.
+
+      ## Retrospective format
+
+      Keep, stop, start. Every retro ends with at most three action items, each with an owner and a ticket.
+
+      ## Capacity
+
+      Plan with 70% of available hours. Leave room for production bugs and support escalations.
+  - title: "Release checklist"
+    parent: "Engineering handbook"
+    author: tanvir
+    text: |
+      # Release checklist
+
+      - [ ] No open Critical or Major bugs for the version
+      - [ ] Regression suite green on staging, twice in a row
+      - [ ] Load and performance checks meet the targets
+      - [ ] Release notes reviewed by product
+      - [ ] Database migrations reviewed; rollback plan written
+      - [ ] Feature flags set and owners named
+      - [ ] Go/no-go meeting held and decision recorded
+      - [ ] Monitoring dashboards and on-call ready
+      - [ ] Status page and support team informed
+      - [ ] Version closed in Neurvo after release, milestone marked done
+  - title: "Postmortem: nightly backup failure"
+    parent: "Engineering handbook"
+    author: daniel
+    text: |
+      # Postmortem: nightly database backup failed silently
+
+      **Severity**: SEV2. **Status**: actions in progress. **Authors**: Daniel Brooks, Tanvir Ahmed.
+
+      ## Summary
+
+      For 3 days the nightly backup produced no usable dump because `pg_dump` ran out of disk space, while the job still reported success. No data was lost, but we had no recent restore point.
+
+      ## Impact
+
+      The recovery point objective was exceeded: the newest restorable backup was 3 days old (target: 24 hours). No customer impact.
+
+      ## Timeline (local time)
+
+      | When | What |
+      |---|---|
+      | Day 1, 02:00 | Backup job fails; exit code 0 |
+      | Day 4, 08:40 | An engineer notices the dump size is 0 bytes while checking disk usage |
+      | Day 4, 09:14 | Space freed, manual backup succeeds |
+      | Day 4, 11:30 | Incident review held |
+
+      ## Contributing factors
+
+      - The script did not use `set -o pipefail`, so a failing `pg_dump` in a pipeline was ignored
+      - No alert on backup age or size
+      - Restores were never tested
+
+      ## What went well
+
+      The data was safe, the fix took 30 minutes once found, and the team agreed on actions the same day.
+
+      ## Action items
+
+      - Add `pipefail` and a free-space check (the bug on the Platform board)
+      - Restore the latest backup weekly and alert on age and size
+      - Write the backup and restore runbook
+      - Page on-call for backup failures

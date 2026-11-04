@@ -1,0 +1,58 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# Neurvo: our own project management tool, built with the same process as the products.
+
+project:
+  key: NEU
+  name: "Neurvo"
+  description: "Our own project management tool. Dogfooding: features and bugs for Neurvo itself."
+  lead: ayesha
+  status: { code: on_track, explanation: "MVP scope done except the command palette." }
+  members: [ayesha, daniel, priya, sofia, nusrat, tanvir]
+  categories: ["UI", "Workflow", "Integrations"]
+  sprints:
+    prefix: "Neurvo"
+    number: 1
+    goals:
+      previous: "Branding, themes and the Jira-style workflow."
+      current: "Command palette and the SQA boards."
+      next: "Docmost links and Slack notifications."
+  versions:
+    - { name: "Neurvo 0.1 (MVP)", status: open, start: -14, due: 14, description: "Branding, themes, Jira-style workflow and boards." }
+    - { name: "Neurvo 0.2",       status: open, start: 14,  due: 45, description: "Docmost integration and Slack notifications." }
+  boards:
+    - { name: "Neurvo Kanban", types: [story, task, bug, feature_request], statuses: [todo, in_progress, in_review, ready_qa, in_qa, done] }
+
+work_packages:
+  - { ref: neu_epic_jira, type: epic, subject: "Jira-style workflow for the team", status: in_progress, assignee: daniel, author: ayesha, priority: High, version: "Neurvo 0.1 (MVP)", start: -14, due: 14 }
+  - { ref: neu_keys, parent: neu_epic_jira, type: story, subject: "Readable issue keys like NEU-123", status: done, assignee: priya, author: ayesha, sprint: current, points: 3, version: "Neurvo 0.1 (MVP)", category: "Workflow" }
+  - { ref: neu_boards, parent: neu_epic_jira, type: story, subject: "Sprint, bug triage, release and workload boards for every product", status: done, assignee: priya, author: nusrat, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", category: "Workflow" }
+  - { ref: neu_palette, parent: neu_epic_jira, type: story, subject: "Command palette (Ctrl+K) for search and navigation", status: in_progress, assignee: priya, author: daniel, priority: Medium, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", category: "UI" }
+  - { ref: neu_bug_menu, type: bug, subject: "User menu does not close when clicking outside", status: done, assignee: sofia, author: nusrat, priority: Medium, sprint: current, version: "Neurvo 0.1 (MVP)", category: "UI", severity: Minor, environment: QA, platform: Web, found_in: "0.1.0-dev", fixed_in: "0.1.0-dev" }
+  - { ref: neu_fr_slack, type: feature_request, subject: "Slack notifications for status changes", status: todo, author: nusrat, priority: Medium, version: "Neurvo 0.2", requested_by: "QA team", impact: "Medium" }

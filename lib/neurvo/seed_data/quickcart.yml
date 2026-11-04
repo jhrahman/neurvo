@@ -1,0 +1,451 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# QuickCart: an e-commerce platform (storefront, checkout, search, inventory, returns).
+# Dates are offsets in days from the day the seed runs.
+
+project:
+  key: QCART
+  name: "Web Application - QuickCart"
+  description: "E-commerce platform: storefront, one-page checkout, search, inventory and self-service returns for online retailers."
+  lead: ayesha
+  status: { code: on_track, explanation: "5.9.0 on schedule; the payment error on expiring cards (QCART-14) and the reopened cart bug (QCART-17) are the release risks." }
+  members: [ayesha, daniel, rafi, arif, maya, marco, nusrat, tanvir]
+  categories: ["Checkout", "Search", "Catalogue", "Inventory", "Returns", "Payments", "Accounts"]
+  sprints:
+    prefix: "QuickCart"
+    number: 52
+    goals:
+      previous: "Saved addresses live and category pages under 2.5 s LCP."
+      current: "Checkout v2 feature-complete on QA; zero Critical bugs open for 5.9.0."
+      next: "Guest checkout and stock reservation ready for beta."
+  versions:
+    - { name: "QuickCart 5.8.0",  status: closed, start: -42, due: -14, description: "Saved addresses, faster category pages." }
+    - { name: "QuickCart 5.9.0",  status: open,   start: -14, due: 11,  description: "Checkout v2 and typo-tolerant search." }
+    - { name: "QuickCart 5.10.0", status: open,   start: 11,  due: 39,  description: "Guest checkout, express pay, returns self-service." }
+  boards:
+    - { name: "Sprint board", types: [story, task, subtask, bug, change_request], statuses: [todo, in_progress, in_review, ready_qa, in_qa, done] }
+    - { name: "Bug triage", types: [bug], statuses: [todo, in_progress, ready_qa, in_qa, reopened, done] }
+    - { name: "Release plan", kind: version, types: [story, task, bug, feature_request, change_request], versions: ["QuickCart 5.8.0", "QuickCart 5.9.0", "QuickCart 5.10.0"] }
+    - { name: "Support queue", types: [support_request], statuses: [todo, in_progress, waiting, reopened, done] }
+
+work_packages:
+  - ref: qc_epic_checkout
+    type: epic
+    subject: "Checkout v2: one-page checkout"
+    status: in_progress
+    assignee: daniel
+    author: ayesha
+    priority: High
+    version: "QuickCart 5.9.0"
+    start: -20
+    due: 25
+    description: "Replace the 4-step checkout with a single page. Target: +8% checkout conversion and -30% time to order."
+  - ref: qc_saved_cards
+    parent: qc_epic_checkout
+    type: story
+    subject: "Pay with a saved card at checkout"
+    status: in_progress
+    assignee: arif
+    author: ayesha
+    priority: High
+    sprint: current
+    points: 8
+    version: "QuickCart 5.9.0"
+    category: "Checkout"
+    description: |
+      **As a** returning shopper **I want** to pick one of my saved cards **so that** I can pay without typing card details.
+
+      **Acceptance criteria**
+      - [x] Saved cards listed with brand, last 4 digits and expiry
+      - [ ] Expired cards shown disabled with a "Replace card" link
+      - [ ] 3-D Secure challenge works inline without leaving the page
+      - [ ] The selected card persists when the shopper edits the cart
+      - [ ] Analytics event `payment_method_selected` fired once per selection
+
+      **Out of scope**
+      Adding a new card during checkout (separate story).
+  - { ref: qc_cards_ui, parent: qc_saved_cards, type: subtask, subject: "Saved-card selector component", status: in_review, assignee: arif, author: arif, sprint: current, points: 3, category: "Checkout" }
+  - { ref: qc_cards_api, parent: qc_saved_cards, type: subtask, subject: "GET /payment-methods endpoint with PSP token lookup", status: done, assignee: rafi, author: rafi, sprint: current, points: 3, category: "Payments", fixed_in: "5.9.0-rc.1" }
+  - { ref: qc_promo, parent: qc_epic_checkout, type: story, subject: "Apply a promo code inline without a page reload", status: ready_qa, assignee: marco, author: ayesha, priority: Medium, sprint: current, points: 5, version: "QuickCart 5.9.0", category: "Checkout", fixed_in: "5.9.0-rc.2" }
+  - { ref: qc_guest, parent: qc_epic_checkout, type: story, subject: "Guest checkout with an email-only account", status: todo, author: ayesha, sprint: next, points: 8, version: "QuickCart 5.10.0", category: "Checkout" }
+  - ref: qc_epic_search
+    type: epic
+    subject: "Search relevance improvements"
+    status: in_progress
+    assignee: rafi
+    author: ayesha
+    version: "QuickCart 5.9.0"
+    start: -28
+    due: 25
+  - ref: qc_typo
+    parent: qc_epic_search
+    type: story
+    subject: "Typo-tolerant product search"
+    status: in_progress
+    assignee: rafi
+    author: ayesha
+    priority: High
+    sprint: current
+    points: 5
+    version: "QuickCart 5.9.0"
+    category: "Search"
+    description: |
+      **As a** shopper **I want** "iphne case" to find iPhone cases **so that** a typo does not end my visit.
+
+      **Acceptance criteria**
+      - [x] Edit distance 1 for terms of 4+ characters, 2 for 8+
+      - [ ] Exact matches always rank above fuzzy matches
+      - [ ] No fuzzy matching on SKUs and brand filters
+      - [ ] p95 search latency stays under 250 ms on the 2M product index
+  - ref: qc_epic_inventory
+    type: epic
+    subject: "Inventory and fulfilment accuracy"
+    status: in_progress
+    assignee: rafi
+    author: ayesha
+    priority: High
+    version: "QuickCart 5.9.0"
+    start: -21
+    due: 39
+  - { ref: qc_stock_sync, parent: qc_epic_inventory, type: story, subject: "Real-time stock sync between the warehouse system and the storefront", status: in_progress, assignee: rafi, author: ayesha, priority: High, sprint: current, points: 8, version: "QuickCart 5.9.0", category: "Inventory" }
+  - { ref: qc_design_checkout, type: task, subject: "Design: one-page checkout wireframes and clickable prototype", status: done, assignee: maya, author: ayesha, sprint: previous, points: 3, version: "QuickCart 5.8.0", category: "Checkout" }
+  - ref: qc_qa_plan
+    type: task
+    subject: "Regression test plan for the QuickCart 5.9.0 release candidate"
+    status: in_progress
+    assignee: nusrat
+    author: daniel
+    priority: High
+    sprint: current
+    points: 3
+    category: "Checkout"
+    description: "**What needs to be done**\nCover checkout v2, promo codes, search, stock and account flows on the release candidate; agree the scope with Daniel.\n\n**Definition of done**\n- [x] Test cases reviewed\n- [ ] Executed on staging with the payment test cards from the test strategy\n- [ ] Results shared at the go/no-go meeting"
+  - { ref: qc_qa_smoke, type: task, subject: "Smoke-test checklist for the 5.9.0 go/no-go", status: todo, assignee: nusrat, author: daniel, priority: Medium, start: -4, due: -1, category: "Checkout" }
+
+  - ref: qc_bug_expiry
+    type: bug
+    subject: "Payment page returns 500 when the card expires this month"
+    status: todo
+    assignee: rafi
+    author: nusrat
+    priority: Critical
+    sprint: current
+    category: "Payments"
+    severity: Critical
+    environment: Staging
+    platform: Web
+    found_in: "5.9.0-rc.1"
+    description: |
+      **Steps to reproduce**
+      1. Add any item to the cart and go to checkout
+      2. Choose a saved card that expires this month (for example 11/26)
+      3. Click **Pay now**
+
+      **Expected result**
+      Order is placed.
+
+      **Actual result**
+      The page shows "Something went wrong" and the API returns 500.
+
+      **Evidence**
+      `CardExpiredError` in the payment service log; the card is valid until the last day of the month but the check compares against the 1st.
+  - { ref: qc_bug_promo, type: bug, subject: "Order total not updated after removing a promo code", status: in_progress, assignee: arif, author: marco, priority: High, sprint: current, category: "Checkout", severity: Major, environment: QA, platform: Web, found_in: "5.9.0-rc.1" }
+  - { ref: qc_bug_lcp, type: bug, subject: "Category page LCP 6.2 s on mobile: images not lazy-loaded", status: ready_qa, assignee: arif, author: marco, priority: Medium, sprint: current, category: "Catalogue", severity: Major, environment: Staging, platform: Web, found_in: "5.9.0-rc.1", fixed_in: "5.9.0-rc.2" }
+  - ref: qc_bug_badge
+    type: bug
+    subject: "Cart badge shows items from the previous session after logout"
+    status: reopened
+    assignee: arif
+    author: marco
+    priority: High
+    sprint: current
+    category: "Checkout"
+    severity: Major
+    environment: QA
+    platform: Web
+    found_in: "5.9.0-rc.1"
+    description: |
+      **Steps to reproduce**
+      1. Log in, add 2 items to the cart
+      2. Log out through the account menu
+      3. Look at the cart badge in the header
+
+      **Expected result**
+      Badge is empty.
+
+      **Actual result**
+      Badge still shows 2 until the page is reloaded.
+  - { ref: qc_bug_postcode, type: bug, subject: "Address form accepts invalid UK postcodes", status: in_qa, assignee: marco, author: marco, priority: Medium, sprint: current, category: "Accounts", severity: Minor, environment: QA, platform: Web, found_in: "5.9.0-rc.1", fixed_in: "5.9.0-rc.2" }
+  - { ref: qc_bug_stock, type: bug, subject: "Product page shows In stock for sold-out variants", status: in_progress, assignee: rafi, author: nusrat, priority: High, sprint: current, category: "Inventory", severity: Major, environment: Production, platform: Web, found_in: "5.8.0" }
+  - { ref: qc_fr_wishlist, type: feature_request, subject: "Share a wishlist via link", status: todo, author: ayesha, priority: Medium, requested_by: "Customer survey", impact: "Medium" }
+  - { ref: qc_cr_shipping, type: change_request, subject: "Raise the free-shipping threshold from $50 to $75", status: in_progress, assignee: rafi, author: ayesha, priority: Medium, sprint: current, points: 2, category: "Checkout", requested_by: "Finance", impact: "Medium",
+      description: "**Requested change**\nFree shipping from $75 instead of $50.\n\n**Reason for change**\nShipping costs rose 12%; the lower threshold now loses money on small baskets.\n\n**Impact**\nConfig change plus new banner copy; expected -1.5% conversion on baskets between $50 and $75.\n\n**Approval**\nApproved by Ayesha Karim and the finance lead." }
+  - { ref: qc_release_59, type: milestone, subject: "QuickCart 5.9.0 release", status: todo, assignee: daniel, author: daniel, version: "QuickCart 5.9.0", start: 11, due: 11 }
+
+  - { ref: qc_sr_expiry, type: support_request, subject: "Customer sees \"Something went wrong\" when paying with a card that expires this month", status: in_progress, assignee: marco, author: marco, priority: Critical, category: "Payments", customer: "Contoso Retail", channel: "Email", impact: "High",
+      description: "**Customer request**\nThree of their buyers could not complete an order today. Card expires 11/2026.\n\n**Customer and account**\nContoso Retail, Business plan, about 40 buyers.\n\n**Already tried**\nReproduced with a test card that expires this month; the payment request returns a 500.\n\n**Escalation**\nBlocked by the open payment bug; told the customer to use another card for now." }
+  - { ref: qc_sr_refund, type: support_request, subject: "Refund for a duplicate charge on order #48213 has not arrived", status: reopened, assignee: marco, author: marco, priority: High, category: "Payments", customer: "Brightside Cafe", channel: "Live chat", impact: "High",
+      description: "**Customer request**\nCharged twice for the same order. A refund was issued 5 days ago but the customer still does not see it.\n\n**Customer and account**\nBrightside Cafe, Starter plan.\n\n**Already tried**\nRefund reference confirmed in the payment dashboard." }
+relations:
+  - { from: qc_bug_promo, to: qc_promo, type: relates }
+  - { from: qc_bug_expiry, to: qc_saved_cards, type: relates }
+  - { from: qc_bug_expiry, to: qc_release_59, type: blocks }
+  - { from: qc_bug_badge, to: qc_release_59, type: blocks }
+  - { from: qc_bug_stock, to: qc_stock_sync, type: relates }
+  - { from: qc_sr_expiry, to: qc_bug_expiry, type: relates }
+comments:
+  qc_bug_badge:
+    - { by: arif, text: "Fixed in 5.9.0-rc.2: we now clear the cart store on the `logout` event. Moving to Ready for QA." }
+    - { by: marco, text: "Still reproducible when logging out through SSO (Google). The SSO logout redirect skips the `logout` event. Reopening; video attached." }
+    - { by: daniel, text: "@Arif let's also clear the cart on session expiry server-side, not only in the client." }
+  qc_bug_promo:
+    - { by: marco, text: "Also happens with percentage codes, not only fixed-amount ones." }
+    - { by: arif, text: "Root cause: totals are memoised per cart version and removing a code does not bump the version. Fix in progress." }
+  qc_bug_expiry:
+    - { by: rafi, text: "We compare against the 1st of the month instead of the last day. Taking this first thing tomorrow." }
+    - { by: nusrat, text: "@Rafi this blocks the 5.9.0 release, please keep me posted. @Daniel FYI for go/no-go." }
+  qc_bug_postcode:
+    - { by: marco, text: "Testing now; 34 of 40 cases from the QA sheet pass. The six failures are all Northern Ireland (BT) postcodes." }
+  qc_bug_stock:
+    - { by: rafi, text: "The sync job only updates variants with stock changes; sold-out variants never get the flag. Adding a nightly full reconcile and fixing the delta logic." }
+  qc_promo:
+    - { by: arif, text: "Ready on QA env, build 5.9.0-rc.2." }
+    - { by: marco, text: "Automated regression for promo codes added to the nightly suite. Starting the exploratory pass today." }
+  qc_typo:
+    - { by: rafi, text: "Fuzzy matching is behind a flag. Latency on the 2M index is 180 ms p95; ranking weights need a review with @Ayesha." }
+  qc_cr_shipping:
+    - { by: ayesha, text: "Finance confirmed the new threshold goes live together with 5.9.0." }
+  qc_sr_expiry:
+    - { by: marco, text: "Reproduced on staging with a card expiring this month. Linked to the open payment bug. @Rafi is the fix on track for 5.9.0-rc.3?" }
+    - { by: rafi, text: "Yes, tomorrow. Until then the workaround is to pay with a different card; I will confirm when it is on production." }
+  qc_sr_refund:
+    - { by: marco, text: "Refund was issued on the 1st; banks can take up to 10 days. Customer was told, but replied again that it is urgent." }
+    - { by: nusrat, text: "Reopening: asked finance for a refund trace. @Ayesha FYI, this customer is on our watch list." }
+
+queries:
+  - { name: "My open work", mine: true, open: true, sort: [[priority, desc], [due_date, asc]], columns: [id, subject, type, status, priority, version, due_date] }
+  - { name: "Open bugs", types: [bug], open: true, sort: [[priority, desc], [updated_at, desc]], columns: [id, subject, status, assigned_to, priority, cf_severity, cf_environment, cf_platform] }
+  - { name: "Ready for QA", statuses: [ready_qa, in_qa], sort: [[updated_at, desc]], columns: [id, subject, type, status, assigned_to, priority, cf_fixed_in] }
+  - { name: "Release 5.9.0 scope", version: "QuickCart 5.9.0", sort: [[type, asc], [priority, desc]], columns: [id, subject, type, status, assigned_to, priority, story_points] }
+  - { name: "Support queue", types: [support_request], open: true, sort: [[priority, desc], [updated_at, desc]], columns: [id, subject, status, priority, assigned_to, cf_customer, cf_channel, cf_impact] }
+
+meetings:
+  - { title: "QuickCart daily stand-up", recurring: working_days, day: 1, time: "09:30", duration: 15, author: daniel,
+      attendees: [daniel, ayesha, rafi, arif, marco, nusrat, maya],
+      agenda: [{ title: "Yesterday, today, blockers", duration: 10 }, { title: "Board walk: In Review and Ready for QA", duration: 5 }] }
+  - { title: "QuickCart bug triage", recurring: weekly, day: 1, time: "11:00", duration: 30, author: nusrat,
+      attendees: [nusrat, marco, ayesha, daniel, rafi, arif],
+      agenda: [{ title: "New bugs since last triage: severity and owner", duration: 10 }, { wp: qc_bug_expiry, duration: 5 }, { wp: qc_bug_stock, duration: 5 }, { wp: qc_bug_badge, duration: 5 }, { title: "Production incidents review", duration: 5 }] }
+  - { title: "QuickCart sprint 53 planning", sprint_day: 14, time: "10:00", duration: 90, author: ayesha,
+      attendees: [ayesha, daniel, rafi, arif, maya, marco, nusrat],
+      agenda: [{ title: "Sprint goal", duration: 10 }, { wp: qc_guest, duration: 25 }, { title: "Capacity and leave", duration: 10 }, { title: "Commitment", duration: 10 }] }
+
+wiki_pages:
+  - title: "QuickCart overview"
+    author: ayesha
+    text: |
+      # QuickCart
+
+      QuickCart is an e-commerce platform for online retailers: a fast storefront, one-page checkout, search, inventory and self-service returns.
+
+      - [[QuickCart architecture]]
+      - [[Checkout v2 requirements]]
+      - [[Runbook: payment failures]]
+      - [[QuickCart support process]]
+
+      ## Business goals this quarter
+
+      | Goal | Metric | Target |
+      |---|---|---|
+      | Higher conversion | Checkout conversion | +8% |
+      | Faster shopping | Category page LCP on mobile | under 2.5 s |
+      | Fewer stock-outs after purchase | Orders cancelled for stock | under 0.5% |
+      | Less support load | Tickets per 1,000 orders | under 6 |
+
+      ## Where things live
+
+      | What | Where |
+      |---|---|
+      | Sprint work | **Sprint board** |
+      | Defects | **Bug triage** board, **Open bugs** view |
+      | Release scope | **Release plan** board, **Release 5.9.0 scope** view |
+      | Customer issues | **Support queue** board |
+      | Ideas and scope changes | **Feature and change requests** view |
+
+      ## Contacts
+
+      Product: Ayesha Karim. Tech lead: Daniel Brooks. QA lead: Nusrat Jahan. Design: Maya Patel.
+  - title: "QuickCart architecture"
+    parent: "QuickCart overview"
+    author: daniel
+    text: |
+      # QuickCart architecture
+
+      ```
+      Shopper ── CDN ── Storefront (Next.js, server-side rendering)
+                              │
+                              ├── Catalogue API ── Postgres + Elasticsearch (search)
+                              ├── Cart and checkout API ── Redis (cart) ── Orders DB
+                              ├── Payments service ── PSP (cards, 3-D Secure, wallets)
+                              └── Inventory service ── warehouse system (stock events)
+      ```
+
+      ## Key flows
+
+      - **Browse and search**: the storefront renders category pages on the server and caches them at the CDN; search queries go to Elasticsearch with typo tolerance behind a flag.
+      - **Checkout**: the cart lives in Redis, the order is created in one transaction after the PSP confirms payment; failures leave the cart intact.
+      - **Stock**: the warehouse emits stock events; the inventory service updates availability within 60 s; checkout reserves stock for 10 minutes.
+
+      ## Targets
+
+      | Area | Target |
+      |---|---|
+      | Category page LCP (mobile, p75) | under 2.5 s |
+      | Search | p95 under 250 ms |
+      | Checkout API | p95 under 400 ms, 99.95% availability during campaigns |
+      | Peak load | 1,500 orders per minute |
+
+      ## Decisions
+
+      - **ADR-001** Server-side rendering with edge caching over a client-only SPA, for SEO and LCP.
+      - **ADR-002** One PSP integration behind our own payments service so providers can be switched.
+      - **ADR-003** Stock reservation instead of decrementing at payment, to avoid overselling during peaks.
+  - title: "Checkout v2 requirements"
+    parent: "QuickCart overview"
+    author: ayesha
+    text: |
+      # Checkout v2: one-page checkout
+
+      **Status**: in development for 5.9.0. **Owner**: Ayesha Karim. **Design**: Maya Patel (prototype linked in the epic).
+
+      ## Problem
+
+      The four-step checkout loses 38% of shoppers between cart and payment, and takes 3 minutes 40 seconds on average.
+
+      ## Goals
+
+      - Raise checkout conversion by 8%
+      - Cut the time to order by 30%
+      - Keep payment failures below 1.5%
+
+      ## User flow
+
+      1. Cart review (inline edit of quantity and promo code)
+      2. Delivery address and method on the same page
+      3. Payment (saved card, new card, wallets in 5.10)
+      4. Confirmation page and email
+
+      ## Functional requirements
+
+      | ID | Requirement | Priority |
+      |---|---|---|
+      | CK-1 | Single page with all sections visible, validating inline | Must |
+      | CK-2 | Pay with a saved card, including 3-D Secure without leaving the page | Must |
+      | CK-3 | Apply and remove promo codes without a page reload | Must |
+      | CK-4 | Guest checkout with only an email address | Should (5.10) |
+      | CK-5 | Express pay with Apple Pay and Google Pay | Should (5.10) |
+
+      ## Analytics events
+
+      `checkout_started`, `payment_method_selected`, `promo_applied`, `order_placed`, `payment_failed` (with error code).
+
+      ## Risks
+
+      - Payment errors on expiring cards (see the open bug on the release scope)
+      - Promo totals must stay correct after removing a code
+      - Accessibility: the page must pass WCAG 2.1 AA with keyboard-only use
+
+      ## Rollout
+
+      Behind a feature flag: 5% of traffic, then 25%, 50%, 100% over one week, watching conversion and `payment_failed`.
+  - title: "Runbook: payment failures"
+    parent: "QuickCart overview"
+    author: tanvir
+    text: |
+      # Runbook: payment failures
+
+      **Alert**: `checkout_error_rate > 2%` for 5 minutes (pages the on-call engineer). **Severity**: SEV1 during campaigns, otherwise SEV2.
+
+      ## Triage
+
+      1. Open the **Checkout** dashboard: error rate by error code and by payment method.
+      2. If one code dominates (for example `CardExpiredError`), find the commit or flag change in the last 24 hours and consider disabling the flag.
+      3. If the PSP shows an incident on its status page, switch the storefront to the **fallback message** and keep carts intact; do not retry payments automatically.
+      4. If only 3-D Secure fails, check the redirect URL and the CSP headers after the last deployment.
+
+      ## Mitigations
+
+      - Disable the one-page checkout flag: `flags set checkout_v2 off` (shoppers fall back to the four-step flow).
+      - Roll back the payments service: `./deploy rollback payments production`.
+
+      ## Communicate
+
+      Update `#inc-checkout` every 30 minutes; tell support which payment methods are affected and the workaround.
+
+      ## Afterwards
+
+      Postmortem within 3 working days; link the tickets. Example: the backup-failure postmortem in the Platform & DevOps wiki.
+  - title: "QuickCart support process"
+    parent: "QuickCart overview"
+    author: ayesha
+    text: |
+      # Support process
+
+      Every customer question or problem becomes a **Support Request** (**+ Create > Support Request**). The **Support queue** board and view show what is open.
+
+      ## Fields
+
+      | Field | What to enter |
+      |---|---|
+      | Customer | Company or account name |
+      | Support channel | Email, Live chat, Phone, Customer portal or In-app |
+      | Business impact | High, Medium or Low |
+      | Priority | See the response targets |
+
+      ## Response targets
+
+      | Priority | First reply | Updates |
+      |---|---|---|
+      | Critical | 1 hour | every 4 hours until resolved |
+      | High | 4 hours | daily |
+      | Medium | 1 business day | every 2 business days |
+      | Low | 2 business days | on resolution |
+
+      ## Statuses
+
+      - **To Do**: new, not picked up yet.
+      - **In Progress**: someone is working on it.
+      - **Waiting on Customer**: we asked a question; the response clock is paused.
+      - **Reopened**: the customer replied again after we closed it.
+      - **Done**: confirmed by the customer, or no reply for 5 days.
+      - **Won't Do**: out of scope or a duplicate; say why in a comment.
+
+      ## Escalating to engineering
+
+      Create a **Bug**, **Feature Request** or **Change Request**, link it with **Relations > relates to** and keep talking to the customer in the support request. Marco is the primary support owner this quarter, Ayesha the backup for commercial questions.

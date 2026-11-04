@@ -35,10 +35,12 @@ module Neurvo
   # Safe to run repeatedly: configuration is upserted, sample projects are rebuilt.
   class Seed
     DATA_PATH = File.expand_path("seed_data.yml", __dir__)
+    PROJECT_FILES = File.expand_path("seed_data/*.yml", __dir__)
     DEFAULT_PASSWORD = "Neurvo-Dev-2026!"
-    MAIL_DOMAIN = "shopease.example"
+    MAIL_DOMAIN = "oceanit.example"
     UPSTREAM_DEMO_IDENTIFIERS = %w[demo-project your-scrum-project dev-empty dev-work-package-sharing
                                    dev-large dev-large-child dev-custom-fields].freeze
+    RETIRED_SAMPLE_IDENTIFIERS = %w[WEB MOB SHOP].freeze
     KEPT_LOGINS = %w[admin qa].freeze
     FORM_SECTIONS = {
       details: %w[priority sprint target_versions category date],
@@ -49,7 +51,7 @@ module Neurvo
     attr_reader :data, :log, :today
 
     def initialize(log: $stdout, remove_upstream_demo: true)
-      @data = YAML.safe_load_file(DATA_PATH, aliases: false)
+      @data = load_data
       @log = log
       @remove_upstream_demo = remove_upstream_demo
       @today = Time.zone.today
@@ -77,6 +79,30 @@ module Neurvo
     end
 
     private
+
+    # The shared configuration lives in seed_data.yml; every file in seed_data/ describes one project with its
+    # tickets, relations, comments, saved views, meetings and wiki pages.
+    def load_data
+      YAML.safe_load_file(DATA_PATH, aliases: false).merge(
+        "projects" => [], "work_packages" => {}, "relations" => [], "comments" => {},
+        "queries" => [], "meetings" => [], "wiki_pages" => []
+      ).tap do |data|
+        Dir[PROJECT_FILES].each do |path|
+          add_project_file(data, YAML.safe_load_file(path, aliases: false))
+        end
+      end
+    end
+
+    def add_project_file(data, part)
+      key = part.fetch("project").fetch("key")
+      data["projects"] << part["project"]
+      data["work_packages"][key] = part.fetch("work_packages", [])
+      data["relations"].concat(part.fetch("relations", []))
+      data["comments"].merge!(part.fetch("comments", {}))
+      %w[queries meetings wiki_pages].each do |section|
+        data[section].concat(part.fetch(section, []).map { |item| { "project" => key }.merge(item) })
+      end
+    end
 
     def say(message) = log&.puts("[neurvo:seed] #{message}")
 
@@ -254,9 +280,11 @@ module Neurvo
     # --- projects --------------------------------------------------------
 
     def rebuild_projects
-      destroy_projects(Project.where(identifier: data["projects"].pluck("key")), "Rebuilding")
+      destroy_projects(Project.where(identifier: data["projects"].pluck("key") + RETIRED_SAMPLE_IDENTIFIERS),
+                       "Rebuilding")
 
       @projects = {}
+      @leads = data["projects"].to_h { |conf| [conf["key"], conf["lead"]] }
       data["projects"].each { |conf| @projects[conf["key"]] = create_project(conf) }
       @projects.each_value(&:reload)
       data["projects"].each do |conf|
@@ -286,7 +314,7 @@ module Neurvo
       end
       conf["categories"].each { |name| project.categories.create!(name:) }
       create_versions(project, conf["versions"] || [])
-      create_sprints(project) if conf["sprints"]
+      create_sprints(project, conf["sprints"]) if conf["sprints"]
       say "Project #{project.identifier} #{project.name}"
       project
     end
@@ -301,22 +329,22 @@ module Neurvo
       end
     end
 
-    def create_sprints(project)
+    def create_sprints(project, conf)
       @sprints ||= {}
-      number = { "MOB" => 11, "OPS" => 31, "NEU" => 1 }.fetch(project.identifier, 24)
+      number = conf.fetch("number")
       current_start = current_sprint_start
       sprints = {
         "previous" => { offset: -14, status: :completed, number: number - 1 },
         "current" => { offset: 0, status: :active, number: },
         "next" => { offset: 14, status: :in_planning, number: number + 1 }
       }
-      @sprints[project.identifier] = sprints.to_h do |key, conf|
-        start = current_start + conf[:offset]
-        sprint = Sprint.create!(project:, name: "#{project.identifier} Sprint #{conf[:number]}",
-                                status: conf[:status] == :active ? :active : :in_planning,
+      @sprints[project.identifier] = sprints.to_h do |key, sprint_conf|
+        start = current_start + sprint_conf[:offset]
+        sprint = Sprint.create!(project:, name: "#{conf.fetch('prefix')} Sprint #{sprint_conf[:number]}",
+                                status: sprint_conf[:status] == :active ? :active : :in_planning,
                                 start_date: start, finish_date: start + 11,
-                                started_at: (start.to_time if conf[:status] == :active))
-        sprint.goals.create!(project:, text: data.dig("sprint_goals", key))
+                                started_at: (start.to_time if sprint_conf[:status] == :active))
+        sprint.goals.create!(project:, text: conf.dig("goals", key))
         [key, sprint]
       end
     end
@@ -343,7 +371,7 @@ module Neurvo
         assigned_to: conf["assignee"] && user(conf["assignee"]),
         responsible: user(project_lead(project)),
         parent: conf["parent"] && @refs.fetch(conf["parent"]),
-        version: conf["version"] && @versions.fetch(conf["version"]),
+        target_versions: conf["version"] && [@versions.fetch(conf["version"])],
         category: conf["category"] && project.categories.find_by!(name: conf["category"]),
         sprint:,
         story_points: conf["points"],
@@ -359,7 +387,7 @@ module Neurvo
       result.result
     end
 
-    def project_lead(project) = project.identifier == "OPS" ? "daniel" : "ayesha"
+    def project_lead(project) = @leads.fetch(project.identifier)
 
     def custom_values(conf)
       {
@@ -421,48 +449,67 @@ module Neurvo
     # --- boards and views ------------------------------------------------
 
     def create_boards
-      data["product_boards"].each do |board|
-        create_status_board(@projects.fetch(board["project"]), board["name"], board["statuses"],
-                            types: board["types"].map { |key| @types.fetch(key) }, subprojects: true)
-      end
       data["projects"].each do |conf|
-        Array(conf["boards"]).each do |board_conf|
-          create_status_board(@projects.fetch(conf["key"]), board_conf["name"], board_conf["statuses"],
-                              types: @types.values_at("story", "task", "subtask", "bug", "feature_request",
-                                                      "change_request", "support_request"))
-        end
+        project = @projects.fetch(conf["key"])
+        Array(conf["boards"]).each { |board| create_board(project, board) }
       end
       Setting.boards_demo_data_available = "true"
     end
 
-    def create_status_board(project, name, status_keys, types:, subprojects: false)
-      widgets = status_keys.each_with_index.map do |key, index|
-        status = @statuses.fetch(key)
-        query = Query.new_default(project:, user: admin).tap do |q|
-          q.public = true
-          q.name = status.name
-          q.include_subprojects = subprojects
-          q.add_filter("status_id", "=", [status.id])
-          q.sort_criteria = [[:manual_sorting, "asc"]]
-          q.save!
-        end
+    def create_board(project, conf)
+      kind = conf.fetch("kind", "status")
+      types = conf.fetch("types").map { |key| @types.fetch(key) }
+      widgets = board_columns(conf, kind).each_with_index.map do |column, index|
+        query = board_column_query(project, column)
         Grids::Widget.new(start_row: 1, end_row: 2, start_column: index + 1, end_column: index + 2,
                           identifier: "work_package_query",
-                          options: { query_id: query.id, filters: [{ status: { operator: "=", values: [status.id.to_s] } }] })
+                          options: { query_id: query.id,
+                                     filters: [{ column[:key] => { operator: "=", values: [column[:id].to_s] } }] })
       end
-      Boards::Grid.create!(project:, name:, widgets:, column_count: widgets.size, row_count: 1,
-                           options: { "type" => "action", "attribute" => "status", "highlightingMode" => "priority",
+      Boards::Grid.create!(project:, name: conf["name"], widgets:, column_count: widgets.size, row_count: 1,
+                           options: { "type" => "action", "attribute" => kind, "highlightingMode" => "priority",
                                       "filters" => [{ type: { operator: "=", values: types.map { |t| t.id.to_s } } }] })
-      say "Board #{name} in #{project.identifier}"
+      say "Board #{conf['name']} in #{project.identifier}"
+    end
+
+    # One column per status, version or assignee.
+    def board_columns(conf, kind)
+      case kind
+      when "status"
+        conf["statuses"].map { |key| board_column("status_id", "status", @statuses.fetch(key)) }
+      when "version"
+        conf["versions"].map { |name| board_column("version_id", "version", @versions.fetch(name)) }
+      when "assignee"
+        conf["assignees"].map { |key| board_column("assigned_to_id", "assignee", user(key)) }
+      end
+    end
+
+    def board_column(field, key, record) = { field:, key:, id: record.id, name: record.try(:name) || record.to_s }
+
+    def board_column_query(project, column)
+      Query.new_default(project:, user: admin).tap do |q|
+        q.public = true
+        q.name = column[:name]
+        q.add_filter(column[:field], "=", [column[:id]])
+        q.sort_criteria = [[:manual_sorting, "asc"]]
+        q.save!
+      end
     end
 
     def create_queries
+      User.execute_as(User.user.where(admin: true).order(:id).first) { build_queries }
+      say "Saved views: #{data['queries'].pluck('name').uniq.join(', ')}"
+    end
+
+    def build_queries
       data["queries"].each do |conf|
         query = Query.new(project: @projects.fetch(conf["project"]), user: admin, public: true, name: conf["name"],
                           include_subprojects: conf["subprojects"] || false, show_hierarchies: false)
         query.add_filter("status_id", "o", []) if conf["open"]
         query.add_filter("type_id", "=", conf["types"].map { |k| @types.fetch(k).id }) if conf["types"]
         query.add_filter("status_id", "=", conf["statuses"].map { |k| @statuses.fetch(k).id }) if conf["statuses"]
+        query.add_filter("version_id", "=", [@versions.fetch(conf["version"]).id.to_s]) if conf["version"]
+        query.add_filter("assigned_to_id", "=", ["me"]) if conf["mine"]
         (conf["cf"] || {}).each do |key, value|
           field = @custom_fields.fetch(key)
           query.add_filter(field.column_name, "=", [field.custom_options.find_by!(value:).id.to_s])
@@ -472,7 +519,6 @@ module Neurvo
         query.save!
         View.create!(query:, type: "work_packages_table")
       end
-      say "Saved views: #{data['queries'].pluck('name').join(', ')}"
     end
 
     def column_for(name)
@@ -484,7 +530,8 @@ module Neurvo
     def create_wiki_pages
       data["wiki_pages"].each do |conf|
         project = @projects.fetch(conf["project"])
-        wiki = project.wiki || Wiki.create!(project:, start_page: data["wiki_pages"].first["title"])
+        start_page = data["wiki_pages"].find { |page| page["project"] == conf["project"] }["title"]
+        wiki = project.wiki || Wiki.create!(project:, start_page:)
         parent = conf["parent"] && wiki.pages.find_by!(title: conf["parent"])
         wiki.pages.create!(title: conf["title"], text: conf["text"], author: user(conf["author"]), parent:)
       end
@@ -552,7 +599,7 @@ module Neurvo
 
     def convert_to_semantic_identifiers
       ProjectIdentifiers::ConvertInstanceToSemanticIdsJob.perform_now
-      sample = @refs.fetch("bug_expiry_500").reload
+      sample = @refs.values.first.reload
       say "Issue keys enabled, e.g. #{sample.display_id} #{sample.subject}"
     end
   end

@@ -1,0 +1,451 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+# GoFleet: a fleet and ride-dispatch platform for urban transport operators.
+# Dates are offsets in days from the day the seed runs.
+
+project:
+  key: GOFLEET
+  name: "Web Application - GoFleet"
+  description: "Transportation platform: riders book trips on the web app, dispatchers assign and track vehicles on a live map, drivers work from the Driver app."
+  lead: imran
+  status: { code: at_risk, explanation: "2.5.0 depends on the duplicate-booking fix (GOFLEET-15) and the Android 14 push delay (GOFLEET-19); live tracking on Safari reopened." }
+  members: [imran, daniel, priya, sofia, kenji, maya, lena, nusrat, tanvir]
+  categories: ["Dispatch", "Tracking", "Driver app", "Billing", "Accounts", "Platform"]
+  sprints:
+    prefix: "GoFleet"
+    number: 38
+    goals:
+      previous: "Driver onboarding live and the WebSocket gateway in production."
+      current: "Nearest-driver dispatch and live map feature-complete on QA; zero Critical bugs open for 2.5.0."
+      next: "Offline sync in the Driver app and geofence alerts ready for beta."
+  versions:
+    - { name: "GoFleet 2.4.0", status: closed, start: -42, due: -14, description: "Driver onboarding, WebSocket tracking gateway, fare estimates." }
+    - { name: "GoFleet 2.5.0", status: open,   start: -14, due: 11,  description: "Smart dispatch, live map and the Driver app trip flow." }
+    - { name: "GoFleet 2.6.0", status: open,   start: 11,  due: 39,  description: "Offline sync, geofencing and corporate invoicing." }
+  boards:
+    - { name: "Sprint board", types: [story, task, subtask, bug, change_request], statuses: [todo, in_progress, in_review, ready_qa, in_qa, done] }
+    - { name: "Bug triage", types: [bug], statuses: [todo, in_progress, ready_qa, in_qa, reopened, done] }
+    - { name: "Release plan", kind: version, types: [story, task, bug, feature_request, change_request], versions: ["GoFleet 2.4.0", "GoFleet 2.5.0", "GoFleet 2.6.0"] }
+    - { name: "Support queue", types: [support_request], statuses: [todo, in_progress, waiting, reopened, done] }
+
+work_packages:
+  - ref: gf_epic_dispatch
+    type: epic
+    subject: "Smart dispatch: auto-assign the nearest available driver"
+    status: in_progress
+    assignee: priya
+    author: imran
+    priority: High
+    version: "GoFleet 2.5.0"
+    start: -20
+    due: 11
+    description: "Replace manual assignment by a matching service. Target: median time-to-assign under 8 s and 30% fewer manual overrides by dispatchers."
+  - ref: gf_match
+    parent: gf_epic_dispatch
+    type: story
+    subject: "Match ride requests to the nearest available driver"
+    status: in_progress
+    assignee: priya
+    author: imran
+    priority: High
+    sprint: current
+    points: 8
+    version: "GoFleet 2.5.0"
+    category: "Dispatch"
+    description: |
+      **As a** dispatcher **I want** new ride requests assigned to the nearest free driver **so that** riders wait less and I can focus on exceptions.
+
+      **Acceptance criteria**
+      - [x] Candidates are drivers within 5 km who are online and not on a trip
+      - [x] Ties are broken by acceptance rate over the last 30 days
+      - [ ] If nobody accepts within 20 s the request is offered to the next driver
+      - [ ] Assignment is idempotent: retries never create a second assignment
+      - [ ] Decision is logged with the candidates considered (for audits)
+
+      **Out of scope**
+      Pooled rides and multi-stop trips.
+  - { ref: gf_match_geo, parent: gf_match, type: subtask, subject: "Nearest-driver query with PostGIS (radius and availability)", status: done, assignee: priya, author: priya, sprint: current, points: 3, category: "Dispatch", fixed_in: "2.5.0-rc.1" }
+  - { ref: gf_match_api, parent: gf_match, type: subtask, subject: "POST /v2/dispatch/assign with idempotency key", status: in_review, assignee: priya, author: priya, sprint: current, points: 3, category: "Dispatch" }
+  - { ref: gf_reassign, parent: gf_epic_dispatch, type: story, subject: "Auto-reassign when the driver does not accept within 20 seconds", status: ready_qa, assignee: lena, author: imran, priority: High, sprint: current, points: 5, version: "GoFleet 2.5.0", category: "Dispatch", fixed_in: "2.5.0-rc.2" }
+  - ref: gf_epic_tracking
+    type: epic
+    subject: "Live vehicle tracking"
+    status: in_progress
+    assignee: sofia
+    author: imran
+    priority: High
+    version: "GoFleet 2.5.0"
+    start: -28
+    due: 25
+  - ref: gf_map
+    parent: gf_epic_tracking
+    type: story
+    subject: "Live map with vehicle markers on the dispatcher dashboard"
+    status: in_progress
+    assignee: sofia
+    author: imran
+    priority: High
+    sprint: current
+    points: 8
+    version: "GoFleet 2.5.0"
+    category: "Tracking"
+    description: |
+      **As a** dispatcher **I want** to see every vehicle on one map **so that** I can react to delays before riders call.
+
+      **Acceptance criteria**
+      - [x] Markers update within 3 seconds of a location event
+      - [x] Marker colour shows status: free, on trip, offline
+      - [ ] Clustering above 200 vehicles keeps the map at 60 fps
+      - [ ] Clicking a marker opens the trip and driver card
+      - [ ] Keyboard users can focus a vehicle from the list view
+  - { ref: gf_ws, parent: gf_epic_tracking, type: story, subject: "WebSocket gateway for location updates (3 s end-to-end latency)", status: done, assignee: priya, author: daniel, sprint: previous, points: 8, version: "GoFleet 2.4.0", category: "Tracking", fixed_in: "2.4.0" }
+  - ref: gf_epic_driver
+    type: epic
+    subject: "Driver app v2"
+    status: in_progress
+    assignee: kenji
+    author: imran
+    priority: High
+    version: "GoFleet 2.5.0"
+    start: -35
+    due: 39
+  - { ref: gf_design_driver, parent: gf_epic_driver, type: task, subject: "Design: trip card and navigation hand-off (Figma, reviewed with drivers)", status: done, assignee: maya, author: imran, sprint: previous, points: 3, version: "GoFleet 2.4.0", category: "Driver app" }
+  - ref: gf_accept
+    parent: gf_epic_driver
+    type: story
+    subject: "Accept or decline a trip from the lock-screen notification"
+    status: in_progress
+    assignee: kenji
+    author: imran
+    priority: High
+    sprint: current
+    points: 5
+    version: "GoFleet 2.5.0"
+    category: "Driver app"
+    description: |
+      **As a** driver **I want** to accept or decline a trip without unlocking my phone **so that** I never miss a request while driving.
+
+      **Acceptance criteria**
+      - [x] Actionable push on Android and iOS
+      - [ ] Accept works within one tap and confirms with haptic feedback
+      - [ ] Declined trips return to the dispatch queue within 2 seconds
+      - [ ] Falls back to opening the app when the OS does not allow actions
+  - { ref: gf_offline, parent: gf_epic_driver, type: story, subject: "Queue trip status updates while offline and sync later", status: todo, assignee: kenji, author: imran, sprint: next, points: 8, version: "GoFleet 2.6.0", category: "Driver app" }
+
+  - ref: gf_qa_plan
+    type: task
+    subject: "Regression test plan for the GoFleet 2.5.0 release candidate"
+    status: in_progress
+    assignee: nusrat
+    author: daniel
+    priority: High
+    sprint: current
+    points: 3
+    category: "Platform"
+    description: "**What needs to be done**\nCover booking, dispatch, live map, Driver app trip flow and billing on the release candidate. Agree the device matrix with Kenji.\n\n**Definition of done**\n- [x] Test cases reviewed\n- [ ] Executed on staging (web: Chrome, Safari, Firefox; mobile: Pixel 7, Galaxy A54, iPhone 13)\n- [ ] Results shared at the go/no-go meeting"
+  - { ref: gf_qa_smoke, type: task, subject: "Smoke-test checklist for the 2.5.0 go/no-go", status: todo, assignee: nusrat, author: daniel, priority: Medium, start: -4, due: -1, category: "Platform" }
+
+  - ref: gf_bug_double_book
+    type: bug
+    subject: "Duplicate trip created when the rider double-taps Book"
+    status: in_progress
+    assignee: priya
+    author: lena
+    priority: Critical
+    sprint: current
+    category: "Dispatch"
+    severity: Critical
+    environment: Production
+    platform: Web
+    found_in: "2.4.0"
+    description: |
+      **Steps to reproduce**
+      1. Open the booking page and enter pickup and drop-off
+      2. Double-tap **Book** quickly (or use a slow 3G profile)
+      3. Open **My trips**
+
+      **Expected result**
+      One trip is created and the button is disabled after the first tap.
+
+      **Actual result**
+      Two trips are created; the rider is charged a pre-authorisation twice and two drivers are dispatched.
+
+      **Evidence**
+      Request log shows two POST /v2/trips within 180 ms, no idempotency key.
+  - ref: gf_bug_ws
+    type: bug
+    subject: "Live tracking freezes after 30 seconds of idle on Safari"
+    status: reopened
+    assignee: sofia
+    author: lena
+    priority: High
+    sprint: current
+    category: "Tracking"
+    severity: Major
+    environment: QA
+    platform: Web
+    found_in: "2.5.0-rc.1"
+    description: |
+      **Steps to reproduce**
+      1. Open the live map in Safari 17 and leave the tab in the foreground for 60 seconds without interacting
+      2. Watch the vehicle markers
+
+      **Expected result**
+      Markers keep moving.
+
+      **Actual result**
+      Markers stop; the socket shows CLOSED and the client never reconnects.
+  - { ref: gf_bug_gps, type: bug, subject: "Driver location jumps up to 200 m when the app is in the background (iOS)", status: in_qa, assignee: lena, author: lena, priority: High, sprint: current, category: "Driver app", severity: Major, environment: QA, platform: iOS, found_in: "2.5.0 (318)", fixed_in: "2.5.0 (321)" }
+  - { ref: gf_bug_surge, type: bug, subject: "Surge multiplier not applied to scheduled rides", status: ready_qa, assignee: priya, author: lena, priority: High, sprint: current, category: "Billing", severity: Major, environment: Staging, platform: API, found_in: "2.5.0-rc.1", fixed_in: "2.5.0-rc.2" }
+  - { ref: gf_bug_push, type: bug, subject: "Trip request push is delayed by up to 2 minutes on Android 14", status: in_progress, assignee: kenji, author: nusrat, priority: High, sprint: current, category: "Driver app", severity: Major, environment: Production, platform: Android, found_in: "2.4.0 (302)" }
+  - { ref: gf_fr_recurring, type: feature_request, subject: "Recurring rides for corporate customers", status: todo, author: imran, priority: Medium, version: "GoFleet 2.6.0", requested_by: "Sales (Skyline Logistics)", impact: "High" }
+  - { ref: gf_cr_cancel, type: change_request, subject: "Extend the free-cancellation window from 2 to 5 minutes", status: in_review, assignee: priya, author: imran, priority: Medium, sprint: current, points: 2, category: "Billing", requested_by: "Customer success", impact: "Medium",
+      description: "**Requested change**\nFree cancellation for 5 minutes after booking instead of 2.\n\n**Reason for change**\nCancellation-fee disputes are the top support topic (31% of tickets last month).\n\n**Impact**\nOne config value, copy changes in the web app and the Driver app, new FAQ entry. Estimated revenue impact: -0.4%.\n\n**Approval**\nApproved by Imran Chowdhury and the finance lead." }
+  - { ref: gf_release_25, type: milestone, subject: "GoFleet 2.5.0 release", status: todo, assignee: daniel, author: daniel, version: "GoFleet 2.5.0", start: 11, due: 11 }
+
+  - ref: gf_sr_login
+    type: support_request
+    subject: "Dispatchers cannot sign in after the SSO certificate rotation"
+    status: waiting
+    assignee: lena
+    author: lena
+    priority: High
+    category: "Accounts"
+    customer: "Metro Cabs Ltd"
+    channel: "Email"
+    impact: "High"
+    description: |
+      **Customer request**
+      All 14 dispatchers get "invalid signature" after their IdP rotated its certificate last night.
+
+      **Customer and account**
+      Metro Cabs Ltd, Enterprise plan, SAML SSO.
+
+      **Already tried**
+      Re-uploaded metadata on our side; same error.
+
+      **Reply sent / resolution**
+      Asked their IT admin for the new certificate fingerprint; waiting for their reply.
+  - { ref: gf_sr_surge, type: support_request, subject: "Rider charged a surge price outside surge hours", status: in_progress, assignee: lena, author: lena, priority: Medium, category: "Billing", customer: "Harbor Shuttle", channel: "Phone", impact: "Medium",
+      description: "**Customer request**\nA scheduled 06:00 airport ride was charged 1.4x although surge ends at 05:30.\n\n**Customer and account**\nHarbor Shuttle, Business plan.\n\n**Escalation**\nLooks like the scheduled-ride surge bug; linked. Refunded the difference manually." }
+
+relations:
+  - { from: gf_bug_double_book, to: gf_release_25, type: blocks }
+  - { from: gf_bug_push, to: gf_release_25, type: blocks }
+  - { from: gf_sr_surge, to: gf_bug_surge, type: relates }
+  - { from: gf_bug_ws, to: gf_map, type: relates }
+  - { from: gf_match_api, to: gf_match_geo, type: follows }
+comments:
+  gf_bug_double_book:
+    - { by: priya, text: "Root cause: the booking endpoint has no idempotency key, so a retry after a slow response creates a second trip. Adding the key now and disabling the button on submit." }
+    - { by: nusrat, text: "@Priya this blocks the 2.5.0 release. @Imran FYI for the go/no-go, we should also refund the double pre-authorisations from the last 30 days." }
+  gf_bug_ws:
+    - { by: sofia, text: "Added a heartbeat every 15 s and reconnect with backoff. Moving to Ready for QA." }
+    - { by: lena, text: "Still reproducible on Safari 17.2 when the laptop lid is closed and reopened: the socket reports OPEN but receives nothing. Reopening with a screen recording." }
+    - { by: daniel, text: "@Sofia let's also detect a stalled stream (no message for 20 s) and force a reconnect, not only rely on the close event." }
+  gf_bug_gps:
+    - { by: kenji, text: "Switched to significant-change updates in the background and added a 10 m accuracy filter. Build 321 on TestFlight." }
+    - { by: lena, text: "Testing now on iPhone 13 and 15; two of the five routes pass. @Kenji the jumps remain in tunnels when GPS is lost." }
+  gf_bug_push:
+    - { by: kenji, text: "FCM high priority was not set for data messages. Fix is in review; also adding a delivery-latency metric." }
+  gf_bug_surge:
+    - { by: priya, text: "The surge multiplier was read at request time instead of at the scheduled pickup time. Fixed in rc.2 with a unit test per surge window." }
+  gf_match:
+    - { by: imran, text: "Pilot with Metro Cabs starts next Monday; I need the reassign story on QA by Thursday." }
+    - { by: priya, text: "Understood. @Lena the load test needs the staging data set loaded, I will ping you when it is ready." }
+  gf_reassign:
+    - { by: lena, text: "Verified on staging: after 20 s the request goes to the next driver; the first driver sees the offer expire. Marking In QA next." }
+  gf_cr_cancel:
+    - { by: imran, text: "Finance approved. Please update the FAQ and the cancellation email template before release." }
+  gf_sr_login:
+    - { by: lena, text: "Their IdP now signs with SHA-256; we still pin the old fingerprint. Sent the instructions to upload the new metadata and waiting for confirmation." }
+  gf_qa_plan:
+    - { by: nusrat, text: "Device matrix agreed with @Kenji. I will start exploratory testing on the Driver app once build 321 passes smoke." }
+
+queries:
+  - { name: "My open work", mine: true, open: true, sort: [[priority, desc], [due_date, asc]], columns: [id, subject, type, status, priority, version, due_date] }
+  - { name: "Open bugs", types: [bug], open: true, sort: [[priority, desc], [updated_at, desc]], columns: [id, subject, status, assigned_to, priority, cf_severity, cf_environment, cf_platform] }
+  - { name: "Ready for QA", statuses: [ready_qa, in_qa], sort: [[updated_at, desc]], columns: [id, subject, type, status, assigned_to, priority, cf_fixed_in] }
+  - { name: "Release 2.5.0 scope", version: "GoFleet 2.5.0", sort: [[type, asc], [priority, desc]], columns: [id, subject, type, status, assigned_to, priority, story_points] }
+  - { name: "Support queue", types: [support_request], open: true, sort: [[priority, desc], [updated_at, desc]], columns: [id, subject, status, priority, assigned_to, cf_customer, cf_channel, cf_impact] }
+
+meetings:
+  - { title: "GoFleet daily stand-up", recurring: working_days, day: 1, time: "09:45", duration: 15, author: imran,
+      attendees: [imran, daniel, priya, sofia, kenji, lena, maya],
+      agenda: [{ title: "Yesterday, today, blockers", duration: 10 }, { title: "Board walk: In Review and Ready for QA", duration: 5 }] }
+  - { title: "GoFleet bug triage", recurring: weekly, day: 3, time: "11:00", duration: 30, author: nusrat,
+      attendees: [nusrat, lena, imran, daniel, priya, sofia, kenji],
+      agenda: [{ title: "New bugs since last triage: severity and owner", duration: 10 }, { wp: gf_bug_double_book, duration: 5 }, { wp: gf_bug_ws, duration: 5 }, { wp: gf_bug_push, duration: 5 }, { title: "Production incidents review", duration: 5 }] }
+  - { title: "GoFleet sprint 39 planning", sprint_day: 14, time: "10:00", duration: 90, author: imran,
+      attendees: [imran, daniel, priya, sofia, kenji, maya, lena, nusrat],
+      agenda: [{ title: "Sprint goal", duration: 10 }, { wp: gf_offline, duration: 25 }, { title: "Capacity and leave", duration: 10 }, { title: "Commitment", duration: 10 }] }
+
+wiki_pages:
+  - title: "GoFleet overview"
+    author: imran
+    text: |
+      # GoFleet
+
+      GoFleet is a web platform for urban transport operators. Riders book trips, dispatchers assign and track vehicles on a live map, and drivers work from the Driver app.
+
+      - [[GoFleet architecture]]
+      - [[GoFleet test strategy]]
+      - [[Runbook: live tracking outage]]
+
+      ## Who uses it
+
+      | Role | Needs | Where |
+      |---|---|---|
+      | Rider | Book, track and pay for a trip | Booking web app |
+      | Dispatcher | Assign vehicles, watch the fleet, handle exceptions | Dispatcher dashboard |
+      | Driver | Receive and complete trips | Driver app (Android, iOS) |
+      | Fleet admin | Onboard drivers, billing, reports | Admin console |
+
+      ## Where things live
+
+      | What | Where |
+      |---|---|
+      | Sprint work | **Sprint board** |
+      | Defects | **Bug triage** board and the **Open bugs** view |
+      | Release scope | **Release plan** board and the **Release 2.5.0 scope** view |
+      | Customer issues | **Support queue** board |
+
+      ## Roadmap
+
+      - **2.5.0** (this month): smart dispatch, live map, Driver app trip flow
+      - **2.6.0** (next month): offline sync, geofence alerts, corporate invoicing
+      - **Later**: recurring rides, rider ratings, pooled rides
+
+      ## Contacts
+
+      Product: Imran Chowdhury. Tech lead: Daniel Brooks. QA lead: Nusrat Jahan. On-call rotation: see [[Runbook: live tracking outage]].
+  - title: "GoFleet architecture"
+    parent: "GoFleet overview"
+    author: daniel
+    text: |
+      # GoFleet architecture
+
+      ## Components
+
+      ```
+      Rider web app ─┐                      ┌─ Dispatch service ── PostGIS (drivers, trips)
+                     ├─ API gateway ───────┤
+      Dispatcher UI ─┘        │             ├─ Tracking gateway (WebSocket) ── Redis (last position)
+                              │             ├─ Billing service ── PSP
+      Driver app ──── push (FCM / APNs) ────┘
+                              │
+                              └── Kafka (trip, location and payment events) ── Analytics
+      ```
+
+      ## A trip from request to completion
+
+      1. The rider submits a booking; the gateway checks the **idempotency key** and creates the trip (state `requested`).
+      2. The dispatch service queries PostGIS for free drivers within 5 km and offers the trip to the best candidate by push.
+      3. The driver accepts within 20 s; otherwise the next candidate is offered (state `offered` to `assigned`).
+      4. The driver app streams its position every 3 s; the tracking gateway fans it out to the rider and dispatcher.
+      5. On completion billing calculates the fare, charges the PSP and emits `trip.completed`.
+
+      ## Non-functional targets
+
+      | Area | Target |
+      |---|---|
+      | Dispatch decision | median under 8 s, p95 under 20 s |
+      | Location latency | under 3 s end to end |
+      | API | p95 under 300 ms, 99.9% monthly availability |
+      | Data | trips kept 7 years; location history 90 days |
+
+      ## Decisions (ADRs)
+
+      - **ADR-001** PostGIS for geo queries instead of an external geo service: one fewer moving part, easy to test locally.
+      - **ADR-002** WebSocket with heartbeat and server-side resume for tracking; polling was too heavy on batteries and servers.
+      - **ADR-003** Kafka for events so analytics and billing do not couple to the request path.
+      - **ADR-004** Every state-changing endpoint accepts an `Idempotency-Key` (see the duplicate-booking bug).
+  - title: "GoFleet test strategy"
+    parent: "GoFleet overview"
+    author: nusrat
+    text: |
+      # Test strategy
+
+      ## Pyramid
+
+      | Level | Owner | Tooling | Runs |
+      |---|---|---|---|
+      | Unit | Developers | Jest, JUnit | every pull request |
+      | Contract and API | Developers + QA | Pact, Postman | every pull request |
+      | UI end-to-end | QA automation | Playwright, Detox | on merge, nightly |
+      | Exploratory | QA | charters per release | each release candidate |
+      | Performance | QA + DevOps | k6 | weekly and before release |
+
+      ## Device and browser matrix
+
+      - Web: latest Chrome, Firefox, Safari 17, Edge
+      - Android: Pixel 7 (Android 14), Galaxy A54 (Android 14), Redmi Note 11 (Android 12)
+      - iOS: iPhone 13 (iOS 17), iPhone 15 (iOS 17)
+
+      ## Special cases for GoFleet
+
+      - **GPS simulation**: recorded city routes replayed through the location API, including tunnels and signal loss.
+      - **Concurrency**: 500 simultaneous ride requests must not create duplicate trips or double-assign a driver.
+      - **Time zones**: operators in at least three time zones in the regression data.
+
+      ## Exit criteria for a release
+
+      - No open Critical or Major bugs; Minor bugs have an owner and a target version
+      - Regression suite green on staging for two consecutive runs
+      - Load test meets the targets in [[GoFleet architecture]]
+      - Go/no-go meeting held and recorded
+  - title: "Runbook: live tracking outage"
+    parent: "GoFleet overview"
+    author: tanvir
+    text: |
+      # Runbook: live tracking outage
+
+      **Severity**: SEV2 when vehicles stop moving on the dispatcher map; SEV1 when drivers cannot receive trips too.
+
+      ## Symptoms
+
+      - Alert: `tracking_latency_p95 > 5s` or `ws_connections` drops by more than 30% in 5 minutes
+      - Dispatchers report frozen markers; support tickets mention "map not updating"
+
+      ## First 15 minutes
+
+      1. Acknowledge the page and open an incident channel `#inc-tracking`.
+      2. Check the dashboard **Tracking gateway**: connections, message rate, Redis latency.
+      3. If the gateway pods restart repeatedly: `kubectl -n gofleet logs deploy/tracking-gateway --previous` and look for out-of-memory or Redis errors.
+      4. If Redis is slow: fail over to the replica (`./ops redis failover`) and watch latency.
+      5. If a deployment started in the last 30 minutes: roll back with `./deploy rollback production`.
+
+      ## Communicate
+
+      - Post an update every 30 minutes in the incident channel and on the status page.
+      - Tell support which operators are affected and give them the workaround: dispatchers can use the **list view**, which polls every 15 s.
+
+      ## After
+
+      Write a blameless postmortem within 3 working days (template in the engineering handbook) and create follow-up tickets linked to the incident.

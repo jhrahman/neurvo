@@ -26,30 +26,41 @@ Tested target: MacBook Air (Apple Silicon), Docker Desktop with about 8 GB of me
 bin/compose exec backend bundle exec rake neurvo:seed
 ```
 
-Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes the upstream demo projects and users
-(keep them with `KEEP_UPSTREAM_DEMO=1`). Safe to re-run: configuration is upserted and the sample projects are rebuilt.
+Builds a small, realistic dev/QA workspace and removes the upstream demo projects and users (keep them with
+`KEEP_UPSTREAM_DEMO=1`). Safe to re-run: configuration is upserted and the sample projects are rebuilt. Shared
+configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data.yml`; each project has its own file in
+`lib/neurvo/seed_data/` with its tickets, boards, sprints, comments, saved views, meetings and wiki.
 
-- Projects: ShopEase (SHOP) with ShopEase Web (WEB) and ShopEase Mobile (MOB), Platform & DevOps (OPS), Neurvo (NEU).
-- Issue keys like `WEB-18`; types Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support Request, Milestone.
-- Workflow: To Do → In Progress → In Review → Ready for QA → In QA → Done (plus Reopened, Blocked, Won't Do).
-- Bug fields: Severity, Environment, Platform, Found in build, Fixed in build. Per-type description templates.
-- Support Request: its own workflow (To Do → In Progress → Waiting on Customer → Done, plus Reopened, Won't Do), fields
-  Customer, Support channel and Business impact, a Support Queue board and a Support queue view in ShopEase, six sample
-  tickets (one reopened refund, one escalated to a payment bug, one linked to a change request).
-- Sprints (previous completed, current active, next in planning), releases, boards (SQA Defects and Support Queue in
-  SHOP, Web Kanban), saved views (Open bugs, Ready for QA, Production incidents, Feature & change requests, Support
-  queue), listed under "Public" in the work package side menu.
-- Meetings: daily stand-up, weekly bug triage (critical bugs on the agenda), sprint review & retro, sprint planning,
-  release go/no-go. Sprints run Monday–Friday; all times in Asia/Dhaka.
+| Project | Key | What it shows |
+|---|---|---|
+| Web Application - GoFleet | `GOFLEET` | Transportation platform: dispatch, live tracking, Driver app, billing |
+| Web Application - QuickCart | `QCART` | E-commerce: checkout, search, inventory, returns |
+| Platform & DevOps | `OPS` | Infrastructure work, incident postmortem, the engineering handbook |
+| Neurvo | `NEU` | Our own tool, built with the same process |
+
+- About two dozen tickets per product: epics with stories and sub-tasks, bugs at every stage of the bug lifecycle, a
+  change request, a feature request, support requests, a design task, QA tasks and a release milestone.
+- Boards per product: Sprint board, Bug triage, Release plan (columns are versions) and Support queue.
+- Issue keys like `GOFLEET-15`; types Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support
+  Request, Milestone. Workflow: To Do, In Progress, In Review, Ready for QA, In QA, Done (plus Reopened, Blocked,
+  Waiting on Customer, Won't Do).
+- Bug fields: Severity, Environment, Platform, Found in build, Fixed in build. Support Request fields: Customer,
+  Support channel, Business impact. Per-type description templates.
+- Sprints (previous completed, current active, next in planning) with goals, releases, saved views (My open work, Open
+  bugs, Ready for QA, release scope, Support queue) listed under "Public" in the work package side menu.
+- Meetings: daily stand-up, bug triage and sprint planning per product; release go/no-go in Platform & DevOps. Sprints
+  run Monday to Friday; all times in Asia/Dhaka.
+- Wiki: per product an overview, architecture, test strategy or requirements and a runbook; the engineering handbook
+  (workflow and definition of done, bug lifecycle and severity, sprint rituals, release checklist, a blameless
+  postmortem) in Platform & DevOps.
 - Comments contain real @mentions, so inboxes fill up about 5 minutes after seeding (journal aggregation), as long as
   the `worker` container is running.
-- Project statuses (on track / at risk / off track) with explanations.
-- Team handbook in the ShopEase wiki: workflow and definition of done, bug lifecycle and severity, support process,
-  sprint rituals, release checklist.
-- Organization: Ocean IT Solutions (Administration > System settings > Organization name); shown on the Home page.
-- QA hand-over: tickets in In QA are assigned to a QA engineer; the QA lead has regression and smoke-test tasks (one overdue).
-- Team (password `Neurvo-Dev-2026!`): ayesha.karim (PM), daniel.brooks (tech lead), rafi.hasan, sofia.martins,
-  kenji.watanabe, priya.nair (developers), nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
+- Organization: Ocean IT Solutions (Administration > System settings > Organization name), shown on the Home page.
+- QA hand-over: tickets in In QA are assigned to a QA engineer; the QA lead has regression and smoke-test tasks (one
+  overdue).
+- Team (password `Neurvo-Dev-2026!`): imran.chowdhury, ayesha.karim (product managers), daniel.brooks (tech lead),
+  rafi.hasan, sofia.martins, arif.rahman, kenji.watanabe, priya.nair (developers), maya.patel (UX designer),
+  nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
 
 ## Daily use
 
