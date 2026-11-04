@@ -139,7 +139,7 @@ module Neurvo
       @types = data["types"].each_with_index.to_h do |conf, index|
         type = Type.find_by(name: conf["name"]) || Type.find_by(name: conf["renames"]) || Type.new
         type.update!(name: conf["name"], position: index + 1, color: color(conf["color"]),
-                     is_milestone: conf["milestone"] || false, is_in_roadmap: !conf["milestone"])
+                     is_milestone: conf["milestone"] || false, is_in_roadmap: conf.fetch("roadmap", !conf["milestone"]))
         template = data.dig("templates", conf["key"])
         type.default_variant.update!(default_work_package_description: template) if template
         [conf["key"], type]
@@ -362,7 +362,8 @@ module Neurvo
       {
         "severity" => conf["severity"], "environment" => conf["environment"], "platform" => conf["platform"],
         "found_in" => conf["found_in"], "fixed_in" => conf["fixed_in"],
-        "requested_by" => conf["requested_by"], "impact" => conf["impact"]
+        "requested_by" => conf["requested_by"], "impact" => conf["impact"],
+        "customer" => conf["customer"], "channel" => conf["channel"]
       }.compact.to_h do |key, value|
         field = @custom_fields.fetch(key)
         stored = field.list? ? field.custom_options.find_by!(value:).id.to_s : value
@@ -417,14 +418,15 @@ module Neurvo
     # --- boards and views ------------------------------------------------
 
     def create_boards
-      board = data["sqa_board"]
-      create_status_board(@projects.fetch(board["project"]), board["name"], board["statuses"],
-                          types: [@types.fetch("bug")], subprojects: true)
+      data["product_boards"].each do |board|
+        create_status_board(@projects.fetch(board["project"]), board["name"], board["statuses"],
+                            types: board["types"].map { |key| @types.fetch(key) }, subprojects: true)
+      end
       data["projects"].each do |conf|
         Array(conf["boards"]).each do |board_conf|
           create_status_board(@projects.fetch(conf["key"]), board_conf["name"], board_conf["statuses"],
                               types: @types.values_at("story", "task", "subtask", "bug", "feature_request",
-                                                      "change_request"))
+                                                      "change_request", "support_request"))
         end
       end
       Setting.boards_demo_data_available = "true"
@@ -465,6 +467,7 @@ module Neurvo
         query.sort_criteria = conf["sort"]
         query.column_names = conf["columns"].map { |c| column_for(c) }
         query.save!
+        View.create!(query:, type: "work_packages_table")
       end
       say "Saved views: #{data['queries'].pluck('name').join(', ')}"
     end

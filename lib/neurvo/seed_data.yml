@@ -36,6 +36,7 @@ statuses:
   - { key: ready_qa,    name: "Ready for QA", color: "#1B998B", renames: ["Developed"] }
   - { key: in_qa,       name: "In QA",        color: "#D97706", renames: ["In testing"] }
   - { key: reopened,    name: "Reopened",     color: "#CF222E", renames: ["Test failed"] }
+  - { key: waiting,     name: "Waiting on Customer", color: "#9A6700", renames: [] }
   - { key: blocked,     name: "Blocked",      color: "#82071E", renames: ["On hold"] }
   - { key: done,        name: "Done",         color: "#1F883D", renames: ["Closed"], closed: true, done_ratio: 100 }
   - { key: wont_do,     name: "Won't Do",     color: "#57606A", renames: ["Rejected"], closed: true }
@@ -48,6 +49,7 @@ types:
   - { key: bug,            form_section: "Bug details", name: "Bug",             color: "#CF222E", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, reopened, blocked, done, wont_do] }
   - { key: feature_request, form_section: "Request", name: "Feature Request", color: "#0969DA", renames: ["Feature"],   statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
   - { key: change_request, form_section: "Request", name: "Change Request",  color: "#BC4C00", renames: [],             statuses: [todo, in_progress, in_review, ready_qa, in_qa, blocked, done, wont_do] }
+  - { key: support_request, form_section: "Support details", name: "Support Request", color: "#BF3989", renames: [], roadmap: false, statuses: [todo, in_progress, waiting, reopened, done, wont_do] }
   - { key: milestone,      name: "Milestone",       color: "#6A6FA0", renames: [],             statuses: [todo, in_progress, done], milestone: true }
 
 obsolete_types: ["Summary task", "All CFS", "Required CF"]
@@ -102,6 +104,19 @@ templates:
 
     **Approval**
     Approved by / date.
+  support_request: |
+    **Customer request**
+    What does the customer need or report? Paste their message.
+
+    **Customer and account**
+    Who is affected: company, plan, number of users.
+
+    **Already tried**
+
+    **Reply sent / resolution**
+
+    **Escalation**
+    Link the bug, feature request or change request when engineering work is needed.
   task: |
     **What needs to be done**
 
@@ -115,7 +130,9 @@ custom_fields:
   - { key: found_in,     name: "Found in build", format: string,                                                                  types: [bug] }
   - { key: fixed_in,     name: "Fixed in build", format: string,                                                                  types: [bug, story, task] }
   - { key: requested_by, name: "Requested by",   format: string,                                                                  types: [feature_request, change_request] }
-  - { key: impact,       name: "Business impact", format: list,  options: ["High", "Medium", "Low"],                            types: [feature_request, change_request] }
+  - { key: impact,       name: "Business impact", format: list,  options: ["High", "Medium", "Low"],                            types: [feature_request, change_request, support_request] }
+  - { key: customer,     name: "Customer",       format: string,                                                                  types: [support_request] }
+  - { key: channel,      name: "Support channel", format: list,  options: ["Email", "Live chat", "Phone", "Customer portal", "In-app"], types: [support_request] }
 
 roles:
   - { name: "Project Manager", copy_from: "Project admin" }
@@ -191,16 +208,16 @@ projects:
       - { name: "Neurvo 0.1 (MVP)", status: open, start: -14, due: 14, description: "Branding, themes, Jira-style workflow and SQA board." }
       - { name: "Neurvo 0.2",       status: open, start: 14,  due: 45, description: "Docmost integration and Slack notifications." }
 
-sqa_board:
-  project: SHOP
-  name: "SQA Defects"
-  statuses: [todo, in_progress, ready_qa, in_qa, reopened, done]
+product_boards:
+  - { project: SHOP, name: "SQA Defects",   types: [bug],             statuses: [todo, in_progress, ready_qa, in_qa, reopened, done] }
+  - { project: SHOP, name: "Support Queue", types: [support_request], statuses: [todo, in_progress, waiting, reopened, done] }
 
 queries:
   - { project: SHOP, name: "Open bugs (all products)",  types: [bug], open: true, subprojects: true, sort: [[priority, desc], [updated_at, desc]], columns: [id, subject, type, status, assigned_to, priority, cf_severity, cf_environment, project] }
   - { project: SHOP, name: "Ready for QA",             statuses: [ready_qa, in_qa], subprojects: true, sort: [[updated_at, desc]], columns: [id, subject, type, status, assigned_to, priority, cf_fixed_in, project] }
   - { project: SHOP, name: "Production incidents",     types: [bug], cf: { environment: "Production" }, subprojects: true, sort: [[priority, desc]], columns: [id, subject, status, assigned_to, priority, cf_severity, project] }
   - { project: SHOP, name: "Feature & change requests", types: [feature_request, change_request], open: true, subprojects: true, sort: [[updated_at, desc]], columns: [id, subject, type, status, cf_requested_by, cf_impact, project] }
+  - { project: SHOP, name: "Support queue",           types: [support_request], open: true, subprojects: true, sort: [[priority, desc], [updated_at, desc]], columns: [id, subject, status, priority, assigned_to, cf_customer, cf_channel, cf_impact, project] }
   - { project: OPS,  name: "Open infrastructure work", open: true, sort: [[priority, desc]], columns: [id, subject, type, status, assigned_to, priority, category] }
 
 # Work packages. `ref` lets children, relations and comments point at an item.
@@ -249,6 +266,23 @@ work_packages:
     - { ref: bug_safari, type: bug, subject: "Mini-cart dropdown overlaps the header on Safari 17", status: todo, assignee: sofia, author: lena, priority: Low, category: "Catalogue",
         severity: Trivial, environment: QA, platform: Web, found_in: "3.5.0-rc.2" }
     - { ref: web_release_ms, type: milestone, subject: "Web 3.5.0 release", status: todo, assignee: daniel, author: daniel, version: "Web 3.5.0", start: 11, due: 11 }
+    - { ref: web_cr_vat, type: change_request, subject: "Show the customer's VAT number on invoices", status: todo, author: ayesha, priority: Medium, category: "Payments", requested_by: "Support (Orbit Logistics)", impact: "Medium",
+        description: "**Requested change**\nPrint the VAT number from the billing profile on the invoice PDF.\n\n**Reason for change**\nBusiness customers need it for their accounting; three requests this month.\n\n**Impact**\nSmall: one template and one profile field. No schedule risk." }
+    - { ref: sr_checkout_500, type: support_request, subject: "Customer sees \"Something went wrong\" when paying with a card that expires this month", status: in_progress, assignee: lena, author: lena, priority: Critical, category: "Payments",
+        customer: "Contoso Retail", channel: "Email", impact: "High",
+        description: "**Customer request**\nThree of their buyers could not complete an order today. Card expires 11/2026.\n\n**Customer and account**\nContoso Retail, Business plan, about 40 buyers.\n\n**Already tried**\nReproduced with a test card that expires this month; the payment request returns a 500.\n\n**Escalation**\nBlocked by the open payment bug; told the customer to use another card for now." }
+    - { ref: sr_password_reset, type: support_request, subject: "Password reset email never arrives for @northwind.example addresses", status: waiting, assignee: lena, author: lena, priority: High, category: "Account",
+        customer: "Northwind Traders", channel: "Email", impact: "Medium",
+        description: "**Customer request**\nTwo employees cannot reset their password; no email arrives, spam folder checked.\n\n**Customer and account**\nNorthwind Traders, Team plan, 12 users.\n\n**Already tried**\nResent twice from the admin panel. Our mail log shows the message was delivered to their server.\n\n**Reply sent / resolution**\nAsked their IT to allow-list our sender address." }
+    - { ref: sr_refund, type: support_request, subject: "Refund for a duplicate charge on order #48213 has not arrived", status: reopened, assignee: lena, author: marco, priority: High, category: "Payments",
+        customer: "Brightside Cafe", channel: "Live chat", impact: "High",
+        description: "**Customer request**\nCharged twice for the same order. A refund was issued 5 days ago but the customer still does not see it.\n\n**Customer and account**\nBrightside Cafe, Starter plan.\n\n**Already tried**\nRefund reference confirmed in the payment dashboard." }
+    - { ref: sr_vat_invoice, type: support_request, subject: "Invoice must show our VAT number", status: in_progress, assignee: marco, author: marco, priority: Medium, category: "Payments",
+        customer: "Orbit Logistics", channel: "Customer portal", impact: "Medium",
+        description: "**Customer request**\nTheir accountants reject invoices without the VAT number.\n\n**Customer and account**\nOrbit Logistics, Business plan.\n\n**Reply sent / resolution**\nSent a manually edited invoice. Change request raised for the permanent fix." }
+    - { ref: sr_csv_export, type: support_request, subject: "How do I export my order history as CSV?", status: done, assignee: marco, author: marco, priority: Low, category: "Account",
+        customer: "Greenleaf Stores", channel: "Customer portal", impact: "Low",
+        description: "**Customer request**\nWants a spreadsheet of all orders for the year.\n\n**Reply sent / resolution**\nExplained Account > Orders > Export. Customer confirmed it worked." }
 
   MOB:
     - { ref: mob_epic_push, type: epic, subject: "Push notifications for order updates", status: in_progress, assignee: kenji, author: ayesha, priority: High, version: "Mobile 2.8.0", start: -14, due: 18 }
@@ -264,6 +298,9 @@ work_packages:
         severity: Minor, environment: QA, platform: iOS, found_in: "2.8.0 (405)", fixed_in: "2.8.0 (412)" }
     - { ref: bug_nan_price, type: bug, subject: "Price shows \"$NaN\" for products with tiered pricing", status: done, assignee: priya, author: lena, priority: High, sprint: previous, category: "Orders",
         severity: Major, environment: QA, platform: Android, found_in: "2.7.2", fixed_in: "2.8.0 (401)" }
+    - { ref: sr_android_push, type: support_request, subject: "Order push notifications do not arrive on a Samsung Galaxy A54", status: todo, assignee: marco, author: lena, priority: Medium, category: "Notifications",
+        customer: "Fabrikam Mobile", channel: "In-app", impact: "Medium",
+        description: "**Customer request**\nShipping notifications never show up on one device; other family phones are fine.\n\n**Customer and account**\nConsumer account, Android 14, app 2.8.0.\n\n**Already tried**\nNone yet; need battery-optimisation settings from the customer." }
 
   OPS:
     - { ref: ops_epic_zero, type: epic, subject: "Zero-downtime deployments", status: in_progress, assignee: tanvir, author: daniel, priority: High, start: -21, due: 21 }
@@ -297,6 +334,9 @@ relations:
   - { from: bug_lcp, to: web_lcp_task, type: relates }
   - { from: ops_bluegreen, to: ops_probes, type: follows }
   - { from: bug_backup, to: ops_alerts, type: relates }
+  - { from: sr_checkout_500, to: bug_expiry_500, type: relates }
+  - { from: sr_vat_invoice, to: web_cr_vat, type: relates }
+  - { from: sr_android_push, to: mob_push_shipped, type: relates }
 
 comments:
   bug_cart_badge:
@@ -319,6 +359,14 @@ comments:
     - { by: marco,  text: "Automated regression for promo codes added to the nightly suite. @Lena can you take the exploratory pass?" }
   bug_backup:
     - { by: tanvir, text: "Mitigation: freed 120 GB and triggered a manual backup (succeeded 09:14). Permanent fix: `set -o pipefail` and a size check before the dump." }
+  sr_checkout_500:
+    - { by: lena,   text: "Reproduced on staging with a card expiring this month. Linked to the open payment bug. @Rafi is the fix on track for 3.5.0-rc.2?" }
+    - { by: rafi,   text: "Yes, tomorrow. Until then the workaround is to pay with a different card; I'll confirm when it is on production." }
+  sr_password_reset:
+    - { by: lena,   text: "Their mail server rejects our sender. Waiting for their IT to allow-list noreply@shopease.example; I will follow up on Thursday." }
+  sr_refund:
+    - { by: marco,  text: "Refund was issued on the 1st; banks can take up to 10 days. Customer was told, but replied again that it is urgent." }
+    - { by: lena,   text: "Reopening: asked finance for a refund trace. @Ayesha FYI, this customer is on our watch list." }
   web_cr_shipping:
     - { by: ayesha, text: "Finance confirmed the new threshold goes live together with 3.5.0." }
 
@@ -364,6 +412,7 @@ wiki_pages:
 
       - [[Workflow and definition of done]]
       - [[Bug lifecycle and severity]]
+      - [[Support process]]
       - [[Sprint rituals]]
       - [[Release checklist]]
 
@@ -376,6 +425,7 @@ wiki_pages:
       | Mobile work | Backlog in ShopEase Mobile |
       | Infrastructure | Platform & DevOps |
       | Ideas from customers | Feature Request; scope changes after commitment: Change Request |
+      | Customer questions and problems | **Support Queue** board in ShopEase (Support Request) |
 
       Create anything from **+ Create** in the header (or press **c**). Search with **⌘K** / **Ctrl+K**.
   - project: SHOP
@@ -433,6 +483,45 @@ wiki_pages:
 
       Bug triage every Wednesday at 11:00: confirm severity, assign an owner, put it in a sprint or close it.
       Production bugs are triaged the same day by the QA lead.
+  - project: SHOP
+    title: "Support process"
+    parent: "Team handbook"
+    author: ayesha
+    text: |
+      # Support process
+
+      Every customer question or problem becomes a **Support Request** (**+ Create > Support Request**). The **Support Queue** board and the **Support queue** view show what is open.
+
+      ## Fields
+
+      | Field | What to enter |
+      |---|---|
+      | Customer | Company or account name |
+      | Support channel | Where it came in: Email, Live chat, Phone, Customer portal, In-app |
+      | Business impact | How badly the customer is affected: High, Medium, Low |
+      | Priority | See the response targets below |
+
+      ## Response targets
+
+      | Priority | First reply | Updates |
+      |---|---|---|
+      | Critical | 1 hour | every 4 hours until resolved |
+      | High | 4 hours | daily |
+      | Medium | 1 business day | every 2 business days |
+      | Low | 2 business days | on resolution |
+
+      ## Statuses
+
+      - **To Do**: new, not picked up yet.
+      - **In Progress**: someone is working on it.
+      - **Waiting on Customer**: we asked a question; the response clock is paused.
+      - **Reopened**: the customer replied again after we closed it.
+      - **Done**: the customer confirmed, or did not reply for 5 days.
+      - **Won't Do**: out of scope or a duplicate; say why in a comment.
+
+      ## Escalating to engineering
+
+      When a fix or a change is needed, create a **Bug**, **Feature Request** or **Change Request**, link it to the support request with **Relations > relates to**, and keep talking to the customer in the support request. Lena is the primary support owner this quarter, Marco the backup.
   - project: SHOP
     title: "Sprint rituals"
     parent: "Team handbook"

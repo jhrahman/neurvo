@@ -30,18 +30,22 @@ Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes 
 (keep them with `KEEP_UPSTREAM_DEMO=1`). Safe to re-run: configuration is upserted and the sample projects are rebuilt.
 
 - Projects: ShopEase (SHOP) with ShopEase Web (WEB) and ShopEase Mobile (MOB), Platform & DevOps (OPS), Neurvo (NEU).
-- Issue keys like `WEB-18`; types Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Milestone.
+- Issue keys like `WEB-18`; types Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support Request, Milestone.
 - Workflow: To Do → In Progress → In Review → Ready for QA → In QA → Done (plus Reopened, Blocked, Won't Do).
 - Bug fields: Severity, Environment, Platform, Found in build, Fixed in build. Per-type description templates.
-- Sprints (previous completed, current active, next in planning), releases, boards (SQA Defects in SHOP, Web Kanban),
-  saved views (Open bugs, Ready for QA, Production incidents, Feature & change requests).
+- Support Request: its own workflow (To Do → In Progress → Waiting on Customer → Done, plus Reopened, Won't Do), fields
+  Customer, Support channel and Business impact, a Support Queue board and a Support queue view in ShopEase, six sample
+  tickets (one reopened refund, one escalated to a payment bug, one linked to a change request).
+- Sprints (previous completed, current active, next in planning), releases, boards (SQA Defects and Support Queue in
+  SHOP, Web Kanban), saved views (Open bugs, Ready for QA, Production incidents, Feature & change requests, Support
+  queue), listed under "Public" in the work package side menu.
 - Meetings: daily stand-up, weekly bug triage (critical bugs on the agenda), sprint review & retro, sprint planning,
   release go/no-go. Sprints run Monday–Friday; all times in Asia/Dhaka.
 - Comments contain real @mentions, so inboxes fill up about 5 minutes after seeding (journal aggregation), as long as
   the `worker` container is running.
 - Project statuses (on track / at risk / off track) with explanations.
-- Team handbook in the ShopEase wiki: workflow and definition of done, bug lifecycle and severity, sprint rituals,
-  release checklist.
+- Team handbook in the ShopEase wiki: workflow and definition of done, bug lifecycle and severity, support process,
+  sprint rituals, release checklist.
 - Team (password `Neurvo-Dev-2026!`): ayesha.karim (PM), daniel.brooks (tech lead), rafi.hasan, sofia.martins,
   kenji.watanabe, priya.nair (developers), nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
 
