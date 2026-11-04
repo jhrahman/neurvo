@@ -34,3 +34,21 @@
 
 .neurvo-field-hint
   flex-basis: 100%
+
+// Status buttons: solid status colour with bold white text so every status stays readable
+.op-wp-status-button .op-wp-status-button--button.button[class*="__hl_background_status_"]
+  background: rgb(var(--color-r), var(--color-g), var(--color-b)) !important
+  border-color: rgb(var(--color-r), var(--color-g), var(--color-b)) !important
+  color: #fff !important
+  font-weight: var(--base-text-weight-bold, 600)
+  text-shadow: none
+
+  .button--text, .button--icon, .button--icon::before
+    color: #fff !important
+
+  &:hover:not([disabled])
+    filter: brightness(0.92)
+
+  &:focus-visible
+    outline: 2px solid var(--focus-outlineColor, #0969da)
+    outline-offset: 2px

@@ -37,11 +37,11 @@ organization:
     Neurvo is Ocean IT Solutions' project management and issue tracking platform: plan work, track issues, run boards and sprints, and keep your team's documents in one place.
 
 statuses:
-  - { key: todo,        name: "To Do",        color: "#8C959F", renames: ["New"], default: true }
+  - { key: todo,        name: "To Do",        color: "#5F6B7A", renames: ["New"], default: true }
   - { key: in_progress, name: "In Progress",  color: "#1276B9", renames: ["In progress"] }
   - { key: in_review,   name: "In Review",    color: "#8250DF", renames: ["Specified"] }
-  - { key: ready_qa,    name: "Ready for QA", color: "#1B998B", renames: ["Developed"] }
-  - { key: in_qa,       name: "In QA",        color: "#D97706", renames: ["In testing"] }
+  - { key: ready_qa,    name: "Ready for QA", color: "#0F766E", renames: ["Developed"] }
+  - { key: in_qa,       name: "In QA",        color: "#B45309", renames: ["In testing"] }
   - { key: reopened,    name: "Reopened",     color: "#CF222E", renames: ["Test failed"] }
   - { key: waiting,     name: "Waiting on Customer", color: "#9A6700", renames: [] }
   - { key: blocked,     name: "Blocked",      color: "#82071E", renames: ["On hold"] }
