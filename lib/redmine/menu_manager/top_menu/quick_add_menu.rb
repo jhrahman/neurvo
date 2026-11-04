@@ -112,7 +112,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def visible_types
     @visible_types ||= begin
       if user_can_create_work_package?
-        Type.enabled_in(Project.allowed_to(User.current, :add_work_packages))
+        Type.enabled_in(creatable_project_ids)
       else
         Type.none
       end
@@ -120,12 +120,41 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_create_link(type_id, type_name)
-    default_project = @project.identifier if in_project_context? &&
-                                             User.current.allowed_in_project?(:add_work_packages, @project)
-
     { caption: type_name,
-      href: new_work_package_path(type: type_id, default_project:),
+      href: new_work_package_path(type: type_id, default_project: default_project_by_type[type_id]),
       classes: "__hl_inline_type_#{type_id}" }
+  end
+
+  def default_project_by_type
+    @default_project_by_type ||= begin
+      identifiers = Project.where(id: creatable_project_ids).pluck(:id, :identifier).to_h
+
+      project_ids_by_type.transform_values do |project_ids|
+        identifiers[preferred_project_ids.find { |id| project_ids.include?(id) }]
+      end
+    end
+  end
+
+  def project_ids_by_type
+    ProjectType.where(project_id: creatable_project_ids)
+               .pluck(:type_id, :project_id)
+               .group_by(&:first)
+               .transform_values { |pairs| pairs.map(&:last) }
+  end
+
+  def preferred_project_ids
+    @preferred_project_ids ||= begin
+      recently_used = WorkPackage.where(author_id: User.current.id, project_id: creatable_project_ids)
+                                 .group(:project_id).maximum(:created_at)
+                                 .sort_by { |_, created_at| created_at }.reverse.map(&:first)
+      current = in_project_context? ? [@project.id] : []
+
+      (current + recently_used + creatable_project_ids) & creatable_project_ids
+    end
+  end
+
+  def creatable_project_ids
+    @creatable_project_ids ||= Project.allowed_to(User.current, :add_work_packages).order(:lft).pluck(:id)
   end
 
   def user_can_create_work_package?
