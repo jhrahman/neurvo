@@ -60,6 +60,27 @@ Builds a realistic dev/QA workspace from `lib/neurvo/seed_data.yml` and removes 
 Do not start the optional services in `docker/dev/` (Keycloak, Nextcloud, GitLab, MinIO and so on) unless a task needs them.
 The frontend dev server (Angular) is slow on the first compile; wait until the backend log shows the page can be served.
 
+## Sharing your local Neurvo (Cloudflare quick tunnel)
+
+Pages load their scripts from `http://localhost:4200`, which only works on your Mac, so don't tunnel port 3000.
+Tunnel the share proxy instead:
+
+```bash
+bin/neurvo-share                                   # terminal 1: serves app + assets on http://localhost:3100
+cloudflared tunnel --url http://localhost:3100     # terminal 2: prints the public https://…trycloudflare.com URL
+```
+
+The proxy hides the dev-only pages (`/letter_opener` with every email incl. password resets, `/good_job`,
+`/lookbook`, `/rails/*`). Rails accepts `*.trycloudflare.com` hosts (`OPENPROJECT_DEV_EXTRA_HOSTS` in
+`docker-compose.yml`).
+
+Before you share the link:
+
+- Anyone with the URL reaches the login page. The sample team's password is in this file, so share only with
+  people you trust, or change those passwords, and delete the `qa` admin account.
+- This is development mode: error pages show stack traces and source snippets.
+- Stop `cloudflared` (Ctrl+C) when you are done; quick-tunnel URLs change on every start.
+
 ## Memory (Docker Desktop with 8 GB)
 
 The Angular dev server alone needs about 4 GB while compiling. With backend, worker, database and a test database

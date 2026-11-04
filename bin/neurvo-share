@@ -1,0 +1,148 @@
+#!/usr/bin/env node
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+// Shares the local development stack through a tunnel (e.g. `cloudflared tunnel --url http://localhost:3100`).
+// Pages reference frontend assets at http://localhost:4200, which a remote browser cannot reach,
+// so assets are served from the same origin and dev-only tools are kept private.
+
+const http = require('node:http');
+const net = require('node:net');
+
+const LISTEN_PORT = Number(process.env.SHARE_PORT || 3100);
+const BACKEND = { host: 'localhost', port: Number(process.env.PORT || 3000) };
+const FRONTEND = { host: 'localhost', port: Number(process.env.FE_PORT || 4200) };
+const FRONTEND_ORIGIN = `http://${FRONTEND.host}:${FRONTEND.port}`;
+const BACKEND_ORIGIN = `http://${BACKEND.host}:${BACKEND.port}`;
+
+const PRIVATE_PATHS = /^\/(letter_opener|good_job|lookbook|rails\/)/;
+const FRONTEND_PATHS = /^\/(assets\/frontend\/|@vite\/|@fs\/|@id\/)/;
+const REWRITTEN_TYPES = /^(text\/html|text\/vnd\.turbo-stream\.html)/;
+
+function targetFor(url) {
+  return FRONTEND_PATHS.test(url) ? FRONTEND : BACKEND;
+}
+
+function publicOrigin(req) {
+  const proto = req.headers['cf-visitor']?.includes('https') ? 'https' : 'http';
+  return `${proto}://${req.headers.host}`;
+}
+
+// The backend renders the asset server and its own host name (Setting.host_name) into links,
+// redirects and preload headers.
+function rewrite(text, req) {
+  const origin = publicOrigin(req);
+  return text
+    .replaceAll(FRONTEND_ORIGIN, '')
+    .replaceAll(encodeURIComponent(FRONTEND_ORIGIN), '')
+    .replaceAll(BACKEND_ORIGIN, origin)
+    .replaceAll(encodeURIComponent(BACKEND_ORIGIN), encodeURIComponent(origin));
+}
+
+function rewrittenHeaders(headers, req) {
+  return Object.fromEntries(Object.entries(headers).map(([name, value]) => {
+    if (name === 'content-security-policy') return [name, value];
+    return [name, Array.isArray(value) ? value.map((v) => rewrite(v, req)) : rewrite(String(value), req)];
+  }));
+}
+
+function forwardedHeaders(req, target) {
+  const headers = { ...req.headers };
+  if (target === FRONTEND) {
+    headers.host = `${FRONTEND.host}:${FRONTEND.port}`;
+  } else {
+    headers['x-forwarded-proto'] ||= new URL(publicOrigin(req)).protocol.slice(0, -1);
+    headers['x-forwarded-host'] ||= req.headers.host;
+    delete headers['accept-encoding'];
+  }
+  return headers;
+}
+
+const server = http.createServer((req, res) => {
+  if (PRIVATE_PATHS.test(req.url)) {
+    res.writeHead(404, { 'content-type': 'text/plain' }).end('Not found');
+    return;
+  }
+
+  const target = targetFor(req.url);
+  const upstream = http.request(
+    { ...target, method: req.method, path: req.url, headers: forwardedHeaders(req, target) },
+    (upstreamRes) => {
+      if (target === FRONTEND) {
+        res.writeHead(upstreamRes.statusCode, upstreamRes.headers);
+        upstreamRes.pipe(res);
+        return;
+      }
+
+      const headers = rewrittenHeaders(upstreamRes.headers, req);
+      if (!REWRITTEN_TYPES.test(upstreamRes.headers['content-type'] || '')) {
+        res.writeHead(upstreamRes.statusCode, headers);
+        upstreamRes.pipe(res);
+        return;
+      }
+
+      const chunks = [];
+      upstreamRes.on('data', (chunk) => chunks.push(chunk));
+      upstreamRes.on('end', () => {
+        const body = Buffer.from(rewrite(Buffer.concat(chunks).toString('utf8'), req));
+        delete headers['transfer-encoding'];
+        res.writeHead(upstreamRes.statusCode, { ...headers, 'content-length': body.length });
+        res.end(body);
+      });
+    },
+  );
+
+  upstream.on('error', () => {
+    if (!res.headersSent) res.writeHead(502, { 'content-type': 'text/plain' });
+    res.end('Neurvo is starting or not running, try again in a moment.');
+  });
+  req.pipe(upstream);
+});
+
+server.on('upgrade', (req, socket, head) => {
+  if (PRIVATE_PATHS.test(req.url)) {
+    socket.destroy();
+    return;
+  }
+
+  const target = targetFor(req.url);
+  const upstream = net.connect(target.port, target.host, () => {
+    const headers = forwardedHeaders(req, target);
+    const lines = Object.entries(headers).map(([name, value]) => `${name}: ${value}`);
+    upstream.write(`${req.method} ${req.url} HTTP/1.1\r\n${lines.join('\r\n')}\r\n\r\n`);
+    upstream.write(head);
+    socket.pipe(upstream).pipe(socket);
+  });
+  upstream.on('error', () => socket.destroy());
+  socket.on('error', () => upstream.destroy());
+});
+
+server.listen(LISTEN_PORT, '127.0.0.1', () => {
+  console.log(`Sharing Neurvo on http://localhost:${LISTEN_PORT}`);
+  console.log(`Expose it with: cloudflared tunnel --url http://localhost:${LISTEN_PORT}`);
+});
