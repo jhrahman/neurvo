@@ -42,36 +42,42 @@
                     end
                   end
                   header_start_container.with_column(
-                    mr: 1, flex_layout: true,
-                    classes: "work-packages-activities-tab-journals-item-component--user-name-container hidden-for-desktop"
-                  ) do |user_name_container|
-                    user_name_container.with_row(classes: "work-packages-activities-tab-journals-item-component--user-name ellipsis") do
-                      truncated_user_name(journal.user)
-                    end
-                    user_name_container.with_row do
-                      render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) { format_time(journal.created_at) }
-                    end
-                  end
-                  header_start_container.with_column(
-                    mr: 1,
-                    classes: "work-packages-activities-tab-journals-item-component--user-name ellipsis hidden-for-mobile"
-                  ) do
-                    helpers.primer_link_to_user(
-                      journal.user, scheme: :primary, font_weight: :bold, hover_card: false, data: user_card_data
-                    )
-                  end
-                  if journal.initial?
-                    header_start_container.with_column(
-                      mr: 1,
-                      classes: "work-packages-activities-tab-journals-item-component-details--journal-type hidden-for-mobile"
-                    ) do
-                      render(Primer::Beta::Text.new(font_size: :small, color: :subtle, mt: 1)) do
-                        I18n.t("activities.work_packages.activity_tab.created_on")
+                    flex_layout: true,
+                    classes: "op-comment-author"
+                  ) do |author|
+                    author.with_row(flex_layout: true, align_items: :baseline, classes: "op-comment-author--line") do |line|
+                      line.with_column(
+                        mr: 2,
+                        classes: "work-packages-activities-tab-journals-item-component--user-name ellipsis"
+                      ) do
+                        helpers.primer_link_to_user(
+                          journal.user, scheme: :primary, font_weight: :bold, hover_card: false, data: user_card_data
+                        )
+                      end
+                      if journal.initial?
+                        line.with_column(
+                          mr: 1,
+                          classes: "work-packages-activities-tab-journals-item-component-details--journal-type"
+                        ) do
+                          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+                            I18n.t("activities.work_packages.activity_tab.created_on")
+                          end
+                        end
+                      end
+                      line.with_column(classes: "op-comment-author--time") do
+                        activity_anchor_link(journal)
                       end
                     end
-                  end
-                  header_start_container.with_column(mr: 1, classes: "hidden-for-mobile") do
-                    activity_anchor_link(journal)
+                    if designation.present?
+                      author.with_row(classes: "op-comment-author--designation ellipsis") do
+                        render(
+                          Primer::Beta::Text.new(
+                            font_size: :small, color: :muted,
+                            data: { test_selector: "op-journal-author-designation" }
+                          )
+                        ) { designation }
+                      end
+                    end
                   end
                 end
                 header_container.with_column(flex_layout: true, align_items: :center) do |header_end_container|

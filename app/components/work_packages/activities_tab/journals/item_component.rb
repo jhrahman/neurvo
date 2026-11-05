@@ -52,6 +52,24 @@ module WorkPackages
 
         attr_reader :journal, :state, :filter, :grouped_emoji_reactions, :highlight
 
+        def designation
+          return @designation if defined?(@designation)
+
+          @designation = designation_value
+        end
+
+        def designation_value
+          user = journal.user
+          field = designation_field
+          return unless field && user.respond_to?(:custom_values)
+
+          user.custom_values.detect { |value| value.custom_field_id == field.id }&.value
+        end
+
+        def designation_field
+          RequestStore.fetch(:neurvo_designation_field) { UserCustomField.find_by(name: "Designation") || false }
+        end
+
         def reply?
           journal.reply_to_id.present?
         end

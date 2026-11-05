@@ -137,3 +137,21 @@
     transform: translate(0, -50%)
   100%
     opacity: 0
+
+.op-comment-author
+  flex-direction: column
+  min-width: 0
+  line-height: 1.25
+  &--line
+    flex-wrap: wrap
+    column-gap: var(--base-size-4)
+  &--time
+    white-space: nowrap
+  &--designation
+    margin-top: 1px
+    font-size: var(--text-body-size-small)
+    color: var(--fgColor-muted)
+    max-width: 100%
+
+.op-comment-author .work-packages-activities-tab-journals-item-component--user-name
+  max-width: 100%

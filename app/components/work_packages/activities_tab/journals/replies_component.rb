@@ -55,7 +55,7 @@ module WorkPackages
           @replies ||= Journal.find(parent_id).journable.journals
             .internal_visible
             .where(reply_to_id: parent_id)
-            .includes(:user)
+            .includes(user: :custom_values)
             .reorder(:created_at, :id)
             .to_a
         end
