@@ -8,7 +8,7 @@ module WorkPackages
 
       def self.wrapper_key = :"work-package-full-view"
 
-      def initialize(id:, tab: "activity")
+      def initialize(id:, tab: "comments")
         super
 
         @id = id

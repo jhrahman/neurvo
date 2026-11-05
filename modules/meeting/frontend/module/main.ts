@@ -81,7 +81,7 @@ export function initializeMeetingPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
   const I18n = injector.get(I18nService);
   wpTabService.registerAfter(
-    'relations',
+    'activity',
     {
       component: MeetingsTabComponent,
       name: I18n.t('js.label_meetings'),

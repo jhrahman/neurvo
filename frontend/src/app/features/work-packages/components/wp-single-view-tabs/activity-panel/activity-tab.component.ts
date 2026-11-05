@@ -28,6 +28,7 @@
 
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, OnInit } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { UrlHelpers } from 'core-stimulus/controllers/dynamic/work-packages/activities-tab/services/url-helpers';
 import {
   ActivityPanelBaseController,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-base.controller';
@@ -50,6 +51,11 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
   ngOnInit() {
     const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
     this.workPackageId = (this.workPackage.id!) || workPackageId;
+
+    if (UrlHelpers.extractActivityAnchor(window.location.hash)) {
+      window.location.replace(window.location.href.replace(/\/activity(?=[/?#]|$)/, '/comments'));
+      return;
+    }
 
     super.ngOnInit();
     if (window.location.hash) {

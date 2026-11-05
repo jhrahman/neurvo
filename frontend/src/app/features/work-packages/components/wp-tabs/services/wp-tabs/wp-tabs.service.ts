@@ -128,7 +128,9 @@ export class WorkPackageTabsService {
             ? (injector:Injector) => tab.count!(workPackage, injector || this.injector)
             : (_:Injector) => from([0]),
         }),
-      );
+      )
+      // The split view leads with its details tab; everywhere else Comments comes first.
+      .sort((a, b) => Number(b.id === 'overview') - Number(a.id === 'overview'));
   }
 
   getTab(tabId:string, workPackage:WorkPackageResource):WpTabDefinition|undefined {
@@ -138,28 +140,9 @@ export class WorkPackageTabsService {
   private buildDefaultTabs():WpTabDefinition[] {
     return [
       {
-        component: WorkPackageOverviewTabComponent,
-        name: this.I18n.t('js.work_packages.tabs.overview'),
-        id: 'overview',
-        displayable: (_, $state) => $state ? $state.includes('**.details.*') : false,
-      },
-      {
-        id: 'activity',
-        component: WorkPackageActivityTabComponent,
-        name: I18n.t('js.work_packages.tabs.activity'),
-        count: workPackageNotificationsCount,
-        showCountAsBubble: true,
-      },
-      {
         id: 'comments',
         component: WorkPackageCommentsTabComponent,
         name: I18n.t('js.work_packages.tabs.comments'),
-      },
-      {
-        id: 'project_attributes',
-        component: WorkPackageProjectAttributesTabComponent,
-        name: I18n.t('js.work_packages.tabs.project_attributes'),
-        displayable: (workPackage) => !!workPackage.hasProjectAttributes,
       },
       {
         id: 'files',
@@ -172,6 +155,25 @@ export class WorkPackageTabsService {
         component: WorkPackageRelationsTabComponent,
         name: I18n.t('js.work_packages.tabs.relations'),
         count: workPackageRelationsCount,
+      },
+      {
+        id: 'activity',
+        component: WorkPackageActivityTabComponent,
+        name: I18n.t('js.work_packages.tabs.activity'),
+        count: workPackageNotificationsCount,
+        showCountAsBubble: true,
+      },
+      {
+        component: WorkPackageOverviewTabComponent,
+        name: this.I18n.t('js.work_packages.tabs.overview'),
+        id: 'overview',
+        displayable: (_, $state) => $state ? $state.includes('**.details.*') : false,
+      },
+      {
+        id: 'project_attributes',
+        component: WorkPackageProjectAttributesTabComponent,
+        name: I18n.t('js.work_packages.tabs.project_attributes'),
+        displayable: (workPackage) => !!workPackage.hasProjectAttributes,
       },
       {
         id: 'watchers',

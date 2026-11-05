@@ -175,6 +175,10 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `frontend/src/global_styles/neurvo/_code.sass`, `frontend/src/common/code-block-copy.ts`, `frontend/src/turbo/setup.ts`, `config/locales/js-en.yml` | Code blocks show a language label, theme-aware syntax colours and a Copy button |
 | `frontend/src/app/shared/components/editor/components/ckeditor/ckeditor-setup.service.ts` | The "Powered by CKEditor" badge (required by the free licence, not hidden) sits on the right of the bottom border instead of the left |
 | `lib/neurvo/seed_data.yml`, `lib/neurvo/seed_data/*.yml`, `docs/neurvo/{USERS,ROLES}.md` | Team Member role and `general.user` account: full day-to-day rights (including deleting work packages, boards, sprints, wiki) in all four projects, no project settings, members or system administration, not quality-gated |
+| `frontend/src/app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service.ts`, `modules/wikis/frontend/module/main.ts`, `modules/meeting/frontend/module/main.ts` | Tab order: Comments, Files, Relations, Activity, then Wikis, Meetings, GitHub, GitLab, Watchers (the split view still leads with Overview) |
+| `app/controllers/work_packages_controller.rb`, `app/components/work_packages/full_view/show_component.rb`, `frontend/src/app/core/path-helper/path-helper.service.ts`, `.../keep-tab/keep-tab.service.ts`, `.../wp-view-base/work-package-single-view.base.ts`, `.../in-app-notifications/**` | A work package opens on Comments by default |
+| `app/components/work_packages/activities_tab/shared_helpers.rb`, `.../activity-panel/activity-tab.component.ts` | Comment links point to the Comments tab; old `/activity#comment-N` links redirect there |
+| `frontend/src/global_styles/neurvo/_comments.sass`, `frontend/src/common/code-block-copy.ts`, `frontend/src/turbo/setup.ts` | Opening a comment link flashes the comment yellow for about 1 second (replaces the border highlight); the copy-link icon turns into a check mark with a "Link copied" label |
 
 ## Readable status buttons
 

@@ -113,7 +113,11 @@
                           size: :small,
                           value: activity_url(journal),
                           "aria-label": t("button_copy_link_to_clipboard"),
-                          data: { test_selector: "op-wp-journal-#{journal.id}-copy-link" }
+                          data: {
+                            test_selector: "op-wp-journal-#{journal.id}-copy-link",
+                            copy_feedback: true,
+                            copied_label: t("activities.work_packages.activity_tab.link_copied")
+                          }
                         )
                       )
                     end

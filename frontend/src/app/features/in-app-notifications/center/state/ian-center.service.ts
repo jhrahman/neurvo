@@ -228,7 +228,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     );
   }
 
-  openSplitScreen(workPackageId:string, tabIdentifier = 'activity'):void {
+  openSplitScreen(workPackageId:string, tabIdentifier = 'comments'):void {
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
     Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
   }

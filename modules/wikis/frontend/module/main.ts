@@ -43,7 +43,7 @@ export function initializeWikiPlugin(injector:Injector) {
   const configService = injector.get(ConfigurationService);
   const I18n = injector.get(I18nService);
   wpTabService.registerAfter(
-    'relations',
+    'activity',
     {
       component: WikisTabComponent,
       name: I18n.t('js.work_packages.tabs.wikis'),

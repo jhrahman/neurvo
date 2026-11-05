@@ -100,3 +100,39 @@
   .op-comment-progress--bar
     animation: none
     width: 100%
+
+.work-packages-activities-tab-journals-item-component .--anchor-highlighted
+  border: 1px solid var(--borderColor-default)
+  animation: neurvo-comment-flash 1.6s ease-out 1
+  & .Box-header,
+  & .Box-body
+    background-color: transparent
+
+.op-copy-feedback
+  position: relative
+  &--done
+    color: var(--fgColor-success) !important
+    &::after
+      content: attr(data-copied-label)
+      position: absolute
+      bottom: calc(100% + var(--base-size-4))
+      left: 50%
+      transform: translateX(-50%)
+      padding: var(--base-size-2) var(--base-size-8)
+      font-size: 0.75rem
+      white-space: nowrap
+      color: var(--fgColor-onEmphasis)
+      background: var(--bgColor-emphasis)
+      border-radius: var(--borderRadius-medium)
+      pointer-events: none
+      animation: neurvo-copy-pop 1.6s ease-out 1 forwards
+
+@keyframes neurvo-copy-pop
+  0%
+    opacity: 0
+    transform: translate(-50%, 4px)
+  15%, 80%
+    opacity: 1
+    transform: translate(-50%, 0)
+  100%
+    opacity: 0

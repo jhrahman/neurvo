@@ -73,3 +73,23 @@ export function setupCodeBlockCopy() {
     if (button) { void copy(button); }
   });
 }
+
+const CHECK_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" class="octicon"><path fill="currentColor" d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg>';
+const FEEDBACK_SELECTOR = '[data-copy-feedback]';
+const FEEDBACK_MS = 1600;
+
+export function setupCopyFeedback() {
+  document.addEventListener('clipboard-copy', (event) => {
+    const trigger = (event.target as HTMLElement|null)?.closest<HTMLElement>(FEEDBACK_SELECTOR);
+    if (!trigger || trigger.classList.contains('op-copy-feedback--done')) { return; }
+
+    const original = trigger.innerHTML;
+    trigger.classList.add('op-copy-feedback', 'op-copy-feedback--done');
+    trigger.innerHTML = CHECK_ICON;
+
+    window.setTimeout(() => {
+      trigger.innerHTML = original;
+      trigger.classList.remove('op-copy-feedback--done');
+    }, FEEDBACK_MS);
+  });
+}

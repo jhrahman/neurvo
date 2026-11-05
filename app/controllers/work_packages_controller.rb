@@ -317,7 +317,7 @@ class WorkPackagesController < ApplicationController
     redirect_to action: "show",
                 id: work_package.display_id,
                 project_id: work_package.project.identifier,
-                tab: params[:tab] || "activity"
+                tab: params[:tab] || "comments"
   end
 
   def show_route_incomplete?

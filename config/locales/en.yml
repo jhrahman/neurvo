@@ -1367,6 +1367,7 @@ en:
         label_submit_comment: "Submit comment"
         label_type_to_comment: "Add a comment. Type @ to notify people."
         label_who: Who?
+        link_copied: "Link copied"
         no_results_description_text: 'Choose "Show everything" to show all activity and comments'
         no_results_title_text: No activity to display
         reply_placeholder: "Write a reply… (Ctrl/Cmd+Enter to send)"

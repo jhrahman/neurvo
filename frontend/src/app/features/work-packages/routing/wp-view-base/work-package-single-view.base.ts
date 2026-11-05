@@ -68,7 +68,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @Input() workPackageId:string;
 
-  @Input() activeTab = 'activity';
+  @Input() activeTab = 'comments';
 
   readonly states = inject(States);
 

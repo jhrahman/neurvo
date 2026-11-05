@@ -102,9 +102,9 @@ export class KeepTabService {
 
   public get currentShowTab():string {
     // Show view doesn't have overview
-    // use activity instead
+    // use comments instead
     if (this.currentTab === 'overview') {
-      return 'activity';
+      return 'comments';
     }
 
     return this.currentTab;

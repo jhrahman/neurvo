@@ -137,7 +137,7 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
       return;
     }
 
-    const tab = this.showDateAlert ? 'overview' : 'activity';
+    const tab = this.showDateAlert ? 'overview' : 'comments';
     const id = this.latestWorkPackage?.displayId ?? this.workPackageId;
     this.storeService.openSplitScreen(id, tab);
   }

@@ -68,7 +68,7 @@ module WorkPackages
       end
 
       def activity_url(journal)
-        "#{project_work_package_url(journal.journable.project, journal.journable)}/activity#{activity_anchor(journal)}"
+        "#{project_work_package_url(journal.journable.project, journal.journable)}/comments#{activity_anchor(journal)}"
       end
 
       def activity_anchor(journal)

@@ -324,7 +324,7 @@ export class PathHelperService {
     return `${this.staticBase}/work_packages/${id.toString()}`;
   }
 
-  public genericWorkPackagePath(projectIdentifier:string|null, workPackageId:string|number, tab = 'activity') {
+  public genericWorkPackagePath(projectIdentifier:string|null, workPackageId:string|number, tab = 'comments') {
     if (projectIdentifier) {
       return `${this.projectWorkPackagePath(projectIdentifier, workPackageId)}/${tab}`;
     }
