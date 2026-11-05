@@ -115,9 +115,10 @@
     &::after
       content: attr(data-copied-label)
       position: absolute
-      bottom: calc(100% + var(--base-size-4))
-      left: 50%
-      transform: translateX(-50%)
+      right: calc(100% + var(--base-size-6))
+      top: 50%
+      transform: translateY(-50%)
+      z-index: 5
       padding: var(--base-size-2) var(--base-size-8)
       font-size: 0.75rem
       white-space: nowrap
@@ -130,9 +131,9 @@
 @keyframes neurvo-copy-pop
   0%
     opacity: 0
-    transform: translate(-50%, 4px)
+    transform: translate(6px, -50%)
   15%, 80%
     opacity: 1
-    transform: translate(-50%, 0)
+    transform: translate(0, -50%)
   100%
     opacity: 0
