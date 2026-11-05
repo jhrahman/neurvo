@@ -154,7 +154,7 @@ export class CKEditorSetupService {
       initialData,
       ui: {
         poweredBy: {
-          side: 'left',
+          side: 'right',
         },
       },
       language: {

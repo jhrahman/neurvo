@@ -19,7 +19,7 @@ index 7ad59bd..255192d 100644
      "@ckeditor/ckeditor5-horizontal-line": "48.0.0",
      "@ckeditor/ckeditor5-image": "48.0.0",
 diff --git a/src/op-ckeditor-config.ts b/src/op-ckeditor-config.ts
-index 4438360..ab8bf90 100644
+index 4438360..22df881 100644
 --- a/src/op-ckeditor-config.ts
 +++ b/src/op-ckeditor-config.ts
 @@ -45,6 +45,39 @@ export const defaultConfig: EditorConfig = {
@@ -62,6 +62,22 @@ index 4438360..ab8bf90 100644
  	OPCodeBlock: {
  		toolbar: [
  			'opEditCodeBlock',
+@@ -130,6 +163,15 @@ export const defaultConfig: EditorConfig = {
+ 		]
+ 	},
+ 
++	ui: {
++		poweredBy: {
++			position: 'border',
++			side: 'right',
++			verticalOffset: 2,
++			horizontalOffset: 6
++		}
++	},
++
+ 	language: 'en',
+ 	licenseKey: 'GPL'
+ };
 diff --git a/src/op-ckeditor.ts b/src/op-ckeditor.ts
 index 14af9d3..a2d7b1a 100644
 --- a/src/op-ckeditor.ts
