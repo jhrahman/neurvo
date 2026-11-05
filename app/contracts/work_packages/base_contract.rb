@@ -106,7 +106,7 @@ module WorkPackages
     end
 
     attribute :author_id do
-      next unless model.project
+      next unless model.project && model.author_id_changed?
       next if model.author_id == user.id
 
       validate_people_visible :author, "author_id", assignable_assignees.where(type: "User")

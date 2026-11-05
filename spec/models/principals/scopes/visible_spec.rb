@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Principals::Scopes::Visible do
+RSpec.describe Principals::Scopes::Visible, with_settings: { neurvo_open_user_directory: false } do
   describe ".visible" do
     shared_let(:role) { create(:project_role, permissions: %i[manage_members]) }
 
@@ -125,6 +125,24 @@ RSpec.describe Principals::Scopes::Visible do
 
       it "sees only themself and groups they belong to" do
         expect(subject).to contain_exactly(current_user, current_user_group)
+      end
+    end
+
+    context "when the user directory is open", with_settings: { neurvo_open_user_directory: true } do
+      context "and the user is signed in without any membership" do
+        current_user { create(:user, firstname: "current user") }
+
+        it "sees the users of every project" do
+          expect(subject).to include(project_user, project_group, current_user)
+        end
+      end
+
+      context "and nobody is signed in" do
+        current_user { anonymous_user }
+
+        it "does not list ordinary users" do
+          expect(subject).not_to include(project_user)
+        end
       end
     end
   end

@@ -130,19 +130,19 @@ RSpec.describe WorkPackages::CreateContract do
 
       it_behaves_like "can not write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
-      it_behaves_like "can not write", :author_id, -> { user.id + 1 }
+      it_behaves_like "can write", :author_id, -> { user.id + 1 }
     end
 
     context "when enabled for regular user", with_settings: { apiv3_write_readonly_attributes: true } do
       it_behaves_like "can not write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
-      it_behaves_like "can not write", :author_id, -> { user.id + 1 }
+      it_behaves_like "can write", :author_id, -> { user.id + 1 }
     end
 
     context "when disabled for regular user", with_settings: { apiv3_write_readonly_attributes: false } do
       it_behaves_like "can not write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
-      it_behaves_like "can not write", :author_id, -> { user.id + 1 }
+      it_behaves_like "can write", :author_id, -> { user.id + 1 }
     end
   end
 

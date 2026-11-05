@@ -2,12 +2,12 @@
 
 Development and demo accounts, all fictional (the people and "Ocean IT Solutions" are made up), created by `bin/compose exec backend bundle exec rake neurvo:seed`.
 Sign in at <http://localhost:3000>. **Change or delete these before any real use**: the passwords are public.
-The `admin` and `general.user` passwords above were set on the dev instance; a fresh `neurvo:seed` on a new database creates `general.user` with `Neurvo-Dev-2026!` and `admin` with the OpenProject default.
+A fresh database starts with `admin` / `admin` (you are asked to change it at the first login); every sample account created by `neurvo:seed` uses `Neurvo-Dev-2026!`.
 What each role may do is described in [ROLES.md](ROLES.md).
 
 | Avatar | Name | Username | Password | Job title | Role | Projects |
 |:-:|---|---|---|---|---|---|
-| <img src="../../lib/neurvo/avatars/png/avatar-03.png" width="40" height="40" alt="avatar-03"> | Jahidur Rahman | `admin` | `<redacted>` | Senior Engineer | Administrator | all |
+| <img src="../../lib/neurvo/avatars/png/avatar-03.png" width="40" height="40" alt="avatar-03"> | Jahidur Rahman | `admin` | `admin` (change on first login) | Senior Engineer | Administrator | all |
 | <img src="../../lib/neurvo/avatars/png/avatar-29.png" width="40" height="40" alt="avatar-29"> | Imran Chowdhury | `imran.chowdhury` | `Neurvo-Dev-2026!` | Product Manager | Project Manager | GoFleet |
 | <img src="../../lib/neurvo/avatars/png/avatar-17.png" width="40" height="40" alt="avatar-17"> | Ayesha Karim | `ayesha.karim` | `Neurvo-Dev-2026!` | Product Manager | Project Manager | QuickCart, Neurvo |
 | <img src="../../lib/neurvo/avatars/png/avatar-08.png" width="40" height="40" alt="avatar-08"> | Daniel Brooks | `daniel.brooks` | `Neurvo-Dev-2026!` | Tech Lead | Project Manager | all four |
@@ -21,7 +21,7 @@ What each role may do is described in [ROLES.md](ROLES.md).
 | <img src="../../lib/neurvo/avatars/png/avatar-04.png" width="40" height="40" alt="avatar-04"> | Lena Fischer | `lena.fischer` | `Neurvo-Dev-2026!` | QA Engineer | QA Engineer | GoFleet |
 | <img src="../../lib/neurvo/avatars/png/avatar-15.png" width="40" height="40" alt="avatar-15"> | Maya Patel | `maya.patel` | `Neurvo-Dev-2026!` | UX Designer | Designer | GoFleet, QuickCart |
 | <img src="../../lib/neurvo/avatars/png/avatar-27.png" width="40" height="40" alt="avatar-27"> | Tanvir Ahmed | `tanvir.ahmed` | `Neurvo-Dev-2026!` | DevOps Engineer | DevOps Engineer | all four |
-| <img src="../../lib/neurvo/avatars/png/avatar-10.png" width="40" height="40" alt="avatar-10"> | General User | `general.user` | `<redacted>` | Team Member | Team Member | all four |
+| <img src="../../lib/neurvo/avatars/png/avatar-10.png" width="40" height="40" alt="avatar-10"> | General User | `general.user` | `Neurvo-Dev-2026!` | Team Member | Team Member | all four |
 
 Every account above has one of the preset avatars pre-selected. Anyone can pick a different one (or upload a photo) under
 *My account > Avatar > Or choose one of our avatars*; an administrator can do the same for any user from the user's edit page.

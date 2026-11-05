@@ -148,3 +148,8 @@ acme.json
 # Generated seeders crowdin source file
 **/config/locales/en.seeders.yml
 .env.prod
+
+# Local AI tooling and browser automation output
+/.mcp.json
+/.playwright-mcp/
+/.claude/

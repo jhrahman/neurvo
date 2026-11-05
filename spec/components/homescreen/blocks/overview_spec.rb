@@ -62,7 +62,9 @@ RSpec.describe Homescreen::Blocks::Overview, type: :component do
     expect(page).to have_text("1 of your items is overdue.")
   end
 
-  it "offers the QA and bug tiles only when those statuses and types exist" do
+  it "shows the cards the user picked, and only when their statuses and types exist" do
+    user.pref.home_cards = %w[ready_for_qa open_bugs]
+    user.pref.save!
     render_widget
 
     expect(page).to have_no_test_selector("neurvo-home-tile-ready_for_qa")
@@ -74,6 +76,7 @@ RSpec.describe Homescreen::Blocks::Overview, type: :component do
 
     expect(page).to have_test_selector("neurvo-home-tile-ready_for_qa")
     expect(page).to have_test_selector("neurvo-home-tile-open_bugs")
+    expect(page).to have_no_test_selector("neurvo-home-tile-assigned")
   end
 
   it "links each tile to the matching work package list" do

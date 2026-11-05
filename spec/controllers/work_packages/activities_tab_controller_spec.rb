@@ -658,8 +658,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
 
       it { expect(response).to be_successful }
 
-      it "removes the comment" do
-        expect(Journal.exists?(journal.id)).to be(false)
+      it "removes the comment text" do
+        expect(Journal.find_by(id: journal.id)&.notes.to_s).to be_empty
       end
     end
 
@@ -669,7 +669,7 @@ RSpec.describe WorkPackages::ActivitiesTabController do
       it { expect(response).to be_forbidden }
 
       it "keeps the comment" do
-        expect(Journal.exists?(journal.id)).to be(true)
+        expect(Journal.find(journal.id).notes).to eq("A comment by user")
       end
     end
   end

@@ -31,6 +31,9 @@
 require "active_support/core_ext/integer/time"
 require "appsignal" # we will need it to test it in `spec/lib/open_project/appsignal_spec.rb`
 
+# Upstream specs expect project-based user visibility; Neurvo specs opt in with `with_settings`.
+ENV["OPENPROJECT_NEURVO__OPEN__USER__DIRECTORY"] ||= "false"
+
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped

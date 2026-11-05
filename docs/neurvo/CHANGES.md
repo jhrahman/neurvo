@@ -266,3 +266,13 @@ the `SQA Engineer` role. The picker page gained group filter chips and shows the
 | `README.md`, `docs/neurvo/DEPLOY.md`, `docs/neurvo/DEVELOPMENT.md`, `docs/neurvo/images/` | Rewritten for Neurvo: what it solves, how it differs from OpenProject, screenshots, quick start, production guide |
 
 Wording: Ocean IT Solutions and all sample people are described as fictional. `app/seeders/standard.yml` and `lib/neurvo/seed_data.yml` no longer present Neurvo as that company's platform; the sample organization name itself stays as demo data.
+
+## Pre-publication audit
+
+| File | Reason |
+|---|---|
+| `.gitignore` | Local tooling output is ignored: `.mcp.json`, `.playwright-mcp/`, `.claude/` |
+| `SECURITY.md` | Points to GitHub private vulnerability reporting for Neurvo and to OpenProject's statement for upstream issues |
+| `docs/neurvo/USERS.md`, `ROLES.md` | Show the public seed passwords only; personal dev-instance passwords removed |
+| `app/contracts/work_packages/base_contract.rb` | The Reporter check runs only when the reporter changes, so moving a ticket to another project is not rejected because of its unchanged reporter |
+| `spec/` (several) | Specs follow the Neurvo behaviour: editable Reporter, comment links to the Comments tab, open user directory (upstream visibility specs pin the setting to `false`); new specs for the card catalog and the category filter across projects |

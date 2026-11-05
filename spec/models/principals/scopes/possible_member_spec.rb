@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Principals::Scopes::PossibleMember do
+RSpec.describe Principals::Scopes::PossibleMember, with_settings: { neurvo_open_user_directory: false } do
   let(:project) { create(:project) }
   let(:public_project) { create(:project, public: true) }
   let(:role) { create(:project_role) }
