@@ -2,11 +2,12 @@
 
 Development and demo accounts created by `bin/compose exec backend bundle exec rake neurvo:seed`.
 Sign in at <http://localhost:3000>. **Change or delete these before any real use**: the passwords are public.
+The `admin` and `general.user` passwords above were set on the dev instance; a fresh `neurvo:seed` on a new database creates `general.user` with `Neurvo-Dev-2026!` and `admin` with the OpenProject default.
 What each role may do is described in [ROLES.md](ROLES.md).
 
 | Name | Username | Password | Job title | Role | Projects |
 |---|---|---|---|---|---|
-| Administrator | `admin` | `admin` (asked to change on first login) | System administrator | Administrator | all |
+| Jahidur Rahman | `admin` | `<redacted>` | Senior Engineer | Administrator | all |
 | Imran Chowdhury | `imran.chowdhury` | `Neurvo-Dev-2026!` | Product Manager | Project Manager | GoFleet |
 | Ayesha Karim | `ayesha.karim` | `Neurvo-Dev-2026!` | Product Manager | Project Manager | QuickCart, Neurvo |
 | Daniel Brooks | `daniel.brooks` | `Neurvo-Dev-2026!` | Tech Lead | Project Manager | all four |
@@ -20,7 +21,7 @@ What each role may do is described in [ROLES.md](ROLES.md).
 | Lena Fischer | `lena.fischer` | `Neurvo-Dev-2026!` | QA Engineer | QA Engineer | GoFleet |
 | Maya Patel | `maya.patel` | `Neurvo-Dev-2026!` | UX Designer | Designer | GoFleet, QuickCart |
 | Tanvir Ahmed | `tanvir.ahmed` | `Neurvo-Dev-2026!` | DevOps Engineer | DevOps Engineer | all four |
-| General User | `general.user` | `Neurvo-Dev-2026!` | Team Member | Team Member | all four |
+| General User | `general.user` | `<redacted>` | Team Member | Team Member | all four |
 
 Projects: GoFleet = Web Application - GoFleet, QuickCart = Web Application - QuickCart, Platform & DevOps, Neurvo.
 Email addresses are `<username>@oceanit.example` (test addresses; the dev stack delivers mail to the in-app letter opener only).

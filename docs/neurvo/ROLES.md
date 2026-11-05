@@ -15,8 +15,8 @@ they hold as a member of that project.
 | QA Engineer | Lena Fischer (GoFleet) | `lena.fischer` | `nusrat.jahan` (QA lead), `marco.rossi` |
 | DevOps Engineer | Tanvir Ahmed (all projects) | `tanvir.ahmed` | |
 | Designer | Maya Patel (GoFleet, QuickCart) | `maya.patel` | |
-| Team Member (general user) | General User (all projects) | `general.user` | |
-| System administrator | Administrator | `admin` / `admin` (change it) | |
+| Team Member (general user) | General User (all projects) | `general.user` (password `<redacted>`) | |
+| System administrator | Jahidur Rahman | `admin` | |
 
 None of the team accounts is a system administrator. Only `admin` can change types, workflows, statuses, roles,
 users and system settings.
