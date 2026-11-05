@@ -8,12 +8,10 @@
         flex_layout(
           data: { test_selector: "op-wp-journals-container" }
         ) do |journals_index_container|
-          if empty_state?
-            journals_index_container.with_row(mt: 2, mb: 3) do
+          journals_index_container.with_row(id: insert_target_modifier_id) do
+            if empty_state?
               render(WorkPackages::ActivitiesTab::Journals::EmptyComponent.new)
-            end
-          else
-            journals_index_container.with_row(id: insert_target_modifier_id) do
+            else
               pages.map { concat render(it) }
             end
           end

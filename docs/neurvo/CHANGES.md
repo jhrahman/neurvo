@@ -204,3 +204,9 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 
 - `lib/redmine/menu_manager/top_menu/user_menu.rb`: the user's Designation is shown under their name in the right-side user panel.
 - `app/views/my/_color_mode_menu.html.erb`, `_palettes.sass`: each theme swatch shows its name in a tooltip on hover/focus.
+
+## First comment on a ticket
+
+| File | Reason |
+|---|---|
+| `app/components/work_packages/activities_tab/journals/lazy_index_component.html.erb` | The empty Comments tab had no insert target, so the first posted comment was streamed into nothing and only appeared after a reload. The target row is now always rendered and holds the empty state |
