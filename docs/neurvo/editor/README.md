@@ -20,6 +20,7 @@ OPENPROJECT_CORE=/path/to/neurvo npm run build
 
 - The code block is CKEditor's in-place `CodeBlock` (type inside the block, language picker, 27 languages), replacing
   the modal code editor. Saved as fenced Markdown (` ```ts `), so storage is unchanged.
+- A delete (trash) button on each code block in the editor; only the left language label is shown.
 - Find and replace, horizontal rule in the toolbar, regrouped toolbar.
 - Display side: `frontend/src/global_styles/neurvo/_code.sass` (language label, token colours that follow dark mode) and
   `frontend/src/common/code-block-copy.ts` (Copy button).

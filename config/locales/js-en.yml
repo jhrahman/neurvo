@@ -237,6 +237,8 @@ en:
     description_subwork_package: "Child of work package #%{id}"
     editor:
       ckeditor_error: "An error occurred within CKEditor"
+      code_block:
+        delete: "Delete code block"
       error_saving_failed: "Saving the document failed with the following error: %{error}"
       macro:
         attribute_reference:

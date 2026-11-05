@@ -103,3 +103,33 @@ $code-block-selector: ".op-uc-container pre.op-uc-code-block, .op-uc-container p
   .err
     color: inherit
     background: transparent
+
+.ck.ck-editor__editable.ck-content pre[data-language]:after
+  content: none !important
+  display: none !important
+
+.ck-content pre
+  .op-code-block-delete
+    position: absolute
+    top: var(--base-size-4)
+    right: var(--base-size-4)
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    width: var(--base-size-24)
+    height: var(--base-size-24)
+    padding: 0
+    color: var(--fgColor-muted)
+    background: var(--bgColor-default)
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    cursor: pointer
+    opacity: 0
+    transition: opacity 0.15s
+    &:hover
+      color: var(--fgColor-danger)
+      border-color: var(--borderColor-danger-emphasis)
+  &:hover .op-code-block-delete,
+  &.ck-widget_selected .op-code-block-delete,
+  .op-code-block-delete:focus-visible
+    opacity: 1
