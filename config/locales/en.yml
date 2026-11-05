@@ -3807,6 +3807,7 @@ en:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_history: "History"
   label_home: "Home"
+  label_home_dashboard: "Home dashboard"
   label_i_am_member: "I am member"
   label_ical_access_key_description: 'iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"'
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
@@ -4815,6 +4816,23 @@ en:
   no_results_title_text: There is currently nothing to display.
 
   neurvo:
+    home_cards:
+      title: "Home dashboard"
+      intro: "Choose the cards that sit at the top of your Home page. Pick up to %{max}. Each card shows a live count and opens the matching list."
+      selected: "%{count} of %{max} selected"
+      limit_reached: "You have reached the limit. Clear a card to pick another."
+      current: "Right now: %{count}"
+      recommended: "Recommended for your role"
+      customize: "Customize"
+      restore: "Restore recommended cards"
+      restore_hint: "Go back to the cards recommended for your role."
+      using_defaults: "You are using the cards recommended for your role. Change the selection to personalise them."
+      empty: "No cards selected. Pick a few below to see them on Home."
+      groups:
+        everyone: { title: "For everyone", description: "Useful whatever your role." }
+        dev: { title: "Development", description: "For developers, DevOps and designers." }
+        qa: { title: "Quality assurance", description: "For testers and anyone watching quality." }
+        pm: { title: "Project management", description: "A team-wide view for managers and leads." }
     based_on_openproject: "Neurvo is based on OpenProject"
     home:
       title: "Home"
@@ -4830,11 +4848,29 @@ en:
           one: "%{count} open item is assigned to you."
           other: "%{count} open items are assigned to you."
         none: "Nothing is assigned to you. Pick up work from a board."
-      tiles:
-        assigned: "Assigned to me"
-        overdue: "Overdue"
-        ready_for_qa: "Ready for QA"
-        open_bugs: "Open bugs"
+      cards:
+        assigned: { label: "Assigned to me", description: "Open items assigned to you." }
+        overdue: { label: "Overdue", description: "Your open items past their due date." }
+        due_this_week: { label: "Due this week", description: "Your open items due in the next 7 days." }
+        watching: { label: "Watching", description: "Open items you follow." }
+        created_by_me: { label: "Created by me", description: "Open items you reported." }
+        unread_notifications: { label: "Unread notifications", description: "Mentions and updates waiting in your inbox." }
+        in_progress: { label: "In progress", description: "Your items currently being worked on." }
+        awaiting_review: { label: "Awaiting review", description: "Items in review that need a second pair of eyes." }
+        my_bugs: { label: "My bugs", description: "Open bugs assigned to you." }
+        my_blocked: { label: "My blocked items", description: "Your items stuck on something else." }
+        sent_back: { label: "Sent back to me", description: "Your items that were reopened after testing." }
+        ready_for_qa: { label: "Ready for QA", description: "Everything waiting for testing." }
+        in_qa: { label: "In QA", description: "Items being tested right now." }
+        open_bugs: { label: "Open bugs", description: "All bugs that are not closed yet." }
+        reopened_bugs: { label: "Reopened bugs", description: "Bugs that failed verification and came back." }
+        critical_bugs: { label: "Critical bugs", description: "Open bugs with Critical severity." }
+        reported_by_me: { label: "Bugs I reported", description: "Open bugs you filed." }
+        team_overdue: { label: "Team overdue", description: "Everything open past its due date in your projects." }
+        team_due_this_week: { label: "Team due this week", description: "Open items due in the next 7 days across your projects." }
+        unassigned: { label: "Unassigned", description: "Open items nobody has picked up yet." }
+        blocked: { label: "Blocked", description: "Items marked as blocked across your projects." }
+        active_sprints: { label: "Active sprints", description: "Sprints currently running in your projects." }
       my_work:
         title: "My open work"
         view_all: "View all my work"

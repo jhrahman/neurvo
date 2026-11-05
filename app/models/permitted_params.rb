@@ -279,6 +279,7 @@ class PermittedParams
                                    :disable_keyboard_shortcuts,
                                    :warn_on_leaving_unsaved,
                                    :auto_hide_popups,
+                                   home_cards: [],
                                    immediate_reminders: %i[mentioned personal_reminder],
                                    daily_reminders: [:enabled, { times: [] }],
                                    workdays: [],

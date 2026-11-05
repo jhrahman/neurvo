@@ -290,6 +290,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: "/my", action: "interface" },
             caption: :label_interface,
             icon: "device-desktop"
+  menu.push :home_cards,
+            { controller: "/my", action: "home_cards" },
+            caption: :label_home_dashboard,
+            icon: "apps"
   menu.push :security,
             { controller: "/my", action: "security" },
             caption: :label_my_security,

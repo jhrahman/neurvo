@@ -1,0 +1,112 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title(t(:label_my_account), t("neurvo.home_cards.title")) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("neurvo.home_cards.title") }
+    header.with_breadcrumbs(
+      [{ href: my_account_path, text: t(:label_my_account) },
+       t("neurvo.home_cards.title")]
+    )
+  end
+%>
+
+<% max = Homescreen::CardCatalog::MAX_CARDS %>
+<% selected = @catalog.selected_keys %>
+<% customized = @user.pref.home_cards.any? %>
+
+<%= form_with url: { action: "update_settings" }, method: :patch, scope: :pref, local: true,
+              id: "neurvo-home-cards-form",
+              class: "neurvo-card-picker",
+              data: { turbo: false, controller: "my--home-cards", "my--home-cards-max-value": max } do %>
+  <input type="hidden" name="pref[home_cards][]" value="">
+
+  <p class="neurvo-card-picker--intro"><%= t("neurvo.home_cards.intro", max:) %></p>
+
+  <div class="neurvo-card-picker--bar" role="status" aria-live="polite">
+    <strong data-my--home-cards-target="counter"><%= t("neurvo.home_cards.selected", count: selected.size, max:) %></strong>
+    <span data-my--home-cards-target="limit" hidden><%= t("neurvo.home_cards.limit_reached") %></span>
+    <% unless customized %>
+      <span class="neurvo-card-picker--note"><%= t("neurvo.home_cards.using_defaults") %></span>
+    <% end %>
+  </div>
+
+  <% Homescreen::CardCatalog::GROUPS.each do |group| %>
+    <% recommended = @catalog.recommended_groups.include?(group) %>
+    <fieldset class="neurvo-card-picker--group">
+      <legend>
+        <span class="neurvo-card-picker--group-title"><%= t("neurvo.home_cards.groups.#{group}.title") %></span>
+        <% if recommended && group != :everyone %>
+          <span class="neurvo-card-picker--badge"><%= t("neurvo.home_cards.recommended") %></span>
+        <% end %>
+        <span class="neurvo-card-picker--group-desc"><%= t("neurvo.home_cards.groups.#{group}.description") %></span>
+      </legend>
+
+      <div class="neurvo-card-picker--grid">
+        <% Homescreen::CardCatalog.cards_in(group).each do |card| %>
+          <% id = "home-card-#{card.key}" %>
+          <div class="neurvo-card-option -<%= card.tone %>">
+            <input type="checkbox"
+                   id="<%= id %>"
+                   name="pref[home_cards][]"
+                   value="<%= card.key %>"
+                   <%= "checked" if selected.include?(card.key) %>
+                   data-my--home-cards-target="option"
+                   data-action="my--home-cards#toggle"
+                   data-test-selector="neurvo-home-card-option-<%= card.key %>">
+            <label for="<%= id %>">
+              <span class="neurvo-card-option--icon"><%= render(Primer::Beta::Octicon.new(icon: card.icon, size: :small)) %></span>
+              <span class="neurvo-card-option--text">
+                <span class="neurvo-card-option--title"><%= t("neurvo.home.cards.#{card.key}.label") %></span>
+                <span class="neurvo-card-option--desc"><%= t("neurvo.home.cards.#{card.key}.description") %></span>
+                <% count = @catalog.count_for(card.key) %>
+                <% if count %>
+                  <span class="neurvo-card-option--count"><%= t("neurvo.home_cards.current", count:) %></span>
+                <% end %>
+              </span>
+              <span class="neurvo-card-option--check" aria-hidden="true"><%= render(Primer::Beta::Octicon.new(icon: :check, size: :small)) %></span>
+            </label>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+  <% end %>
+
+  <div class="neurvo-card-picker--actions">
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :default, name: "reset", form: "neurvo-home-cards-reset")) { t("neurvo.home_cards.restore") } %>
+  </div>
+<% end %>
+
+<%= form_with url: { action: "update_settings" }, method: :patch, scope: :pref, local: true,
+              id: "neurvo-home-cards-reset", html: { hidden: true }, data: { turbo: false } do %>
+  <input type="hidden" name="pref[home_cards][]" value="">
+<% end %>

@@ -31,13 +31,6 @@
 module Homescreen
   module Blocks
     class Overview < Grids::WidgetComponent
-      include Homescreen::ListLinks
-
-      Tile = Data.define(:key, :label, :count, :href, :icon, :tone)
-
-      OPEN_STATUS = { n: "status", o: "o", v: [] }.freeze
-      QA_STATUS_NAMES = ["Ready for QA", "In QA"].freeze
-
       def title
         I18n.t("neurvo.home.title")
       end
@@ -74,13 +67,25 @@ module Homescreen
       end
 
       def tiles
-        @tiles ||= [assigned_tile, overdue_tile, qa_tile, bugs_tile].compact
+        @tiles ||= catalog.tiles
       end
 
       private
 
+      def catalog
+        @catalog ||= Homescreen::CardCatalog.new(current_user)
+      end
+
       def tile_count(key)
-        tiles.find { it.key == key }&.count.to_i
+        key == :overdue ? overdue_count : assigned_count
+      end
+
+      def assigned_count
+        @assigned_count ||= mine.count
+      end
+
+      def overdue_count
+        @overdue_count ||= mine.where(work_packages: { due_date: ...Time.zone.today }).count
       end
 
       def open_work_packages
@@ -89,42 +94,6 @@ module Homescreen
 
       def mine
         open_work_packages.where(assigned_to_id: current_user.id)
-      end
-
-      def assigned_tile
-        build_tile(:assigned, mine, [assignee_filter, OPEN_STATUS], :person, :neutral)
-      end
-
-      def overdue_tile
-        scope = mine.where(work_packages: { due_date: ...Time.zone.today })
-        build_tile(:overdue, scope, [assignee_filter, OPEN_STATUS, { n: "dueDate", o: "<t-", v: ["1"] }], :clock, :danger)
-      end
-
-      def qa_tile
-        statuses = Status.where(name: QA_STATUS_NAMES)
-        return if statuses.empty?
-
-        scope = open_work_packages.where(status_id: statuses.ids)
-        build_tile(:ready_for_qa, scope, [{ n: "status", o: "=", v: statuses.ids.map(&:to_s) }], :checklist, :attention,
-                   label_key: "ready_for_qa")
-      end
-
-      def bugs_tile
-        bug = Type.find_by(name: "Bug")
-        return unless bug
-
-        scope = open_work_packages.where(type_id: bug.id)
-        build_tile(:open_bugs, scope, [OPEN_STATUS, { n: "type", o: "=", v: [bug.id.to_s] }], :bug, :danger)
-      end
-
-      def build_tile(key, scope, filters, icon, tone, label_key: key.to_s)
-        count = scope.count
-        Tile.new(key:, label: I18n.t("neurvo.home.tiles.#{label_key}"), count:, href: list_path(filters), icon:,
-                 tone: count.zero? || tone == :neutral ? :neutral : tone)
-      end
-
-      def assignee_filter
-        { n: "assignee", o: "=", v: ["me"] }
       end
     end
   end

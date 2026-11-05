@@ -17,6 +17,11 @@
                   "type": "string",
                   "enum": ["default", "warm", "paper", "solarized"]
                 },
+                "home_cards": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "maxItems": 6
+                },
                 "dark_palette": {
                   "type": "string",
                   "enum": ["default", "ash", "black", "onedark", "dracula", "tokyo"]

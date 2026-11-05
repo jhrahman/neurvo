@@ -47,6 +47,7 @@ class MyController < ApplicationController
                              :update_account,
                              :locale,
                              :interface,
+                             :home_cards,
                              :update_settings,
                              :update_workdays,
                              :update_email_alerts,
@@ -69,6 +70,7 @@ class MyController < ApplicationController
   menu_item :account, only: [:account]
   menu_item :locale, only: [:locale]
   menu_item :interface, only: [:interface]
+  menu_item :home_cards, only: [:home_cards]
   menu_item :password, only: [:password]
   menu_item :security, only: [:security]
   menu_item :notifications, only: [:notifications]
@@ -103,6 +105,10 @@ class MyController < ApplicationController
   end
 
   def interface; end
+
+  def home_cards
+    @catalog = Homescreen::CardCatalog.new(@user)
+  end
 
   def security
     @username = @user.login

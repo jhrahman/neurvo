@@ -299,3 +299,184 @@
   from
     opacity: 0
     transform: translateY(8px)
+
+.neurvo-home-hero
+  position: relative
+
+  &--customize
+    position: absolute
+    top: 18px
+    right: 22px
+    display: inline-flex
+    align-items: center
+    gap: 6px
+    padding: 4px 10px
+    border-radius: 999px
+    color: var(--fgColor-muted)
+    font-size: 13px
+    text-decoration: none
+    transition: background 120ms ease, color 120ms ease
+
+    &:hover, &:focus-visible
+      background: var(--bgColor-neutral-muted)
+      color: var(--fgColor-default)
+      text-decoration: none
+
+.neurvo-card-picker
+  max-width: 960px
+
+  &--intro
+    margin: 0 0 12px
+    color: var(--fgColor-muted)
+
+  &--bar
+    position: sticky
+    top: 0
+    z-index: 5
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: 8px 16px
+    margin-bottom: 16px
+    padding: 10px 14px
+    border: 1px solid var(--borderColor-default)
+    border-radius: 10px
+    background: var(--bgColor-default)
+
+  &--note
+    color: var(--fgColor-muted)
+    font-size: 13px
+
+  &--group
+    margin: 0 0 24px
+    padding: 0
+    border: 0
+
+    legend
+      display: flex
+      flex-wrap: wrap
+      align-items: baseline
+      gap: 4px 10px
+      margin-bottom: 10px
+      padding: 0
+      width: 100%
+
+  &--group-title
+    font-size: 16px
+    font-weight: 600
+
+  &--group-desc
+    flex-basis: 100%
+    color: var(--fgColor-muted)
+    font-size: 13px
+
+  &--badge
+    padding: 1px 8px
+    border-radius: 999px
+    background: var(--bgColor-accent-muted)
+    color: var(--fgColor-accent)
+    font-size: 12px
+    font-weight: 500
+
+  &--grid
+    display: grid
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr))
+    gap: 12px
+
+  &--actions
+    display: flex
+    flex-wrap: wrap
+    gap: 12px
+    margin-top: 8px
+
+.neurvo-card-option
+  position: relative
+
+  input
+    position: absolute
+    opacity: 0
+    inset: 0
+    width: 100%
+    height: 100%
+    margin: 0
+    cursor: pointer
+    z-index: 1
+
+  label
+    display: grid
+    grid-template-columns: auto 1fr auto
+    gap: 12px
+    align-items: start
+    height: 100%
+    padding: 14px
+    border: 1px solid var(--borderColor-default)
+    border-radius: 10px
+    background: var(--bgColor-default)
+    transition: border-color 120ms ease, box-shadow 120ms ease, background 120ms ease
+
+  &:hover label
+    border-color: var(--borderColor-accent-emphasis)
+
+  input:focus-visible + label
+    outline: 2px solid var(--fgColor-accent)
+    outline-offset: 2px
+
+  input:checked + label
+    border-color: var(--fgColor-accent)
+    background: var(--bgColor-accent-muted)
+    box-shadow: 0 0 0 1px var(--fgColor-accent)
+
+  input:disabled + label
+    opacity: 0.55
+
+  input:disabled
+    cursor: not-allowed
+
+  &--icon
+    display: grid
+    place-items: center
+    width: 32px
+    height: 32px
+    border-radius: 8px
+    background: var(--bgColor-neutral-muted)
+    color: var(--fgColor-muted)
+
+  &.-danger &--icon
+    background: var(--bgColor-danger-muted)
+    color: var(--fgColor-danger)
+
+  &.-attention &--icon
+    background: var(--bgColor-attention-muted)
+    color: var(--fgColor-attention)
+
+  &--text
+    display: flex
+    flex-direction: column
+    gap: 2px
+
+  &--title
+    font-weight: 600
+
+  &--desc
+    color: var(--fgColor-muted)
+    font-size: 13px
+
+  &--count
+    margin-top: 4px
+    color: var(--fgColor-muted)
+    font-size: 12px
+    font-variant-numeric: tabular-nums
+
+  &--check
+    display: grid
+    place-items: center
+    width: 20px
+    height: 20px
+    border: 1px solid var(--borderColor-default)
+    border-radius: 50%
+    color: transparent
+
+  input:checked + label &--check
+    border-color: var(--fgColor-accent)
+    background: var(--fgColor-accent)
+    color: var(--fgColor-onEmphasis, #fff)

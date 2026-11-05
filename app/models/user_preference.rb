@@ -143,6 +143,21 @@ class UserPreference < ApplicationRecord
     settings[:dark_palette].presence_in(DARK_PALETTES) || "default"
   end
 
+  def home_cards
+    chosen = Array(settings[:home_cards]).map(&:to_s)
+    Homescreen::CardCatalog.keys.select { chosen.include?(it.to_s) }.first(Homescreen::CardCatalog::MAX_CARDS)
+  end
+
+  def home_cards=(value)
+    chosen = Array(value).compact_blank.map(&:to_s)
+    keys = Homescreen::CardCatalog.keys.select { chosen.include?(it.to_s) }.first(Homescreen::CardCatalog::MAX_CARDS)
+    if keys.empty?
+      settings.delete(:home_cards)
+    else
+      settings[:home_cards] = keys.map(&:to_s)
+    end
+  end
+
   def increase_theme_contrast=(value)
     settings[:increase_theme_contrast] = to_boolean(value)
   end

@@ -32,6 +32,11 @@ See COPYRIGHT and LICENSE files for more details.
   <h2 id="neurvo-home-greeting" class="neurvo-home-hero--title"><%= greeting %></h2>
   <p class="neurvo-home-hero--summary"><%= summary %></p>
 
+  <a class="neurvo-home-hero--customize" href="<%= helpers.my_home_cards_path %>" data-test-selector="neurvo-home-customize">
+    <%= render(Primer::Beta::Octicon.new(icon: :gear, size: :small)) %>
+    <span><%= t("neurvo.home_cards.customize") %></span>
+  </a>
+
   <ul class="neurvo-home-tiles">
     <% tiles.each do |tile| %>
       <li>

@@ -76,3 +76,17 @@ projects, so they have no effect until an administrator enables the module.
 
 Edit `permission_sets`/`roles` in `lib/neurvo/seed_data.yml` and re-run the seed, or adjust a role in the UI at
 Administration > Users and permissions > Roles and permissions (the seed overwrites role permissions when re-run).
+
+## Home cards by role
+
+The cards at the top of Home depend on the project roles a person holds. Everyone can change them under
+*Account settings > Home dashboard* (up to 6 cards, with a live count on each) and restore the recommended set at any time.
+
+| Role | Recommended cards |
+|---|---|
+| Project Manager, administrator | Team overdue, Active sprints, Blocked, Unassigned, Open bugs, Ready for QA |
+| QA Engineer | Assigned to me, Overdue, Ready for QA, In QA, Open bugs, Reopened bugs |
+| Developer, DevOps Engineer, Designer | Assigned to me, Overdue, In progress, My bugs, Awaiting review |
+| Team Member and others | Assigned to me, Overdue, Due this week, Watching |
+
+People with several roles get the union of the recommended cards, capped at 6.

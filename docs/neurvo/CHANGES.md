@@ -229,3 +229,18 @@ An existing instance picks this up by re-running the type and custom-field steps
 | `config/locales/js-en.yml` | `work_packages.create.button` is "New ticket"; new `button_in_project` ("Create a ticket in %{project}") |
 | `frontend/src/app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component.ts` | Tooltip and aria label name the current project |
 | `frontend/src/global_styles/neurvo/_work_packages.sass` | Outlined accent style, so it is not mistaken for the green global Create in the header |
+
+## Role-based Home cards
+
+| File | Reason |
+|---|---|
+| `app/components/homescreen/card_catalog.rb` (new) | Registry of 22 Home cards in four groups (everyone, development, QA, project management), their live counts and links, and the default cards per role |
+| `app/components/homescreen/blocks/overview.{rb,html.erb}` | Hero tiles come from the catalog; "Customize" link to the settings page |
+| `app/models/user_preference.rb`, `app/models/permitted_params.rb`, `config/schemas/user_preferences.schema.json` | New `home_cards` preference (up to 6 keys). The JSON schema rejects unknown keys, so it must list it |
+| `app/controllers/my_controller.rb`, `config/routes.rb`, `config/initializers/menus.rb`, `app/views/my/home_cards.html.erb` (new) | Account settings > Home dashboard page |
+| `frontend/src/stimulus/controllers/dynamic/my/home-cards.controller.ts` (new), `_home.sass` | Selection counter and 6-card limit; card styles. A new dynamic controller needs a frontend restart in dev |
+| `config/locales/en.yml` | Card names and descriptions, page strings, `label_home_dashboard` |
+
+Defaults come from the user's project roles: Project Manager (and admins) get a mixed team, QA and sprint view; QA Engineer gets
+QA cards; Developer, DevOps Engineer and Designer get development cards; anyone else gets general cards. A user who picks their
+own cards keeps them until they use "Restore recommended cards".
