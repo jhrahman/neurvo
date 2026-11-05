@@ -1,0 +1,179 @@
+diff --git a/package.json b/package.json
+index 7ad59bd..255192d 100644
+--- a/package.json
++++ b/package.json
+@@ -24,6 +24,7 @@
+     "@ckeditor/ckeditor5-basic-styles": "48.0.0",
+     "@ckeditor/ckeditor5-block-quote": "48.0.0",
+     "@ckeditor/ckeditor5-ckfinder": "48.0.0",
++    "@ckeditor/ckeditor5-code-block": "48.0.0",
+     "@ckeditor/ckeditor5-core": "48.0.0",
+     "@ckeditor/ckeditor5-easy-image": "48.0.0",
+     "@ckeditor/ckeditor5-editor-classic": "48.0.0",
+@@ -31,6 +32,7 @@
+     "@ckeditor/ckeditor5-engine": "48.0.0",
+     "@ckeditor/ckeditor5-enter": "48.0.0",
+     "@ckeditor/ckeditor5-essentials": "48.0.0",
++    "@ckeditor/ckeditor5-find-and-replace": "48.0.0",
+     "@ckeditor/ckeditor5-heading": "48.0.0",
+     "@ckeditor/ckeditor5-horizontal-line": "48.0.0",
+     "@ckeditor/ckeditor5-image": "48.0.0",
+diff --git a/src/op-ckeditor-config.ts b/src/op-ckeditor-config.ts
+index 4438360..ab8bf90 100644
+--- a/src/op-ckeditor-config.ts
++++ b/src/op-ckeditor-config.ts
+@@ -45,6 +45,39 @@ export const defaultConfig: EditorConfig = {
+ 			'opEditWikiIncludeMacroButton',
+ 		]
+ 	},
++	codeBlock: {
++		languages: [
++			{ language: 'plaintext', label: 'Plain text', class: '' },
++			{ language: 'bash', label: 'Bash / Shell' },
++			{ language: 'c', label: 'C' },
++			{ language: 'cpp', label: 'C++' },
++			{ language: 'csharp', label: 'C#' },
++			{ language: 'css', label: 'CSS' },
++			{ language: 'diff', label: 'Diff' },
++			{ language: 'dockerfile', label: 'Dockerfile' },
++			{ language: 'go', label: 'Go' },
++			{ language: 'graphql', label: 'GraphQL' },
++			{ language: 'html', label: 'HTML' },
++			{ language: 'java', label: 'Java' },
++			{ language: 'javascript', label: 'JavaScript' },
++			{ language: 'json', label: 'JSON' },
++			{ language: 'kotlin', label: 'Kotlin' },
++			{ language: 'markdown', label: 'Markdown' },
++			{ language: 'php', label: 'PHP' },
++			{ language: 'powershell', label: 'PowerShell' },
++			{ language: 'python', label: 'Python' },
++			{ language: 'ruby', label: 'Ruby' },
++			{ language: 'rust', label: 'Rust' },
++			{ language: 'scss', label: 'SCSS' },
++			{ language: 'sql', label: 'SQL' },
++			{ language: 'swift', label: 'Swift' },
++			{ language: 'terraform', label: 'Terraform' },
++			{ language: 'typescript', label: 'TypeScript' },
++			{ language: 'xml', label: 'XML' },
++			{ language: 'yaml', label: 'YAML' }
++		],
++		indentSequence: '  '
++	},
+ 	OPCodeBlock: {
+ 		toolbar: [
+ 			'opEditCodeBlock',
+diff --git a/src/op-ckeditor.ts b/src/op-ckeditor.ts
+index 14af9d3..a2d7b1a 100644
+--- a/src/op-ckeditor.ts
++++ b/src/op-ckeditor.ts
+@@ -31,17 +31,20 @@ FullEditor.defaultConfig!.toolbar = {
+ 			'italic',
+ 			'strikethrough',
+ 			'code',
+-			'insertCodeBlock',
+-			'link',
++			'codeBlock',
++			'|',
+ 			'bulletedList',
+ 			'numberedList',
+ 			'todoList',
+-			'imageUpload',
+-			'blockQuote',
+ 			'|',
++			'link',
++			'imageUpload',
+ 			'insertTable',
++			'blockQuote',
++			'horizontalLine',
+ 			'macroList',
+ 			'|',
++			'findAndReplace',
+ 			'opContentRevisions',
+ 			'undo',
+ 			'redo',
+@@ -51,7 +54,8 @@ FullEditor.defaultConfig!.toolbar = {
+ 			'|',
+ 			'preview',
+ 			'opShowSource',
+-		]
++		],
++		shouldNotGroupWhenFull: false
+ };
+ 
+ ConstrainedEditor.createCustomized = configurationCustomizer(ConstrainedEditor);
+@@ -63,14 +67,18 @@ ConstrainedEditor.defaultConfig!.toolbar = {
+ 		'italic',
+ 		'strikethrough',
+ 		'code',
+-		'insertCodeBlock',
+-		'link',
++		'codeBlock',
++		'|',
+ 		'bulletedList',
+ 		'numberedList',
+ 		'todoList',
++		'|',
++		'link',
+ 		'imageUpload',
+ 		'blockQuote',
++		'horizontalLine',
+ 		'|',
++		'findAndReplace',
+ 		'opContentRevisions',
+ 		'undo',
+ 		'redo',
+diff --git a/src/op-plugins.ts b/src/op-plugins.ts
+index 31338cd..9b1dcd8 100644
+--- a/src/op-plugins.ts
++++ b/src/op-plugins.ts
+@@ -3,6 +3,7 @@ import OPMacroEmbeddedTable from './plugins/op-macro-embedded-table/embedded-tab
+ import OPMacroWpButtonPlugin from './plugins/op-macro-wp-button/op-macro-wp-button-plugin';
+ import OpUploadPlugin from './plugins/op-upload-plugin';
+ import OPChildPagesPlugin from "./plugins/op-macro-child-pages/op-macro-child-pages-plugin";
++import type { PluginConstructor } from '@ckeditor/ckeditor5-core';
+ import { Essentials } from '@ckeditor/ckeditor5-essentials';
+ import { CKFinderUploadAdapter } from '@ckeditor/ckeditor5-adapter-ckfinder';
+ import { Autoformat } from '@ckeditor/ckeditor5-autoformat';
+@@ -20,7 +21,8 @@ import { List } from '@ckeditor/ckeditor5-list';
+ import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
+ import { Typing } from '@ckeditor/ckeditor5-typing';
+ import OPHelpLinkPlugin from "./plugins/op-help-link-plugin/op-help-link-plugin";
+-import CodeBlockPlugin from "./plugins/code-block/code-block";
++import { CodeBlock } from '@ckeditor/ckeditor5-code-block';
++import { FindAndReplace } from '@ckeditor/ckeditor5-find-and-replace';
+ import { Table } from '@ckeditor/ckeditor5-table';
+ import { TableToolbar } from '@ckeditor/ckeditor5-table';
+ import { TableProperties } from '@ckeditor/ckeditor5-table';
+@@ -64,7 +66,7 @@ export const opImageUploadPlugins = [
+ 	OPAttachmentListenerPlugin
+ ];
+ 
+-export const builtinPlugins = [
++export const builtinPlugins: PluginConstructor[] = [
+ 	Essentials,
+ 	CKFinderUploadAdapter,
+ 	Autoformat,
+@@ -101,7 +103,8 @@ export const builtinPlugins = [
+ 	OpContentRevisions,
+ 	OPMacroWpQuickinfoPlugin,
+ 	OpMacroWikiPageLinkPlugin,
+-	CodeBlockPlugin,
++	CodeBlock,
++	FindAndReplace,
+ 
+ 	CommonMark,
+ 	Table,
+@@ -112,10 +115,6 @@ export const builtinPlugins = [
+ 	OPMacroListPlugin,
+ 
+ 	OpCustomCssClassesPlugin,
+-].concat(
+-	// OpenProject Macro plugin group
+-	opMacroPlugins,
+-
+-	// OpenProject image upload plugins
+-	opImageUploadPlugins,
+-);
++	...opMacroPlugins,
++	...opImageUploadPlugins,
++];

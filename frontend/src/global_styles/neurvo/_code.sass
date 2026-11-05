@@ -1,0 +1,105 @@
+$code-block-selector: ".op-uc-container pre.op-uc-code-block, .op-uc-container pre.highlight, .ck-content pre"
+
+#{$code-block-selector}
+  position: relative
+  background: var(--bgColor-muted)
+  border: 1px solid var(--borderColor-default)
+  border-radius: var(--borderRadius-medium)
+  padding: var(--base-size-32) var(--base-size-16) var(--base-size-12)
+  font-family: var(--fontStack-monospace)
+  font-size: 0.85rem
+  line-height: 1.55
+  overflow: auto
+  tab-size: 2
+  color: var(--fgColor-default)
+
+  &[lang]::before
+    content: attr(lang)
+    position: absolute
+    top: 0
+    left: 0
+    padding: var(--base-size-4) var(--base-size-12)
+    font-size: 0.7rem
+    font-family: var(--fontStack-system)
+    font-weight: var(--base-text-weight-semibold)
+    text-transform: uppercase
+    letter-spacing: 0.04em
+    color: var(--fgColor-muted)
+    border-bottom-right-radius: var(--borderRadius-medium)
+    background: var(--bgColor-neutral-muted)
+
+  &[data-language]::before
+    content: attr(data-language)
+
+  code
+    background: transparent
+    border: 0
+    padding: 0
+    font-size: inherit
+
+.ck-content pre[data-language]
+  padding-top: var(--base-size-32)
+  &::before
+    position: absolute
+    top: 0
+    left: 0
+    padding: var(--base-size-4) var(--base-size-12)
+    font-size: 0.7rem
+    font-family: var(--fontStack-system)
+    font-weight: var(--base-text-weight-semibold)
+    text-transform: uppercase
+    letter-spacing: 0.04em
+    color: var(--fgColor-muted)
+    background: var(--bgColor-neutral-muted)
+    border-bottom-right-radius: var(--borderRadius-medium)
+
+.op-code-copy
+  position: absolute
+  top: var(--base-size-4)
+  right: var(--base-size-4)
+  display: inline-flex
+  align-items: center
+  gap: var(--base-size-4)
+  padding: var(--base-size-2) var(--base-size-8)
+  font-size: 0.75rem
+  color: var(--fgColor-muted)
+  background: var(--bgColor-default)
+  border: 1px solid var(--borderColor-default)
+  border-radius: var(--borderRadius-medium)
+  cursor: pointer
+  opacity: 0
+  transition: opacity 0.15s
+  pre:hover > &,
+  &:focus-visible
+    opacity: 1
+  &:hover
+    color: var(--fgColor-default)
+    background: var(--control-transparent-bgColor-hover, var(--bgColor-muted))
+  &--done
+    color: var(--fgColor-success)
+    opacity: 1
+
+.op-uc-container pre.highlight
+  .k, .kd, .kn, .kr, .kt, .kp, .ow
+    color: var(--color-prettylights-syntax-keyword)
+    font-weight: normal
+  .kc, .m, .mi, .mf, .mh, .mo, .il, .na, .nb, .bp, .no
+    color: var(--color-prettylights-syntax-constant)
+  .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx, .sr, .ss
+    color: var(--color-prettylights-syntax-string)
+  .c, .c1, .cm, .cp, .cs, .ch
+    color: var(--color-prettylights-syntax-comment)
+    font-style: italic
+  .nf, .nc, .nn, .nd, .fm
+    color: var(--color-prettylights-syntax-entity)
+  .nt
+    color: var(--color-prettylights-syntax-entity-tag)
+  .gd
+    color: var(--color-prettylights-syntax-markup-deleted-text)
+    background: var(--color-prettylights-syntax-markup-deleted-bg)
+  .gi
+    color: var(--color-prettylights-syntax-markup-inserted-text)
+    background: var(--color-prettylights-syntax-markup-inserted-bg)
+  .err
+    color: inherit
+    background: transparent

@@ -44,10 +44,12 @@ import { addTurboAngularWrapper } from 'core-turbo/turbo-angular-wrapper';
 import { registerActionMenuMorphRemount } from './action-menu-morph-remount';
 import { registerPragmaticDndMorphAttributePreservation } from './pragmatic-dnd-morph-attributes';
 import { appConfirm } from 'core-common/app-confirm';
+import { setupCodeBlockCopy } from 'core-common/code-block-copy';
 
 Turbo.session.drive = true;
 Turbo.config.drive.progressBarDelay = 100;
 Turbo.config.forms.confirm = (message:string) => appConfirm({ message });
+setupCodeBlockCopy();
 
 // Start turbo
 Turbo.start();

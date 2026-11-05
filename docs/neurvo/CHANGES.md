@@ -171,6 +171,8 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `frontend/src/stimulus/controllers/dynamic/work-packages/activities-tab/{comment-thread,comment-submit,editor}.controller.ts`, `frontend/src/stimulus/setup.ts` | Reply form, progress bar and in-app discard dialog for the comment editor (was `window.confirm`) |
 | `frontend/src/stimulus/controllers/hover-card-trigger.controller.ts`, `app/components/users/hover_card_component.html.erb` | Hover card can open on click (`data-hover-card-open-on-click`) and stays open until dismissed; the name in the card links to the profile |
 | `lib/neurvo/seed.rb` | User custom field "Designation" (shown on the user card) filled from the seed job titles |
+| `frontend/src/vendor/ckeditor/**` (rebuilt), `docs/neurvo/editor/*` | Editor rebuilt from the open-source build with an in-place code block (language picker), find and replace, horizontal rule and a regrouped toolbar; source changes kept as a patch with rebuild steps |
+| `frontend/src/global_styles/neurvo/_code.sass`, `frontend/src/common/code-block-copy.ts`, `frontend/src/turbo/setup.ts`, `config/locales/js-en.yml` | Code blocks show a language label, theme-aware syntax colours and a Copy button |
 
 ## Readable status buttons
 

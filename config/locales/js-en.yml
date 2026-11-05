@@ -218,7 +218,10 @@ en:
 
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      copied: "Copied"
       copied_successful: "Successfully copied to clipboard!"
+      copy: "Copy"
+      copy_code: "Copy code"
     close_filter_title: "Close filter"
     close_form_title: "Close form"
 
