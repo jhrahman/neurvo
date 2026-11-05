@@ -281,6 +281,7 @@ module Neurvo
         user.activate
         user.save!
         assign_designation(user, conf["title"])
+        assign_avatar(user, conf["avatar"])
         user.pref.update!(time_zone: data["time_zone"])
         user.notification_settings.create! if user.notification_settings.none?
         group = Group.find_or_create_by!(lastname: conf["group"])
@@ -303,6 +304,13 @@ module Neurvo
 
       user.custom_field_values = { designation_field.id => title }
       user.save!
+    end
+
+    def assign_avatar(user, key)
+      return if key.blank?
+
+      result = Avatars::PresetService.new(user).apply(key)
+      say "Avatar #{key} for #{user.login} failed: #{result.errors.full_messages.join(', ')}" unless result.success?
     end
 
     def user(key) = @users.fetch(key)

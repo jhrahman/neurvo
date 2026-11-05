@@ -4,9 +4,14 @@ module ::Avatars
     before_action :set_user
 
     no_authorization_required! :update,
-                               :destroy
+                               :destroy,
+                               :preset
 
     private
+
+    def preset_fallback_path
+      my_account_path
+    end
 
     def set_user
       @user = current_user

@@ -193,20 +193,20 @@ quality_gate:
   statuses: [in_qa, done]
 
 users:
-  - { key: imran,  first: "Imran",  last: "Chowdhury", title: "Product Manager",       group: "Product",    role: "Project Manager" }
-  - { key: ayesha, first: "Ayesha", last: "Karim",    title: "Product Manager",       group: "Product",    role: "Project Manager" }
-  - { key: daniel, first: "Daniel", last: "Brooks",   title: "Tech Lead",             group: "Developers", role: "Project Manager" }
-  - { key: rafi,   first: "Rafi",   last: "Hasan",    title: "Backend Developer",     group: "Developers", role: "Developer" }
-  - { key: sofia,  first: "Sofia",  last: "Martins",  title: "Frontend Developer",    group: "Developers", role: "Developer" }
-  - { key: arif,   first: "Arif",   last: "Rahman",    title: "Frontend Developer",    group: "Developers", role: "Developer" }
-  - { key: kenji,  first: "Kenji",  last: "Watanabe", title: "Mobile Developer",      group: "Developers", role: "Developer" }
-  - { key: priya,  first: "Priya",  last: "Nair",     title: "Full-stack Developer",  group: "Developers", role: "Developer" }
-  - { key: nusrat, first: "Nusrat", last: "Jahan",    title: "QA Lead",               group: "QA",         role: "QA Engineer" }
-  - { key: marco,  first: "Marco",  last: "Rossi",    title: "QA Automation Engineer", group: "QA",        role: "QA Engineer" }
-  - { key: lena,   first: "Lena",   last: "Fischer",  title: "QA Engineer",           group: "QA",         role: "QA Engineer" }
-  - { key: maya,   first: "Maya",   last: "Patel",     title: "UX Designer",           group: "Design",     role: "Designer" }
-  - { key: tanvir, first: "Tanvir", last: "Ahmed",    title: "DevOps Engineer",       group: "DevOps",     role: "DevOps Engineer" }
-  - { key: general, first: "General", last: "User",   title: "Team Member",           group: "Team",       role: "Team Member" }
+  - { key: imran,  first: "Imran",  last: "Chowdhury", title: "Product Manager",       group: "Product",    role: "Project Manager", avatar: "avatar-29" }
+  - { key: ayesha, first: "Ayesha", last: "Karim",    title: "Product Manager",       group: "Product",    role: "Project Manager", avatar: "avatar-17" }
+  - { key: daniel, first: "Daniel", last: "Brooks",   title: "Tech Lead",             group: "Developers", role: "Project Manager", avatar: "avatar-08" }
+  - { key: rafi,   first: "Rafi",   last: "Hasan",    title: "Backend Developer",     group: "Developers", role: "Developer", avatar: "avatar-16" }
+  - { key: sofia,  first: "Sofia",  last: "Martins",  title: "Frontend Developer",    group: "Developers", role: "Developer", avatar: "avatar-12" }
+  - { key: arif,   first: "Arif",   last: "Rahman",    title: "Frontend Developer",    group: "Developers", role: "Developer", avatar: "avatar-21" }
+  - { key: kenji,  first: "Kenji",  last: "Watanabe", title: "Mobile Developer",      group: "Developers", role: "Developer", avatar: "avatar-01" }
+  - { key: priya,  first: "Priya",  last: "Nair",     title: "Full-stack Developer",  group: "Developers", role: "Developer", avatar: "avatar-02" }
+  - { key: nusrat, first: "Nusrat", last: "Jahan",    title: "QA Lead",               group: "QA",         role: "QA Engineer", avatar: "avatar-09" }
+  - { key: marco,  first: "Marco",  last: "Rossi",    title: "QA Automation Engineer", group: "QA",        role: "QA Engineer", avatar: "avatar-31" }
+  - { key: lena,   first: "Lena",   last: "Fischer",  title: "QA Engineer",           group: "QA",         role: "QA Engineer", avatar: "avatar-04" }
+  - { key: maya,   first: "Maya",   last: "Patel",     title: "UX Designer",           group: "Design",     role: "Designer", avatar: "avatar-15" }
+  - { key: tanvir, first: "Tanvir", last: "Ahmed",    title: "DevOps Engineer",       group: "DevOps",     role: "DevOps Engineer", avatar: "avatar-27" }
+  - { key: general, first: "General", last: "User",   title: "Team Member",           group: "Team",       role: "Team Member", avatar: "avatar-10" }
 
 modules: [work_package_tracking, backlogs, board_view, gantt, calendar_view, documents, meetings, activity, github, gitlab]
 

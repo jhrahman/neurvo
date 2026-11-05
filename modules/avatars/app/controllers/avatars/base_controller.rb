@@ -38,7 +38,23 @@ module ::Avatars
       end
     end
 
+    def preset
+      result = ::Avatars::PresetService.new(@user).apply(params[:key])
+
+      if result.success?
+        flash[:notice] = result.result
+      else
+        flash[:error] = result.errors.full_messages.join(", ")
+      end
+
+      redirect_back_or_to preset_fallback_path
+    end
+
     private
+
+    def preset_fallback_path
+      root_path
+    end
 
     def redirect_path
       raise SubclassResponsibilityError

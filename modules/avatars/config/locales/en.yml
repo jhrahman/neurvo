@@ -3,9 +3,12 @@ en:
   are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
   avatar_deleted: "Avatar deleted successfully."
   avatars:
+    error_unknown_preset: "That avatar does not exist."
     label_avatar: "Avatar"
+    label_choose_preset: "Or choose one of our avatars"
     label_gravatar: 'Gravatar'
     label_local_avatar: 'Custom avatar'
+    label_use_preset: "Use avatar: %{name}"
     settings:
       enable_gravatars: 'Enable user gravatars'
       enable_local_avatars: 'Enable user custom avatars'
@@ -16,6 +19,7 @@ en:
       You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: >-
       You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_choose_preset: "No photo needed. Pick one and change it any time."
 
   empty_file_error: "Please upload a valid image (jpg, png, gif)"
   error_image_size: "The image is too large."

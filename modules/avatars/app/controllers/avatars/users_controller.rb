@@ -11,6 +11,10 @@ module ::Avatars
 
     private
 
+    def preset_fallback_path
+      edit_user_path(@user)
+    end
+
     def redirect_path
       edit_user_path(@user)
     end
