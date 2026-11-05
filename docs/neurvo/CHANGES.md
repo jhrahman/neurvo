@@ -179,6 +179,7 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `app/controllers/work_packages_controller.rb`, `app/components/work_packages/full_view/show_component.rb`, `frontend/src/app/core/path-helper/path-helper.service.ts`, `.../keep-tab/keep-tab.service.ts`, `.../wp-view-base/work-package-single-view.base.ts`, `.../in-app-notifications/**` | A work package opens on Comments by default |
 | `app/components/work_packages/activities_tab/shared_helpers.rb`, `.../activity-panel/activity-tab.component.ts` | Comment links point to the Comments tab; old `/activity#comment-N` links redirect there |
 | `frontend/src/global_styles/neurvo/_comments.sass`, `frontend/src/common/code-block-copy.ts`, `frontend/src/turbo/setup.ts` | Opening a comment link flashes the comment yellow for about 1 second (replaces the border highlight); the copy-link icon turns into a check mark with a "Link copied" label |
+| `frontend/src/global_styles/neurvo/_header.sass` (new), `_index.sass` | Header: on tablet and phone the logo box was 130px wide for a 32px mark and covered the search button; it now fits. On phones Create becomes a plus button (label kept for screen readers), spacing is tighter and Help steps aside below 400px so the avatar always fits. On desktop the search is a wider, soft filled field with hover and focus states |
 
 ## Readable status buttons
 

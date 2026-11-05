@@ -1,0 +1,58 @@
+// Tablet and phone: the logo is the mark alone, so its box must be as wide as the mark.
+// (It stayed 130px wide and covered the search button next to it.)
+.op-app-header .op-logo--icon
+  @media screen and (max-width: 850px)
+    width: 32px
+    margin-left: var(--base-size-4)
+    margin-right: var(--base-size-8)
+    flex: 0 0 auto
+
+.op-app-header--start .op-app-menu
+  flex-wrap: nowrap
+  align-items: center
+
+// Search: a soft filled field instead of a hard white outline
+// (the base style sets these with !important, so they have to be matched)
+.op-app-header .top-menu-search--input
+  .ng-select-container
+    min-height: 36px !important
+    height: 36px !important
+    background: rgba(255, 255, 255, 0.14) !important
+    border-color: transparent !important
+    border-radius: var(--borderRadius-large) !important
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s
+    &:hover
+      background: rgba(255, 255, 255, 0.22) !important
+  &.ng-select-focused .ng-select-container,
+  .ng-select-container:focus-within
+    background: rgba(255, 255, 255, 0.26) !important
+    border-color: rgba(255, 255, 255, 0.85) !important
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18)
+    outline: none
+
+@media screen and (min-width: 851px)
+  .op-app-header--center .op-app-search
+    width: clamp(340px, 34vw, 560px)
+
+// Phone: keep every control reachable without crowding
+@media screen and (max-width: 560px)
+  .op-app-header--end
+    padding-right: var(--base-size-4)
+    .op-app-menu--item
+      padding: 0 var(--base-size-2)
+
+  // "Create" becomes a plus button; the label stays available to screen readers
+  .op-app-header--end action-menu.op-app-menu--item .Button--primary
+    padding-inline: var(--base-size-8)
+    .Button-label
+      position: absolute
+      width: 1px
+      height: 1px
+      overflow: hidden
+      clip-path: inset(50%)
+      white-space: nowrap
+
+@media screen and (max-width: 400px)
+  // Help steps aside so the avatar always fits
+  .op-app-header--end action-menu.op-app-menu--item.pl-1
+    display: none
