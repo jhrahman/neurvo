@@ -59,9 +59,20 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
 
-  <% Homescreen::CardCatalog::GROUPS.each do |group| %>
+  <div class="neurvo-card-picker--filters" role="group" aria-label="<%= t("neurvo.home_cards.filter") %>">
+    <button type="button" class="neurvo-chip" aria-pressed="true" data-group="all" data-action="my--home-cards#filter">
+      <%= t("neurvo.home_cards.all_groups") %>
+    </button>
+    <% @catalog.ordered_groups.each do |group| %>
+      <button type="button" class="neurvo-chip" aria-pressed="false" data-group="<%= group %>" data-action="my--home-cards#filter">
+        <%= t("neurvo.home_cards.groups.#{group}.title") %>
+      </button>
+    <% end %>
+  </div>
+
+  <% @catalog.ordered_groups.each do |group| %>
     <% recommended = @catalog.recommended_groups.include?(group) %>
-    <fieldset class="neurvo-card-picker--group">
+    <fieldset class="neurvo-card-picker--group" data-group="<%= group %>" data-my--home-cards-target="group">
       <legend>
         <span class="neurvo-card-picker--group-title"><%= t("neurvo.home_cards.groups.#{group}.title") %></span>
         <% if recommended && group != :everyone %>

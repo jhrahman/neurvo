@@ -4823,6 +4823,8 @@ en:
       limit_reached: "You have reached the limit. Clear a card to pick another."
       current: "Right now: %{count}"
       recommended: "Recommended for your role"
+      filter: "Show cards for"
+      all_groups: "All"
       customize: "Customize"
       restore: "Restore recommended cards"
       restore_hint: "Go back to the cards recommended for your role."
@@ -4830,7 +4832,9 @@ en:
       empty: "No cards selected. Pick a few below to see them on Home."
       groups:
         everyone: { title: "For everyone", description: "Useful whatever your role." }
-        dev: { title: "Development", description: "For developers, DevOps and designers." }
+        dev: { title: "Development", description: "For software engineers." }
+        devops: { title: "DevOps and platform", description: "Infrastructure, changes, releases and support." }
+        design: { title: "Design (UI/UX)", description: "UI work, reviews and design input." }
         qa: { title: "Quality assurance", description: "For testers and anyone watching quality." }
         pm: { title: "Project management", description: "A team-wide view for managers and leads." }
     based_on_openproject: "Neurvo is based on OpenProject"
@@ -4871,6 +4875,26 @@ en:
         unassigned: { label: "Unassigned", description: "Open items nobody has picked up yet." }
         blocked: { label: "Blocked", description: "Items marked as blocked across your projects." }
         active_sprints: { label: "Active sprints", description: "Sprints currently running in your projects." }
+        due_today: { label: "Due today", description: "Your open items that must be done today." }
+        high_priority: { label: "High priority", description: "Your open items marked High or Critical." }
+        done_this_week: { label: "Done this week", description: "Items you completed in the last 7 days." }
+        stale: { label: "Gone quiet", description: "Your open items with no update for 2 weeks." }
+        infra_work: { label: "Infrastructure work", description: "Open work in CI/CD, Kubernetes, Database, Monitoring, Security and Cost." }
+        my_infra: { label: "My infrastructure work", description: "Infrastructure items assigned to you." }
+        change_requests: { label: "Change requests", description: "Open changes waiting to be reviewed or rolled out." }
+        support_queue: { label: "Support queue", description: "Open support requests and incidents." }
+        monitoring_alerts: { label: "Monitoring and alerts", description: "Open work on monitoring, alerting and on-call." }
+        security_work: { label: "Security", description: "Open security items across your projects." }
+        production_bugs: { label: "Production bugs", description: "Open bugs found in the Production environment." }
+        ui_work: { label: "UI work", description: "Open items in the UI category." }
+        my_design_tasks: { label: "My design tasks", description: "UI items assigned to you." }
+        ui_in_review: { label: "UI in review", description: "UI items waiting for design review." }
+        ui_bugs: { label: "UI bugs", description: "Open visual and interaction bugs." }
+        ui_ready_to_test: { label: "UI ready to test", description: "UI items ready for a visual check." }
+        feature_requests: { label: "Feature requests", description: "Open requests that may need design input." }
+        critical_open: { label: "Critical priority", description: "Everything open at Critical priority." }
+        waiting_on_customer: { label: "Waiting on customer", description: "Items paused until a customer replies." }
+        team_done_this_week: { label: "Team done this week", description: "Items your projects completed in the last 7 days." }
       my_work:
         title: "My open work"
         view_all: "View all my work"

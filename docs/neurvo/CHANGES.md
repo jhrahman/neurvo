@@ -244,3 +244,7 @@ An existing instance picks this up by re-running the type and custom-field steps
 Defaults come from the user's project roles: Project Manager (and admins) get a mixed team, QA and sprint view; QA Engineer gets
 QA cards; Developer, DevOps Engineer and Designer get development cards; anyone else gets general cards. A user who picks their
 own cards keeps them until they use "Restore recommended cards".
+
+Home cards, second batch: DevOps and Design groups (13 cards) plus 7 general and project management cards, 42 in total.
+`card_catalog.rb` maps DevOps Engineer and Designer to their own groups (they used to share the developer set) and recognises
+the `SQA Engineer` role. The picker page gained group filter chips and shows the user's recommended groups first.

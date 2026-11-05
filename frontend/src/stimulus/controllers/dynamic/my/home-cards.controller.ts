@@ -29,13 +29,14 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class HomeCardsController extends Controller {
-  static targets = ['option', 'counter', 'limit'];
+  static targets = ['option', 'counter', 'limit', 'group'];
 
   static values = { max: Number };
 
   declare optionTargets:HTMLInputElement[];
   declare counterTarget:HTMLElement;
   declare limitTarget:HTMLElement;
+  declare groupTargets:HTMLElement[];
   declare maxValue:number;
 
   private template = '';
@@ -47,6 +48,18 @@ export default class HomeCardsController extends Controller {
 
   toggle() {
     this.sync();
+  }
+
+  filter(event:Event) {
+    const chip = event.currentTarget as HTMLElement;
+    const group = chip.dataset.group ?? 'all';
+
+    this.element.querySelectorAll<HTMLElement>('.neurvo-chip').forEach((other) => {
+      other.setAttribute('aria-pressed', String(other === chip));
+    });
+    this.groupTargets.forEach((fieldset) => {
+      fieldset.hidden = group !== 'all' && fieldset.dataset.group !== group;
+    });
   }
 
   private sync() {

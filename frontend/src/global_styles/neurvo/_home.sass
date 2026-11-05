@@ -480,3 +480,32 @@
     border-color: var(--fgColor-accent)
     background: var(--fgColor-accent)
     color: var(--fgColor-onEmphasis, #fff)
+
+.neurvo-card-picker--filters
+  display: flex
+  flex-wrap: wrap
+  gap: 8px
+  margin-bottom: 20px
+
+.neurvo-chip
+  padding: 4px 12px
+  border: 1px solid var(--borderColor-default)
+  border-radius: 999px
+  background: var(--bgColor-default)
+  color: var(--fgColor-default)
+  font-size: 13px
+  cursor: pointer
+  transition: background 120ms ease, border-color 120ms ease
+
+  &:hover
+    border-color: var(--borderColor-accent-emphasis)
+
+  &[aria-pressed="true"]
+    border-color: var(--fgColor-accent)
+    background: var(--bgColor-accent-muted)
+    color: var(--fgColor-accent)
+    font-weight: 600
+
+  &:focus-visible
+    outline: 2px solid var(--fgColor-accent)
+    outline-offset: 2px

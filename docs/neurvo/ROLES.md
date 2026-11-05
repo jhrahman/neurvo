@@ -80,13 +80,21 @@ Administration > Users and permissions > Roles and permissions (the seed overwri
 ## Home cards by role
 
 The cards at the top of Home depend on the project roles a person holds. Everyone can change them under
-*Account settings > Home dashboard* (up to 6 cards, with a live count on each) and restore the recommended set at any time.
+*Account settings > Home dashboard* (up to 6 of 42 cards, each with a live count, filterable by department) and restore the
+recommended set at any time.
 
 | Role | Recommended cards |
 |---|---|
 | Project Manager, administrator | Team overdue, Active sprints, Blocked, Unassigned, Open bugs, Ready for QA |
-| QA Engineer | Assigned to me, Overdue, Ready for QA, In QA, Open bugs, Reopened bugs |
-| Developer, DevOps Engineer, Designer | Assigned to me, Overdue, In progress, My bugs, Awaiting review |
+| QA Engineer, SQA Engineer | Assigned to me, Overdue, Ready for QA, In QA, Open bugs, Reopened bugs |
+| Developer | Assigned to me, Overdue, In progress, My bugs, Awaiting review |
+| DevOps Engineer | Assigned to me, Overdue, Infrastructure work, Change requests, Production bugs, Support queue |
+| Designer | Assigned to me, Overdue, UI work, UI in review, UI bugs, Feature requests |
 | Team Member and others | Assigned to me, Overdue, Due this week, Watching |
 
-People with several roles get the union of the recommended cards, capped at 6.
+People with several roles get the combined set in the order Project Manager, QA, Developer, DevOps, Design, capped at 6.
+
+Other cards worth knowing: Due today, High priority, Done this week and Gone quiet (for everyone); My infrastructure work,
+Monitoring and alerts and Security (DevOps); My design tasks and UI ready to test (Design); Critical priority, Waiting on
+customer and Team done this week (Project management). "Infrastructure work" covers the categories CI/CD, Kubernetes,
+Database, Monitoring, Security and Cost; the design cards use the categories UI, UX and Design.
