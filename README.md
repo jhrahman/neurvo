@@ -4,19 +4,123 @@
 
 Neurvo is a customized and improved fork of [OpenProject](https://www.openproject.org) 17.9.6 (GPLv3). Everything OpenProject offers still works; Neurvo makes the everyday dev/QA path simpler and nicer.
 
-## What's different from OpenProject
+## Why Neurvo instead of plain OpenProject?
 
-- **Jira-style boards**: compact cards with type badge, issue key, story points, due date, priority and avatar; blocked cards are flagged; columns show counts.
-- **Dev/QA workflow out of the box**: types Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support Request and Milestone; statuses To Do, In Progress, In Review, Ready for QA, In QA, Done (plus Reopened, Blocked, Waiting on Customer, Won't Do); readable issue keys such as `GOFLEET-15`; bug and support fields and description templates.
-- **Readable status colors**: solid color with bold white text.
-- **Modern Home page** with your work, active sprints, recent activity and an overview.
-- **Create without friction**: the project is pre-selected with a short hint instead of a blocking notice.
-- **In-app confirmations** instead of browser pop-ups.
-- **Sample workspace** (GoFleet, QuickCart, Platform & DevOps, Neurvo) with boards, sprints, releases, wiki and meetings, so a new team can see the flow immediately.
-- **Share a local instance** through a tunnel with `bin/neurvo-share`.
-- Branding as Neurvo / Ocean IT Solutions. Enterprise-only features are neither unlocked nor bypassed.
+OpenProject is a great engine. It is also built for every kind of team, so a software team has to shape it before it feels right. Neurvo does that shaping for you. You get the same solid foundation, already tuned for the way developers, QA and DevOps actually work day to day.
 
-The full list of changes to upstream files is in [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md).
+Everything OpenProject can do still works. We only changed what gets in your way.
+
+### At a glance
+
+| | OpenProject | Neurvo |
+|---|---|---|
+| First look | Generic project tool | Jira-style home, boards and issue keys like `GOFLEET-15` |
+| Dev and QA flow | You design it | Ready on day one: Epic to Bug, To Do to Done, with a QA gate |
+| Discussion on a ticket | Activity feed | A dedicated Comments tab with threads, replies and deep links |
+| Writing | Standard editor | Modern editor with real code snippets, language picker and copy button |
+| People | Initials in a circle | Preset avatars, designations and click-through profile cards |
+| Premium upsells | Banners everywhere | Hidden, so the app stays clean |
+| Trying it out | Empty workspace | A full sample company with boards, sprints, wiki and meetings |
+
+Open the sections below to see what each one feels like in practice.
+
+<details>
+<summary><b>Boards and tickets that look like the tools you already know</b></summary>
+
+<br>
+
+- Compact board cards with a type badge, issue key, story points, due date, priority and the assignee's avatar.
+- Blocked cards are flagged so nobody has to hunt for them, and every column shows a count.
+- Status colors are solid with bold white text, so you can read them from across the room.
+- Creating a ticket is quick: the project is already selected and you get a short hint instead of a blocking notice.
+- A global **Create** button in the header, just like you would expect.
+
+</details>
+
+<details>
+<summary><b>A dev and QA workflow that works out of the box</b></summary>
+
+<br>
+
+- Types: Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support Request and Milestone.
+- Statuses: To Do, In Progress, In Review, Ready for QA, In QA and Done, plus Reopened, Blocked, Waiting on Customer and Won't Do.
+- Readable issue keys, bug and support fields, and description templates so tickets start with the right questions answered.
+- Sample roles for Project Manager, Developer, QA Engineer, DevOps Engineer, Designer and a general Team Member, each with sensible permissions. See [ROLES.md](docs/neurvo/ROLES.md).
+
+</details>
+
+<details>
+<summary><b>Comments that feel like a conversation</b></summary>
+
+<br>
+
+- **Comments is the first tab** on every ticket, followed by Files, Relations and Activity.
+- Reply in threads, edit or delete your own comments, and sort by newest or oldest.
+- Copy a link to any comment. Whoever opens it lands right on that comment, and it flashes yellow for a second so the eye finds it.
+- Each comment shows the author's name with their designation underneath. Click the name or avatar to open a profile card.
+- Submitting shows progress, and the new comment gets a quick highlight so you know it went through.
+- Closing a half-written comment asks you in a proper in-app dialog, not a browser pop-up.
+
+</details>
+
+<details>
+<summary><b>A nicer place to write</b></summary>
+
+<br>
+
+- A modernised rich text editor built only from free, open source parts.
+- Code blocks with a language picker, a delete button and a single clean language label.
+- Copy buttons on code in comments and descriptions, with a small "Copied" confirmation.
+- Find and replace right inside the editor.
+
+</details>
+
+<details>
+<summary><b>People, not just usernames</b></summary>
+
+<br>
+
+- 32 preset avatars to choose from under *My account*, in case you would rather not upload a photo. You can still upload your own.
+- Every user can carry a designation such as "Senior Engineer", shown in the user menu and next to their comments.
+- Every signed-in person can see their colleagues, so profile cards and mentions always work. If you prefer the stricter project-only visibility, one setting turns it back.
+
+</details>
+
+<details>
+<summary><b>Easy on the eyes, and on the room</b></summary>
+
+<br>
+
+- Light and dark modes with extra palettes for each. Hover a swatch to see its name before you pick it.
+- A refreshed header that holds up on phones, with the logo and search no longer fighting for space.
+- Toasts slide in at the bottom right and success messages clear themselves.
+- Calm motion that respects the reduced motion setting, and an animated Neurvo mark instead of the stock loader.
+- Keyboard shortcuts for the things you do all day.
+
+</details>
+
+<details>
+<summary><b>Clean by default</b></summary>
+
+<br>
+
+- Enterprise-only features are hidden, so there are no upgrade banners in your way. Nothing is unlocked or bypassed, and an admin can show them again with a setting.
+- Branded as Neurvo by Ocean IT Solutions throughout.
+
+</details>
+
+<details>
+<summary><b>Look around from the very first login</b></summary>
+
+<br>
+
+- A sample workspace (GoFleet, QuickCart, Platform & DevOps and Neurvo) with boards, sprints, releases, wiki pages and meetings, so a new team can feel the flow immediately.
+- Ready-made test accounts for every role, listed in [USERS.md](docs/neurvo/USERS.md).
+- Share your local copy with a teammate through a tunnel using `bin/neurvo-share`.
+
+</details>
+
+Curious about the exact files we touched? Every change to upstream code is listed in [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md), which also keeps merging new OpenProject releases painless.
 
 ## Run it on your computer (Mac or Windows)
 
