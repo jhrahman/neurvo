@@ -1010,7 +1010,8 @@ en:
       comment_updated: "The comment was successfully updated."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
       create:
-        button: "Create"
+        button: "New ticket"
+        button_in_project: "Create a ticket in %{project}"
         header: "New %{type}"
         header_no_type: "New work package (Type not yet set)"
         header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"

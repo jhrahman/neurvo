@@ -52,3 +52,18 @@
   &:focus-visible
     outline: 2px solid var(--focus-outlineColor, #0969da)
     outline-offset: 2px
+
+// The project-scoped "New ticket" button is outlined so it does not read as the global green Create in the header
+.wp-create-button .button.-primary.add-work-package
+  background: transparent
+  border: 1px solid var(--fgColor-accent, #0969da)
+  color: var(--fgColor-accent, #0969da)
+
+  .button--text, svg
+    color: inherit
+    fill: currentColor
+
+  &:hover:not([disabled]), &:focus-visible
+    background: color-mix(in srgb, var(--fgColor-accent, #0969da) 12%, transparent)
+    border-color: var(--fgColor-accent, #0969da)
+    color: var(--fgColor-accent, #0969da)

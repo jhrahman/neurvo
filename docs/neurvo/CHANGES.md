@@ -221,3 +221,11 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml` | People group is Reporter, Assignee, Accountable, plus the new user custom field "Assignee Pair" (`group: people`) on every type |
 
 An existing instance picks this up by re-running the type and custom-field steps of `neurvo:seed`.
+
+## Project-scoped "New ticket" button
+
+| File | Reason |
+|---|---|
+| `config/locales/js-en.yml` | `work_packages.create.button` is "New ticket"; new `button_in_project` ("Create a ticket in %{project}") |
+| `frontend/src/app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component.ts` | Tooltip and aria label name the current project |
+| `frontend/src/global_styles/neurvo/_work_packages.sass` | Outlined accent style, so it is not mistaken for the green global Create in the header |
