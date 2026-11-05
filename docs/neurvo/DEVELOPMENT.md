@@ -57,7 +57,7 @@ configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data
   postmortem) in Platform & DevOps.
 - Comments contain real @mentions, so inboxes fill up about 5 minutes after seeding (journal aggregation), as long as
   the `worker` container is running.
-- Organization: Ocean IT Solutions (Administration > System settings > Organization name), shown on the Home page.
+- Organization: "Ocean IT Solutions", a fictional company (Administration > System settings > Organization name), shown on the Home page. Change it to your own.
 - QA hand-over: tickets in In QA are assigned to a QA engineer; the QA lead has regression and smoke-test tasks (one
   overdue).
 - Roles and permissions: [ROLES.md](ROLES.md); every sample user with username, password and role: [USERS.md](USERS.md).

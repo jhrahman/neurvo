@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Neurvo sample workspace: Ocean IT Solutions with two products (GoFleet, QuickCart), the platform team and Neurvo itself.
+# Neurvo sample workspace: a fictional company, Ocean IT Solutions, with two products (GoFleet, QuickCart), the platform team and Neurvo itself.
 # Shared configuration lives here; every file in seed_data/ describes one project.
 # Dates are offsets in days from the day the seed runs, so the data always looks current.
 
@@ -34,7 +34,7 @@ organization:
   name: "Ocean IT Solutions"
   welcome_title: "Welcome to Neurvo!"
   welcome_text: |
-    Neurvo is Ocean IT Solutions' project management and issue tracking platform: plan work, track issues, run boards and sprints, and keep your team's documents in one place.
+    Neurvo is a project management and issue tracking platform: plan work, track issues, run boards and sprints, and keep your team's documents in one place.
 
 statuses:
   - { key: todo,        name: "To Do",        color: "#5F6B7A", renames: ["New"], default: true }

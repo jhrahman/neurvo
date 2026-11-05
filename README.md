@@ -6,7 +6,7 @@
 
 **The taste of Jira, for free.** A project and ticket tracker for software, QA and DevOps teams, built on the open source [OpenProject](https://www.openproject.org) and reshaped so a dev team can use it on day one.
 
-> **For recruiters and reviewers:** this is a real product I built and maintain for **Ocean IT Solutions**, a team of about 100 people. The short version of the story is right below. The screenshots follow, then the details.
+> **For recruiters and reviewers:** Neurvo is a personal portfolio project. I took a real open source tool and reshaped it for software, QA and DevOps teams, to show how I approach product design, a large legacy codebase and maintainable change. The story is right below, then screenshots and details. **Ocean IT Solutions**, the company in the screenshots, and every person in the sample data are fictional.
 
 ![Neurvo home page](docs/neurvo/images/home.png)
 
@@ -37,7 +37,7 @@ I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
 | **People** | Initials in a circle | Preset avatars, job titles, click-through profile cards, **Reporter** and **Assignee Pair** fields |
 | **Errors** | A raw technical toast in the corner | A clear message in the page: what happened, why, and a **Go back** button |
 | **Premium upsells** | Banners everywhere | Hidden, nothing unlocked or bypassed |
-| **Getting started** | An empty workspace | A sample company with four projects, a team of 15, boards, sprints, wiki and meetings |
+| **Getting started** | An empty workspace | A fictional sample company with four projects, 15 sample people, boards, sprints, wiki and meetings |
 
 ## See it
 
@@ -56,7 +56,7 @@ I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
 ## Highlights, in plain words
 
 <details>
-<summary><b>Role-based home cards (the feature I am proudest of)</b></summary>
+<summary><b>Role-based home cards</b></summary>
 
 <br>
 
@@ -131,7 +131,7 @@ flowchart LR
 
 ## How it was built
 
-I built Neurvo as the maintainer and product owner, working with an AI coding assistant (Claude Code) as a pair programmer. I decided what to build and why, reviewed the result in a real browser, and kept the project upgradable and documented. Changes were checked in the running app. The upstream OpenProject test suite is included in `spec/`.
+I built Neurvo on my own, working with an AI coding assistant (Claude Code) as a pair programmer. I decided what to build and why, reviewed the result in a real browser, and kept the project upgradable and documented. Changes were checked in the running app. The upstream OpenProject test suite is included in `spec/`.
 
 ---
 
@@ -186,7 +186,7 @@ Sign in as different people and compare the Home page: the cards change with the
 
 ## Deploy it on a server
 
-Production runs on one Linux server with Docker Compose and automatic HTTPS. Plan for about 8 GB of memory, 4 CPUs and 40 GB of disk for around 100 users.
+Production runs on one Linux server with Docker Compose and automatic HTTPS. As a rough guide, plan for about 8 GB of memory, 4 CPUs and 40 GB of disk for a team of around 100. This is a sizing estimate, not a measured production figure.
 
 ```bash
 curl -fsSL https://get.docker.com | sh
@@ -213,4 +213,4 @@ Open `https://<your host>`, sign in as `admin` / `admin` and change the password
 
 Neurvo is based on [OpenProject](https://www.openproject.org) and, like it, is licensed under the GNU GPL v3. See [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE). Many thanks to the OpenProject community, whose work makes this possible.
 
-Built and maintained by **Jahidur Rahman** at Ocean IT Solutions.
+Created by **Jahidur Rahman** as a portfolio project.

@@ -5,10 +5,10 @@
 
 ## What Neurvo is
 
-Neurvo is Ocean IT Solutions' internal project management and ticketing platform: **"the taste of Jira, for free."**
+Neurvo is a self-hosted project management and ticketing platform: **"the taste of Jira, for free."** It is a personal portfolio project. "Ocean IT Solutions" and every person in the sample data are fictional.
 It is a customized fork of **OpenProject v17.9.6** (GPLv3), developed with AI-assisted development (Claude Code).
 
-- **Users**: ~100 people now, growing. Software engineers, SQA engineers, DevOps engineers and project managers.
+- **Intended users**: software teams of up to about 100 people: software engineers, SQA engineers, DevOps engineers, designers and project managers.
 - **Goal**: a clean, fast, modern tool covering what most teams use every day: issues, boards, sprints, a roadmap and docs. It is deliberately **not** a feature-for-feature OpenProject clone.
 - **Vision**: Neurvo is the hub of the team's toolset. Docmost gives the Confluence experience, and CI/CD, chat, monitoring and AI tools connect through a pluggable integration framework.
 - **Maintainer**: an SQA engineer. Quality, tests and clear change logs matter.

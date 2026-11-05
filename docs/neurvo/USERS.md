@@ -1,6 +1,6 @@
 # Sample users
 
-Development and demo accounts created by `bin/compose exec backend bundle exec rake neurvo:seed`.
+Development and demo accounts, all fictional (the people and "Ocean IT Solutions" are made up), created by `bin/compose exec backend bundle exec rake neurvo:seed`.
 Sign in at <http://localhost:3000>. **Change or delete these before any real use**: the passwords are public.
 The `admin` and `general.user` passwords above were set on the dev instance; a fresh `neurvo:seed` on a new database creates `general.user` with `Neurvo-Dev-2026!` and `admin` with the OpenProject default.
 What each role may do is described in [ROLES.md](ROLES.md).

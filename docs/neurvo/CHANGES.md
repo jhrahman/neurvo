@@ -264,3 +264,5 @@ the `SQA Engineer` role. The picker page gained group filter chips and shows the
 |---|---|
 | `lib/neurvo/seed.rb`, `lib/tasks/neurvo.rake` | `rake neurvo:seed CONFIG_ONLY=1` sets up the Neurvo statuses, types, fields, priorities, workflows and roles without sample people or projects, for real installs |
 | `README.md`, `docs/neurvo/DEPLOY.md`, `docs/neurvo/DEVELOPMENT.md`, `docs/neurvo/images/` | Rewritten for Neurvo: what it solves, how it differs from OpenProject, screenshots, quick start, production guide |
+
+Wording: Ocean IT Solutions and all sample people are described as fictional. `app/seeders/standard.yml` and `lib/neurvo/seed_data.yml` no longer present Neurvo as that company's platform; the sample organization name itself stays as demo data.
