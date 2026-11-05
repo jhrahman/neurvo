@@ -5,7 +5,7 @@
 
 ## What Neurvo is
 
-Neurvo is a self-hosted project management and ticketing platform: **"the taste of Jira, for free."** It is a personal portfolio project. "Ocean IT Solutions" and every person in the sample data are fictional.
+Neurvo is a self-hosted project management and ticketing platform: **"the taste of Jira, for free."** It is a personal project. "Ocean IT Solutions" and every person in the sample data are fictional.
 It is a customized fork of **OpenProject v17.9.6** (GPLv3), developed with AI-assisted development (Claude Code).
 
 - **Intended users**: software teams of up to about 100 people: software engineers, SQA engineers, DevOps engineers, designers and project managers.

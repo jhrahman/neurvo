@@ -6,7 +6,7 @@
 
 **The taste of Jira, for free.** A project and ticket tracker for software, QA and DevOps teams, built on the open source [OpenProject](https://www.openproject.org) and reshaped so a dev team can use it on day one.
 
-> **For recruiters and reviewers:** Neurvo is a personal portfolio project. I took a real open source tool and reshaped it for software, QA and DevOps teams, to show how I approach product design, a large legacy codebase and maintainable change. The story is right below, then screenshots and details. **Ocean IT Solutions**, the company in the screenshots, and every person in the sample data are fictional.
+> Neurvo is a personal project. I took a real open source tool and reshaped it for software, QA and DevOps teams, working inside a large existing codebase and keeping every change documented and easy to upgrade. The screenshots use sample data: **Ocean IT Solutions** and every person in it are fictional.
 
 ![Neurvo home page](docs/neurvo/images/home.png)
 
@@ -213,4 +213,4 @@ Open `https://<your host>`, sign in as `admin` / `admin` and change the password
 
 Neurvo is based on [OpenProject](https://www.openproject.org) and, like it, is licensed under the GNU GPL v3. See [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE). Many thanks to the OpenProject community, whose work makes this possible.
 
-Created by **Jahidur Rahman** as a portfolio project.
+Created by **Jahidur Rahman**.
