@@ -43,12 +43,18 @@ module Principals::Scopes
 
     class_methods do
       def visible(user = ::User.current)
-        if user.allowed_globally?(:view_all_principals)
+        if user.allowed_globally?(:view_all_principals) || open_user_directory?(user)
           all
         else
           in_visible_project_or_me_or_same_groups(user)
             .or(where(id: Group.containing_user(user).select(:id)))
         end
+      end
+
+      private
+
+      def open_user_directory?(user)
+        user.logged? && Setting.neurvo_open_user_directory?
       end
     end
   end

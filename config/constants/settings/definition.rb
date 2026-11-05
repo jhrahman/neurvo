@@ -1147,6 +1147,11 @@ module Settings
       security_badge_displayed: {
         default: false
       },
+      # Neurvo: every signed-in user can see every other user (names, avatars, profiles), like a company
+      # directory. Set OPENPROJECT_NEURVO__OPEN__USER__DIRECTORY=false to go back to project-based visibility.
+      neurvo_open_user_directory: {
+        default: true
+      },
       security_badge_url: {
         description: "URL of the update check badge",
         default: "https://releases.openproject.com/v1/check.svg",
