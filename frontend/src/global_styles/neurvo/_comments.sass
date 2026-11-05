@@ -1,0 +1,102 @@
+@keyframes neurvo-comment-flash
+  0%, 65%
+    background-color: #ffe08a
+  100%
+    background-color: transparent
+
+@keyframes neurvo-comment-progress
+  0%
+    transform: translateX(-100%)
+  100%
+    transform: translateX(350%)
+
+.work-packages-activities-tab-journals-item-component--container__highlight
+  animation: neurvo-comment-flash 1.6s ease-out 1
+  & .Box-header,
+  & .Box-body
+    background-color: transparent
+
+.work-packages-activities-tab-journals-item-component__reply
+  margin-top: var(--base-size-8)
+
+.op-comment-thread
+  margin-left: var(--base-size-24)
+  padding-left: var(--base-size-12)
+  border-left: 2px solid var(--borderColor-muted)
+  margin-top: var(--base-size-4)
+
+.op-comment-icon-actions
+  align-items: center
+  opacity: 0.55
+  transition: opacity 0.15s
+  .Box-header:hover &,
+  &:focus-within
+    opacity: 1
+
+.op-comment-user-trigger
+  background: none
+  border: 0
+  padding: 0
+  cursor: pointer
+  border-radius: 50%
+  display: inline-flex
+
+.op-reply-form
+  margin-top: var(--base-size-4)
+
+  &--trigger
+    background: none
+    border: 0
+    padding: var(--base-size-4) 0
+    color: var(--fgColor-muted)
+    font-size: var(--text-body-size-small)
+    cursor: pointer
+    &:hover
+      color: var(--fgColor-accent)
+      text-decoration: underline
+
+  &--form
+    margin-top: var(--base-size-4)
+    position: relative
+
+  &--input
+    width: 100%
+    resize: vertical
+
+  &--buttons
+    display: flex
+    justify-content: flex-end
+    margin-top: var(--base-size-8)
+
+.op-comment-form--sending
+  position: relative
+  pointer-events: none
+  & > :not(.op-comment-progress)
+    opacity: 0.6
+    transition: opacity 0.2s
+
+.op-comment-progress
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  height: 3px
+  overflow: hidden
+  background: var(--bgColor-neutral-muted)
+  border-radius: 3px
+  z-index: 2
+
+  &--bar
+    display: block
+    width: 30%
+    height: 100%
+    background: var(--bgColor-accent-emphasis)
+    border-radius: 3px
+    animation: neurvo-comment-progress 1s ease-in-out infinite
+
+@media (prefers-reduced-motion: reduce)
+  .work-packages-activities-tab-journals-item-component--container__highlight
+    animation-duration: 0.01s
+  .op-comment-progress--bar
+    animation: none
+    width: 100%

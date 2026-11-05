@@ -55,6 +55,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   public turboFrameSrc:string;
 
+  protected activitiesFilter:'only_changes'|'only_comments'|'' = '';
+
   ngOnInit():void {
     this.turboFrameSrc = this.buildTurboFrameSrc();
   }
@@ -63,6 +65,10 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     const baseUrl = window.location.origin;
     const url = new URL(`${this.pathHelper.staticBase}/work_packages/${this.workPackageId}/activities`, baseUrl);
     const anchorInfo = UrlHelpers.extractActivityAnchor(window.location.hash);
+
+    if (this.activitiesFilter) {
+      url.searchParams.set('filter', this.activitiesFilter);
+    }
 
     if (anchorInfo) {
       url.searchParams.set('anchor', `${anchorInfo.type}-${anchorInfo.id}`);

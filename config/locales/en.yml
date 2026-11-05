@@ -1355,19 +1355,21 @@ en:
           description: "Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?"
           heading: "Make this comment public?"
           title: "Make this comment public?"
+        delete_comment_confirmation: "Delete this comment? Its replies are deleted with it. This cannot be undone."
         internal_journal: Internal comments are visible to a limited group of members.
         label_activity_hide_meetings: "Hide meetings updates"
         label_activity_show_all: "Show everything"
         label_activity_show_only_changes: "Show changes only"
         label_activity_show_only_comments: "Show comments only"
         label_dismiss_comment: "Dismiss"
-        label_sort_asc: "Newest at the bottom"
-        label_sort_desc: "Newest on top"
+        label_sort_asc: "Oldest first"
+        label_sort_desc: "Newest first"
         label_submit_comment: "Submit comment"
         label_type_to_comment: "Add a comment. Type @ to notify people."
         label_who: Who?
         no_results_description_text: 'Choose "Show everything" to show all activity and comments'
         no_results_title_text: No activity to display
+        reply_placeholder: "Write a reply… (Ctrl/Cmd+Enter to send)"
         unsaved_changes_confirmation_message: "Are you sure you want to dismiss your comment? The content that you have written will be lost."
 
   activity:

@@ -49,6 +49,8 @@
             turbo: true,
             turbo_stream: true,
             "#{editor_stimulus_controller}-target": "form",
+            controller: "work-packages--activities-tab--comment-submit",
+            action: "turbo:submit-start->work-packages--activities-tab--comment-submit#start turbo:submit-end->work-packages--activities-tab--comment-submit#finish",
             test_selector: "op-work-package-journal-form-element"
           },
           url: work_package_activities_path(work_package_id: work_package.id)

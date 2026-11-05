@@ -38,18 +38,39 @@ module WorkPackages
         include WorkPackages::ActivitiesTab::SharedHelpers
         include WorkPackages::ActivitiesTab::StimulusControllers
 
-        def initialize(journal:, filter:, grouped_emoji_reactions:, state: :show)
+        def initialize(journal:, filter:, grouped_emoji_reactions:, state: :show, highlight: false)
           super
 
           @journal = journal
           @filter = filter
           @grouped_emoji_reactions = grouped_emoji_reactions
           @state = state
+          @highlight = highlight
         end
 
         private
 
-        attr_reader :journal, :state, :filter, :grouped_emoji_reactions
+        attr_reader :journal, :state, :filter, :grouped_emoji_reactions, :highlight
+
+        def reply?
+          journal.reply_to_id.present?
+        end
+
+        def editable?
+          journal.editable_by?(User.current)
+        end
+
+        def replyable?
+          !reply? && state == :show && User.current.allowed_in_project?(:add_work_package_comments, journal.journable.project)
+        end
+
+        def user_card_data
+          {
+            hover_card_trigger_target: "trigger",
+            hover_card_url: hover_card_user_path(journal.user),
+            hover_card_open_on_click: true
+          }
+        end
 
         def menu_id
           ItemComponent::Actions.menu_id(journal)
@@ -64,6 +85,7 @@ module WorkPackages
             if journal.internal?
               classes << "work-packages-activities-tab-journals-item-component--container__internal-comment"
             end
+            classes << "work-packages-activities-tab-journals-item-component--container__highlight" if highlight
           end
         end
 

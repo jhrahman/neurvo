@@ -280,6 +280,7 @@ module Neurvo
         user.force_password_change = false
         user.activate
         user.save!
+        assign_designation(user, conf["title"])
         user.pref.update!(time_zone: data["time_zone"])
         user.notification_settings.create! if user.notification_settings.none?
         group = Group.find_or_create_by!(lastname: conf["group"])
@@ -287,6 +288,21 @@ module Neurvo
         [conf["key"], user]
       end
       say "Team: #{@users.values.map(&:name).join(', ')}"
+    end
+
+    def designation_field
+      @designation_field ||= UserCustomField.find_or_create_by!(name: "Designation") do |field|
+        field.field_format = "string"
+        field.visible_on_user_card = true
+        field.custom_field_section = UserCustomFieldSection.order(:position).first
+      end
+    end
+
+    def assign_designation(user, title)
+      return if title.blank?
+
+      user.custom_field_values = { designation_field.id => title }
+      user.save!
     end
 
     def user(key) = @users.fetch(key)

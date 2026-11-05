@@ -48,6 +48,10 @@ module WorkPackages
 
         attr_reader :work_package, :filter
 
+        def filter_selectable?
+          [Filters::ALL, Filters::HIDE_MEETINGS].include?(filter)
+        end
+
         def show_all?
           filter == Filters::ALL
         end

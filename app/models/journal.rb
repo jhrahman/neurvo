@@ -148,6 +148,18 @@ class Journal < ApplicationRecord
 
   has_many :notifications, dependent: :destroy
 
+  belongs_to :reply_to, class_name: "Journal", optional: true, inverse_of: :replies
+  has_many :replies,
+           -> { order(:created_at, :id) },
+           class_name: "Journal",
+           foreign_key: :reply_to_id,
+           inverse_of: :reply_to,
+           dependent: :destroy
+
+  def reply?
+    reply_to_id.present?
+  end
+
   include ::Scopes::Scoped
 
   scopes :with_sequence_version

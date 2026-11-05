@@ -31,6 +31,7 @@ import {
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { retrieveCkEditorInstance } from 'core-app/shared/helpers/ckeditor-helpers';
 import type AutoScrollingController from './auto-scrolling.controller';
+import { confirmDiscardChanges } from 'core-common/app-confirm';
 import BaseController from './base.controller';
 import type PollingController from './polling.controller';
 import type { TurboSubmitEndEvent, TurboSubmitStartEvent } from '@hotwired/turbo';
@@ -135,8 +136,9 @@ export default class EditorController extends BaseController {
     if (this.isEditorEmpty()) {
       this.closeForm();
     } else {
-      const shouldClose = window.confirm(this.unsavedChangesConfirmationMessageValue);
-      if (shouldClose) { this.closeForm(); }
+      void confirmDiscardChanges(this.unsavedChangesConfirmationMessageValue).then((shouldClose) => {
+        if (shouldClose) { this.closeForm(); }
+      });
     }
   }
 
@@ -269,11 +271,15 @@ export default class EditorController extends BaseController {
     }
   }
 
-  private handleTurboSubmitStart(_event:TurboSubmitStartEvent) {
+  private handleTurboSubmitStart(event:TurboSubmitStartEvent) {
+    if (event.target !== this.formTarget) { return; }
+
     this.setCKEditorReadonlyMode(true);
   }
 
   private handleTurboSubmitEnd(event:TurboSubmitEndEvent) {
+    if (event.target !== this.formTarget) { return; }
+
     const formSubmitResponse = event.detail.fetchResponse;
 
     this.setCKEditorReadonlyMode(false);

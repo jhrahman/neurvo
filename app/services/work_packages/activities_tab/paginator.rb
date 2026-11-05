@@ -203,7 +203,8 @@ class WorkPackages::ActivitiesTab::Paginator
 
   def locate_anchor(anchor_type, target_record_id)
     if anchor_type.comment?
-      visible_journals.where(id: target_record_id).pick(:created_at, :id)
+      thread_root_id = Journal.where(id: target_record_id).pick(:reply_to_id) || target_record_id
+      visible_journals.where(id: thread_root_id).pick(:created_at, :id)
     elsif anchor_type.activity?
       locate_anchor_by_sequence_version(target_record_id)
     end
@@ -225,7 +226,7 @@ class WorkPackages::ActivitiesTab::Paginator
   end
 
   def visible_journals
-    work_package.journals.internal_visible.meeting_cause_visible
+    work_package.journals.internal_visible.meeting_cause_visible.where(reply_to_id: nil)
   end
 
   def locate_anchor_by_sequence_version(sequence_version)

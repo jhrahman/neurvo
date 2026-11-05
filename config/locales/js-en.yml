@@ -575,6 +575,7 @@ en:
     label_password: "Password"
     label_per_page: "Per page:"
     label_please_wait: "Please wait"
+    label_posting_comment: "Posting comment"
     label_press_enter_to_save: "Press enter to save."
     label_previous: "Previous"
     label_project: "Project"
@@ -1188,6 +1189,7 @@ en:
           warning: "You will lose your previous sorting when activating the automatic sorting mode."
       tabs:
         activity: Activity
+        comments: Comments
         files: Files
         overview: Overview
         project_attributes: Project attributes

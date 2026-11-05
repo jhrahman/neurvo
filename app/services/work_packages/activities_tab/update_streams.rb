@@ -36,12 +36,13 @@ module WorkPackages
     # (the controller, which carries OpTurbo::ComponentStream), so the streaming
     # mechanics stay where the framework keeps them.
     class UpdateStreams
-      def initialize(work_package:, filter:, since:, editing_journal_ids:, sorting:)
+      def initialize(work_package:, filter:, since:, editing_journal_ids:, sorting:, highlight_journal_id: nil)
         @work_package = work_package
         @filter = filter
         @since = since
         @editing_journal_ids = editing_journal_ids
         @sorting = sorting
+        @highlight_journal_id = highlight_journal_id
       end
 
       def emit_into(sink)
@@ -59,7 +60,7 @@ module WorkPackages
 
       private
 
-      attr_reader :work_package, :filter, :since, :editing_journal_ids, :sorting
+      attr_reader :work_package, :filter, :since, :editing_journal_ids, :sorting, :highlight_journal_id
 
       def journals
         @journals ||= begin
@@ -102,14 +103,36 @@ module WorkPackages
 
       def insert_latest(sink)
         journals.where("created_at > ?", since).find_each do |journal|
-          sink.insert_via_turbo_stream(
-            target_component: insert_target,
-            component: Journals::ItemComponent.new(
-              journal:, filter:, grouped_emoji_reactions: grouped_emoji_reactions.fetch(journal.id, {})
-            ),
-            action: sorting.asc? ? :append : :prepend
-          )
+          if journal.reply?
+            insert_reply(sink, journal)
+          else
+            insert_top_level(sink, journal)
+          end
         end
+      end
+
+      def insert_top_level(sink, journal)
+        sink.insert_via_turbo_stream(
+          target_component: insert_target,
+          component: item_for(journal),
+          action: sorting.asc? ? :append : :prepend
+        )
+      end
+
+      def insert_reply(sink, journal)
+        return if filter == Filters::ONLY_CHANGES
+
+        sink.append_via_turbo_stream(
+          target_component: Journals::RepliesComponent.new(parent_id: journal.reply_to_id),
+          component: item_for(journal)
+        )
+      end
+
+      def item_for(journal)
+        Journals::ItemComponent.new(
+          journal:, filter:, grouped_emoji_reactions: grouped_emoji_reactions.fetch(journal.id, {}),
+          highlight: journal.id == highlight_journal_id
+        )
       end
 
       def rerender_changed_reactions(sink)

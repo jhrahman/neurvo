@@ -1,5 +1,8 @@
 <%=
-  component_wrapper(class: "work-packages-activities-tab-journals-item-component") do
+  component_wrapper(
+    class: "work-packages-activities-tab-journals-item-component #{'work-packages-activities-tab-journals-item-component__reply' if reply?}",
+    data: replyable? ? { controller: "work-packages--activities-tab--comment-thread" } : {}
+  ) do
     flex_layout(
       data: {
         test_selector: "op-wp-journal-entry-#{journal.id}"
@@ -28,7 +31,15 @@
                   classes: "work-packages-activities-tab-journals-item-component--header-start-container ellipsis"
                 ) do |header_start_container|
                   header_start_container.with_column(mr: 2) do
-                    render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini)
+                    content_tag(
+                      :button,
+                      type: :button,
+                      class: "op-comment-user-trigger",
+                      "aria-label": journal.user.name,
+                      data: user_card_data
+                    ) do
+                      render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini, link: false, hover_card: { active: false })
+                    end
                   end
                   header_start_container.with_column(
                     mr: 1, flex_layout: true,
@@ -45,7 +56,9 @@
                     mr: 1,
                     classes: "work-packages-activities-tab-journals-item-component--user-name ellipsis hidden-for-mobile"
                   ) do
-                    truncated_user_name(journal.user, hover_card: true)
+                    helpers.primer_link_to_user(
+                      journal.user, scheme: :primary, font_weight: :bold, hover_card: false, data: user_card_data
+                    )
                   end
                   if journal.initial?
                     header_start_container.with_column(
@@ -90,6 +103,59 @@
                     end
                   end
 
+                  header_end_container.with_column(flex_layout: true, classes: "op-comment-icon-actions") do |icons|
+                    icons.with_column do
+                      render(
+                        Primer::Beta::IconButton.new(
+                          tag: :"clipboard-copy",
+                          icon: :link,
+                          scheme: :invisible,
+                          size: :small,
+                          value: activity_url(journal),
+                          "aria-label": t("button_copy_link_to_clipboard"),
+                          data: { test_selector: "op-wp-journal-#{journal.id}-copy-link" }
+                        )
+                      )
+                    end
+                    if editable? && state == :show
+                      icons.with_column do
+                        render(
+                          Primer::Beta::IconButton.new(
+                            tag: :a,
+                            icon: :pencil,
+                            scheme: :invisible,
+                            size: :small,
+                            href: edit_work_package_activity_path(journal.journable, journal),
+                            "aria-label": t("button_edit"),
+                            data: { turbo_stream: true, test_selector: "op-wp-journal-#{journal.id}-edit-icon" }
+                          )
+                        )
+                      end
+                      icons.with_column do
+                        form_with(
+                          url: work_package_activity_path(journal.journable, journal),
+                          method: :delete,
+                          data: {
+                            turbo: true,
+                            turbo_stream: true,
+                            turbo_confirm: t("activities.work_packages.activity_tab.delete_comment_confirmation")
+                          }
+                        ) do
+                          render(
+                            Primer::Beta::IconButton.new(
+                              type: :submit,
+                              icon: :trash,
+                              scheme: :invisible,
+                              size: :small,
+                              "aria-label": t("button_delete"),
+                              data: { test_selector: "op-wp-journal-#{journal.id}-delete-icon" }
+                            )
+                          )
+                        end
+                      end
+                    end
+                  end
+
                   header_end_container.with_column(
                     ml: 1,
                     classes: "work-packages-activities-tab-journals-item-component--action-menu"
@@ -131,6 +197,20 @@
                 when :edit
                   render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Edit.new(journal:, filter:))
                 end
+              end
+            end
+          end
+        end
+      end
+      if show_comment_container? && !reply? && journal.notes.present?
+        journal_container.with_row(classes: "op-comment-thread") do
+          flex_layout do |thread|
+            thread.with_row do
+              render(WorkPackages::ActivitiesTab::Journals::RepliesComponent.new(parent_id: journal.id, filter:))
+            end
+            if replyable?
+              thread.with_row do
+                render(WorkPackages::ActivitiesTab::Journals::ItemComponent::ReplyForm.new(journal:, filter:))
               end
             end
           end

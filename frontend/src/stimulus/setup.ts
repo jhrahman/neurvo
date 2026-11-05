@@ -52,6 +52,8 @@ import CkeditorFocusController from './controllers/ckeditor-focus.controller';
 import IndexController from './controllers/dynamic/work-packages/activities-tab/index.controller';
 import AutoScrollingController from './controllers/dynamic/work-packages/activities-tab/auto-scrolling.controller';
 import PollingController from './controllers/dynamic/work-packages/activities-tab/polling.controller';
+import CommentThreadController from './controllers/dynamic/work-packages/activities-tab/comment-thread.controller';
+import CommentSubmitController from './controllers/dynamic/work-packages/activities-tab/comment-submit.controller';
 import EditorController from './controllers/dynamic/work-packages/activities-tab/editor.controller';
 import LazyPageController from './controllers/dynamic/work-packages/activities-tab/lazy-page.controller';
 import EditablePageHeaderTitleController from './controllers/dynamic/editable-page-header-title.controller';
@@ -115,6 +117,8 @@ OpenProjectStimulusApplication.preregister('work-packages--activities-tab--index
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--auto-scrolling', AutoScrollingController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--polling', PollingController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--editor', EditorController);
+OpenProjectStimulusApplication.preregister('work-packages--activities-tab--comment-thread', CommentThreadController);
+OpenProjectStimulusApplication.preregister('work-packages--activities-tab--comment-submit', CommentSubmitController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--lazy-page', LazyPageController);
 OpenProjectStimulusApplication.preregister('beforeunload', BeforeunloadController);
 OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitcher);

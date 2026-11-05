@@ -48,6 +48,7 @@ export default class HoverCardTriggerController extends ApplicationController {
   private hoverTimeout:number|null = null;
   private closeTimeout:number|null = null;
   private previousTarget:HTMLElement|null = null;
+  private pinned = false;
 
   // Track whether we currently show a hover card or not. It is important not to open multiple hover cards at
   // the same time, and refrain from closing the wrong kind of modal overlay.
@@ -60,6 +61,7 @@ export default class HoverCardTriggerController extends ApplicationController {
 
   private triggerMouseOverBound= this.onMouseOver.bind(this);
   private triggerMouseLeaveBound= this.onMouseLeave.bind(this);
+  private triggerClickBound = this.onClick.bind(this);
   private cardMouseLeaveBound= this.onMouseLeave.bind(this);
   private cardMouseEnterBound= this.onMouseEnter.bind(this);
 
@@ -82,11 +84,16 @@ export default class HoverCardTriggerController extends ApplicationController {
       trigger.addEventListener('mouseover', this.triggerMouseOverBound);
       trigger.addEventListener('mouseleave', this.triggerMouseLeaveBound);
     }
+
+    if ((trigger as HTMLElement).dataset.hoverCardOpenOnClick) {
+      trigger.addEventListener('click', this.triggerClickBound);
+    }
   }
 
   private triggerTargetDisconnected(trigger:Element) {
     trigger.removeEventListener('mouseover', this.triggerMouseOverBound);
     trigger.removeEventListener('mouseleave', this.triggerMouseLeaveBound);
+    trigger.removeEventListener('click', this.triggerClickBound);
   }
 
   private cardTargetConnected(card:Element) {
@@ -110,6 +117,27 @@ export default class HoverCardTriggerController extends ApplicationController {
 
   private onMouseEnter() {
     this.mouseInModal = true;
+  }
+
+  private onClick(e:MouseEvent) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) { return; }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const el = (e.currentTarget as HTMLElement);
+    const turboFrameUrl = this.parseHoverCardUrl(el);
+    const popoverTemplate = this.getPopoverTemplateFromId(el);
+    if (!turboFrameUrl && !popoverTemplate) { return; }
+
+    this.clearHoverTimer();
+    this.clearCloseTimer();
+    this.close(true);
+
+    this.mouseIsHoveringOverTrigger = true;
+    this.mouseInModal = true;
+    this.showHoverCard(el, turboFrameUrl, popoverTemplate);
+    this.pinned = this.isShowingHoverCard;
   }
 
   private onMouseOver(e:MouseEvent) {
@@ -229,7 +257,10 @@ export default class HoverCardTriggerController extends ApplicationController {
   }
 
   private close(forceClose=false) {
+    if (this.pinned && !forceClose) { return; }
+
     if (forceClose) {
+      this.pinned = false;
       this.mouseInModal = false;
     }
 

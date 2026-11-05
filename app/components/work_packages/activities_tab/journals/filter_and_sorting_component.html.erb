@@ -2,6 +2,7 @@
   component_wrapper do
     flex_layout(justify_content: :space_between) do |container|
       container.with_column do
+        if filter_selectable?
         render(
           Primer::Alpha::ActionMenu.new(
             select_variant: :single, dynamic_label: true,
@@ -58,10 +59,12 @@
             )
           end
         end
+        end
       end
       container.with_column do
         render(Primer::Alpha::ActionMenu.new(select_variant: :single, dynamic_label: true)) do |menu|
           menu.with_show_button(scheme: :invisible, data: { test_selector: "op-wp-journals-sorting-menu" }) do |button|
+            button.with_leading_visual_icon(icon: :"sort-desc")
             button.with_trailing_action_icon(icon: :"triangle-down")
           end
           menu.with_item(

@@ -40,7 +40,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   Filters = WorkPackages::ActivitiesTab::Filters
 
   before_action :find_work_package
-  before_action :find_journal, only: %i[emoji_actions item_actions edit cancel_edit update toggle_reaction]
+  before_action :find_journal, only: %i[emoji_actions item_actions edit cancel_edit update destroy toggle_reaction]
   before_action :set_filter
   before_action :authorize
   before_action :initialize_pagination, only: %i[index page_streams]
@@ -134,6 +134,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       call = comment_service.add
 
       if call.success? && call.result
+        @created_journal_id = call.result.id
+        attach_reply_parent(call.result)
         set_last_server_timestamp_to_headers
         handle_successful_create_call(call)
       else
@@ -157,6 +159,16 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       end
     rescue StandardError => e
       handle_internal_server_error(e)
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def destroy
+    if allowed_to_edit?(@journal)
+      remove_comment(@journal)
+    else
+      @turbo_status = :forbidden
     end
 
     respond_with_turbo_streams
@@ -286,7 +298,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         filter: @filter,
         since: Time.zone.parse(last_update_timestamp),
         editing_journal_ids: editing_journals,
-        sorting: journal_sorting
+        sorting: journal_sorting,
+        highlight_journal_id: @created_journal_id
       ).emit_into(self)
     else
       @turbo_status = :bad_request
@@ -309,6 +322,46 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     render_error_flash_message_via_turbo_stream(
       message: error.message
     )
+  end
+
+  def attach_reply_parent(journal)
+    return if params[:reply_to_id].blank?
+
+    parent = @work_package.journals.internal_visible.without_meeting_causes.find_by(id: params[:reply_to_id])
+    journal.update_column(:reply_to_id, parent.reply_to_id || parent.id) if parent
+  end
+
+  def remove_comment(journal)
+    if journal.get_changes.empty?
+      destroy_journal(journal)
+      remove_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+          journal:, filter: @filter, grouped_emoji_reactions: {}
+        )
+      )
+    else
+      journal.replies.destroy_all
+      journal.update_columns(notes: "", updated_at: Time.current)
+      update_via_turbo_stream(
+        component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+          journal:, filter: @filter, grouped_emoji_reactions: {}
+        )
+      )
+    end
+  end
+
+  # Journals take their timestamp from the work package's updated_at when only a note is added, so the
+  # work package must not keep the time of a journal that no longer exists.
+  def destroy_journal(journal)
+    work_package = journal.journable
+    restore_timestamp = work_package.updated_at == journal.created_at
+
+    journal.destroy!
+
+    return unless restore_timestamp
+
+    previous_timestamp = work_package.journals.maximum(:updated_at)
+    WorkPackage.where(id: work_package.id).update_all(updated_at: previous_timestamp) if previous_timestamp
   end
 
   def allowed_to_edit?(journal)

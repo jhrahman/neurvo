@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<div class="op-reply-form" data-test-selector="op-wp-journal-<%= journal.id %>-reply">
+  <button type="button"
+          class="op-reply-form--trigger"
+          data-work-packages--activities-tab--comment-thread-target="trigger"
+          data-action="work-packages--activities-tab--comment-thread#open"
+          data-test-selector="op-wp-journal-<%= journal.id %>-reply-trigger">
+    <%= render(Primer::Beta::Octicon.new(icon: :reply, size: :small, mr: 1)) %>
+    <%= t(:button_reply) %>
+  </button>
+
+  <div class="op-reply-form--form" hidden data-work-packages--activities-tab--comment-thread-target="panel">
+  <%= form_with(
+        url: create_path,
+        method: :post,
+        data: {
+          turbo: true,
+          turbo_stream: true,
+          controller: "work-packages--activities-tab--comment-submit",
+          "work-packages--activities-tab--comment-thread-target": "form",
+          action: "submit->work-packages--activities-tab--comment-thread#prepare " \
+                  "turbo:submit-start->work-packages--activities-tab--comment-submit#start " \
+                  "turbo:submit-end->work-packages--activities-tab--comment-submit#finish " \
+                  "turbo:submit-end->work-packages--activities-tab--comment-thread#done"
+        }
+      ) do %>
+    <%= hidden_field_tag :reply_to_id, journal.id %>
+    <%= hidden_field_tag :filter, filter %>
+    <%= hidden_field_tag :last_update_timestamp, "", data: { "work-packages--activities-tab--comment-thread-target": "timestamp" } %>
+    <%= text_area_tag "journal[notes]",
+                      nil,
+                      id: nil,
+                      rows: 3,
+                      required: true,
+                      placeholder: t("activities.work_packages.activity_tab.reply_placeholder"),
+                      "aria-label": t(:button_reply),
+                      class: "form-control op-reply-form--input",
+                      data: {
+                        "work-packages--activities-tab--comment-thread-target": "input",
+                        action: "keydown.esc->work-packages--activities-tab--comment-thread#close " \
+                                "keydown.meta+enter->work-packages--activities-tab--comment-thread#submit " \
+                                "keydown.ctrl+enter->work-packages--activities-tab--comment-thread#submit"
+                      } %>
+    <div class="op-reply-form--buttons">
+      <%= render(Primer::Beta::Button.new(type: :button, scheme: :secondary, size: :small, data: { action: "work-packages--activities-tab--comment-thread#close" })) { t(:button_cancel) } %>
+      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, size: :small, ml: 2, data: { test_selector: "op-wp-journal-#{journal.id}-reply-submit" })) { t(:button_reply) } %>
+    </div>
+  <% end %>
+  </div>
+</div>

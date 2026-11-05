@@ -41,6 +41,8 @@ import {
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
+  protected activitiesFilter = 'only_changes' as const;
+
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
 
   @ViewChild('activitiesTabContent', { static: true }) public activitiesTabContentElement!:ElementRef<HTMLElement>;

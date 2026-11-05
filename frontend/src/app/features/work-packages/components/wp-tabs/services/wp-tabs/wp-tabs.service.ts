@@ -41,6 +41,9 @@ import {
   WorkPackageActivityTabComponent,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {
+  WorkPackageCommentsTabComponent,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/comments-tab.component';
+import {
   WorkPackageWatchersTabComponent,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import {
@@ -146,6 +149,11 @@ export class WorkPackageTabsService {
         name: I18n.t('js.work_packages.tabs.activity'),
         count: workPackageNotificationsCount,
         showCountAsBubble: true,
+      },
+      {
+        id: 'comments',
+        component: WorkPackageCommentsTabComponent,
+        name: I18n.t('js.work_packages.tabs.comments'),
       },
       {
         id: 'project_attributes',

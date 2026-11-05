@@ -129,7 +129,8 @@ module WorkPackages
       end
 
       def adding_comment_allowed?
-        User.current.allowed_in_work_package?(:add_work_package_comments, work_package)
+        filter != Filters::ONLY_CHANGES &&
+          User.current.allowed_in_work_package?(:add_work_package_comments, work_package)
       end
 
       def unsaved_changes_confirmation_message

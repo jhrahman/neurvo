@@ -621,6 +621,59 @@ RSpec.describe WorkPackages::ActivitiesTabController do
     # end
   end
 
+  describe "#create as a reply" do
+    let(:user) { commenter }
+    let!(:parent) { comment_by_another_user }
+
+    before do
+      post :create,
+           params: {
+             work_package_id: work_package.id,
+             project_id: project.id,
+             last_update_timestamp: 1.minute.ago.utc,
+             reply_to_id: parent.id,
+             journal: { notes: "A reply" }
+           },
+           format: :turbo_stream
+    end
+
+    it { expect(response).to be_successful }
+
+    it "stores the reply under the parent comment" do
+      expect(parent.reload.replies.pluck(:notes)).to eq(["A reply"])
+    end
+  end
+
+  describe "#destroy" do
+    let(:journal) { comment_by_user }
+
+    before do
+      delete :destroy,
+             params: { work_package_id: work_package.id, project_id: project.id, id: journal.id },
+             format: :turbo_stream
+    end
+
+    context "when the author may edit own comments" do
+      let(:user) { commenter }
+
+      it { expect(response).to be_successful }
+
+      it "removes the comment" do
+        expect(Journal.exists?(journal.id)).to be(false)
+      end
+    end
+
+    context "when the user may only view" do
+      let(:user) { viewer }
+
+      it { expect(response).to be_forbidden }
+
+      it "keeps the comment" do
+        expect(Journal.exists?(journal.id)).to be(true)
+      end
+    end
+  end
+
   describe "#update" do
     let(:notes) { "An updated comment!" }
     let(:journal) { comment_by_user }

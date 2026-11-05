@@ -1092,7 +1092,7 @@ Rails.application.routes.draw do
     # states managed by client-side routing on work_package#index
     get "details/*state" => "work_packages#index", on: :collection, as: :details
 
-    resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update] do
+    resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update destroy] do
       member do
         get :cancel_edit
         get :emoji_actions
