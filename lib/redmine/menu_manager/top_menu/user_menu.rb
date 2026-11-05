@@ -114,10 +114,23 @@ module Redmine::MenuManager::TopMenu::UserMenu
           render(Primer::Beta::Octicon.new(icon: :person, aria: { label: I18n.t("label_user_menu") }))
         end
       end
-      flex.with_column(font_weight: :bold) do
-        User.current.logged? ? User.current.name : I18n.t(:label_login)
+      flex.with_column do
+        if User.current.logged?
+          render(Primer::OpenProject::FlexLayout.new) do |names|
+            names.with_row(font_weight: :bold) { User.current.name }
+            designation = user_menu_designation
+            names.with_row(classes: "op-user-menu-designation") { designation } if designation.present?
+          end
+        else
+          render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t(:label_login) }
+        end
       end
     end
+  end
+
+  def user_menu_designation
+    field = RequestStore.fetch(:neurvo_designation_field) { UserCustomField.find_by(name: "Designation") || false }
+    field && User.current.custom_value_for(field)&.value
   end
 
   def lateral_user_menu_body(items)

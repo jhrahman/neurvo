@@ -199,3 +199,8 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 
 - `lib/neurvo/seed_data.yml`, `lib/neurvo/seed.rb`: Developer, QA Engineer, DevOps Engineer and Designer roles with explicit least-privilege permission sets (no longer copies of Member); Project Manager is Project admin minus technical rights; per-role workflow with a QA quality gate.
 - `docs/neurvo/ROLES.md`: credentials, what each role can and cannot do, and what was tested.
+
+## User menu: designation and theme tooltips
+
+- `lib/redmine/menu_manager/top_menu/user_menu.rb`: the user's Designation is shown under their name in the right-side user panel.
+- `app/views/my/_color_mode_menu.html.erb`, `_palettes.sass`: each theme swatch shows its name in a tooltip on hover/focus.

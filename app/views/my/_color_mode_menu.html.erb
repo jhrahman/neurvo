@@ -70,7 +70,8 @@ See COPYRIGHT and LICENSE files for more details.
                 data-palette="<%= palette %>"
                 data-test-selector="op-palette-<%= mode %>-<%= palette %>"
                 aria-pressed="<%= (current == palette).to_s %>"
-                aria-label="<%= label %>"></button>
+                aria-label="<%= label %>"
+                data-neurvo-tooltip="<%= label %>"></button>
       <% end %>
     </div>
     <div class="color-fg-muted f6 mt-1"><%= t("themes.palettes.#{mode}.#{current}") %></div>
