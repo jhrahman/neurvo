@@ -485,6 +485,7 @@ en:
         redirect_existing_links: "Redirect existing links"
         text: "Page content"
       work_package:
+        author: "Reporter"
         ancestor: "Descendants of" # used for filtering of work packages that are descendants of a given work package
         begin_deletion: "Begin of the deletion"
         begin_insertion: "Begin of the insertion"

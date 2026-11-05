@@ -44,7 +44,7 @@ module Neurvo
     KEPT_LOGINS = %w[admin qa].freeze
     FORM_SECTIONS = {
       details: %w[priority sprint target_versions category date],
-      people: %w[assignee responsible],
+      people: %w[author assignee responsible],
       estimates_and_progress: %w[story_points estimated_time remaining_time percentage_done]
     }.freeze
 
@@ -211,9 +211,11 @@ module Neurvo
     def seed_form_layouts
       data["types"].each do |conf|
         variant = @types.fetch(conf["key"]).default_variant.reload
-        fields = data["custom_fields"].select { |f| f["types"].include?(conf["key"]) }
-                                      .map { |f| @custom_fields.fetch(f["key"]).attribute_name }
-        sections = FORM_SECTIONS.except(*(conf["milestone"] ? [:estimates_and_progress] : [])).to_a
+        type_fields = data["custom_fields"].select { |f| f["types"].include?(conf["key"]) }
+        fields = type_fields.reject { |f| f["group"] }.map { |f| @custom_fields.fetch(f["key"]).attribute_name }
+        people_fields = type_fields.select { |f| f["group"] == "people" }.map { |f| @custom_fields.fetch(f["key"]).attribute_name }
+        sections = FORM_SECTIONS.except(*(conf["milestone"] ? [:estimates_and_progress] : []))
+                                .to_h { |name, attrs| [name, name == :people ? attrs + people_fields : attrs] }.to_a
         sections.unshift([conf["form_section"], fields]) if fields.any?
         variant.attribute_groups = sections
         variant.save!

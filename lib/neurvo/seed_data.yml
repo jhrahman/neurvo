@@ -139,6 +139,7 @@ custom_fields:
   - { key: requested_by, name: "Requested by",   format: string,                                                                  types: [feature_request, change_request] }
   - { key: impact,       name: "Business impact", format: list,  options: ["High", "Medium", "Low"],                            types: [feature_request, change_request, support_request] }
   - { key: customer,     name: "Customer",       format: string,                                                                  types: [support_request] }
+  - { key: assignee_pair, name: "Assignee Pair", format: user, group: people, types: [epic, story, task, subtask, bug, feature_request, change_request, support_request, milestone] }
   - { key: channel,      name: "Support channel", format: list,  options: ["Email", "Live chat", "Phone", "Customer portal", "In-app"], types: [support_request] }
 
 permission_sets:

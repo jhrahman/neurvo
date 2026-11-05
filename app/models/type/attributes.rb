@@ -137,7 +137,7 @@ module Type::Attributes
 
     def skipped_attribute?(key, definition)
       # We always want to include the priority even if its required
-      return false if key == "priority"
+      return false if %w[priority author].include?(key)
 
       EXCLUDED.include?(key) || definition[:required]
     end

@@ -210,3 +210,13 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | File | Reason |
 |---|---|
 | `app/components/work_packages/activities_tab/journals/lazy_index_component.html.erb` | The empty Comments tab had no insert target, so the first posted comment was streamed into nothing and only appeared after a reload. The target row is now always rendered and holds the empty state |
+
+## People section: Reporter and Assignee Pair
+
+| File | Reason |
+|---|---|
+| `app/models/type/attributes.rb` | `author` stays available as a form attribute (like `priority`), so it can be placed in a type's attribute groups |
+| `config/locales/en.yml` | Work package `author` is labelled "Reporter" |
+| `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml` | People group is Reporter, Assignee, Accountable, plus the new user custom field "Assignee Pair" (`group: people`) on every type |
+
+An existing instance picks this up by re-running the type and custom-field steps of `neurvo:seed`.
