@@ -1,6 +1,7 @@
 # Running Neurvo locally (macOS, Docker)
 
-Tested target: MacBook Air (Apple Silicon), Docker Desktop with about 8 GB of memory.
+Tested target: MacBook Air (Apple Silicon), Docker Desktop with about 8 GB of memory (10 to 12 GB is more comfortable). On Windows,
+use WSL 2 and run everything from the Linux file system; the steps in the [README](../../README.md#try-it-on-your-computer) apply.
 
 ## One-time setup
 
@@ -17,8 +18,8 @@ Tested target: MacBook Air (Apple Silicon), Docker Desktop with about 8 GB of me
 
    `config/database.yml` must not exist (it doesn't in this repo). The first `setup` takes 15 to 30 minutes.
    The `DEV_UID`/`DEV_GID` warnings from compose are harmless.
-3. Open <http://localhost:3000> and log in as `admin` / `admin`. The demo seed creates 7 projects and 41 work packages.
-   The login page title should read "Sign in | Neurvo".
+3. Open <http://localhost:3000> and log in as `admin` / `admin` (you are asked to change the password). The page title should
+   read "Sign in | Neurvo". A fresh database only has the upstream demo data until you run the sample workspace below.
 
 ## Sample workspace (team, projects, sprints, bugs)
 
@@ -27,7 +28,8 @@ bin/compose exec backend bundle exec rake neurvo:seed
 ```
 
 Builds a small, realistic dev/QA workspace and removes the upstream demo projects and users (keep them with
-`KEEP_UPSTREAM_DEMO=1`). Safe to re-run: configuration is upserted and the sample projects are rebuilt. Shared
+`KEEP_UPSTREAM_DEMO=1`). To set up only the Neurvo workflow, types, fields and roles without people or projects, run it with
+`CONFIG_ONLY=1`; this is what a production instance uses (see [DEPLOY.md](DEPLOY.md)). Safe to re-run: configuration is upserted and the sample projects are rebuilt. Shared
 configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data.yml`; each project has its own file in
 `lib/neurvo/seed_data/` with its tickets, boards, sprints, comments, saved views, meetings and wiki.
 
@@ -62,6 +64,29 @@ configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data
 - Team (password `Neurvo-Dev-2026!`): imran.chowdhury, ayesha.karim (product managers), daniel.brooks (tech lead),
   rafi.hasan, sofia.martins, arif.rahman, kenji.watanabe, priya.nair (developers), maya.patel (UX designer),
   nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
+
+## What to restart after a change
+
+Most edits are picked up on the next page load. These are not:
+
+| You changed | Restart | Why |
+|---|---|---|
+| A locale file (`config/locales/*.yml`, `js-en.yml`) | `bin/compose restart backend` | Translations load at boot |
+| A new setting, route, initializer, or `config/schemas/*.json` | `bin/compose restart backend` | Loaded at boot; a schema that does not list a new preference silently drops it |
+| A **new** Stimulus controller file | `bin/compose restart frontend` | The dev bundle lists controllers at build time (editing an existing one needs nothing) |
+| The rich text editor build | See [editor/README.md](editor/README.md) | It is built outside this repo and copied in |
+| Seed data (`lib/neurvo/seed_data*`) | Re-run `rake neurvo:seed` or `CONFIG_ONLY=1` | Data, not code |
+
+## Where the Neurvo features live
+
+| Feature | Start here |
+|---|---|
+| Role-based Home cards | `app/components/homescreen/card_catalog.rb` (cards, defaults, role mapping) and `app/views/my/home_cards.html.erb` |
+| Comments tab and threads | `app/components/work_packages/activities_tab/` and `app/controllers/work_packages/activities_tab_controller.rb` |
+| Neurvo-only styles | `frontend/src/global_styles/neurvo/` |
+| Preset avatars | `lib/neurvo/avatars/` and `modules/avatars/` |
+| Sample data and roles | `lib/neurvo/seed.rb` and `lib/neurvo/seed_data*` |
+| Every upstream file we touched | [CHANGES.md](CHANGES.md) |
 
 ## Daily use
 
@@ -106,7 +131,7 @@ Before you share the link:
 
 The Angular dev server alone needs about 4 GB while compiling. With backend, worker, database and a test database
 running, it can be OOM-killed (`neurvo-frontend-1` exits with 137). Stop what you don't need
-(`bin/compose stop db-test` after running specs) or give Docker Desktop 10–12 GB if your Mac allows it.
+(`bin/compose stop db-test` after running specs) or give Docker Desktop 10 to 12 GB if your Mac allows it.
 The worker grows over a long session (2 GB+); `bin/compose restart worker` gives that memory back.
 
 Upstream lets the dev server grow to an 8 GB heap. Cap it in your local `docker-compose.override.yml`:

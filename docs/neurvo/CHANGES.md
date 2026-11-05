@@ -257,3 +257,10 @@ the `SQA Engineer` role. The picker page gained group filter chips and shows the
 | `frontend/src/app/features/work-packages/directives/query-space/isolated-query-space.ts`, `components/wp-list/wp-list.service.ts` | A failed list load is stored as `loadError` (status and message) instead of only raising a toast |
 | `frontend/src/app/features/work-packages/routing/wp-list-view/wp-list-error/` (new), `wp-list-view.component.html`, `openproject-work-packages.module.ts` | Inline error panel at the top of the list: plain wording for no permission, not found and server errors, Go back, Try again (server errors only), Go to Home, and the raw message under Technical details |
 | `config/locales/js-en.yml` | `work_packages.load_error.*` strings |
+
+## Configuration-only seed, README and deployment docs
+
+| File | Reason |
+|---|---|
+| `lib/neurvo/seed.rb`, `lib/tasks/neurvo.rake` | `rake neurvo:seed CONFIG_ONLY=1` sets up the Neurvo statuses, types, fields, priorities, workflows and roles without sample people or projects, for real installs |
+| `README.md`, `docs/neurvo/DEPLOY.md`, `docs/neurvo/DEVELOPMENT.md`, `docs/neurvo/images/` | Rewritten for Neurvo: what it solves, how it differs from OpenProject, screenshots, quick start, production guide |

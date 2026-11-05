@@ -30,11 +30,13 @@
 
 namespace :neurvo do
   desc "Build the Neurvo sample workspace (team, projects, sprints, issues, boards). " \
-       "Removes the upstream demo projects unless KEEP_UPSTREAM_DEMO=1."
+       "Removes the upstream demo projects unless KEEP_UPSTREAM_DEMO=1. " \
+       "With CONFIG_ONLY=1 only the workflow, types, statuses, fields and roles are set up, without people or projects."
   task seed: :environment do
     require Rails.root.join("lib/neurvo/seed").to_s
     ActiveRecord::Base.logger = nil
 
-    Neurvo::Seed.new(remove_upstream_demo: ENV["KEEP_UPSTREAM_DEMO"] != "1").call
+    Neurvo::Seed.new(remove_upstream_demo: ENV["KEEP_UPSTREAM_DEMO"] != "1" && ENV["CONFIG_ONLY"] != "1",
+                     config_only: ENV["CONFIG_ONLY"] == "1").call
   end
 end

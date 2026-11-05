@@ -50,10 +50,11 @@ module Neurvo
 
     attr_reader :data, :log, :today
 
-    def initialize(log: $stdout, remove_upstream_demo: true)
+    def initialize(log: $stdout, remove_upstream_demo: true, config_only: false)
       @data = load_data
       @log = log
       @remove_upstream_demo = remove_upstream_demo
+      @config_only = config_only
       @today = Time.zone.today
       @refs = {}
     end
@@ -69,16 +70,21 @@ module Neurvo
           seed_custom_fields
           seed_roles
           seed_workflows
-          seed_users
-          rebuild_projects
-          convert_to_semantic_identifiers
+          seed_sample_workspace unless @config_only
         end
-        create_comments
+        create_comments unless @config_only
       end
-      say "Done. Log in as any team member with password #{DEFAULT_PASSWORD}"
+      say(@config_only ? "Done. Neurvo workflow, types and roles are configured." :
+                         "Done. Log in as any team member with password #{DEFAULT_PASSWORD}")
     end
 
     private
+
+    def seed_sample_workspace
+      seed_users
+      rebuild_projects
+      convert_to_semantic_identifiers
+    end
 
     # The shared configuration lives in seed_data.yml; every file in seed_data/ describes one project with its
     # tickets, relations, comments, saved views, meetings and wiki pages.

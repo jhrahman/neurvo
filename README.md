@@ -1,194 +1,216 @@
+<p align="center">
+  <img src="neurvo-brand/svg/neurvo-logo.svg" alt="Neurvo" height="64">
+</p>
+
 # Neurvo
 
-**The taste of Jira, for free.** Neurvo is Ocean IT Solutions' project management and ticketing platform for software, QA and DevOps teams: issues, Jira-style boards, sprints, releases, a roadmap, wiki and meetings in one self-hosted tool.
+**The taste of Jira, for free.** A project and ticket tracker for software, QA and DevOps teams, built on the open source [OpenProject](https://www.openproject.org) and reshaped so a dev team can use it on day one.
 
-Neurvo is a customized and improved fork of [OpenProject](https://www.openproject.org) 17.9.6 (GPLv3). Everything OpenProject offers still works; Neurvo makes the everyday dev/QA path simpler and nicer.
+> **For recruiters and reviewers:** this is a real product I built and maintain for **Ocean IT Solutions**, a team of about 100 people. The short version of the story is right below. The screenshots follow, then the details.
 
-## Why Neurvo instead of plain OpenProject?
+![Neurvo home page](docs/neurvo/images/home.png)
 
-OpenProject is a great engine. It is also built for every kind of team, so a software team has to shape it before it feels right. Neurvo does that shaping for you. You get the same solid foundation, already tuned for the way developers, QA and DevOps actually work day to day.
+## The problem I wanted to solve
 
-Everything OpenProject can do still works. We only changed what gets in your way.
+Many teams reach for Jira. The free, self-hosted alternatives are usually either too basic or too generic. OpenProject is powerful and open source, but it is built for *every* kind of project. A software team opening it for the first time faces a blank slate: no bug workflow, no sprint board that feels familiar, a home page that means nothing to a tester, and menus full of features nobody asked for.
 
-### At a glance
+So I asked a simple question: **what if a developer, a tester and a DevOps engineer could open the tool and feel at home immediately, without a week of configuration?**
 
-| | OpenProject | Neurvo |
+## What I did about it
+
+I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
+
+1. **Made it work out of the box** for a dev and QA team: the right ticket types, a real bug lifecycle, readable keys like `GOFLEET-15`, Jira-style boards.
+2. **Made it personal**: the Home page shows cards that fit the person's role, and each person can change them.
+3. **Made it pleasant**: a calmer UI, a better comment experience, a modern editor, dark mode, and friendly error messages.
+4. **Kept it upgradable**: every change to upstream code is logged, so new OpenProject releases can still be merged.
+
+## How Neurvo is better than OpenProject
+
+| | OpenProject out of the box | Neurvo |
 |---|---|---|
-| First look | Generic project tool | Jira-style home, boards and issue keys like `GOFLEET-15` |
-| Dev and QA flow | You design it | Ready on day one: Epic to Bug, To Do to Done, with a QA gate |
-| Discussion on a ticket | Activity feed | A dedicated Comments tab with threads, replies and deep links |
-| Writing | Standard editor | Modern editor with real code snippets, language picker and copy button |
-| People | Initials in a circle | Preset avatars, designations and click-through profile cards |
-| Premium upsells | Banners everywhere | Hidden, so the app stays clean |
-| Trying it out | Empty workspace | A full sample company with boards, sprints, wiki and meetings |
+| **First impression** | A generic project tool | A Jira-style home, boards and ticket keys |
+| **Workflow** | You design it yourself | Ready on day one: To Do, In Progress, In Review, Ready for QA, In QA, Done, plus a QA gate |
+| **Home page** | The same for everyone | **42 cards** that adapt to your role (developer, QA, DevOps, designer, project manager) and that you can customise |
+| **Talking on a ticket** | One mixed activity feed | A dedicated **Comments** tab with threads, replies, copyable deep links and a highlight on the exact comment |
+| **Writing** | Standard editor | Modern editor with real code blocks, a language picker and a copy button |
+| **People** | Initials in a circle | Preset avatars, job titles, click-through profile cards, **Reporter** and **Assignee Pair** fields |
+| **Errors** | A raw technical toast in the corner | A clear message in the page: what happened, why, and a **Go back** button |
+| **Premium upsells** | Banners everywhere | Hidden, nothing unlocked or bypassed |
+| **Getting started** | An empty workspace | A sample company with four projects, a team of 15, boards, sprints, wiki and meetings |
 
-Open the sections below to see what each one feels like in practice.
+## See it
+
+**Boards your team already knows how to read.** Type badges, issue keys, story points, due dates, priority and assignee on every card.
+
+![Sprint board](docs/neurvo/images/board.png)
+
+**Conversations that are easy to follow.** Comments come first, with the author's job title, threaded replies and a link you can copy for any comment.
+
+![Ticket with comments](docs/neurvo/images/ticket-comments.png)
+
+**A home page that knows who you are.** Pick up to six of 42 cards, grouped by department, with a live count on each one. QA sees test work, DevOps sees infrastructure and changes, designers see UI work, managers see the team.
+
+![Home cards settings](docs/neurvo/images/home-cards-settings.png)
+
+## Highlights, in plain words
 
 <details>
-<summary><b>Boards and tickets that look like the tools you already know</b></summary>
+<summary><b>Role-based home cards (the feature I am proudest of)</b></summary>
 
 <br>
 
-- Compact board cards with a type badge, issue key, story points, due date, priority and the assignee's avatar.
-- Blocked cards are flagged so nobody has to hunt for them, and every column shows a count.
-- Status colors are solid with bold white text, so you can read them from across the room.
-- Creating a ticket is quick: the project is already selected and you get a short hint instead of a blocking notice.
-- A global **Create** button in the header, just like you would expect.
+- 42 cards in six groups: everyone, development, DevOps and platform, QA, design (UI/UX) and project management.
+- Each person gets sensible defaults from their project roles. A QA engineer sees *Ready for QA* and *Open bugs*. A developer sees *In progress* and *My bugs*. A manager sees *Team overdue* and *Active sprints*.
+- Anyone can change their cards in *Account settings*, with filter chips, live counts, a six-card limit and a reset button.
+- Every card opens the matching list, already filtered.
 
 </details>
 
 <details>
-<summary><b>A dev and QA workflow that works out of the box</b></summary>
+<summary><b>A Comments tab built for conversation</b></summary>
 
 <br>
 
-- Types: Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support Request and Milestone.
-- Statuses: To Do, In Progress, In Review, Ready for QA, In QA and Done, plus Reopened, Blocked, Waiting on Customer and Won't Do.
-- Readable issue keys, bug and support fields, and description templates so tickets start with the right questions answered.
-- Sample roles for Project Manager, Developer, QA Engineer, DevOps Engineer, Designer and a general Team Member, each with sensible permissions. See [ROLES.md](docs/neurvo/ROLES.md).
+- Comments is the first tab, then Files, Relations and Activity.
+- Threaded replies, edit and delete, sort by newest or oldest.
+- Copy a link to any comment. Whoever opens it lands on that comment, and it flashes briefly so the eye finds it.
+- Click a name or avatar to open a profile card with their job title.
 
 </details>
 
 <details>
-<summary><b>Comments that feel like a conversation</b></summary>
+<summary><b>Everything a dev and QA team needs, preconfigured</b></summary>
 
 <br>
 
-- **Comments is the first tab** on every ticket, followed by Files, Relations and Activity.
-- Reply in threads, edit or delete your own comments, and sort by newest or oldest.
-- Copy a link to any comment. Whoever opens it lands right on that comment, and it flashes yellow for a second so the eye finds it.
-- Each comment shows the author's name with their designation underneath. Click the name or avatar to open a profile card.
-- Submitting shows progress, and the new comment gets a quick highlight so you know it went through.
-- Closing a half-written comment asks you in a proper in-app dialog, not a browser pop-up.
+- Types: Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support Request, Milestone.
+- Statuses: To Do, In Progress, In Review, Ready for QA, In QA, Done, plus Reopened, Blocked, Waiting on Customer and Won't Do.
+- Bug fields (severity, environment, platform, build), description templates, and a quality gate so only the right roles can mark work as tested or done.
+- Six ready-made roles with sensible permissions. See [ROLES.md](docs/neurvo/ROLES.md).
 
 </details>
 
 <details>
-<summary><b>A nicer place to write</b></summary>
+<summary><b>Polish that makes daily use nicer</b></summary>
 
 <br>
 
-- A modernised rich text editor built only from free, open source parts.
-- Code blocks with a language picker, a delete button and a single clean language label.
-- Copy buttons on code in comments and descriptions, with a small "Copied" confirmation.
-- Find and replace right inside the editor.
+- Light and dark modes with extra colour palettes. Hover a swatch to see its name.
+- A header that works on phones, in-app confirmation dialogs instead of browser pop-ups, and toasts that clear themselves.
+- 32 preset avatars to choose from, or upload your own.
+- A clear "New ticket" button inside a project, so it is never confused with the global "Create".
+- A friendly error panel when a list cannot be loaded, with a way back.
 
 </details>
 
 <details>
-<summary><b>People, not just usernames</b></summary>
+<summary><b>Built to stay maintainable</b></summary>
 
 <br>
 
-- 32 preset avatars to choose from under *My account*, in case you would rather not upload a photo. You can still upload your own.
-- Every user can carry a designation such as "Senior Engineer", shown in the user menu and next to their comments.
-- Every signed-in person can see their colleagues, so profile cards and mentions always work. If you prefer the stricter project-only visibility, one setting turns it back.
+- Neurvo is a fork, so I treated upgrades as a feature. Every change to an upstream file is listed with a one-line reason in [CHANGES.md](docs/neurvo/CHANGES.md).
+- Only user-facing text says "Neurvo". Internal names stay as they are, so merges stay clean.
+- Settings and seed data come first, code changes last, and small commits throughout.
 
 </details>
 
-<details>
-<summary><b>Easy on the eyes, and on the room</b></summary>
+## How it fits together
 
-<br>
+```mermaid
+flowchart LR
+    A[OpenProject 17.9.6<br/>open source engine] --> B[Neurvo layer<br/>workflow, roles, UI, home cards]
+    B --> C[Developers]
+    B --> D[QA engineers]
+    B --> E[DevOps and designers]
+    B --> F[Project managers]
+    G[CHANGES.md<br/>every upstream edit logged] -. keeps upgrades easy .-> B
+```
 
-- Light and dark modes with extra palettes for each. Hover a swatch to see its name before you pick it.
-- A refreshed header that holds up on phones, with the logo and search no longer fighting for space.
-- Toasts slide in at the bottom right and success messages clear themselves.
-- Calm motion that respects the reduced motion setting, and an animated Neurvo mark instead of the stock loader.
-- Keyboard shortcuts for the things you do all day.
+**Built with:** Ruby on Rails 8, PostgreSQL, Hotwire (Turbo and Stimulus), TypeScript, Angular (legacy parts), the Primer design system, CKEditor 5, and Docker Compose with Caddy for production.
 
-</details>
+## How it was built
 
-<details>
-<summary><b>Clean by default</b></summary>
+I built Neurvo as the maintainer and product owner, working with an AI coding assistant (Claude Code) as a pair programmer. I decided what to build and why, reviewed the result in a real browser, and kept the project upgradable and documented. Changes were checked in the running app. The upstream OpenProject test suite is included in `spec/`.
 
-<br>
+---
 
-- Enterprise-only features are hidden, so there are no upgrade banners in your way. Nothing is unlocked or bypassed, and an admin can show them again with a setting.
-- Branded as Neurvo by Ocean IT Solutions throughout.
+## Try it on your computer
 
-</details>
+You need **Docker Desktop** with about 8 GB of memory (10 to 12 GB is more comfortable), 20 GB of free disk and Git. The first setup takes 15 to 30 minutes, and later starts take a minute or two.
 
-<details>
-<summary><b>Look around from the very first login</b></summary>
+### 1. Get the code
 
-<br>
-
-- A sample workspace (GoFleet, QuickCart, Platform & DevOps and Neurvo) with boards, sprints, releases, wiki pages and meetings, so a new team can feel the flow immediately.
-- Ready-made test accounts for every role, listed in [USERS.md](docs/neurvo/USERS.md).
-- Share your local copy with a teammate through a tunnel using `bin/neurvo-share`.
-
-</details>
-
-Curious about the exact files we touched? Every change to upstream code is listed in [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md), which also keeps merging new OpenProject releases painless.
-
-## Run it on your computer (Mac or Windows)
-
-You need **Docker Desktop**, about 8 GB of memory for it (10 to 12 GB is more comfortable), 20 GB free disk space and Git. The first setup takes 15 to 30 minutes.
-
-### Mac
+**Mac**
 
 ```bash
-brew install --cask docker        # then start Docker Desktop (Settings > Resources > Memory: 8 GB or more)
+brew install --cask docker        # then open Docker Desktop and give it 8 GB or more
 git clone <your-neurvo-repo-url> neurvo && cd neurvo
 git checkout neurvo
 ```
 
-### Windows
+**Windows**
 
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) with the **WSL 2** backend and [WSL](https://learn.microsoft.com/windows/wsl/install) (`wsl --install` in an admin PowerShell, then restart).
-2. In Docker Desktop: Settings > Resources > WSL integration, enable your Ubuntu distro; give it 8 GB or more of memory.
-3. Open the **Ubuntu** terminal and run everything below there. Clone **inside the Linux file system** (for example `~/neurvo`), not under `/mnt/c`, otherwise it is very slow.
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) with the **WSL 2** backend, and [WSL](https://learn.microsoft.com/windows/wsl/install) (`wsl --install` in an admin PowerShell, then restart).
+2. In Docker Desktop, enable your Ubuntu distro under Settings > Resources > WSL integration, and give it 8 GB or more.
+3. Open the **Ubuntu** terminal and clone **inside the Linux file system** (for example `~/neurvo`), not under `/mnt/c`, or everything will be very slow.
 
-```bash
-git clone <your-neurvo-repo-url> neurvo && cd neurvo
-git checkout neurvo
-```
-
-### Then, on both
+### 2. Start it (same on both)
 
 ```bash
 docker network create gateway
 cp docker-compose.override.example.yml docker-compose.override.yml
-bin/compose setup                  # builds, installs, migrates, seeds (15-30 min, once)
+bin/compose setup                  # builds, installs, migrates (15 to 30 minutes, once)
 bin/compose start
 bin/compose up -d backend worker
-bin/compose exec backend bundle exec rake neurvo:seed    # optional: the sample workspace
+bin/compose exec backend bundle exec rake neurvo:seed    # the sample company (recommended)
 ```
 
-Open <http://localhost:3000> and sign in as `admin` / `admin` (you are asked to change the password). With the sample workspace, the team members (for example `imran.chowdhury`, `daniel.brooks`, `nusrat.jahan`) use the password `Neurvo-Dev-2026!`.
+Open <http://localhost:3000>.
 
-Daily use: `bin/compose start && bin/compose up -d backend worker` to start, `bin/compose stop` to stop. If a page looks unstyled, the frontend dev server ran out of memory: `bin/compose up -d frontend`. More tips, running specs and sharing your local copy: [docs/neurvo/DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md).
+### 3. Sign in
 
-## Deploy to a server
+| Who | Username | Password |
+|---|---|---|
+| Administrator | `admin` | `admin` (you are asked to change it) |
+| A developer | `rafi.hasan` | `Neurvo-Dev-2026!` |
+| A QA engineer | `nusrat.jahan` | `Neurvo-Dev-2026!` |
+| A DevOps engineer | `tanvir.ahmed` | `Neurvo-Dev-2026!` |
+| A designer | `maya.patel` | `Neurvo-Dev-2026!` |
+| A project manager | `daniel.brooks` | `Neurvo-Dev-2026!` |
+| A general team member | `general.user` | `Neurvo-Dev-2026!` |
 
-Production uses Docker Compose on a Linux server (Ubuntu 22.04+ is fine): 4 vCPU, 8 GB RAM and 40 GB disk are a good start for about 100 users. Full guide, including backups and updates: [docs/neurvo/DEPLOY.md](docs/neurvo/DEPLOY.md).
+Sign in as different people and compare the Home page: the cards change with the role. Every sample account is listed in [USERS.md](docs/neurvo/USERS.md).
+
+**Daily use:** `bin/compose start && bin/compose up -d backend worker` to start, `bin/compose stop` to stop. If a page looks unstyled, the frontend ran out of memory: `bin/compose up -d frontend`. More tips, memory settings and sharing a local copy: [DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md).
+
+## Deploy it on a server
+
+Production runs on one Linux server with Docker Compose and automatic HTTPS. Plan for about 8 GB of memory, 4 CPUs and 40 GB of disk for around 100 users.
 
 ```bash
-# 1. On the server: install Docker, point a DNS name (e.g. neurvo.yourcompany.com) at it, open ports 80 and 443
 curl -fsSL https://get.docker.com | sh
-
-# 2. Get the code and configure
 git clone <your-neurvo-repo-url> neurvo && cd neurvo && git checkout neurvo
-cp .env.prod.example .env.prod
-nano .env.prod                      # set NEURVO_HOST, POSTGRES_PASSWORD, SECRET_KEY_BASE (openssl rand -hex 64)
-
-# 3. Build and start (the first build takes 20-40 minutes)
+cp .env.prod.example .env.prod && nano .env.prod     # host name, database password, secret key
 docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --build
 ```
 
-Open `https://<your host>`; HTTPS certificates are issued automatically. Sign in as `admin` / `admin` and change the password immediately.
+Open `https://<your host>`, sign in as `admin` / `admin` and change the password straight away. The full guide covers what to set up next, the Neurvo workflow without sample data, backups and updates: [DEPLOY.md](docs/neurvo/DEPLOY.md).
 
 ## Documentation
 
-- [NEURVO.md](NEURVO.md): product vision, guardrails and conventions for contributors
-- [docs/neurvo/DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md): local development
-- [docs/neurvo/DEPLOY.md](docs/neurvo/DEPLOY.md): production deployment
-- [docs/neurvo/ROLES.md](docs/neurvo/ROLES.md): sample roles, permissions and logins
-- [docs/neurvo/USERS.md](docs/neurvo/USERS.md): every sample user with username, password and role
-- [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md): changes to upstream files, to keep merging upstream updates easy
-- OpenProject's own [user guide](https://www.openproject.org/docs/user-guide/) applies to everything Neurvo inherits
+| Read this | To learn |
+|---|---|
+| [CHANGES.md](docs/neurvo/CHANGES.md) | Every change to upstream code and why (keeps upgrades easy) |
+| [ROLES.md](docs/neurvo/ROLES.md) | Roles, permissions and which Home cards each role gets |
+| [USERS.md](docs/neurvo/USERS.md) | Every sample user, with avatar, username, password and role |
+| [DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md) | Local development, memory tips and what to restart after a change |
+| [DEPLOY.md](docs/neurvo/DEPLOY.md) | Production deployment, backups and updates |
+| [NEURVO.md](NEURVO.md) | Product vision and the rules I follow |
+| [OpenProject user guide](https://www.openproject.org/docs/user-guide/) | Everything Neurvo inherits |
 
 ## License and credits
 
-Neurvo is based on [OpenProject](https://www.openproject.org) and, like it, is licensed under the GNU GPL v3; see [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE). Many thanks to the OpenProject community.
+Neurvo is based on [OpenProject](https://www.openproject.org) and, like it, is licensed under the GNU GPL v3. See [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE). Many thanks to the OpenProject community, whose work makes this possible.
+
+Built and maintained by **Jahidur Rahman** at Ocean IT Solutions.
