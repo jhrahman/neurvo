@@ -110,6 +110,15 @@
     z-index: 10
     transition: opacity 0.12s ease
 
+  &:first-child::after
+    left: 0
+    transform: none
+
+  &:last-child::after
+    left: auto
+    right: 0
+    transform: none
+
   &:hover::after,
   &:focus-visible::after
     opacity: 1
