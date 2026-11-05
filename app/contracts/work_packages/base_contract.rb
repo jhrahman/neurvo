@@ -105,6 +105,13 @@ module WorkPackages
                               assignable_assignees
     end
 
+    attribute :author_id do
+      next unless model.project
+      next if model.author_id == user.id
+
+      validate_people_visible :author, "author_id", assignable_assignees.where(type: "User")
+    end
+
     attribute :responsible_id do
       next unless model.project
 

@@ -35,9 +35,6 @@ module WorkPackages
     include AdminWritableTimestamps
     allow_writable_timestamps :created_at
 
-    attribute :author_id,
-              writable: -> { default_attributes_admin_writable? }
-
     attribute :status_id,
               # Overriding permission from WP base contract to ignore change_work_package_status for creation,
               # because we don't require that permission for writable status during WP creation.

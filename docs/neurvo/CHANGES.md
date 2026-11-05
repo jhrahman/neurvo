@@ -215,6 +215,7 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 
 | File | Reason |
 |---|---|
+| `app/contracts/work_packages/base_contract.rb`, `create_contract.rb`, `lib/api/v3/work_packages/schema/work_package_schema_representer.rb` | Reporter is editable (with `add_work_packages` on create, `edit_work_packages` on update), required, and limited to users assignable in the project, so a ticket can be created on behalf of someone else. The creator's own id is always accepted. Admin-only writing of `author_id` is replaced |
 | `app/models/type/attributes.rb` | `author` stays available as a form attribute (like `priority`), so it can be placed in a type's attribute groups |
 | `config/locales/en.yml` | Work package `author` is labelled "Reporter" |
 | `lib/neurvo/seed.rb`, `lib/neurvo/seed_data.yml` | People group is Reporter, Assignee, Accountable, plus the new user custom field "Assignee Pair" (`group: people`) on every type |

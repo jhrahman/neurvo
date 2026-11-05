@@ -222,10 +222,11 @@ module API
           schema :updated_at,
                  type: "DateTime"
 
-          schema :author,
-                 type: "User",
-                 location: :link,
-                 writable: false
+          schema_with_allowed_link :author,
+                                   type: "User",
+                                   required: true,
+                                   has_default: true,
+                                   href_callback: ->(*) { assignee_user_autocompleter }
 
           schema_with_allowed_link :project,
                                    type: "Project",
