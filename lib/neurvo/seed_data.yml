@@ -177,6 +177,11 @@ roles:
     sets: [viewer, contributor, engineer]
     permissions: [commit_access, manage_versions, manage_news, manage_wiki, manage_public_queries, manage_board_views]
     gated: true
+  - name: "Team Member"
+    sets: [viewer, contributor, engineer]
+    permissions: [delete_work_packages, delete_meetings, manage_board_views, manage_public_queries, manage_wiki,
+                  manage_documents, manage_calendars, manage_dashboards, create_sprints, start_complete_sprint,
+                  share_sprint, create_files, write_files]
   - name: "Designer"
     sets: [viewer, contributor]
     permissions: [manage_documents, create_files, write_files, manage_wiki_page_links]
@@ -201,6 +206,7 @@ users:
   - { key: lena,   first: "Lena",   last: "Fischer",  title: "QA Engineer",           group: "QA",         role: "QA Engineer" }
   - { key: maya,   first: "Maya",   last: "Patel",     title: "UX Designer",           group: "Design",     role: "Designer" }
   - { key: tanvir, first: "Tanvir", last: "Ahmed",    title: "DevOps Engineer",       group: "DevOps",     role: "DevOps Engineer" }
+  - { key: general, first: "General", last: "User",   title: "Team Member",           group: "Team",       role: "Team Member" }
 
 modules: [work_package_tracking, backlogs, board_view, gantt, calendar_view, documents, meetings, activity, github, gitlab]
 

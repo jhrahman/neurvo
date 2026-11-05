@@ -20,6 +20,7 @@ What each role may do is described in [ROLES.md](ROLES.md).
 | Lena Fischer | `lena.fischer` | `Neurvo-Dev-2026!` | QA Engineer | QA Engineer | GoFleet |
 | Maya Patel | `maya.patel` | `Neurvo-Dev-2026!` | UX Designer | Designer | GoFleet, QuickCart |
 | Tanvir Ahmed | `tanvir.ahmed` | `Neurvo-Dev-2026!` | DevOps Engineer | DevOps Engineer | all four |
+| General User | `general.user` | `Neurvo-Dev-2026!` | Team Member | Team Member | all four |
 
 Projects: GoFleet = Web Application - GoFleet, QuickCart = Web Application - QuickCart, Platform & DevOps, Neurvo.
 Email addresses are `<username>@oceanit.example` (test addresses; the dev stack delivers mail to the in-app letter opener only).
@@ -33,3 +34,12 @@ Email addresses are `<username>@oceanit.example` (test addresses; the dev stack 
 | QA Engineer | `lena.fischer` |
 | DevOps Engineer | `tanvir.ahmed` |
 | Designer | `maya.patel` |
+| Team Member (general user, every project) | `general.user` |
+
+## General user
+
+`general.user` is a normal, non-administrator account that is a member of all four projects with the **Team Member**
+role. Like a regular Jira user it can view everything in those projects and create, edit, comment on and delete work
+packages, run boards and sprints, edit the wiki and documents, manage meetings and save public views, and it can edit
+its own profile under *My account*. It cannot change project settings, members, types, workflows, modules or any
+system administration setting, and it is not bound by the QA quality gate.

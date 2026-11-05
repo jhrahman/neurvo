@@ -174,6 +174,7 @@ roles, rebuilds workflows, and creates the team, projects, sprints, releases, is
 | `frontend/src/vendor/ckeditor/**` (rebuilt), `docs/neurvo/editor/*` | Editor rebuilt from the open-source build with an in-place code block (language picker), find and replace, horizontal rule and a regrouped toolbar; source changes kept as a patch with rebuild steps |
 | `frontend/src/global_styles/neurvo/_code.sass`, `frontend/src/common/code-block-copy.ts`, `frontend/src/turbo/setup.ts`, `config/locales/js-en.yml` | Code blocks show a language label, theme-aware syntax colours and a Copy button |
 | `frontend/src/app/shared/components/editor/components/ckeditor/ckeditor-setup.service.ts` | The "Powered by CKEditor" badge (required by the free licence, not hidden) sits on the right of the bottom border instead of the left |
+| `lib/neurvo/seed_data.yml`, `lib/neurvo/seed_data/*.yml`, `docs/neurvo/{USERS,ROLES}.md` | Team Member role and `general.user` account: full day-to-day rights (including deleting work packages, boards, sprints, wiki) in all four projects, no project settings, members or system administration, not quality-gated |
 
 ## Readable status buttons
 

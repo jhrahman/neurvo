@@ -35,7 +35,7 @@ project:
   description: "E-commerce platform: storefront, one-page checkout, search, inventory and self-service returns for online retailers."
   lead: ayesha
   status: { code: on_track, explanation: "5.9.0 on schedule; the payment error on expiring cards (QCART-14) and the reopened cart bug (QCART-17) are the release risks." }
-  members: [ayesha, daniel, rafi, arif, maya, marco, nusrat, tanvir]
+  members: [ayesha, daniel, rafi, arif, maya, marco, nusrat, tanvir, general]
   categories: ["Checkout", "Search", "Catalogue", "Inventory", "Returns", "Payments", "Accounts"]
   sprints:
     prefix: "QuickCart"

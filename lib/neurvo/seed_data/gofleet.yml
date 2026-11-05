@@ -35,7 +35,7 @@ project:
   description: "Transportation platform: riders book trips on the web app, dispatchers assign and track vehicles on a live map, drivers work from the Driver app."
   lead: imran
   status: { code: at_risk, explanation: "2.5.0 depends on the duplicate-booking fix (GOFLEET-15) and the Android 14 push delay (GOFLEET-19); live tracking on Safari reopened." }
-  members: [imran, daniel, priya, sofia, kenji, maya, lena, nusrat, tanvir]
+  members: [imran, daniel, priya, sofia, kenji, maya, lena, nusrat, tanvir, general]
   categories: ["Dispatch", "Tracking", "Driver app", "Billing", "Accounts", "Platform"]
   sprints:
     prefix: "GoFleet"

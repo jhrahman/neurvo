@@ -34,7 +34,7 @@ project:
   description: "Infrastructure, CI/CD, observability and data protection for GoFleet and QuickCart. Home of the engineering handbook."
   lead: daniel
   status: { code: off_track, explanation: "Backups failed silently for 3 days; fix and restore verification in progress (OPS-4)." }
-  members: [daniel, tanvir, rafi, priya, nusrat]
+  members: [daniel, tanvir, rafi, priya, nusrat, general]
   categories: ["CI/CD", "Kubernetes", "Database", "Monitoring", "Security", "Cost"]
   sprints:
     prefix: "Platform"

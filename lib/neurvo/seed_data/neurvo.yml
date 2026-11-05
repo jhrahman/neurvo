@@ -34,7 +34,7 @@ project:
   description: "Our own project management tool. Dogfooding: features and bugs for Neurvo itself."
   lead: ayesha
   status: { code: on_track, explanation: "MVP scope done except the command palette." }
-  members: [ayesha, daniel, priya, sofia, nusrat, tanvir]
+  members: [ayesha, daniel, priya, sofia, nusrat, tanvir, general]
   categories: ["UI", "Workflow", "Integrations"]
   sprints:
     prefix: "Neurvo"
