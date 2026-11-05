@@ -248,3 +248,12 @@ own cards keeps them until they use "Restore recommended cards".
 Home cards, second batch: DevOps and Design groups (13 cards) plus 7 general and project management cards, 42 in total.
 `card_catalog.rb` maps DevOps Engineer and Designer to their own groups (they used to share the developer set) and recognises
 the `SQA Engineer` role. The picker page gained group filter chips and shows the user's recommended groups first.
+
+## Cross-project category filter and work package list errors
+
+| File | Reason |
+|---|---|
+| `app/models/queries/work_packages/filter/category_filter.rb` | The Category filter assumed a project and raised `NoMethodError` (HTTP 500) on a cross-project list. It now uses the categories of all visible projects, so Home cards such as Infrastructure work and UI work open correctly |
+| `frontend/src/app/features/work-packages/directives/query-space/isolated-query-space.ts`, `components/wp-list/wp-list.service.ts` | A failed list load is stored as `loadError` (status and message) instead of only raising a toast |
+| `frontend/src/app/features/work-packages/routing/wp-list-view/wp-list-error/` (new), `wp-list-view.component.html`, `openproject-work-packages.module.ts` | Inline error panel at the top of the list: plain wording for no permission, not found and server errors, Go back, Try again (server errors only), Go to Home, and the raw message under Technical details |
+| `config/locales/js-en.yml` | `work_packages.load_error.*` strings |

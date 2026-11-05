@@ -35,7 +35,7 @@ class Queries::WorkPackages::Filter::CategoryFilter <
   end
 
   def available?
-    project&.categories&.exists?
+    visible_categories.exists?
   end
 
   def type
@@ -60,6 +60,10 @@ class Queries::WorkPackages::Filter::CategoryFilter <
   private
 
   def all_project_categories
-    @all_project_categories ||= project.categories
+    @all_project_categories ||= visible_categories.to_a
+  end
+
+  def visible_categories
+    project ? project.categories : Category.where(project_id: Project.visible.select(:id))
   end
 end

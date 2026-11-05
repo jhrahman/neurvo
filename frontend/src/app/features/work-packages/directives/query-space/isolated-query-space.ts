@@ -50,12 +50,20 @@ import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { ShareResource } from 'core-app/features/hal/resources/share-resource';
 
+export interface QueryLoadError {
+  status:number|null;
+  detail:string;
+}
+
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
   name = 'IsolatedQuerySpace';
 
   // The query that results in this table state
   query:InputState<QueryResource> = input<QueryResource>();
+
+  // set when the list could not be loaded, so the page can explain why instead of only toasting
+  loadError = input<QueryLoadError>();
 
   // the query form associated with the table
   queryForm = input<QueryFormResource>();

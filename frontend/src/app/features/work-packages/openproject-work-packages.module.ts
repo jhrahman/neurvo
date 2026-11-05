@@ -249,6 +249,9 @@ import {
   WorkPackageListViewComponent,
 } from 'core-app/features/work-packages/routing/wp-list-view/wp-list-view.component';
 import {
+  WorkPackageListErrorComponent,
+} from 'core-app/features/work-packages/routing/wp-list-view/wp-list-error/wp-list-error.component';
+import {
   PartitionedQuerySpacePageComponent,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import {
@@ -494,6 +497,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
 
     // WP list side
     WorkPackageListViewComponent,
+    WorkPackageListErrorComponent,
     WorkPackageSettingsButtonComponent,
 
     // WP New

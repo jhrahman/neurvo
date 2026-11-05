@@ -1,0 +1,31 @@
+@if (error) {
+  <section class="op-wp-list-error" role="alert" data-test-selector="wp-list-error">
+    <div class="op-wp-list-error--icon" aria-hidden="true">
+      <svg alert-icon size="medium"/>
+    </div>
+    <div class="op-wp-list-error--body">
+      <h2 class="op-wp-list-error--title">{{ text('title') }}</h2>
+      <p class="op-wp-list-error--description">{{ text('description') }}</p>
+
+      <div class="op-wp-list-error--actions">
+        <button type="button" class="button -primary" (click)="goBack()" data-test-selector="wp-list-error-back">
+          <svg arrow-left-icon size="small"/>
+          <span class="button--text">{{ labels.back }}</span>
+        </button>
+        @if (kind === 'server') {
+          <button type="button" class="button" (click)="retry()" data-test-selector="wp-list-error-retry">
+            <span class="button--text">{{ labels.retry }}</span>
+          </button>
+        }
+        <a class="button" [href]="pathHelper.appBasePath || '/'">
+          <span class="button--text">{{ labels.home }}</span>
+        </a>
+      </div>
+
+      <details class="op-wp-list-error--details">
+        <summary>{{ labels.details }}</summary>
+        <code>{{ error.detail }}</code>
+      </details>
+    </div>
+  </section>
+}

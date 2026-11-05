@@ -1,0 +1,46 @@
+:host
+  display: block
+
+.op-wp-list-error
+  display: flex
+  gap: 16px
+  margin: 16px 0 24px
+  padding: 20px 24px
+  border: 1px solid var(--borderColor-danger-muted, var(--borderColor-default))
+  border-left: 4px solid var(--fgColor-danger, #cf222e)
+  border-radius: 8px
+  background: var(--bgColor-danger-muted, var(--bgColor-muted))
+
+  &--icon
+    color: var(--fgColor-danger, #cf222e)
+    padding-top: 2px
+
+  &--title
+    margin: 0 0 4px
+    font-size: 18px
+    font-weight: 600
+
+  &--description
+    margin: 0 0 16px
+    max-width: 62ch
+    color: var(--fgColor-muted)
+
+  &--actions
+    display: flex
+    flex-wrap: wrap
+    gap: 8px
+    margin-bottom: 12px
+
+  &--details
+    color: var(--fgColor-muted)
+    font-size: 12px
+
+    summary
+      cursor: pointer
+
+    code
+      display: block
+      margin-top: 6px
+      max-width: 100%
+      overflow-wrap: anywhere
+      white-space: pre-wrap

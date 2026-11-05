@@ -1034,6 +1034,20 @@ en:
       duplicate:
         title: "Duplicate work package"
       edit_attribute: "%{attribute} - Edit"
+      load_error:
+        back: "Go back"
+        retry: "Try again"
+        home: "Go to Home"
+        details: "Technical details"
+        forbidden:
+          title: "You don't have access to these work packages"
+          description: "Your role doesn't include permission to see them. Go back, or ask a project administrator to give you access."
+        not_found:
+          title: "We couldn't find this view"
+          description: "It may have been deleted or moved. Go back to where you were, or head to Home."
+        server:
+          title: "We couldn't load this list"
+          description: "Something went wrong on our side and your data is safe. Try again, or go back to where you were."
       faulty_query:
         description: Your view is erroneous and could not be processed.
         title: Work packages could not be loaded.

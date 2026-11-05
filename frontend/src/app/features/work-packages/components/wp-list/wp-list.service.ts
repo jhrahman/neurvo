@@ -38,7 +38,7 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { firstValueFrom, from, Observable, of } from 'rxjs';
 import { input } from '@openproject/reactivestates';
-import { catchError, mapTo, mergeMap, share, switchMap, take } from 'rxjs/operators';
+import { catchError, mapTo, mergeMap, share, switchMap, take, tap } from 'rxjs/operators';
 import {
   WorkPackageViewPaginationService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
@@ -120,6 +120,7 @@ export class WorkPackagesListService {
       .find(queryData, queryParams.query_id, projectIdentifier);
 
     return stream.pipe(
+      tap(() => this.querySpace.loadError.clear()),
       catchError((error) => {
         // Load a default query
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
@@ -376,13 +377,35 @@ export class WorkPackagesListService {
     return this.querySpace.query.value!;
   }
 
+  private statusOf(error:unknown):number|null {
+    const candidate = error as {
+      status?:number,
+      httpError?:{ status?:number },
+      error?:{ status?:number },
+      errorIdentifier?:string,
+    };
+    const status = candidate.httpError?.status ?? candidate.status ?? candidate.error?.status;
+    if (status) {
+      return status;
+    }
+
+    if (candidate.errorIdentifier?.endsWith(':MissingPermission')) {
+      return 403;
+    }
+
+    return candidate.errorIdentifier?.endsWith(':NotFound') ? 404 : null;
+  }
+
   private handleQueryLoadingError(
     error:ErrorResource,
     queryProps:Record<string, unknown>,
     queryId?:string|null,
     projectIdentifier?:string|null,
   ):Promise<QueryResource> {
-    this.toastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
+    this.querySpace.loadError.putValue({
+      status: this.statusOf(error),
+      detail: error.message,
+    });
 
     return new Promise((resolve, reject) => {
       firstValueFrom(
