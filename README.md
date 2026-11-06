@@ -10,11 +10,13 @@
 
 ![Neurvo home page](docs/neurvo/images/home.png)
 
-## Watch a two-minute tour
+## Watch the demo
 
-[![Watch the Neurvo demo](docs/neurvo/images/demo-poster.jpg)](https://github.com/jhrahman/neurvo/raw/main/docs/neurvo/demo/neurvo-demo.webm)
+[![Play the Neurvo demo](docs/neurvo/images/demo-poster.jpg)](https://jhrahman.github.io/neurvo/)
 
-*Click the picture to play (2 minutes, 1080p, 60 fps).* It covers signing in, the role-based Home cards and how to change them, light and dark themes, the work package list, a ticket with its Reporter and Assignee Pair, the backlog and the boards.
+**[Click the picture to play it in your browser](https://jhrahman.github.io/neurvo/)** (3 minutes, 1080p, 60 fps, with chapter buttons). Prefer a file? [Download the WebM](docs/neurvo/demo/neurvo-demo.webm).
+
+What you will see, in order: signing in, the role-based Home page, switching between light and dark themes with a colour profile for each, the account settings, the project overview, three boards (Bug triage, Sprint board, Support queue) with tickets dragged between statuses, a new task with a comment, a new bug with an @mention, a commenter's profile card, and signing out.
 
 ## The problem I wanted to solve
 

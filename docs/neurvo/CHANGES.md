@@ -279,4 +279,4 @@ Wording: Ocean IT Solutions and all sample people are described as fictional. `a
 
 ## Demo video
 
-`docs/neurvo/demo/neurvo-demo.webm` is a 2-minute, 1080p, 60 fps tour of the sample workspace, linked from the README with `docs/neurvo/images/demo-poster.jpg`. It contains no upstream code changes.
+`docs/neurvo/demo/neurvo-demo.webm` is a 3-minute, 1080p, 60 fps tour of the sample workspace. The README plays it through a small player page on GitHub Pages (the `gh-pages` branch), because GitHub only offers repository videos as downloads. It contains no upstream code changes.
