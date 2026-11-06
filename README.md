@@ -10,6 +10,12 @@
 
 ![Neurvo home page](docs/neurvo/images/home.png)
 
+## Watch a two-minute tour
+
+[![Watch the Neurvo demo](docs/neurvo/images/demo-poster.jpg)](https://github.com/jhrahman/neurvo/raw/main/docs/neurvo/demo/neurvo-demo.webm)
+
+*Click the picture to play (2 minutes, 1080p, 60 fps).* It covers signing in, the role-based Home cards and how to change them, light and dark themes, the work package list, a ticket with its Reporter and Assignee Pair, the backlog and the boards.
+
 ## The problem I wanted to solve
 
 Many teams reach for Jira. The free, self-hosted alternatives are usually either too basic or too generic. OpenProject is powerful and open source, but it is built for *every* kind of project. A software team opening it for the first time faces a blank slate: no bug workflow, no sprint board that feels familiar, a home page that means nothing to a tester, and menus full of features nobody asked for.

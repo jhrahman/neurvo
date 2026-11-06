@@ -276,3 +276,7 @@ Wording: Ocean IT Solutions and all sample people are described as fictional. `a
 | `docs/neurvo/USERS.md`, `ROLES.md` | Show the public seed passwords only; personal dev-instance passwords removed |
 | `app/contracts/work_packages/base_contract.rb` | The Reporter check runs only when the reporter changes, so moving a ticket to another project is not rejected because of its unchanged reporter |
 | `spec/` (several) | Specs follow the Neurvo behaviour: editable Reporter, comment links to the Comments tab, open user directory (upstream visibility specs pin the setting to `false`); new specs for the card catalog and the category filter across projects |
+
+## Demo video
+
+`docs/neurvo/demo/neurvo-demo.webm` is a 2-minute, 1080p, 60 fps tour of the sample workspace, linked from the README with `docs/neurvo/images/demo-poster.jpg`. It contains no upstream code changes.
