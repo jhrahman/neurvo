@@ -20,7 +20,7 @@ PostgreSQL, memcached, the Neurvo web app, a background worker, a cron job and C
 
 ```bash
 curl -fsSL https://get.docker.com | sh
-git clone <your-neurvo-repo-url> neurvo && cd neurvo && git checkout neurvo
+git clone https://github.com/jhrahman/neurvo.git neurvo && cd neurvo
 cp .env.prod.example .env.prod
 ```
 

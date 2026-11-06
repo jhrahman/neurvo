@@ -145,7 +145,7 @@ You need **Docker Desktop** with about 8 GB of memory (10 to 12 GB is more comfo
 
 ```bash
 brew install --cask docker        # then open Docker Desktop and give it 8 GB or more
-git clone <your-neurvo-repo-url> neurvo && cd neurvo
+git clone https://github.com/jhrahman/neurvo.git neurvo && cd neurvo
 git checkout neurvo
 ```
 
@@ -182,7 +182,7 @@ Production runs on one Linux server with Docker Compose and automatic HTTPS. As 
 
 ```bash
 curl -fsSL https://get.docker.com | sh
-git clone <your-neurvo-repo-url> neurvo && cd neurvo && git checkout neurvo
+git clone https://github.com/jhrahman/neurvo.git neurvo && cd neurvo
 cp .env.prod.example .env.prod && nano .env.prod     # host name, database password, secret key
 docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --build
 ```
