@@ -5,7 +5,7 @@
 Please do not report security problems in a public issue. Use GitHub's private reporting instead: open the **Security** tab of this
 repository and choose **Report a vulnerability**.
 
-The sample accounts and passwords in [docs/neurvo/USERS.md](docs/neurvo/USERS.md) are public demo data. Never use the sample
+The sample accounts created by the seed are public demo data. Never use the sample
 workspace (`rake neurvo:seed`) on an instance that holds real data, and change the `admin` password at the first login.
 
 ## OpenProject

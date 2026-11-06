@@ -7,7 +7,7 @@
 - Users pick one under *My account > Avatar > Or choose one of our avatars*. An administrator can do the same from a
   user's edit page. The choice is stored as the user's normal avatar, so it shows everywhere (API, boards, comments,
   mentions) and can be removed with *Delete* or replaced by uploading a photo.
-- `lib/neurvo/seed_data.yml` pre-selects one for each sample account (`avatar:`), see `docs/neurvo/USERS.md`.
+- `lib/neurvo/seed_data.yml` pre-selects one for each sample account (`avatar:`).
 
 ## Change or add avatars
 

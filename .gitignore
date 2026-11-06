@@ -153,3 +153,6 @@ acme.json
 /.mcp.json
 /.playwright-mcp/
 /.claude/
+
+# Sample account list kept locally
+/docs/neurvo/USERS.md

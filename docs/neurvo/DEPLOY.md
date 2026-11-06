@@ -75,7 +75,7 @@ projects, and it is safe to run again. Then create your projects and invite your
 docker compose --env-file .env.prod -f docker-compose.prod.yml exec web bundle exec rake neurvo:seed
 ```
 
-This also creates four sample projects and 15 sample accounts with public passwords ([USERS.md](USERS.md)). Never use it on an
+This also creates four sample projects and 15 sample accounts with public passwords. Never use it on an
 instance with real data, and delete or disable those accounts before real use.
 
 ## Settings you may want to change

@@ -5,8 +5,7 @@ Roles are defined in `lib/neurvo/seed_data.yml` (`permission_sets`, `roles`, `qu
 `bin/compose exec backend bundle exec rake neurvo:seed`. Roles apply **per project**: a user's role is whatever
 they hold as a member of that project.
 
-**Development credentials** (change them before any real use): every account below uses the password
-`Neurvo-Dev-2026!`. The login is `firstname.lastname`. Sign in at <http://localhost:3000>.
+Sample logins follow the pattern `firstname.lastname`. Sign in at <http://localhost:3000>; the seed password is set in `lib/neurvo/seed.rb`.
 
 | Role | Account to try | Login | Also holds this role |
 |---|---|---|---|

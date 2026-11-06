@@ -170,17 +170,9 @@ Open <http://localhost:3000>.
 
 ### 3. Sign in
 
-| Who | Username | Password |
-|---|---|---|
-| Administrator | `admin` | `admin` (you are asked to change it) |
-| A developer | `rafi.hasan` | `Neurvo-Dev-2026!` |
-| A QA engineer | `nusrat.jahan` | `Neurvo-Dev-2026!` |
-| A DevOps engineer | `tanvir.ahmed` | `Neurvo-Dev-2026!` |
-| A designer | `maya.patel` | `Neurvo-Dev-2026!` |
-| A project manager | `daniel.brooks` | `Neurvo-Dev-2026!` |
-| A general team member | `general.user` | `Neurvo-Dev-2026!` |
+The administrator account is `admin` and you are asked to change its password at the first login. The sample seed also creates one account per role (developer, QA, DevOps, designer, project manager and a general team member). Their usernames and the seed password are in `lib/neurvo/seed_data.yml` and `lib/neurvo/seed.rb`.
 
-Sign in as different people and compare the Home page: the cards change with the role. Every sample account is listed in [USERS.md](docs/neurvo/USERS.md).
+Sign in as different people and compare the Home page: the cards change with the role.
 
 **Daily use:** `bin/compose start && bin/compose up -d backend worker` to start, `bin/compose stop` to stop. If a page looks unstyled, the frontend ran out of memory: `bin/compose up -d frontend`. More tips, memory settings and sharing a local copy: [DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md).
 
@@ -203,7 +195,6 @@ Open `https://<your host>`, sign in as `admin` / `admin` and change the password
 |---|---|
 | [CHANGES.md](docs/neurvo/CHANGES.md) | Every change to upstream code and why (keeps upgrades easy) |
 | [ROLES.md](docs/neurvo/ROLES.md) | Roles, permissions and which Home cards each role gets |
-| [USERS.md](docs/neurvo/USERS.md) | Every sample user, with avatar, username, password and role |
 | [DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md) | Local development, memory tips and what to restart after a change |
 | [DEPLOY.md](docs/neurvo/DEPLOY.md) | Production deployment, backups and updates |
 | [NEURVO.md](NEURVO.md) | Product vision and the rules I follow |

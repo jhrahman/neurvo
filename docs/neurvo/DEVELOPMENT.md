@@ -60,8 +60,8 @@ configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data
 - Organization: "Ocean IT Solutions", a fictional company (Administration > System settings > Organization name), shown on the Home page. Change it to your own.
 - QA hand-over: tickets in In QA are assigned to a QA engineer; the QA lead has regression and smoke-test tasks (one
   overdue).
-- Roles and permissions: [ROLES.md](ROLES.md); every sample user with username, password and role: [USERS.md](USERS.md).
-- Team (password `Neurvo-Dev-2026!`): imran.chowdhury, ayesha.karim (product managers), daniel.brooks (tech lead),
+- Roles and permissions: [ROLES.md](ROLES.md).
+- Team: imran.chowdhury, ayesha.karim (product managers), daniel.brooks (tech lead),
   rafi.hasan, sofia.martins, arif.rahman, kenji.watanabe, priya.nair (developers), maya.patel (UX designer),
   nusrat.jahan (QA lead), marco.rossi, lena.fischer (QA), tanvir.ahmed (DevOps).
 
