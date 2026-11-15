@@ -1,0 +1,111 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.ticket-fields
+  display: grid
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr)
+  gap: var(--base-size-24, 24px)
+  align-items: start
+
+  @media screen and (max-width: 768px)
+    grid-template-columns: minmax(0, 1fr)
+
+  &--types
+    list-style: none
+    margin: 0
+    padding: 0
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium, 6px)
+    max-height: 70vh
+    overflow-y: auto
+
+  &--type-link
+    display: flex
+    justify-content: space-between
+    gap: var(--base-size-8, 8px)
+    padding: var(--base-size-8, 8px) var(--base-size-12, 12px)
+    color: var(--fgColor-default)
+    text-decoration: none
+    border-left: 3px solid transparent
+
+    &:hover
+      background: var(--bgColor-muted)
+
+    &.-active
+      background: var(--bgColor-accent-muted)
+      border-left-color: var(--fgColor-accent)
+      font-weight: var(--base-text-weight-semibold, 600)
+
+  &--count
+    color: var(--fgColor-muted)
+    font-weight: normal
+
+  &--toolbar
+    display: flex
+    flex-wrap: wrap
+    gap: var(--base-size-8, 8px)
+    align-items: center
+    margin-bottom: var(--base-size-16, 16px)
+
+  &--search
+    flex: 1 1 220px
+
+  &--group
+    margin-bottom: var(--base-size-24, 24px)
+
+  &--group-header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    gap: var(--base-size-8, 8px)
+    border-bottom: 1px solid var(--borderColor-default)
+    margin-bottom: var(--base-size-8, 8px)
+
+  &--items
+    column-width: 240px
+    column-gap: var(--base-size-24, 24px)
+
+  &--item
+    display: flex
+    align-items: center
+    gap: var(--base-size-8, 8px)
+    padding: var(--base-size-4, 4px) 0
+    break-inside: avoid
+    cursor: pointer
+
+    &[hidden]
+      display: none
+
+  &--save-bar
+    position: sticky
+    bottom: 0
+    display: flex
+    gap: var(--base-size-8, 8px)
+    padding: var(--base-size-12, 12px) 0
+    background: var(--bgColor-default)
+    border-top: 1px solid var(--borderColor-default)

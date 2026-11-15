@@ -67,3 +67,22 @@
       // but I'm currently too lazy to figure it out
       flex-basis: 708px
       max-width: 100%
+
+.attributes-key-value--value-container:has(> .wp-attribute-group--assign-to-me)
+  flex-wrap: wrap
+
+.wp-attribute-group--assign-to-me
+  flex-basis: 100%
+  margin-top: var(--base-size-4, 4px)
+  font-size: var(--text-body-size-small, 12px)
+  line-height: 1.2
+  width: fit-content
+  padding: 0
+  border: 0
+  background: none
+  color: var(--fgColor-accent)
+  cursor: pointer
+  text-align: left
+
+  &:hover
+    text-decoration: underline

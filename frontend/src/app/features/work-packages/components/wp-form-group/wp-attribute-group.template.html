@@ -22,12 +22,22 @@
       @if (!descriptor.multiple && descriptor.field) {
         <div
           class="wp-attribute-group--attribute-value-container attributes-key-value--value-container"
+          (click)="refreshView()"
+          (keyup)="refreshView()"
           >
           <op-editable-attribute-field [ngClass]="{'wp-edit-formattable-field': descriptor.field!.isFormattable }"
             [resource]="workPackage"
             [isDropTarget]="descriptor.field!.isFormattable"
             [fieldName]="descriptor.field!.name"
            />
+          @if (showAssignToMe(descriptor)) {
+            <button type="button"
+               class="wp-attribute-group--assign-to-me"
+               [attr.data-test-selector]="'assign-to-me-' + descriptor.name"
+               (click)="assignToMe(descriptor, $event)">
+              {{ I18n.t('js.work_packages.assign_to_me') }}
+            </button>
+          }
         </div>
       }
     }

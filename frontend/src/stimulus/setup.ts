@@ -78,6 +78,7 @@ import SelectAutosizeController from 'core-stimulus/controllers/select-autosize.
 import OpZenModeController from 'core-stimulus/controllers/zen-mode.controller';
 import CheckAllController from 'core-stimulus/controllers/check-all.controller';
 import CheckableController from 'core-stimulus/controllers/checkable.controller';
+import FieldFilterController from 'core-stimulus/controllers/field-filter.controller';
 import ExpandableTextController from 'core-stimulus/controllers/expandable-text.controller';
 import { installElements } from '@openproject/stimulus-elements';
 
@@ -135,6 +136,7 @@ OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordFo
 OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
+OpenProjectStimulusApplication.preregister('field-filter', FieldFilterController);
 OpenProjectStimulusApplication.preregister('expandable-text', ExpandableTextController);
 
 installElements();
