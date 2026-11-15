@@ -23,6 +23,17 @@ x-neurvo: &neurvo
     SECRET_KEY_BASE: ${SECRET_KEY_BASE:?Set SECRET_KEY_BASE in .env.prod}
     RAILS_MIN_THREADS: 4
     RAILS_MAX_THREADS: 16
+    # Low-footprint defaults for teams of up to about 100 people. Raise them in .env.prod if you need more throughput.
+    OPENPROJECT_WEB_WORKERS: ${NEURVO_WEB_WORKERS:-1}
+    OPENPROJECT_GOOD__JOB__MAX__THREADS: ${NEURVO_JOB_THREADS:-5}
+    OPENPROJECT_GOOD__JOB__MAX__CACHE: 2000
+    OPENPROJECT_GOOD__JOB__CLEANUP__PRESERVED__JOBS__BEFORE__SECONDS__AGO: 172800
+    MALLOC_ARENA_MAX: 2
+  logging: &neurvo-logging
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
   volumes:
     - assets:/var/openproject/assets
 
@@ -34,6 +45,7 @@ services:
       POSTGRES_USER: neurvo
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: neurvo
+    logging: *neurvo-logging
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -42,11 +54,20 @@ services:
       retries: 10
 
   cache:
-    image: memcached:1.6
+    image: memcached:1.6-alpine
+    command: memcached -m 64
     restart: unless-stopped
+    logging: *neurvo-logging
 
+  # Only the seeder sees the first administrator's credentials; the web, worker and cron containers do not.
   seeder:
     <<: *neurvo
+    environment:
+      <<: *neurvo-env
+      OPENPROJECT_SEED_ADMIN_USER_MAIL: ${NEURVO_ADMIN_EMAIL:?Set NEURVO_ADMIN_EMAIL in .env.prod}
+      OPENPROJECT_SEED_ADMIN_USER_PASSWORD: ${NEURVO_ADMIN_PASSWORD:?Set NEURVO_ADMIN_PASSWORD in .env.prod}
+      OPENPROJECT_SEED_ADMIN_USER_NAME: ${NEURVO_ADMIN_NAME:-Neurvo Admin}
+      OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET: "false"
     command: ./docker/prod/seeder
     restart: on-failure
     depends_on:
@@ -70,8 +91,10 @@ services:
     depends_on:
       seeder: { condition: service_completed_successfully }
 
+  # Only needed to turn incoming email into tickets (set the IMAP_* variables). Start it with: --profile imap
   cron:
     <<: *neurvo
+    profiles: [imap]
     command: /app/docker/prod/cron
     depends_on:
       seeder: { condition: service_completed_successfully }
@@ -84,6 +107,7 @@ services:
       - "80:80"
       - "443:443"
     command: caddy reverse-proxy --from ${NEURVO_HOST} --to web:8080
+    logging: *neurvo-logging
     volumes:
       - caddy_data:/data
     depends_on:

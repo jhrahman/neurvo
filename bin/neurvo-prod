@@ -1,0 +1,4 @@
+#!/bin/sh
+# Shortcut for the production stack: ./bin/neurvo-prod up -d --build, ./bin/neurvo-prod logs -f web, ...
+cd "$(dirname "$0")/.." || exit 1
+exec docker compose --env-file .env.prod -f docker-compose.prod.yml "$@"
