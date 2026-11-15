@@ -101,7 +101,7 @@ en:
   label_sum: "Sum"
   label_units: "Units"
   label_week_reporting: "Week (Spent)"
-  label_work_package_attributes: "Work package attributes"
+  label_work_package_attributes: "Issue attributes"
   label_year_reporting: "Year (Spent)"
   label_yes: "Yes"
 

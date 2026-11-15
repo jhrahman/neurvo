@@ -106,10 +106,10 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     end
 
     it "renders the add work package menu actions" do
-      expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+      expect(rendered_component).to have_selector(:menuitem, "Add new issue") do |link|
         expect(link[:href]).to eq new_project_work_packages_dialog_path(project)
       end
-      expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+      expect(rendered_component).to have_selector(:menuitem, "Add existing issue") do |link|
         expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(project, list_type: "inbox")
       end
     end
@@ -123,8 +123,8 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       end
 
       it "does not render the add work package menu actions" do
-        expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
-        expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add new issue")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add existing issue")
       end
     end
   end
@@ -135,7 +135,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     it "shows the blankslate heading and description" do
       expect(rendered_component).to have_css("h4", text: "Backlog inbox is empty")
       expect(rendered_component)
-        .to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
+        .to have_text("Open issues that are not in a sprint or backlog bucket automatically appear here")
     end
   end
 

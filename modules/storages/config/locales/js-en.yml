@@ -7,20 +7,20 @@ en:
       drop_files: "Drop files here to upload them to %{name}."
       drop_or_click_files: "Drop files here or click to upload them to %{name}."
       file_links:
-        already_linked_directory: "This directory is already linked to this work package."
-        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this issue."
+        already_linked_file: "This file is already linked to this issue."
         download: "Download %{fileName}"
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from
+          Currently there are no linked files to this issue. Start linking files with the action below or from
           within %{storageType}.
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          An error occurred linking the recently uploaded file '%{fileName}' to the issue %{workPackageId}.
         open: "Open file on storage"
         open_location: "Open file in location"
         remove: "Remove file link"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file
-          and only removes the connection to this work package.
+          Are you sure you want to unlink the file from this issue? Unlinking does not affect the original file
+          and only removes the connection to this issue.
         remove_short: "Remove link"
         select: "Select files"
         select_all: "Select all"
@@ -83,9 +83,9 @@ en:
         live_data_error_description: >
           Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType}
           administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+        no_file_links: "In order to link files to this issue please do it via %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          To add a link, see or upload files related to this issue, please login to %{storageType}.
         suggest_logout: You can try whether logging out and back in fixes this problem.
         suggest_relink: You can try whether re-linking your account via the login button below fixes this problem.
 

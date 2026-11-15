@@ -180,7 +180,7 @@ module OpenProject::TextFormatting::Matchers
       # query is the technical/internal name of the concept
       def render_view
         if oid == "default"
-          link_to "Work packages",
+          link_to "Issues",
                   { controller: "work_packages", action: "index", project_id: project.id },
                   class: "query"
         end

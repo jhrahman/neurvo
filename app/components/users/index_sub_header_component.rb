@@ -64,7 +64,7 @@ module Users
     end
 
     def collapsed_search?
-      filter_input_value.blank?
+      false
     end
 
     def filters_expanded?

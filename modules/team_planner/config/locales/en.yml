@@ -5,7 +5,7 @@ en:
       team_planner_view: "Team planner"
     upsell:
       team_planner_view:
-        description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."
+        description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop issues to modify dates, move them or change assignees."
         title: "Team planner"
 
   permission_manage_team_planner: "Manage team planner"

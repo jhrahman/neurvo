@@ -82,8 +82,8 @@ RSpec.describe "Work package meeting outcomes", :js do
 
           show_page.open_menu(meeting_agenda_item) do
             click_on "Add outcome"
-            expect(page).to have_text("Existing work package")
-            click_on "Existing work package"
+            expect(page).to have_text("Existing issue")
+            click_on "Existing issue"
           end
 
           expect(page).to have_test_selector("op-agenda-item-outcome-wp-autocomplete")
@@ -108,7 +108,7 @@ RSpec.describe "Work package meeting outcomes", :js do
 
           show_page.open_menu(meeting_agenda_item) do
             click_on "Add outcome"
-            click_on "Existing work package"
+            click_on "Existing issue"
           end
 
           expect(page).to have_test_selector("op-agenda-item-outcome-wp-autocomplete")
@@ -147,8 +147,8 @@ RSpec.describe "Work package meeting outcomes", :js do
 
           show_page.open_menu(meeting_agenda_item) do
             click_on "Add outcome"
-            expect(page).to have_text("New work package")
-            click_on "New work package"
+            expect(page).to have_text("New issue")
+            click_on "New issue"
           end
 
           expect(page).to have_dialog(I18n.t(:label_work_package_new))
@@ -177,8 +177,8 @@ RSpec.describe "Work package meeting outcomes", :js do
 
           show_page.open_menu(meeting_agenda_item) do
             click_on "Add outcome"
-            expect(page).to have_text("New work package")
-            click_on "New work package"
+            expect(page).to have_text("New issue")
+            click_on "New issue"
           end
 
           expect(page).to have_dialog(I18n.t(:label_work_package_new))
@@ -205,8 +205,8 @@ RSpec.describe "Work package meeting outcomes", :js do
 
           show_page.open_menu(meeting_agenda_item) do
             click_on "Add outcome"
-            expect(page).to have_text("New work package")
-            click_on "New work package"
+            expect(page).to have_text("New issue")
+            click_on "New issue"
           end
 
           expect(page).to have_dialog(I18n.t(:label_work_package_new))
@@ -237,7 +237,7 @@ RSpec.describe "Work package meeting outcomes", :js do
 
             show_page.open_menu(meeting_agenda_item) do
               click_on "Add outcome"
-              click_on "New work package"
+              click_on "New issue"
             end
 
             expect(page).to have_dialog(I18n.t(:label_work_package_new))
@@ -274,8 +274,8 @@ RSpec.describe "Work package meeting outcomes", :js do
           show_page.open_menu(meeting_agenda_item) do
             click_on "Add outcome"
             expect(page).to have_text("Write outcome")
-            expect(page).to have_text("Existing work package")
-            expect(page).to have_no_text("New work package")
+            expect(page).to have_text("Existing issue")
+            expect(page).to have_no_text("New issue")
           end
         end
       end
@@ -304,7 +304,7 @@ RSpec.describe "Work package meeting outcomes", :js do
       wait_for_network_idle
 
       show_page.in_outcome_component(meeting_agenda_item) do
-        expect(page).to have_link("Private work package")
+        expect(page).to have_link("Private issue")
       end
 
       login_as(other_user)
@@ -313,7 +313,7 @@ RSpec.describe "Work package meeting outcomes", :js do
       wait_for_network_idle
 
       show_page.in_outcome_component(meeting_agenda_item) do
-        expect(page).to have_no_link("Private work package")
+        expect(page).to have_no_link("Private issue")
         expect(page).to have_text(I18n.t(:label_agenda_item_undisclosed_wp, id: other_wp.id))
       end
     end

@@ -108,7 +108,7 @@ en:
         no_results_description: Add a wiki provider to see them here.
         no_results_title: You don't have any wiki providers set up yet.
       wiki_providers:
-        index_description: Add an external wiki service to link work packages to existing wiki pages or create new ones directly from Neurvo.
+        index_description: Add an external wiki service to link issues to existing wiki pages or create new ones directly from Neurvo.
         label_add_new: Add new wiki provider
         label_edit: Edit XWiki provider
         label_new_provider: New XWiki provider
@@ -235,7 +235,7 @@ en:
         name: XWiki
     relation_page_links_component:
       empty_heading: No related pages
-      empty_text: Add wiki pages that are relevant to this work package.
+      empty_text: Add wiki pages that are relevant to this issue.
       link_existing: Existing wiki page
       link_new: New wiki page
     upsell:

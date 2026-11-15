@@ -93,14 +93,14 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         )
       end
 
-      it "renders story points on each work package card" do
+      it "renders story points on each issue card" do
         expect(rendered_component).to have_css("span", text: "5", aria: { hidden: true })
         expect(rendered_component).to have_css(".sr-only", text: "5 story points")
         expect(rendered_component).to have_css("span", text: "3", aria: { hidden: true })
         expect(rendered_component).to have_css(".sr-only", text: "3 story points")
       end
 
-      it "renders one Box-row per work package" do
+      it "renders one Box-row per issue" do
         expect(rendered_component).to have_text(work_package1.subject)
         expect(rendered_component).to have_text(work_package2.subject)
       end
@@ -121,7 +121,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_css(".Box[data-test-selector='sprint-#{sprint.id}']")
       end
 
-      it "wires draggable data on work package rows" do
+      it "wires draggable data on issue rows" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
           expect(row["data-controller"]).to eq("sortable-lists--item")
           expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
@@ -140,11 +140,11 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_element :"action-menu"
       end
 
-      it "renders the add work package menu actions" do
-        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+      it "renders the add issue menu actions" do
+        expect(rendered_component).to have_selector(:menuitem, "Add new issue") do |link|
           expect(link[:href]).to eq new_project_work_packages_dialog_path(project, sprint_id: sprint.id)
         end
-        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+        expect(rendered_component).to have_selector(:menuitem, "Add existing issue") do |link|
           expect(link[:href])
             .to eq add_existing_dialog_project_backlogs_work_packages_path(project, list_type: "sprint", list_id: sprint.id)
         end
@@ -159,7 +159,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                               priority: default_priority, story_points: 5, position: 1, sprint:)
       end
 
-      it "does not mark work package rows as draggable" do
+      it "does not mark issue rows as draggable" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}")
         expect(rendered_component)
           .to have_no_css(".Box-row#work_package_#{work_package1.id}[data-sortable-lists--item-id-value]")
@@ -170,9 +170,9 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_no_css(".op-work-package-card.Box-card--draggable")
       end
 
-      it "does not render the add work package menu actions" do
-        expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
-        expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
+      it "does not render the add issue menu actions" do
+        expect(rendered_component).to have_no_selector(:menuitem, "Add new issue")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add existing issue")
       end
     end
 
@@ -359,8 +359,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           expect(menu_items).to eq(
             [
               "Edit sprint",
-              "Add new work package",
-              "Add existing work package",
+              "Add new issue",
+              "Add existing issue",
               "Sprint board",
               "Burndown chart"
             ]
@@ -378,8 +378,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           expect(menu_items).to eq(
             [
               "Edit sprint",
-              "Add new work package",
-              "Add existing work package",
+              "Add new issue",
+              "Add existing issue",
               "Sprint report"
             ]
           )

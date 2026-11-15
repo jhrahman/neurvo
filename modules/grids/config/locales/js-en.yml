@@ -57,20 +57,20 @@ en:
           no_results: 'No time entries for the last 7 days.'
           title: 'Spent time (last 7 days)'
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: "Issues I am accountable for"
         work_packages_assigned:
-          title: 'Work packages assigned to me'
+          title: 'Issues assigned to me'
         work_packages_calendar:
           title: 'Calendar'
         work_packages_created:
-          title: 'Work packages created by me'
+          title: 'Issues created by me'
         work_packages_graph:
-          summary: "%{chartType} chart showing work packages which are %{description}."
-          title: 'Work packages graph'
+          summary: "%{chartType} chart showing issues which are %{description}."
+          title: 'Issues graph'
         work_packages_overview:
           placeholder: 'Click to edit ...'
-          title: 'Work packages overview'
+          title: 'Issues overview'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Issues table'
         work_packages_watched:
-          title: 'Work packages watched by me'
+          title: 'Issues watched by me'

@@ -65,7 +65,7 @@ RSpec.describe "version delete", :js do
       page.find_test_selector("version-delete-button").click
     end
 
-    expect_flash(type: :error, message: "There are also work packages in archived projects.")
+    expect_flash(type: :error, message: "There are also issues in archived projects.")
     expect(page).to have_css("a", text: "Archived child")
   end
 end

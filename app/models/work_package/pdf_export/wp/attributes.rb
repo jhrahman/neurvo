@@ -80,7 +80,7 @@ module WorkPackage::PDFExport::Wp::Attributes
     related_work_packages = group.query.results.work_packages
     write_group_title(group)
     if related_work_packages.empty?
-      write_inline_hint("[No work packages]")
+      write_inline_hint("[No issues]")
       return
     end
 
@@ -117,7 +117,7 @@ module WorkPackage::PDFExport::Wp::Attributes
     related_work_packages = group.query.results.work_packages
     write_group_title(group)
     if related_work_packages.empty?
-      write_inline_hint("[No work packages]")
+      write_inline_hint("[No issues]")
     else
       write_work_packages_table!(related_work_packages, group.query)
     end

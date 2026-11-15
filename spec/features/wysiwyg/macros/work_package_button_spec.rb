@@ -75,7 +75,7 @@ RSpec.describe "Wysiwyg work package button spec", :js do
           find(".spot-modal--submit-button").click
 
           # Find widget, click to show toolbar
-          modal = find(".button.op-uc-placeholder", text: "Create work package")
+          modal = find(".button.op-uc-placeholder", text: "Create issue")
 
           # Edit widget again
           modal.click

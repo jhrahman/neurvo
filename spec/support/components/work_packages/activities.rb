@@ -95,7 +95,7 @@ module Components
       def expect_internal_comment_confirmation_dialog
         page.within_test_selector("op-work-package-internal-comment-confirmation-dialog") do
           expect(page).to have_text("Make this comment public?")
-          expect(page).to have_text("Your comment will be visible to anyone who can access this work package. " \
+          expect(page).to have_text("Your comment will be visible to anyone who can access this issue. " \
                                     "Are you sure you want to do this?")
 
           yield if block_given?

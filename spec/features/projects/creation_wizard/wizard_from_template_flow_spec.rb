@@ -185,7 +185,7 @@ RSpec.describe "Project creation wizard from a template",
     # via User.execute_as_admin despite lacking add_work_packages permission
     click_button "Complete"
 
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    expect(page).to have_text("Project attributes saved and artefact issue created successfully.")
 
     # Verify we're redirected to the artefact work package
     project.reload

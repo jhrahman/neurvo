@@ -65,7 +65,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::SubHeaderComponent, ty
     it "shows no add-work-package option" do
       render_inline(described_class.new(project:, resource_planner: planner, view:))
 
-      expect(page).to have_no_text("Add work package")
+      expect(page).to have_no_text("Add issue")
     end
   end
 
@@ -85,7 +85,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::SubHeaderComponent, ty
     it "links an add-work-package option to the search dialog" do
       render_inline(described_class.new(project:, resource_planner: planner, view: manual_view))
 
-      expect(page).to have_text("Add work package")
+      expect(page).to have_text("Add issue")
       expect(page).to have_link(
         href: new_work_package_project_resource_planner_view_path(project, planner, manual_view)
       )

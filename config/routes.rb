@@ -791,6 +791,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resource :ticket_fields, only: %i[show update], controller: "ticket_fields"
     namespace :settings do
       resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
       resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
@@ -1204,6 +1205,7 @@ Rails.application.routes.draw do
       get "/change_status/:change_action" => "users#change_status_info", as: "change_status_info"
       post :change_status
       post :resend_invitation
+      post :send_password_reset
       patch :update_reminders
       patch :update_workdays
       patch :update_email_alerts

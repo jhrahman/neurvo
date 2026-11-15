@@ -135,7 +135,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         :"clipboard-copy",
         id: "work_package_#{work_package.id}_menu_copy_work_package_id",
         value: work_package.id.to_s,
-        text: "Copy work package ID"
+        text: "Copy issue ID"
       )
     end
 

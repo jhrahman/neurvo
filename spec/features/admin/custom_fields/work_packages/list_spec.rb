@@ -122,7 +122,7 @@ RSpec.describe "work package list custom fields", :js do
 
     it "shows the correct breadcrumbs" do
       page.within_test_selector("custom-fields--page-header") do
-        expect(page).to have_css(".breadcrumb-item", text: "Work packages")
+        expect(page).to have_css(".breadcrumb-item", text: "Issues")
         expect(page).to have_css(".breadcrumb-item.breadcrumb-item-selected", text: "Platform")
       end
     end

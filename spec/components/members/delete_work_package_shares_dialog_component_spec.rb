@@ -55,8 +55,8 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
   end
   let(:all_shared_work_packages_count) { 5 }
   let(:shared_work_packages_count) { 3 }
-  let(:all_shared_work_packages_link) { "[all shared work packages link]" }
-  let(:shared_work_packages_link) { "[shared work packages link]" }
+  let(:all_shared_work_packages_link) { "[all shared issues link]" }
+  let(:shared_work_packages_link) { "[shared issues link]" }
   let(:administration_settings_link) { "[administration settings link]" }
   let(:may_manage_user?) { true }
 
@@ -79,13 +79,13 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
       render_inline(described_class.new(member, row:))
 
       expect(page).to have_css "dialog"
-      expect(page).to have_css "h1", text: "Revoke work package shares"
+      expect(page).to have_css "h1", text: "Revoke issue shares"
 
       expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-        [all shared work packages link] have been shared with this user.
-        Only [shared work packages link] have been shared with [shared role name] permissions.
-        Would you like to revoke access to all shared work packages, or only those with [shared role name] permissions?
-        (This will not affect work packages shared with their group).
+        [all shared issues link] have been shared with this user.
+        Only [shared issues link] have been shared with [shared role name] permissions.
+        Would you like to revoke access to all shared issues, or only those with [shared role name] permissions?
+        (This will not affect issues shared with their group).
       TEXT
 
       expect(page).to have_button "Cancel"
@@ -111,12 +111,12 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
         render_inline(described_class.new(member, row:))
 
         expect(page).to have_css "dialog"
-        expect(page).to have_css "h1", text: "Revoke work package shares"
+        expect(page).to have_css "h1", text: "Revoke issue shares"
 
         expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-          [all shared work packages link] have been shared with this user.
-          Only [shared work packages link] have been shared with [shared role name] permissions.
-          Would you like to revoke access to all shared work packages, or only those with [shared role name] permissions?
+          [all shared issues link] have been shared with this user.
+          Only [shared issues link] have been shared with [shared role name] permissions.
+          Would you like to revoke access to all shared issues, or only those with [shared role name] permissions?
         TEXT
 
         expect(page).to have_button "Cancel"
@@ -133,12 +133,12 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
         render_inline(described_class.new(member, row:))
 
         expect(page).to have_css "dialog"
-        expect(page).to have_css "h1", text: "Revoke work package shares"
+        expect(page).to have_css "h1", text: "Revoke issue shares"
 
         expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-          [all shared work packages link] have been shared with this group.
-          Only [shared work packages link] have been shared with [shared role name] permissions.
-          Would you like to revoke access to all shared work packages, or only those with [shared role name] permissions?
+          [all shared issues link] have been shared with this group.
+          Only [shared issues link] have been shared with [shared role name] permissions.
+          Would you like to revoke access to all shared issues, or only those with [shared role name] permissions?
         TEXT
 
         expect(page).to have_button "Cancel"
@@ -161,10 +161,10 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
       render_inline(described_class.new(member, row:))
 
       expect(page).to have_css "dialog"
-      expect(page).to have_css "h1", text: "Revoke work package shares"
+      expect(page).to have_css "h1", text: "Revoke issue shares"
 
       expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-        The work packages shares with role [shared role name] are shared via groups and cannot be removed.
+        The issues shares with role [shared role name] are shared via groups and cannot be removed.
         You can either revoke the share to the group or remove this specific member from the group in the [administration settings link].
       TEXT
 
@@ -186,11 +186,11 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
       render_inline(described_class.new(member, row:))
 
       expect(page).to have_css "dialog"
-      expect(page).to have_css "h1", text: "Revoke work package shares"
+      expect(page).to have_css "h1", text: "Revoke issue shares"
 
       expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-        [all shared work packages link] have been shared with this user.
-        This action will revoke their access to all of them, but the work packages shared with a group.
+        [all shared issues link] have been shared with this user.
+        This action will revoke their access to all of them, but the issues shared with a group.
       TEXT
 
       expect(page).to have_button "Cancel"
@@ -215,10 +215,10 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
         render_inline(described_class.new(member, row:))
 
         expect(page).to have_css "dialog"
-        expect(page).to have_css "h1", text: "Revoke work package shares"
+        expect(page).to have_css "h1", text: "Revoke issue shares"
 
         expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-          [all shared work packages link] have been shared with this user.
+          [all shared issues link] have been shared with this user.
           This action will revoke their access to all of them.
         TEXT
 
@@ -235,10 +235,10 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
         render_inline(described_class.new(member, row:))
 
         expect(page).to have_css "dialog"
-        expect(page).to have_css "h1", text: "Revoke work package shares"
+        expect(page).to have_css "h1", text: "Revoke issue shares"
 
         expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-          [all shared work packages link] have been shared with this group.
+          [all shared issues link] have been shared with this group.
           This action will revoke their access to all of them.
         TEXT
 
@@ -261,10 +261,10 @@ RSpec.describe Members::DeleteWorkPackageSharesDialogComponent, type: :component
       render_inline(described_class.new(member, row:))
 
       expect(page).to have_css "dialog"
-      expect(page).to have_css "h1", text: "Revoke work package shares"
+      expect(page).to have_css "h1", text: "Revoke issue shares"
 
       expect(page).to have_css "scrollable-region", normalize_ws: true, exact_text: <<~TEXT.squish
-        The work packages shares shared via groups cannot be removed.
+        The issues shares shared via groups cannot be removed.
         You can either revoke the share to the group or remove this specific member from the group in the [administration settings link].
       TEXT
 

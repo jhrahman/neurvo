@@ -33,7 +33,8 @@
 class RootSeeder < Seeder
   attr_reader :raise_on_unknown_language
 
-  def initialize(seed_development_data: Rails.env.development?, raise_on_unknown_language: false)
+  def initialize(seed_development_data: Rails.env.development? && ENV["NEURVO_SEED_DEVELOPMENT_DATA"] == "true",
+                 raise_on_unknown_language: false)
     super()
 
     @seed_development_data = seed_development_data

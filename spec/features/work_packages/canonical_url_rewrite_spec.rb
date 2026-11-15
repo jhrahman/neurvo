@@ -95,8 +95,8 @@ RSpec.describe "Work package canonical URL rewrite",
     let!(:wiki_page) do
       create(:wiki_page,
              wiki: project.wiki,
-             title: "Wiki page with work package link",
-             text: "See [the work package](#{numeric_path}) for details.")
+             title: "Wiki page with issue link",
+             text: "See [the issue](#{numeric_path}) for details.")
     end
 
     it "rewrites a numeric ID in a followed user-content link to the canonical semantic ID" do
@@ -107,7 +107,7 @@ RSpec.describe "Work package canonical URL rewrite",
       # intercept — the click is a full page load, so the rewrite runs on
       # DOMContentLoaded and the self-waiting matcher below covers it. wait_for_turbo
       # cannot be used across a full load (its listener registry does not survive).
-      within(".wiki-content") { click_link "the work package" }
+      within(".wiki-content") { click_link "the issue" }
 
       expect(page).to have_current_path(semantic_path)
       full_screen.ensure_page_loaded

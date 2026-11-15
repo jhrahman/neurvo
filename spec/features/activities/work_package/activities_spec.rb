@@ -231,8 +231,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       it "allows commenting on the work package" do
         activity_tab.expect_input_field
 
-        activity_tab.add_comment(text: "First comment by user with commenting permission via a work package share")
-        activity_tab.expect_journal_notes(text: "First comment by user with commenting permission via a work package share")
+        activity_tab.add_comment(text: "First comment by user with commenting permission via an issue share")
+        activity_tab.expect_journal_notes(text: "First comment by user with commenting permission via an issue share")
       end
     end
 

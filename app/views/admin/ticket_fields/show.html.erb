@@ -1,0 +1,90 @@
+<% html_title t(:label_administration), t("admin.ticket_fields.title") %>
+
+<%= render Primer::OpenProject::PageHeader.new do |header| %>
+  <% header.with_title { t("admin.ticket_fields.title") } %>
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                              t("admin.ticket_fields.title")]) %>
+<% end %>
+
+<p><%= t("admin.ticket_fields.description") %></p>
+
+<% default_fields, custom_fields = @attributes.partition { |key, _| !key.start_with?("custom_field_") } %>
+
+<div class="ticket-fields">
+  <nav aria-label="<%= t("admin.ticket_fields.types") %>">
+    <ul class="ticket-fields--types">
+      <% @types.each do |type| %>
+        <li>
+          <%= link_to admin_ticket_fields_path(type_id: type.id),
+                      class: "ticket-fields--type-link #{'-active' if type == @type}",
+                      "aria-current": (type == @type ? "page" : nil) do %>
+            <span><%= type.name %></span>
+            <span class="ticket-fields--count"><%= @counts[type.id] %>/<%= @attributes.size %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <div data-controller="field-filter">
+    <div class="ticket-fields--toolbar">
+      <input type="search"
+             class="form--text-field ticket-fields--search"
+             placeholder="<%= t("admin.ticket_fields.search") %>"
+             aria-label="<%= t("admin.ticket_fields.search") %>"
+             data-field-filter-target="input"
+             data-action="input->field-filter#filter">
+
+      <%= form_with url: admin_ticket_fields_path, method: :patch, class: "ticket-fields--copy" do %>
+        <%= hidden_field_tag :type_id, @type.id %>
+        <%= select_tag :copy_from,
+                       options_for_select(@types.reject { |t| t == @type }.map { |t| [t.name, t.id] }),
+                       prompt: t("admin.ticket_fields.copy_from"),
+                       "aria-label": t("admin.ticket_fields.copy_from") %>
+        <%= submit_tag t("admin.ticket_fields.copy"), class: "button" %>
+      <% end %>
+    </div>
+
+    <%= form_with url: admin_ticket_fields_path, method: :patch do %>
+      <%= hidden_field_tag :type_id, @type.id %>
+
+      <% { "default" => [t("admin.ticket_fields.default_fields"), default_fields],
+           "custom" => [t("admin.ticket_fields.custom_fields"), custom_fields] }.each do |group, (title, rows)| %>
+        <% next if rows.empty? && group == "default" %>
+        <section class="ticket-fields--group" data-field-filter-target="group" data-group="<%= group %>">
+          <div class="ticket-fields--group-header">
+            <h3><%= title %></h3>
+            <span>
+              <button type="button" class="button -small"
+                      data-action="field-filter#checkVisible" data-field-filter-group-param="<%= group %>">
+                <%= t("admin.ticket_fields.enable_all") %>
+              </button>
+              <button type="button" class="button -small"
+                      data-action="field-filter#uncheckVisible" data-field-filter-group-param="<%= group %>">
+                <%= t("admin.ticket_fields.disable_all") %>
+              </button>
+            </span>
+          </div>
+          <div class="ticket-fields--items">
+            <% rows.each do |key, label| %>
+              <label class="ticket-fields--item" data-field-filter-target="item">
+                <%= check_box_tag "fields[]", key, @active.include?(key), id: "field_#{key}" %>
+                <span><%= label %></span>
+                <% if group == "custom" %>
+                  <%= link_to t("admin.ticket_fields.edit_custom_field"), edit_custom_field_path(key.delete_prefix("custom_field_")) %>
+                <% end %>
+              </label>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+
+      <p class="ticket-fields--empty" data-field-filter-target="empty" hidden><%= t("admin.ticket_fields.no_match") %></p>
+
+      <div class="ticket-fields--save-bar">
+        <%= submit_tag t("admin.ticket_fields.save_for", type: @type.name), class: "button -primary" %>
+        <%= link_to t("admin.ticket_fields.new_custom_field"), new_custom_field_path(type: "WorkPackageCustomField"), class: "button" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -59,14 +59,14 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ContentComponent, type
 
       expect(page).to have_no_css("[data-controller='resource-management--resource-timeline']")
       expect(page).to have_css(".blankslate")
-      expect(page).to have_text("No work packages to display")
+      expect(page).to have_text("No issues to display")
     end
 
     context "with an automatically filtered view" do
       it "explains that nothing matches the filters and offers no add button" do
         render_inline(described_class.new(view:, project:, resource_planner: planner, work_packages: []))
 
-        expect(page).to have_text("There are no work packages matching this view's filters yet.")
+        expect(page).to have_text("There are no issues matching this view's filters yet.")
         expect(page).to have_no_css("a[href='#{new_work_package_project_resource_planner_view_path(project, planner, view)}']")
       end
 
@@ -97,11 +97,11 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ContentComponent, type
       it "invites adding a work package through the add dialog" do
         render_inline(described_class.new(view: manual_view, project:, resource_planner: planner, work_packages: []))
 
-        expect(page).to have_text("Add work packages to this view to plan their allocation over time.")
+        expect(page).to have_text("Add issues to this view to plan their allocation over time.")
         expect(page).to have_css(
           "a[data-controller='async-dialog']" \
           "[href='#{new_work_package_project_resource_planner_view_path(project, planner, manual_view)}']",
-          text: "Add work package"
+          text: "Add issue"
         )
       end
     end

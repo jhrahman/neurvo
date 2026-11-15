@@ -55,7 +55,7 @@ RSpec.describe "inline create work package", :js, :selenium do
 
         # Expect new create row to exist
         expect(page).to have_css(".wp--row", count: 2)
-        expect(page).to have_button(exact_text: "Create new work package")
+        expect(page).to have_button(exact_text: "Create new issue")
 
         wp_table.click_inline_create
 
@@ -86,7 +86,7 @@ RSpec.describe "inline create work package", :js, :selenium do
 
       it "renders the work package, but no create row" do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_button(exact_text: "Create new work package")
+        expect(page).to have_no_button(exact_text: "Create new issue")
       end
     end
 
@@ -192,7 +192,7 @@ RSpec.describe "inline create work package", :js, :selenium do
 
       it "renders the work packages, but no create" do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_button(exact_text: "Create new work package")
+        expect(page).to have_no_button(exact_text: "Create new issue")
         expect(page).to have_css(".add-work-package[disabled]")
       end
     end

@@ -98,7 +98,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
 
     it "does not render the success banner" do
       render_component(component)
-      expect(page).to have_no_text("Successfully updated work package identifier format.")
+      expect(page).to have_no_text("Successfully updated issue identifier format.")
     end
 
     it "renders the radio buttons as disabled" do
@@ -124,7 +124,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
 
     it "renders the success banner" do
       render_component(component)
-      expect(page).to have_text("Successfully updated work package identifier format.")
+      expect(page).to have_text("Successfully updated issue identifier format.")
     end
 
     it "does not render the in-progress content" do
@@ -178,7 +178,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
       render_component(component)
       expect(page).to have_no_text("Converting to")
       expect(page).to have_no_test_selector("conversion-progress-bar")
-      expect(page).to have_no_text("Successfully updated work package identifier format.")
+      expect(page).to have_no_text("Successfully updated issue identifier format.")
     end
 
     context "with problematic projects and semantic setting",

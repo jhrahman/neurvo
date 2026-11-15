@@ -540,14 +540,14 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-custom-label")
       ) do |list|
-        list.with_header(title: "Counted", count: 3, count_label: "3 work packages")
+        list.with_header(title: "Counted", count: 3, count_label: "3 issues")
         list.with_item { "row" }
       end
 
       expect(rendered).to have_css(
         ".Counter",
         text: "3",
-        aria: { label: "3 work packages" }
+        aria: { label: "3 issues" }
       )
     end
 
@@ -669,7 +669,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         end
       end
 
-      it "renders the work package row" do
+      it "renders the issue row" do
         expect(rendered_component).to have_css(
           ".Box-row#work_package_#{work_package.id}"
         )
@@ -773,7 +773,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         end
       end
 
-      it "passes the work package's project when project: is omitted" do
+      it "passes the issue's project when project: is omitted" do
         expect(rendered_component).to have_css(
           ".Box-row[data-project='#{work_package.project.id}']"
         )

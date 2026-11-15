@@ -293,7 +293,7 @@ RSpec.describe "Primerized work package relations tab",
       relations_tab.open_relation_dialog(relation_relates)
 
       within "##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}" do
-        expect(page).to have_field("Work package", readonly: true)
+        expect(page).to have_field("Issue", readonly: true)
         expect(page).to have_no_field("Lag")
       end
     end
@@ -320,7 +320,7 @@ RSpec.describe "Primerized work package relations tab",
         relations_tab.open_relation_dialog(another_wp)
 
         within "##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}" do
-          expect(page).to have_field("Work package",
+          expect(page).to have_field("Issue",
                                      readonly: true,
                                      with: "#{another_wp.type.name.upcase} ##{another_wp.id} - #{another_wp.subject}")
         end
@@ -365,7 +365,7 @@ RSpec.describe "Primerized work package relations tab",
 
       wait_for_network_idle
 
-      expect(page).to have_text "The selected work package could not be found."
+      expect(page).to have_text "The selected issue could not be found."
 
       relations_tab.search_in_autocompleter(wp_blocks)
 

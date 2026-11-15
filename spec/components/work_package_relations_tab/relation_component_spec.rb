@@ -89,7 +89,7 @@ RSpec.describe WorkPackageRelationsTab::RelationComponent, type: :component do
 
       it "renders a title and message without details" do
         rendered_component = render_component(relation_item:)
-        expect(rendered_component).to have_text "Related work package"
+        expect(rendered_component).to have_text "Related issue"
         expect(rendered_component).to have_text "This is not visible to you due to permissions."
       end
 
@@ -135,7 +135,7 @@ RSpec.describe WorkPackageRelationsTab::RelationComponent, type: :component do
 
       it "renders a title and message without details" do
         rendered_component = render_component(relation_item:)
-        expect(rendered_component).to have_text "Related work package"
+        expect(rendered_component).to have_text "Related issue"
         expect(rendered_component).to have_text "This is not visible to you due to permissions."
       end
 
@@ -188,7 +188,7 @@ RSpec.describe WorkPackageRelationsTab::RelationComponent, type: :component do
       end
 
       it "renders a title and message without details" do
-        expect(rendered_component).to have_text "Related work package"
+        expect(rendered_component).to have_text "Related issue"
         expect(rendered_component).to have_text "This is not visible to you due to permissions."
       end
 

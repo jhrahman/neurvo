@@ -93,8 +93,8 @@ RSpec.describe "Edit", :js do
         planning_page.within_sprint_menu(first_sprint) do |menu|
           expect(menu).to have_selector :menuitem, count: 3
           expect(menu).to have_selector :menuitem, "Edit sprint"
-          expect(menu).to have_selector :menuitem, "Add new work package"
-          expect(menu).to have_selector :menuitem, "Add existing work package"
+          expect(menu).to have_selector :menuitem, "Add new issue"
+          expect(menu).to have_selector :menuitem, "Add existing issue"
         end
       end
 
@@ -150,7 +150,7 @@ RSpec.describe "Edit", :js do
             expect(menu).to have_selector :menuitem, count: 1
             expect(menu).to have_selector :menuitem, "Edit sprint"
 
-            expect(menu).to have_no_selector :menuitem, "Add new work package"
+            expect(menu).to have_no_selector :menuitem, "Add new issue"
           end
         end
       end

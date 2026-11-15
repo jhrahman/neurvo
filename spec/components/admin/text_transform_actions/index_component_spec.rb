@@ -112,7 +112,7 @@ RSpec.describe Admin::TextTransformActions::IndexComponent, type: :component do
       expect(row_a).to have_css("[data-test-selector='toggle-text-transform-action-#{action_a.id}'] [aria-pressed='true']")
 
       row_b = page.find("[data-test-selector='text-transform-action-row-#{action_b.id}']")
-      expect(row_b).to have_css("[data-test-selector='text-transform-action-scope']", text: "2 work package types")
+      expect(row_b).to have_css("[data-test-selector='text-transform-action-scope']", text: "2 issue types")
       expect(row_b).to have_css("[data-test-selector='toggle-text-transform-action-#{action_b.id}'] [aria-pressed='false']")
     end
 

@@ -208,7 +208,7 @@ RSpec.describe "Open the Meetings tab",
 
         meetings_tab.expect_upcoming_counter_to_be(0)
 
-        expect(page).to have_content("This work package is not scheduled in an upcoming meeting agenda yet.")
+        expect(page).to have_content("This issue is not scheduled in an upcoming meeting agenda yet.")
       end
     end
 
@@ -220,7 +220,7 @@ RSpec.describe "Open the Meetings tab",
         meetings_tab.expect_past_counter_to_be(0)
         meetings_tab.switch_to_past_meetings_section
 
-        expect(page).to have_content("This work package was not added as an agenda item in a past meeting.")
+        expect(page).to have_content("This issue was not added as an agenda item in a past meeting.")
       end
     end
 

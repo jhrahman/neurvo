@@ -245,7 +245,7 @@ module Components
         open_relation_dialog(relatable)
 
         within "##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}" do
-          expect(page).to have_field("Work package", readonly: true)
+          expect(page).to have_field("Issue", readonly: true)
           expect(page).to have_field("Description")
 
           fill_in "Description", with: description
@@ -260,7 +260,7 @@ module Components
         open_relation_dialog(relatable)
 
         within "##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}" do
-          expect(page).to have_field("Work package", readonly: true)
+          expect(page).to have_field("Issue", readonly: true)
           expect(page).to have_field("Lag")
 
           fill_in "Lag", with: lag
@@ -304,7 +304,7 @@ module Components
       end
 
       def expect_no_relations
-        expect(page).to have_test_selector("no-relations-blankslate", text: "This work package does not have any relations yet.")
+        expect(page).to have_test_selector("no-relations-blankslate", text: "This issue does not have any relations yet.")
       end
 
       def add_parent(work_package)

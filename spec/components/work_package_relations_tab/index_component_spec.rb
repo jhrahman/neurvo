@@ -46,7 +46,7 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
   context "with no relations" do
     it "renders a message" do
       expect(render_component).to have_heading "No relations"
-      expect(page).to have_text "This work package does not have any relations yet."
+      expect(page).to have_text "This issue does not have any relations yet."
     end
   end
 

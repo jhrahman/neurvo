@@ -135,7 +135,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
       expect(page).to have_test_selector("blocknote-document-description")
       editor.fill_in("/openproject")
-      expect(editor.content).to have_content("Link existing work package")
+      expect(editor.content).to have_content("Link existing issue")
     end
 
     it "orders results of the work package search by updated at DESC" do

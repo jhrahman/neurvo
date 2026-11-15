@@ -115,7 +115,7 @@ RSpec.describe "Primerized work package relations tab syncing with other element
       find(".menu-item", text: "Add successor").click
 
       # Dismiss the flash for visibility
-      expect(page).to have_text "Click on any highlighted work package to create the relation"
+      expect(page).to have_text "Click on any highlighted issue to create the relation"
       find(".op-toast.-info .op-toast--close").click
 
       script = <<~JS

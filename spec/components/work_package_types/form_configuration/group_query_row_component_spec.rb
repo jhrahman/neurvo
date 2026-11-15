@@ -15,7 +15,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
     render_inline(described_class.new(group:, ee_available: true, readonly: true))
 
     expect(page).to have_no_test_selector("type-form-configuration-query-actions-query-1")
-    expect(page).to have_text("Related work packages table")
+    expect(page).to have_text("Related issues table")
   end
 
   describe "the exclusion toggle" do

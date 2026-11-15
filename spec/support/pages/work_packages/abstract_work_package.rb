@@ -306,7 +306,7 @@ module Pages
     end
 
     def click_add_wp_button
-      find(".add-work-package:not([disabled])", text: "Work package").click
+      find(".add-work-package:not([disabled])", text: "Issue").click
     end
 
     def click_create_wp_button(type)

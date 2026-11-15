@@ -80,16 +80,16 @@ RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_tran
     expect(page).to have_current_path(new_admin_text_transform_action_path)
 
     expect(page).to have_no_test_selector("text-transform-action-select-types")
-    expect(page).to have_no_field("Insert work package type template")
+    expect(page).to have_no_field("Insert issue type template")
 
     fill_in "Label", with: "Translate to English"
     fill_in "Prompt", with: "Translate the text into English."
     select "Specific work package types", from: "Scope"
     expect(page).to have_test_selector("text-transform-action-select-types")
-    expect(page).to have_field("Insert work package type template")
+    expect(page).to have_field("Insert issue type template")
 
     wait_for_turbo_stream { click_on "Create" }
-    expect(page).to have_text("Work package types can't be blank")
+    expect(page).to have_text("Issue types can't be blank")
 
     find_test_selector("text-transform-action-select-types").click
     within_test_selector("text-transform-action-types-panel") do

@@ -202,7 +202,7 @@ en:
       axis_criteria: "Axis criteria"
       errors:
         could_not_load: "The data to display the graph could not be loaded. The necessary permissions may be lacking."
-      modal_title: "Work package graph configuration"
+      modal_title: "Issue graph configuration"
       tabs:
         dataset: "Dataset %{number}"
         graph_settings: "General"
@@ -233,8 +233,8 @@ en:
 
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "
-    description_select_work_package: "Select work package #%{id}"
-    description_subwork_package: "Child of work package #%{id}"
+    description_select_work_package: "Select issue #%{id}"
+    description_subwork_package: "Child of issue #%{id}"
     editor:
       ckeditor_error: "An error occurred within CKEditor"
       code_block:
@@ -244,8 +244,8 @@ en:
         attribute_reference:
           aria_label_project_attribute: "A dynamic project attribute placed using a macro."
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: "A dynamic work package attribute placed using a macro."
-          aria_label_work_package_link: "A dynamic link to a work package placed using a macro."
+          aria_label_work_package_attribute: "A dynamic issue attribute placed using a macro."
+          aria_label_work_package_link: "A dynamic link to an issue placed using a macro."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
           nested_macro: "This macro is recursively referencing %{model} %{id}."
           not_found: "Requested resource could not be found"
@@ -265,8 +265,8 @@ en:
         embedded_calendar:
           text: "[Placeholder] Embedded calendar"
         embedded_table:
-          button: "Embed work package table"
-          text: "[Placeholder] Embedded work package table"
+          button: "Embed issue table"
+          text: "[Placeholder] Embedded issue table"
         error: "Cannot expand macro: %{message}"
         macro_dropdown:
           caption: "Insert"
@@ -281,12 +281,12 @@ en:
           page: "Wiki page"
           text: "[Placeholder] Included wiki page of"
         work_package_button:
-          button: "Insert create work package button"
+          button: "Insert create issue button"
           button_style: "Use button style"
           button_style_hint: "Optional: Check to make macro appear as a button, not as a link."
-          type: "Work package type"
-          with_type: "Create work package (Type: %{typename})"
-          without_type: "Create work package"
+          type: "Issue type"
+          with_type: "Create issue (Type: %{typename})"
+          without_type: "Create issue"
       mode:
         manual: "Switch to Markdown source"
         wysiwyg: "Switch to WYSIWYG editor"
@@ -296,7 +296,7 @@ en:
       source_code: "Toggle Markdown source mode"
     enumeration_activities: "Activities (time tracking)"
     enumeration_doc_categories: "Document categories"
-    enumeration_work_package_priorities: "Work package priorities"
+    enumeration_work_package_priorities: "Issue priorities"
 
     error:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
@@ -362,7 +362,7 @@ en:
         title: "Label configuration"
       quarter_label: "Q%{quarter_number}"
       selection_mode:
-        notification: "Click on any highlighted work package to create the relation. Press escape to cancel."
+        notification: "Click on any highlighted issue to create the relation. Press escape to cancel."
       zoom:
         auto: "Auto zoom"
         days: "Days"
@@ -384,10 +384,10 @@ en:
       close_search: "Close search"
       current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
-      direct_hit_available: "Work package with exact ID found. Press Enter to open it."
+      direct_hit_available: "Issue with exact ID found. Press Enter to open it."
       items_available: "%{count} items available"
       recently_viewed: "Recently viewed"
-      search_placeholder_expanded: "Search work packages by subject, project, type, status or ID"
+      search_placeholder_expanded: "Search issues by subject, project, type, status or ID"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
@@ -405,7 +405,7 @@ en:
 
     ical_sharing_modal:
       copy_url_label: "Copy URL"
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
+      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date issue information from there."
       ical_generation_error_text: "An error occured while generating the calendar URL."
       inital_setup_error_message: "An error occured while fetching data."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
@@ -413,7 +413,7 @@ en:
       token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.'
       token_name_label: "Where will you be using this?"
       token_name_placeholder: 'Type a name, e.g. "Phone"'
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
+      warning: "Please don't share this URL with other users. Anyone with this link will be able to view issue details without an account or password."
 
     include_projects:
       apply: "Apply"
@@ -475,11 +475,11 @@ en:
     label_all: "all"
     label_all_projects: "All projects"
     label_all_uppercase: "All"
-    label_all_work_packages: "all work packages"
+    label_all_work_packages: "all issues"
     label_and: "and"
     label_ascending: "Ascending"
     label_assignee: "Assignee"
-    label_assignee_alt_text: "This work package is assigned to %{name}"
+    label_assignee_alt_text: "This issue is assigned to %{name}"
     label_attachments: Attachments
     label_author: "Author: %{user}"
     label_avatar: "Avatar"
@@ -490,7 +490,7 @@ en:
     label_board_sticky: "Sticky"
     label_cancel_comment: "Cancel comment"
     label_change: "Change"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Issue's children derived duration"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
     label_collapse_all: "Collapse all"
@@ -500,7 +500,7 @@ en:
     label_comment: "Comment"
     label_contains: "contains"
     label_create: "Create"
-    label_create_work_package: "Create new work package"
+    label_create_work_package: "Create new issue"
     label_created_by: "Created by"
     label_created_on: "created on"
     label_current: "current"
@@ -517,7 +517,7 @@ en:
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_edit_comment: "Edit this comment"
-    label_edit_status: "Edit the status of the work package"
+    label_edit_status: "Edit the status of the issue"
     label_email: "Email"
     label_equals: "is"
     label_expand: "Expand"
@@ -625,14 +625,14 @@ en:
     label_total_progress: "%{percent}% Total progress"
     label_total_sum: "Total sum"
     label_unwatch: "Unwatch"
-    label_unwatch_work_package: "Unwatch work package"
+    label_unwatch_work_package: "Unwatch issue"
     label_up: "Up"
     label_updated_on: "updated on"
     label_upload_counter: "%{done} of %{count} files finished"
     label_upload_notification: "Uploading files..."
     label_uploaded_by: "Uploaded by"
     label_user_plural: "Users"
-    label_validation_error: "The work package could not be saved due to the following errors:"
+    label_validation_error: "The issue could not be saved due to the following errors:"
     label_value_derived_from_children: "(value derived from children)"
     label_version_plural: "Versions"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
@@ -640,15 +640,15 @@ en:
     label_wait: "Please wait for configuration..."
     label_warning: "Warning"
     label_watch: "Watch"
-    label_watch_work_package: "Watch work package"
+    label_watch_work_package: "Watch issue"
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package: "Work package"
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package: "Issue"
+    label_work_package_context_menu: "Issue context menu"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
-    label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_work_package_parent: "Parent issue"
+    label_work_package_plural: "Issues"
+    label_work_package_upload_notification: "Uploading files for Issue #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     modals:
       button_apply: "Apply"
@@ -745,20 +745,20 @@ en:
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         team_planner:
           add_assignee: "To get started, add assignees to the team planner."
-          add_existing: "Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates."
-          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
-          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
+          add_existing: "Search for existing issues and drag them to the team planner to instantly assign them to a team member and define start and end dates."
+          calendar: "The weekly or biweekly planning board displays all issues assigned to your team members."
+          card: "Drag issues horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
           overview: "The team planner lets you visually assign tasks to team members and get an overview of who is working on what."
         welcome: "Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time."
         wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
         wp:
-          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
-          create_button: "The <b>+ Create</b> button will add a new work package to your project."
-          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
+          back_button: "Use the return arrow in the top left corner to exit and return to the issue list."
+          create_button: "The <b>+ Create</b> button will add a new issue to your project."
+          full_view: "The <b>issue details</b> view provides all the relevant information pertaining to a given issue, such as its description, status, priority, activities, dependencies, and comments."
           gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
-          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
-          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Issues can be created and edited directly from this view. To access the details of a particular issue, simply double-click its row."
+          timeline: "Here you can <b>edit your project plan</b>, create new issues, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
+          toggler: "Now let's have a look at the <b>issue</b> section, which gives you a more detailed view of your work."
     open_project_storage_modal:
       waiting_subtitle:
         network_off: "There is a network problem."
@@ -780,7 +780,7 @@ en:
       description: "Description: Click to edit..."
       relation_description: "Click to add description for this relation"
       selection: "Please select"
-      subject: "Enter subject here"
+      subject: "Give an issue title..."
 
     project:
       autocompleter:
@@ -788,11 +788,11 @@ en:
       click_to_switch_to_project: "Project: %{projectname}"
       context: "Project context"
       hint_on_create: >
-        The project decides who can see and work on this ticket, its workflow and fields,
+        The project decides who can see and work on this issue, its workflow and fields,
         and which boards, sprints and versions it can be planned in.
       not_available: "Project N/A"
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes.
+        Please choose a project to create the issue in to see all attributes.
         You can only select projects which have the type above activated.
 
     project_menu_details: "Details"
@@ -813,7 +813,7 @@ en:
       change_parent: "Change parent"
       create_new: "Create new"
       group_by_relation_type: "Group by relation type"
-      group_by_wp_type: "Group by work package type"
+      group_by_wp_type: "Group by issue type"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
       remove: "Remove relation"
@@ -902,19 +902,19 @@ en:
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
     text_user_wrote: "%{value} wrote:"
 
-    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected issue(s)?"
 
     time_entry:
       stop: "Stop"
       title: "Log time"
       tracking: "Time tracking"
-      work_package_required: "Requires selecting a work package first."
+      work_package_required: "Requires selecting an issue first."
 
     timer:
       button_stop: "Stop current timer"
       start_new_timer: "Start new timer"
       timer_already_running: "To start a new timer, you must first stop the current timer:"
-      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
+      timer_already_stopped: "No active timer for this issue, have you stopped it in another window?"
       tracking_time: "Tracking time"
     tl_toolbar:
       outlines: "Hierarchy level"
@@ -938,15 +938,15 @@ en:
         share_calendar: "Subscribe to calendar"
         sort_by: "Sort by"
         visibility_settings: "Visibility settings"
-      unselected_title: "Work package"
+      unselected_title: "Issue"
 
     two_factor_authentication:
       label_two_factor_authentication: "Two-factor authentication"
 
     units:
       child_work_packages:
-        one: "one child work package"
-        other: "%{count} work package children"
+        one: "one child issue"
+        other: "%{count} issue children"
       day:
         one: "1 day"
         other: "%{count} days"
@@ -960,8 +960,8 @@ en:
         one: "1 word"
         other: "%{count} words"
       workPackage:
-        one: "work package"
-        other: "work packages"
+        one: "issue"
+        other: "issues"
     upsell:
       ee_only: "Enterprise edition add-on"
 
@@ -994,6 +994,7 @@ en:
       unquote: "Unquote"
       wiki_link: "Link to a Wiki page"
     work_packages:
+      assign_to_me: "Assign to me"
       baseline:
         addition_label: "Added to view within the comparison time period"
         column_incompatible: "This column does not show changes in Baseline mode."
@@ -1008,14 +1009,14 @@ en:
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
-      confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      confirm_edit_cancel: "Are you sure you want to cancel editing the issue?"
       create:
-        button: "New ticket"
-        button_in_project: "Create a ticket in %{project}"
+        button: "New issue"
+        button_in_project: "Create an issue in %{project}"
         header: "New %{type}"
-        header_no_type: "New work package (Type not yet set)"
+        header_no_type: "New issue (Type not yet set)"
         header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
-        title: "New work package"
+        title: "New issue"
       default_queries:
         all_open: "All open"
         assigned_to_me: "Assigned to me"
@@ -1032,7 +1033,7 @@ en:
       description_options_hide: "Hide options"
       description_options_show: "Show options"
       duplicate:
-        title: "Duplicate work package"
+        title: "Duplicate issue"
       edit_attribute: "%{attribute} - Edit"
       load_error:
         back: "Go back"
@@ -1040,7 +1041,7 @@ en:
         home: "Go to Home"
         details: "Technical details"
         forbidden:
-          title: "You don't have access to these work packages"
+          title: "You don't have access to these issues"
           description: "Your role doesn't include permission to see them. Go back, or ask a project administrator to give you access."
         not_found:
           title: "We couldn't find this view"
@@ -1050,24 +1051,24 @@ en:
           description: "Something went wrong on our side and your data is safe. Try again, or go back to where you were."
       faulty_query:
         description: Your view is erroneous and could not be processed.
-        title: Work packages could not be loaded.
+        title: Issues could not be loaded.
       filters:
         baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
         baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
-        title: "Filter work packages"
+        title: "Filter issues"
       hierarchy:
         children_collapsed: "Hierarchy level %{level}, collapsed. Click to show the filtered children"
         children_expanded: "Hierarchy level %{level}, expanded. Click to collapse the filtered children"
         hide: "Hide hierarchy mode"
-        leaf: "Work package leaf at level %{level}."
+        leaf: "Issue leaf at level %{level}."
         show: "Show hierarchy mode"
         toggle_button: "Click to toggle hierarchy mode."
       inline_create:
-        title: "Click here to add a new work package to this list"
+        title: "Click here to add a new issue to this list"
       jump_marks:
         content: "Jump to content"
         label_content: "Click here to skip over the menu and go to the content"
-        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        label_pagination: "Click here to skip over the issues table and go to pagination"
         pagination: "Jump to table pagination"
       key_value: "%{key}: %{value}"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
@@ -1076,16 +1077,16 @@ en:
       label_filter_add: "Add filter"
       label_filter_by_text: "Filter by text"
       label_options: "Options"
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
-      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
-      message_view_spent_time: "Show spent time for this work package"
-      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      limited_results: Only %{count} issues can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      message_error_during_bulk_delete: An error occurred while trying to delete issues.
+      message_successful_bulk_delete: Successfully deleted issues.
+      message_successful_show_in_fullscreen: "Click here to open this issue in fullscreen view."
+      message_view_spent_time: "Show spent time for this issue"
+      message_work_package_read_only: "Issue is locked in this status. No attribute other than status can be altered."
+      message_work_package_status_blocked: "Issue status is not writable due to closed status and closed version being assigned."
       no_results:
-        description: Either none have been created or all work packages are filtered out.
-        title: No work packages to display.
+        description: Either none have been created or all issues are filtered out.
+        title: No issues to display.
       placeholder_filter_by_text: "Subject, description, comments, ..."
       placeholders:
         date: "Select date"
@@ -1147,7 +1148,7 @@ en:
         move_column_right: "Move column right"
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query.
-          This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          This does not affect the visibility of issue results in that view and depending on their permissions, users may see different results.
         rename_query_placeholder: "Name of this view"
         sort_ascending: "Sort ascending"
         sort_descending: "Sort descending"
@@ -1161,25 +1162,25 @@ en:
           three_days: "In 3 days"
           tomorrow: "Tomorrow"
           week: "In a week"
-        subtitle: "You will receive a notification for this work package at the chosen time."
+        subtitle: "You will receive a notification for this issue at the chosen time."
         title:
           edit: "Edit reminder"
           new: "Set a reminder"
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "The dates of this issue are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this issue may need to be recalculated after switching from manual to automatic scheduling due to relationships with other issues."
       sharing:
-        show_all_users: "Show all users with whom the work package has been shared with"
-        title: "Share work package"
+        show_all_users: "Show all users with whom the issue has been shared with"
+        title: "Share issue"
       table:
-        configure_button: "Configure work package table"
-        summary: "Table with rows of work package and columns of work package attributes."
+        configure_button: "Configure issue table"
+        summary: "Table with rows of issue and columns of issue attributes."
         text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
         text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
         text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
       table_configuration:
-        button: "Configure this work package table"
-        choose_display_mode: "Display work packages as"
+        button: "Configure this issue table"
+        choose_display_mode: "Display issues as"
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         default: "default"
         default_mode: "Flat list"
@@ -1198,13 +1199,13 @@ en:
           priority: "Priority"
           status: "Status"
           type: "Type"
-        modal_title: "Work package table configuration"
+        modal_title: "Issue table configuration"
         relation_filters:
-          filter_work_packages_by_relation_type: "Filter work packages by relation type"
+          filter_work_packages_by_relation_type: "Filter issues by relation type"
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
         sorting_mode:
           automatic: "Automatic"
-          description: "Chose the mode to sort your Work packages:"
+          description: "Chose the mode to sort your Issues:"
           manually: "Manually"
           warning: "You will lose your previous sorting when activating the automatic sorting mode."
       tabs:

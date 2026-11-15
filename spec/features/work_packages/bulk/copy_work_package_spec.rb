@@ -312,7 +312,7 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
 
             perform_enqueued_jobs
 
-            expect(page).to have_text "The work packages could not be copied.", wait: 10
+            expect(page).to have_text "The issues could not be copied.", wait: 10
 
             expect(page).to have_text I18n.t("work_packages.bulk.none_could_be_saved", total: 3)
 

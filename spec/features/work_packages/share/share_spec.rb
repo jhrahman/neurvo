@@ -270,7 +270,7 @@ RSpec.describe "Work package sharing",
         members_page.click_menu_item "View"
         expect(members_page).to have_user view_user.name
         members_page.in_user_row(view_user) do
-          expect(page).to have_text "1 work package"
+          expect(page).to have_text "1 issue"
         end
         expect(members_page).not_to have_user gilfoyle.name
         expect(members_page).not_to have_user comment_user.name
@@ -281,7 +281,7 @@ RSpec.describe "Work package sharing",
         members_page.click_menu_item "Comment"
         expect(members_page).to have_user gilfoyle.name
         members_page.in_user_row(gilfoyle) do
-          expect(page).to have_text "1 work package"
+          expect(page).to have_text "1 issue"
         end
         expect(members_page).to have_user comment_user.name
         expect(members_page).not_to have_user view_user.name

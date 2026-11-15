@@ -51,7 +51,18 @@ module Users
                                   name: user.login,
                                   href: helpers.allowed_management_user_profile_path(user))
 
-      icon + link
+      icon + link + settings_link
+    end
+
+    def settings_link
+      return "".html_safe unless current_user_allowed_to_manage_users?
+
+      helpers.link_to(
+        helpers.edit_user_path(user),
+        class: "op-user-settings-link",
+        title: I18n.t(:label_edit_user),
+        aria: { label: "#{I18n.t(:label_edit_user)}: #{user.login}" }
+      ) { render(Primer::Beta::Octicon.new(icon: :gear, color: :muted, ml: 2)) }
     end
 
     def mail
@@ -98,7 +109,56 @@ module Users
     end
 
     def button_links
-      [status_link].compact
+      return [] unless current_user_allowed_to_manage_users?
+
+      [actions_menu]
+    end
+
+    def actions_menu
+      render(Primer::Alpha::ActionMenu.new) do |menu|
+        menu.with_show_button(
+          icon: "kebab-horizontal",
+          scheme: :invisible,
+          "aria-label": I18n.t(:label_actions),
+          test_selector: "user-actions-#{user.id}"
+        )
+        menu.with_item(label: I18n.t(:label_edit_user), tag: :a, href: helpers.edit_user_path(user)) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+        add_password_reset_item(menu)
+        add_status_items(menu)
+      end
+    end
+
+    def add_password_reset_item(menu)
+      return unless user.active? && user.change_password_allowed?
+      return if user_is_admin_and_current_user_is_no_admin?
+
+      menu.with_item(label: I18n.t(:label_send_password_reset),
+                     tag: :a,
+                     href: helpers.send_password_reset_user_path(user),
+                     content_arguments: { data: { turbo_method: :post } }) do |item|
+        item.with_leading_visual_icon(icon: :key)
+      end
+    end
+
+    def add_status_items(menu)
+      return if user_is_current_user? || user_is_admin_and_current_user_is_no_admin?
+
+      helpers.iterate_user_statusses(user) do |title, name|
+        menu.with_item(**status_item_options(title, name)) do |item|
+          item.with_leading_visual_icon(icon: helpers.change_user_status_icons[name])
+        end
+      end
+    end
+
+    def status_item_options(title, name)
+      {
+        label: title,
+        tag: :a,
+        href: helpers.change_status_user_path(user, name.to_sym => "1", back_url: helpers.request.fullpath),
+        content_arguments: { data: { turbo_method: :post } }
+      }
     end
 
     def status_link

@@ -250,7 +250,7 @@ RSpec.describe "history",
     expect(item).to have_css(".op-activity-list--item-title", text: changed_wp.to_s.strip)
     expect(item).to have_css(".op-activity-list--item-subtitle", text: "updated by")
     expect(item).to have_css(".op-activity-list--item-subtitle", text: user.name)
-    expect(item).to have_css("li", text: "Agenda item work package changed from Important task to Changed task")
+    expect(item).to have_css("li", text: "Agenda item issue changed from Important task to Changed task")
 
     # Remove linked work package
     show_page.visit!

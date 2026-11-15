@@ -137,7 +137,7 @@ en:
   label_view_all_budgets: "View all budgets"
   label_yes: "Yes"
 
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "Issues must be of the same project."
   notice_no_budgets_available: "No budgets available."
 
   permission_edit_budgets: "Edit budgets"
@@ -145,7 +145,7 @@ en:
   plugin_budgets_engine:
     name: "Budgets"
   project_module_budgets: "Budgets"
-  text_budget_delete: "Delete the budget from all work packages"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  text_budget_delete: "Delete the budget from all issues"
+  text_budget_destroy_assigned_wp: "There are %{count} issues assigned to this budget. What do you want to do?"
 
   text_budget_reassign_to: "Reassign them to this budget:"

@@ -11,7 +11,7 @@ en:
       label_bcf: 'BCF'
       management: 'BCF management'
       refresh: 'Refresh'
-      refresh_work_package: 'Refresh work package'
+      refresh_work_package: 'Refresh issue'
       show_viewpoint: 'Show viewpoint'
       viewpoint: 'Viewpoint'
     ifc_models:

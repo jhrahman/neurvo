@@ -157,7 +157,7 @@ en:
   permission_manage_bcf: "Import and manage BCF issues"
   permission_manage_bcf_explanation: |
     Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
+    BCF import maps file metadata to project resources and can create or update issues
     and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
   permission_manage_ifc_models: "Import and manage IFC models"
   permission_view_ifc_models: "View IFC models"

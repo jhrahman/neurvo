@@ -178,8 +178,8 @@ en:
 
   label_agenda_item_add_notes: "Add notes"
   label_agenda_item_add_outcome: "Add outcome"
-  label_agenda_item_convert_to_work_package: "Convert to work package"
-  label_agenda_item_deleted_wp: "Deleted work package reference"
+  label_agenda_item_convert_to_work_package: "Convert to issue"
+  label_agenda_item_deleted_wp: "Deleted issue reference"
   label_agenda_item_duplicate: "Duplicate"
   label_agenda_item_duplicate_in_next: "Duplicate in next meeting"
   label_agenda_item_duplicate_in_next_title: "Duplicate in next meeting?"
@@ -195,10 +195,10 @@ en:
   label_agenda_item_move_up: "Move up"
   label_agenda_item_remove_from_agenda: "Remove from agenda"
   label_agenda_item_remove_from_backlog: "Remove from backlog"
-  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
-  label_agenda_item_work_package: "Agenda item work package"
+  label_agenda_item_undisclosed_wp: "Issue #%{id} not visible"
+  label_agenda_item_work_package: "Agenda item issue"
 
-  label_agenda_item_work_package_add: "Add work package"
+  label_agenda_item_work_package_add: "Add issue"
   label_agenda_items: "Agenda items"
   label_agenda_items_reordered: "reordered"
   label_agenda_new_outcome: "New outcome"
@@ -214,7 +214,7 @@ en:
 
   label_backlog_clear_button: "Clear all"
   label_created_by_me: "Created by me"
-  label_existing_work_package: "Existing work package"
+  label_existing_work_package: "Existing issue"
   label_icalendar: "Send iCalendar"
   label_icalendar_download: "Download iCalendar event"
   label_initial_meeting_details: "Meeting"
@@ -263,7 +263,7 @@ en:
   label_meeting_plural: "Meetings"
   label_meeting_reload: "Reload"
   label_meeting_reopen_action: "Reopen meeting"
-  label_meeting_selection_caption: "It is only possible to add this work package to an upcoming or an ongoing meeting."
+  label_meeting_selection_caption: "It is only possible to add this issue to an upcoming or an ongoing meeting."
   label_meeting_send_updates: "Send email calendar invite and updates"
   label_meeting_send_updates_caption: "Send out email invites to all participants of this meeting"
   label_meeting_series: "Meeting series"
@@ -512,7 +512,7 @@ en:
       one_time: "One-time"
       recurring: "Recurring"
       recurring_text: "Create meeting series with dynamic template for each occurrence."
-      structured_text: "Organize your meeting as a dynamic list of agenda items, optionally linking them to a work package."
+      structured_text: "Organize your meeting as a dynamic list of agenda items, optionally linking them to an issue."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
 
     widgets:
@@ -723,9 +723,9 @@ en:
         The dates below are referencing the time zone of the meeting series (%{actual_zone}),
         not your local time zone (%{user_zone}).
       title: "Time zone difference"
-  text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
+  text_add_work_package_to_meeting_description: "An issue can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
 
-  text_add_work_package_to_meeting_form: "The work package will be added to the selected meeting or backlog as an agenda item."
+  text_add_work_package_to_meeting_form: "The issue will be added to the selected meeting or backlog as an agenda item."
   text_agenda_backlog: >
     This backlog is unique to this one-time meeting.
     You can drag items in and out to add or remove them from the meeting agenda.
@@ -744,7 +744,7 @@ en:
   text_agenda_item_no_notes: "No notes provided"
   text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_agenda_item_title: 'Agenda item "%{title}"'
-  text_agenda_work_package_deleted: "Agenda item for deleted work package"
+  text_agenda_work_package_deleted: "Agenda item for deleted issue"
   text_backlog_clear_error: "One or more errors occurred while trying to clear the backlog."
   text_deleted_agenda_item: "Deleted agenda item"
 
@@ -766,7 +766,7 @@ en:
   text_meeting_draft_banner: "You are currently in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants."
   text_meeting_draft_description: "Prepare your agenda in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants."
   text_meeting_empty_description1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
-  text_meeting_empty_description2: 'You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package''s "Meetings" tab.'
+  text_meeting_empty_description2: 'You can also add references to existing issues. When you do, related notes will automatically be visible in the issue''s "Meetings" tab.'
   text_meeting_empty_heading: "Your meeting is empty"
   text_meeting_ics_description: >-
     Link to meeting: %{url}
@@ -803,6 +803,6 @@ en:
     This will remove all items in the series backlog, which is shared with all meetings in the series.
     Are you sure you want to continue? This action is not reversible.
 
-  text_work_package_add_to_meeting_hint: 'Use the "Add to meeting" button to add this work package to an upcoming meeting.'
-  text_work_package_has_no_past_meeting_agenda_items: "This work package was not added as an agenda item in a past meeting."
-  text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
+  text_work_package_add_to_meeting_hint: 'Use the "Add to meeting" button to add this issue to an upcoming meeting.'
+  text_work_package_has_no_past_meeting_agenda_items: "This issue was not added as an agenda item in a past meeting."
+  text_work_package_has_no_upcoming_meeting_agenda_items: "This issue is not scheduled in an upcoming meeting agenda yet."

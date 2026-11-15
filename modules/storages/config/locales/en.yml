@@ -522,7 +522,7 @@ en:
     page_titles:
       file_storages:
         delete: Delete file storage?
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        subtitle: Add an external file storage in order to upload, link and manage files in issues.
       managed_project_folders:
         subtitle: |-
           Let Neurvo create folders per project automatically. This is recommended as it ensures that every team
@@ -558,8 +558,8 @@ en:
         name: SharePoint
         name_placeholder: e.g. SharePoint
     show_attachments_toggle:
-      description: Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
-      label: Show attachments in the work packages files tab
+      description: Deactivating this option will hide the attachments list on the issues files tab. The files attached in the description of an issue will still be uploaded in the internal attachments storage.
+      label: Show attachments in the issues files tab
     storage_audience:
       documentation_intro: Please read our documentation for details on the following options and configuration of the identity provider.
       idp:
@@ -576,10 +576,10 @@ en:
       one_drive:
         description: |-
           Integrate your OneDrive drive as a file storage with Neurvo. Upload files and link them directly to
-          work packages in a project.
+          issues in a project.
         title: OneDrive integration
       sharepoint:
         description: |-
           Integrate your SharePoint site as a file storage with Neurvo. Upload files and link them directly to
-          work packages in a project.
+          issues in a project.
         title: SharePoint integration

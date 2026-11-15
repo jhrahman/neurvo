@@ -42,7 +42,7 @@ RSpec.describe "Work packages identifier admin settings", :js do
   def visit_settings
     visit settings_path
     # Wait for the radio group legend to confirm the page has loaded
-    expect(page).to have_css("legend", text: "Work package identifier", wait: 10)
+    expect(page).to have_css("legend", text: "Issue identifier", wait: 10)
   end
 
   context "when no projects have problematic identifiers" do
@@ -100,7 +100,7 @@ RSpec.describe "Work packages identifier admin settings", :js do
         click_on "Convert identifiers"
 
         within_dialog "Change work package identifiers" do
-          expect(page).to have_text("Enable project-based work package IDs?")
+          expect(page).to have_text("Enable project-based issue IDs?")
           expect(page).to have_field(
             "I understand that this will permanently change all work package IDs",
             type: :checkbox

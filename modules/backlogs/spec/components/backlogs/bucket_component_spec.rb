@@ -115,22 +115,22 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket") do |link|
           expect(link[:href]).to eq destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket)
         end
-        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+        expect(rendered_component).to have_selector(:menuitem, "Add new issue") do |link|
           expect(link[:href]).to eq new_project_work_packages_dialog_path(project, backlog_bucket_id: backlog_bucket.id)
         end
-        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+        expect(rendered_component).to have_selector(:menuitem, "Add existing issue") do |link|
           expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(
             project, list_type: "backlog_bucket", list_id: backlog_bucket.id
           )
         end
       end
 
-      it "renders one shared-card row per work package" do
+      it "renders one shared-card row per issue" do
         expect(rendered_component).to have_text("Bucket Work Package")
         expect(rendered_component).to have_text("##{work_package.id}")
       end
 
-      it "renders story points on the work package card" do
+      it "renders story points on the issue card" do
         expect(rendered_component).to have_css("span", text: "3", aria: { hidden: true })
         expect(rendered_component).to have_css(".sr-only", text: "3 story points")
       end
@@ -216,10 +216,10 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "still renders the add work package menu actions" do
+    it "still renders the add issue menu actions" do
       expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
-      expect(rendered_component).to have_selector(:menuitem, "Add new work package")
-      expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
+      expect(rendered_component).to have_selector(:menuitem, "Add new issue")
+      expect(rendered_component).to have_selector(:menuitem, "Add existing issue")
     end
 
     it "does not render the edit or delete bucket menu items" do
@@ -241,7 +241,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "does not mark work package rows as draggable" do
+    it "does not mark issue rows as draggable" do
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}")
       expect(rendered_component)
         .to have_no_css(".Box-row#work_package_#{work_package.id}[data-sortable-lists--item-id-value]")
@@ -258,9 +258,9 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket")
     end
 
-    it "does not render the add work package menu actions" do
-      expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
-      expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
+    it "does not render the add issue menu actions" do
+      expect(rendered_component).to have_no_selector(:menuitem, "Add new issue")
+      expect(rendered_component).to have_no_selector(:menuitem, "Add existing issue")
     end
   end
 end

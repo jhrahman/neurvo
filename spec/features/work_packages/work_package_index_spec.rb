@@ -45,14 +45,14 @@ RSpec.describe "Work Packages", "index view", :js do
 
     it "is reachable by clicking the global menu item" do
       within("#main-menu") do
-        click_link "Work packages"
+        click_link "Issues"
       end
 
       expect(page).to have_current_path(work_packages_path)
 
       within("#content") do
         wp_table.expect_title("All open", editable: true)
-        expect(page).to have_content("No work packages to display")
+        expect(page).to have_content("No issues to display")
       end
     end
   end
@@ -66,14 +66,14 @@ RSpec.describe "Work Packages", "index view", :js do
       end
 
       within("#main-menu") do
-        click_link "Work packages"
+        click_link "Issues"
       end
 
       expect(page).to have_current_path(project_work_packages_path(project))
 
       within("#content") do
         wp_table.expect_title("All open", editable: true)
-        expect(page).to have_content("No work packages to display")
+        expect(page).to have_content("No issues to display")
       end
     end
   end

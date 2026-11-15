@@ -86,10 +86,10 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
         .update!(custom_field_values: { story_points.id => 5 })
     end
 
-    it "states how many work packages the new configuration reaches" do
+    it "states how many issues the new configuration reaches" do
       render_component
 
-      expect(page).to have_text("1 work package will use the new configuration")
+      expect(page).to have_text("1 issue will use the new configuration")
     end
 
     it "heads the section that carries the risk" do
@@ -110,7 +110,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "says how much data sits behind a custom field, and only behind a custom field" do
       render_component
 
-      expect(page).to have_text("1 work package has a value", count: 1)
+      expect(page).to have_text("1 issue has a value", count: 1)
     end
 
     it "names the fields that become available" do
@@ -123,15 +123,15 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "omits the statuses section, since no status in use is missing" do
       render_component
 
-      expect(page).to have_no_text("Work packages that get stuck")
+      expect(page).to have_no_text("Issues that get stuck")
     end
 
     # Every counter answers "which ones?". A new tab because following a link in place would
     # navigate away from the dialog and discard the variant still being decided on.
-    it "links the count to this project's work packages of that type, in a new tab" do
+    it "links the count to this project's issues of that type, in a new tab" do
       render_component
 
-      link = page.find_link("1 work package will use the new configuration")
+      link = page.find_link("1 issue will use the new configuration")
 
       expect(link[:target]).to eq("_blank")
       expect(link[:href]).to start_with(project_work_packages_path(project))
@@ -139,10 +139,10 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     end
 
     # Filtered rather than merely columned, so the list cannot disagree with the count.
-    it "links a hidden custom field's value count to the work packages holding one" do
+    it "links a hidden custom field's value count to the issues holding one" do
       render_component
 
-      link = page.find_link("1 work package has a value")
+      link = page.find_link("1 issue has a value")
       query = CGI.unescape(link[:href])
 
       expect(query).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
@@ -190,24 +190,24 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       create_list(:work_package, 2, project:, type: epic, status: orphan)
     end
 
-    it "reports the status and how many work packages hold it" do
+    it "reports the status and how many issues hold it" do
       render_component
 
-      expect(page).to have_text("Work packages that get stuck")
+      expect(page).to have_text("Issues that get stuck")
       expect(page).to have_text("Blocked")
-      expect(page).to have_text("2 work packages")
+      expect(page).to have_text("2 issues")
     end
 
     it "names the consequence rather than the mechanism behind it" do
       render_component
 
-      expect(page).to have_text("nobody will be able to move these work packages on")
+      expect(page).to have_text("nobody will be able to move these issues on")
     end
 
-    it "links a stuck status to the work packages holding it" do
+    it "links a stuck status to the issues holding it" do
       render_component
 
-      query = CGI.unescape(page.find_link("2 work packages")[:href])
+      query = CGI.unescape(page.find_link("2 issues")[:href])
 
       expect(query).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
       expect(query).to include(%({"n":"status","o":"=","v":["#{orphan.id}"]}))
@@ -219,7 +219,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       render_component
 
       rendered = page.text
-      expect(rendered.index("Work packages that get stuck")).to be < rendered.index("Fields that")
+      expect(rendered.index("Issues that get stuck")).to be < rendered.index("Fields that")
     end
   end
 
@@ -245,7 +245,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "says so instead of rendering nothing under the count" do
       render_component
 
-      expect(page).to have_text("1 work package will use the new configuration")
+      expect(page).to have_text("1 issue will use the new configuration")
       expect(page).to have_text("No fields or statuses are affected")
     end
   end
@@ -275,7 +275,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "links the count to the global list, filtered to exactly the affected projects" do
       render_component
 
-      link = page.find_link("2 work packages will use the new configuration")
+      link = page.find_link("2 issues will use the new configuration")
       query = CGI.unescape(link[:href])
 
       expect(link[:href]).to start_with(work_packages_path)

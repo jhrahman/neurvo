@@ -89,7 +89,7 @@ RSpec.describe "Notification center navigation", :js do
     visit "/notifications/details/0"
 
     expect(page).to have_current_path "/notifications/details/0"
-    expect(page).to have_text "The work package was not found."
+    expect(page).to have_text "The issue was not found."
   end
 
   it "deep linking to a notification details highlights it" do

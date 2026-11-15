@@ -247,11 +247,11 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.visit!
 
       backlogs_page.within_sprint_menu(sprint_a) do |menu|
-        expect(menu).to have_no_selector(:menuitem, text: "Add existing work package")
+        expect(menu).to have_no_selector(:menuitem, text: "Add existing issue")
       end
 
       backlogs_page.within_backlog_bucket_menu(bucket_a) do |menu|
-        expect(menu).to have_no_selector(:menuitem, text: "Add existing work package")
+        expect(menu).to have_no_selector(:menuitem, text: "Add existing issue")
       end
 
       # only one action can be there, so without it menu will not be rendered

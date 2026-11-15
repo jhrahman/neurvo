@@ -45,15 +45,15 @@ en:
         user: "A dynamic link to a user placed using a macro."
         version: "A dynamic link to a version placed using a macro."
         view: "A dynamic link to a view placed using a macro."
-        work_package: "A dynamic link to a work package placed using a macro."
+        work_package: "A dynamic link to an issue placed using a macro."
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: "Delete account"
     delete_confirmation: "Are you sure you want to delete the account?"
     deletion_info:
       data_consequences:
-        other: "All user-specific data will be deleted. The user's activity in shared views such as work packages and meetings will not be deleted but instead be associated with a generic 'Deleted user' that cannot be linked to the original account."
-        self: "All user-specific data will be deleted. Your activity in shared views such as work packages and meetings will not be deleted but instead be associated with a generic 'Deleted user' that cannot be linked to your original account."
+        other: "All user-specific data will be deleted. The user's activity in shared views such as issues and meetings will not be deleted but instead be associated with a generic 'Deleted user' that cannot be linked to the original account."
+        self: "All user-specific data will be deleted. Your activity in shared views such as issues and meetings will not be deleted but instead be associated with a generic 'Deleted user' that cannot be linked to your original account."
       heading: "Delete %{name}'s account?"
       login_consequences:
         other: "This account will immediately be removed from the system and the user will no longer be able to log in with their credentials."
@@ -90,10 +90,10 @@ en:
     attributes:
       ai/text_transform_action:
         active: "Active"
-        injects_type_template: "Insert work package type template"
+        injects_type_template: "Insert issue type template"
         label: "Label"
         prompt: "Prompt"
-        types: "Work package types"
+        types: "Issue types"
         usage_scope: "Scope"
       ai/text_transform_run:
         action: "Action"
@@ -271,8 +271,8 @@ en:
         project_creation_wizard_notification_text: "Notification text"
         project_creation_wizard_send_confirmation_email: "Confirmation email"
         project_creation_wizard_status_when_submitted: "Status when submitted"
-        project_creation_wizard_work_package_comment: "Work package comment"
-        project_creation_wizard_work_package_type: "Work package type"
+        project_creation_wizard_work_package_comment: "Issue comment"
+        project_creation_wizard_work_package_type: "Issue type"
         project_types: "Types"
         public_value:
           false: "private"
@@ -293,10 +293,10 @@ en:
         templated_value:
           false: "unmarked as template"
           true: "marked as template"
-        type_variant: "Work package type variant"
+        type_variant: "Issue type variant"
         types: "Types"
         versions: "Versions"
-        work_packages: "Work Packages"
+        work_packages: "Issues"
         workspace_type: "Workspace type"
       project/phase:
         date_range: "Date range"
@@ -317,7 +317,7 @@ en:
       project_type:
         variant: "Variant"
       query:
-        child_work_packages: "Child work packages"
+        child_work_packages: "Child issues"
         column_names: "Columns"
         columns: "Columns"
         display_representation: "Display mode"
@@ -328,7 +328,7 @@ en:
         highlighting_mode: "Highlight mode"
         include_subprojects: "Include subprojects"
         manual_sorting: "Manual sort order"
-        ordered_work_packages: "Work packages order"
+        ordered_work_packages: "Issues order"
         relations_of_type_column: "%{type} relations"
         relations_to_type_column: "Relations to %{type}"
         results: "Results"
@@ -342,10 +342,10 @@ en:
         timeline_zoom_level: "Gantt chart zoom level"
         timestamps: "Baseline timestamps"
       relation:
-        from: "Related work package"
+        from: "Related issue"
         lag: "Lag"
         relation_type: "Relation type"
-        to: "Related work package"
+        to: "Related issue"
       reminder:
         remind_at: "Remind at"
         remind_at_date: "Date"
@@ -367,8 +367,8 @@ en:
       status:
         default_done_ratio: "% Complete"
         excluded_from_totals: "Exclude from calculation of totals in hierarchy"
-        is_closed: "Work package closed"
-        is_readonly: "Work package read-only"
+        is_closed: "Issue closed"
+        is_readonly: "Issue read-only"
       subproject_template_assignment:
         workspace_type: "Workspace type"
       time_entry:
@@ -432,7 +432,7 @@ en:
         button_update_alerts: "Update alerts"
         button_update_look_and_feel: "Update look and feel"
         button_update_user_information: "Update profile"
-        comments_sorting: "Display work package activity sorted by"
+        comments_sorting: "Display issue activity sorted by"
         daily_reminders: "Daily reminders"
         disable_keyboard_shortcuts: "Disable keyboard shortcuts"
         dismissed_enterprise_banners: "Hidden enterprise banners"
@@ -451,7 +451,7 @@ en:
         light_palette: "Light palette"
         dark_palette: "Dark palette"
         time_zone: "Time zone"
-        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        warn_on_leaving_unsaved: "Warn me when leaving an issue with unsaved changes"
         workdays: "Working days"
       user_working_hours:
         availability_factor: "Availability factor"
@@ -486,7 +486,7 @@ en:
         text: "Page content"
       work_package:
         author: "Reporter"
-        ancestor: "Descendants of" # used for filtering of work packages that are descendants of a given work package
+        ancestor: "Descendants of" # used for filtering of issues that are descendants of a given issue
         begin_deletion: "Begin of the deletion"
         begin_insertion: "Begin of the insertion"
         children: "Subelements"
@@ -529,7 +529,7 @@ en:
         watcher: "Watcher"
       work_package_semantic_alias:
         identifier: "Identifier"
-        work_package: "Work package"
+        work_package: "Issue"
       work_package_version:
         kind: "Kind"
     errors:
@@ -544,7 +544,7 @@ en:
         blank_nested: "needs to have the property '%{property}' set."
         blocked_domain: "is not allowed. Please use an email address from a different domain."
         cannot_delete_mapping: "is required. Cannot be deleted."
-        cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
+        cant_link_a_work_package_with_a_descendant: "An issue cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         configured_via_env: "The configuration of this object is managed through environment variables and can't be changed at runtime."
         confirmation: "doesn't match %{attribute}."
@@ -746,7 +746,7 @@ en:
           attributes:
             base:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
-              project_initiation_request_disabled: "Project initiation request is disabled. It must be enabled to create the artifact work package."
+              project_initiation_request_disabled: "Project initiation request is disabled. It must be enabled to create the artifact issue."
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
@@ -757,12 +757,12 @@ en:
               cannot_assign_multiple_variants_of_parent: "Can only enable a single variant of a Type on the project"
               cannot_assign_variant_and_parent: "Cannot assign a variant and its parent "
               cannot_assign_variants_yet: "Variants cannot be enabled on a project yet. Enable the feature flag to try out variants"
-              in_use_by_work_packages: "still in use by work packages: %{types}"
+              in_use_by_work_packages: "still in use by issues: %{types}"
               switch_target_blank: "Select the variant to switch to"
               switch_target_identical: "The target type must be different from the type the project uses now"
               switch_target_not_in_family: "Can only switch to another type of the same family"
-          cannot_be_assigned_to_artifact_work_package: "The chosen user is not allowed to be assigned to work packages."
-          foreign_wps_reference_version: "Work packages in non descendant projects reference versions of the project or its descendants."
+          cannot_be_assigned_to_artifact_work_package: "The chosen user is not allowed to be assigned to issues."
+          foreign_wps_reference_version: "Issues in non descendant projects reference versions of the project or its descendants."
         project/phase:
           attributes:
             finish_date:
@@ -788,7 +788,7 @@ en:
         queries/principals/filters/internal_mentionable_on_work_package_filter:
           attributes:
             values:
-              single_value_requirement: "must be a single work package"
+              single_value_requirement: "must be a single issue"
         query:
           attributes:
             column_names:
@@ -819,18 +819,18 @@ en:
         relation:
           attributes:
             base:
-              error_not_deletable: "This relation cannot be deleted because you do not have edit permissions for the selected work package."
-              error_not_editable: "This relation cannot be edited because you do not have edit permissions for the selected work package."
+              error_not_deletable: "This relation cannot be deleted because you do not have edit permissions for the selected issue."
+              error_not_editable: "This relation cannot be edited because you do not have edit permissions for the selected issue."
             from_id:
               error_not_found: "could not be found."
-              error_not_manageable: "cannot be added because you do not have edit permissions for the selected work package."
+              error_not_manageable: "cannot be added because you do not have edit permissions for the selected issue."
               error_readonly: "cannot be changed for existing relations."
-              format: "The selected work package %{message}"
+              format: "The selected issue %{message}"
             to_id:
               error_not_found: "could not be found."
-              error_not_manageable: "cannot be added because you do not have edit permissions for the selected work package."
+              error_not_manageable: "cannot be added because you do not have edit permissions for the selected issue."
               error_readonly: "cannot be changed for existing relations."
-              format: "The selected work package %{message}"
+              format: "The selected issue %{message}"
           typed_dag:
             circular_dependency: "The relationship creates a circle of relationships."
         repository:
@@ -872,8 +872,8 @@ en:
         type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: "Invalid work package attribute used."
-              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
+              attribute_unknown: "Invalid issue attribute used."
+              attribute_unknown_name: "Invalid issue attribute used: %{attribute}"
               duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
               group_without_name: "Group name can't be blank."
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
@@ -943,8 +943,8 @@ en:
             days:
               no_working_day: "At least one day needs to be configured as a working day."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
-          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "The version cannot be deleted as it has issues attached to it."
+          undeletable_work_packages_attached: "The version cannot be deleted as it has issues attached to it."
         watcher:
           attributes:
             user_id:
@@ -961,7 +961,7 @@ en:
               format: "%{message}"
             category:
               does_not_exist: "The specified category does not exist."
-              only_same_project_categories_allowed: "The category of a work package must be within the same project as the work package."
+              only_same_project_categories_allowed: "The category of an issue must be within the same project as the issue."
             done_ratio:
               cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
               does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
@@ -975,7 +975,7 @@ en:
               cannot_be_null: "can not be set to null as start date and finish date are known."
               larger_than_dates: "is larger than the interval between the start and the finish date."
               not_an_integer: "is not a valid duration."
-              not_available_for_milestones: "is not available for milestone typed work packages."
+              not_available_for_milestones: "is not available for milestone typed issues."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
             estimated_hours:
               cant_be_inferior_to_remaining_work: "cannot be lower than Remaining work."
@@ -983,10 +983,10 @@ en:
               not_a_number: "is not a valid duration."
             id:
               blank: "ID can't be blank."
-              cannot_add_child_because_of_lack_of_permission: "Cannot add child because you don't have permissions to edit the selected work package."
+              cannot_add_child_because_of_lack_of_permission: "Cannot add child because you don't have permissions to edit the selected issue."
               format: "%{message}"
             identifier:
-              must_not_be_changed: "must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent."
+              must_not_be_changed: "must not be changed manually. Issue identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent."
               semantic_identifier_incomplete: "and sequence_number must both be set at the same time."
             parent:
               cannot_be_in_another_project: "cannot be in another project."
@@ -1011,7 +1011,7 @@ en:
               must_not_be_changed: "must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`."
             start_date:
               cannot_be_null: "can not be set to null as finish date and duration are known."
-              violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+              violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the issue's relationships."
             status:
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
@@ -1019,9 +1019,9 @@ en:
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
             type:
-              cannot_be_milestone_due_to_children: "cannot be a milestone because this work package has children."
-          is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
-          readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
+              cannot_be_milestone_due_to_children: "cannot be a milestone because this issue has children."
+          is_not_a_valid_target_for_time_entries: "Issue #%{id} is not a valid target for reassigning the time entries."
+          readonly_status: "The issue is in a readonly status so its attributes cannot be changed."
           target_versions_only_allow_single_value: "Target Versions can only hold a single value."
       template:
         body: "Please check the following fields:"
@@ -1061,8 +1061,8 @@ en:
         one: "User attribute help text"
         other: "User attribute help texts"
       attribute_help_text/work_package:
-        one: "Work package attribute help text"
-        other: "Work package attribute help texts"
+        one: "Issue attribute help text"
+        other: "Issue attribute help texts"
       auth_provider:
         one: "Authentication provider"
         other: "Authentication providers"
@@ -1265,8 +1265,8 @@ en:
         one: "Setting"
         other: "Settings"
       status:
-        one: "Work package status"
-        other: "Work package statuses"
+        one: "Issue status"
+        other: "Issue statuses"
       system_user:
         one: "System user"
         other: "System users"
@@ -1328,14 +1328,14 @@ en:
         one: "Wiki page"
         other: "Wiki pages"
       work_package:
-        one: "Work package"
-        other: "Work packages"
+        one: "Issue"
+        other: "Issues"
       work_package_custom_field:
-        one: "Work package custom field"
-        other: "Work package custom fields"
+        one: "Issue custom field"
+        other: "Issue custom fields"
       work_package_role:
-        one: "Work package role"
-        other: "Work package roles"
+        one: "Issue role"
+        other: "Issue roles"
       workflow:
         one: "Workflow"
         other: "Workflows"
@@ -1353,7 +1353,7 @@ en:
         internal_comment: Internal comment
         internal_comment_confirmation:
           confirm_button_text: "Make public"
-          description: "Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?"
+          description: "Your comment will be visible to anyone who can access this issue. Are you sure you want to do this?"
           heading: "Make this comment public?"
           title: "Make this comment public?"
         delete_comment_confirmation: "Delete this comment? Its replies are deleted with it. This cannot be undone."
@@ -1383,7 +1383,7 @@ en:
       subproject: "Include subprojects"
       time_entry: "Spent time"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Issues"
     item:
       added_by_on: "added by %{user} on %{datetime}"
       added_on: "added on %{datetime}"
@@ -1421,6 +1421,23 @@ en:
       removed_date: "date deleted %{date}"
 
   admin:
+    ticket_fields:
+      menu: "Issue fields"
+      title: "Issue fields"
+      description: "Pick an issue type, then tick the fields it should show. Clear a box to hide that field. Custom fields can be edited or created from here."
+      field: "Field"
+      edit_custom_field: "(edit)"
+      new_custom_field: "New custom field"
+      types: "Issue types"
+      search: "Search fields..."
+      copy_from: "Copy fields from..."
+      copy: "Copy"
+      default_fields: "Default fields"
+      custom_fields: "Custom fields"
+      enable_all: "Enable all"
+      disable_all: "Disable all"
+      no_match: "No field matches your search."
+      save_for: "Save %{type}"
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
@@ -1575,9 +1592,9 @@ en:
           JiraCreateProjectVersionsJob:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackageAttachmentsJob:
-            title: "Download work package attachments for '%{jira_project_name}'"
+            title: "Download issue attachments for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
-            title: "Create work packages for '%{jira_project_name}'"
+            title: "Create issues for '%{jira_project_name}'"
           JiraCreateUsersJob:
             title: "Create users"
           JiraFetchCustomFieldJob:
@@ -1674,8 +1691,8 @@ en:
               one: "1 user"
               other: "%{count} users"
             work_packages:
-              one: "1 work package"
-              other: "%{count} work packages"
+              one: "1 issue"
+              other: "%{count} issues"
           revert_dialog:
             confirm: "I understand that this reversion will delete data permanently"
             description: "This will delete all imported objects (including whole projects)."
@@ -1730,7 +1747,7 @@ en:
                   label: "Users & groups"
                   subtitle: "Involved in imported projects "
                 work_packages:
-                  label: "Work packages"
+                  label: "Issues"
                   subtitle: "With attachments"
               title: "Import run results"
             import_scope:
@@ -1799,8 +1816,8 @@ en:
               rest_line_text: "Creating versions for %{projects_number} more projects"
               title: "Create project versions"
             "8":
-              rest_line_text: "Creating work packages for %{projects_number} more projects"
-              title: "Create work packages"
+              rest_line_text: "Creating issues for %{projects_number} more projects"
+              title: "Create issues"
             "9":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
@@ -1820,7 +1837,7 @@ en:
         unknown_name: "Unknown"
     journal_aggregation:
       caption_with_maximum: >
-        User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+        User actions on an issue (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
     mcp_configurations:
       index:
@@ -1865,8 +1882,8 @@ en:
         confirm_button: "Unreserve identifier"
         description: "Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
         description_with_work_packages:
-          one: "Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
-          other: "Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
+          one: "Unreserving this project identifier (and its 1 issue identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
+          other: "Unreserving this project identifier (and its %{count} issue identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
         heading: 'Unreserve "%{identifier}"?'
         title: "Unreserve identifier"
       empty_body: "When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so."
@@ -2006,41 +2023,41 @@ en:
             Click on 'Convert identifiers' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
         box_header:
           label_autofixed_suggestion: Future identifier
-          label_example_work_package_id: Example work package ID
+          label_example_work_package_id: Example issue ID
           label_previous_identifier: Previous identifier
           label_project: Project
           table_title: Projects with identifiers to update
         button_autofix: Convert identifiers
         button_save: Convert identifiers
         dialog:
-          checkbox_label: I understand that this will permanently change all work package IDs
+          checkbox_label: I understand that this will permanently change all issue IDs
           confirm_button: Change identifiers
           description: >
-            This will change IDs for all work packages in all projects in this instance.
+            This will change IDs for all issues in all projects in this instance.
             Previous identifiers and URLs will continue to work.
             This change will take some time to complete.
-          heading: Enable project-based work package IDs?
-          title: Change work package identifiers
+          heading: Enable project-based issue IDs?
+          title: Change issue identifiers
         in_progress:
           footer_message: "Background conversion is in progress. You can safely leave this page."
           header_classic: "Converting to numeric identifiers"
           header_semantic: "Converting to project-based identifiers"
         page_header:
-          description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
-        success_banner: Successfully updated work package identifier format.
+          description: Choose between classic numerical issue IDs or semantic project-specific ones that prepend the project identifier to the issue ID.
+        success_banner: Successfully updated issue identifier format.
     text_transform_actions:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
         heading: "Are you sure you want to delete the action \"%{label}\"?"
         title: "Delete text transform action"
       form:
-        injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
+        injects_type_template_caption: "If checked, the description template of the issue type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
         select_types: "Select types"
-        types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
-        usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
+        types_caption: "Add issue types for which this action should be available. All available variants will automatically be included."
+        usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all issue types or for certain issue types."
       index:
-        description: "Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions."
+        description: "Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as issue descriptions, comments and wiki pages. You create new actions using your own prompts and instructions."
         label_add_action: "Action"
         label_aria_add_action: "Add text transform action"
       index_component:
@@ -2057,12 +2074,12 @@ en:
         label_actions: "Action menu"
         label_toggle: "Toggle %{label}"
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} issue type"
+          other: "%{count} issue types"
       usage_scopes:
-        all_work_package_types: "All work package types"
+        all_work_package_types: "All issue types"
         everywhere: "Everywhere"
-        specific_work_package_types: "Specific work package types"
+        specific_work_package_types: "Specific issue types"
     workflows:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
@@ -2099,8 +2116,8 @@ en:
         author: "User is author"
         descriptions:
           always: "Transitions available to the selected role(s) in all cases."
-          assignee: "Additional transitions available to the work package's assignee."
-          author: "Additional transitions available to the work package's author."
+          assignee: "Additional transitions available to the issue's assignee."
+          author: "Additional transitions available to the issue's author."
         menu_label: "Transitions shown"
   announcements:
     is_active: currently displayed
@@ -2144,7 +2161,7 @@ en:
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       conflict:
         multiple_reminders_not_allowed: |-
-          You can only set one reminder at a time for a work package. Please delete or update the existing reminder.
+          You can only set one reminder at a time for an issue. Please delete or update the existing reminder.
       eprops:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"
@@ -2169,7 +2186,7 @@ en:
       multiple_errors: "Multiple field constraints have been violated."
       not_found:
         reminder: "The reminder you are looking for cannot be found or has been deleted."
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "The issue you are looking for cannot be found or has been deleted."
       render:
         context_not_parsable: "The context provided is not a link to a resource."
         context_object_not_found: "Cannot find the resource given as the context."
@@ -2179,9 +2196,9 @@ en:
       user:
         name_readonly: "The name attribute is read-only. Changes can be written through the attributes firstname and lastname."
       validation:
-        due_date: "Finish date cannot be set on parent work packages."
-        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
-        start_date: "Start date cannot be set on parent work packages."
+        due_date: "Finish date cannot be set on parent issues."
+        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this issue."
+        start_date: "Start date cannot be set on parent issues."
 
     resources:
       schema: "Schema"
@@ -2193,7 +2210,7 @@ en:
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.
       project: Undisclosed - The project is invisible because of lacking permissions.
-      workPackage: Undisclosed - The work package is invisible because of lacking permissions.
+      workPackage: Undisclosed - The issue is invisible because of lacking permissions.
 
   attribute_help_texts:
     add_new: "Add help text"
@@ -2253,7 +2270,7 @@ en:
     is_default: "Default value"
     is_for_all: "For all projects"
     # kept for backwards compatibility
-    issue: "Work package"
+    issue: "Issue"
     jira: "Jira"
     journal: "Journal"
     journal_notes: "Comment"
@@ -2307,8 +2324,8 @@ en:
     values: "Values"
     version: "Version"
     visible: "Visible"
-    work_package: "Work package"
-    work_package_id: "Work package"
+    work_package: "Issue"
+    work_package_id: "Issue"
   authentication:
     instructions:
       additional_form_action_urls: >
@@ -2440,7 +2457,7 @@ en:
   button_revoke_access: "Revoke access"
   button_revoke_all: "Revoke all"
   button_revoke_only: "Revoke only %{shared_role_name}"
-  button_revoke_work_package_shares: "Revoke work package shares"
+  button_revoke_work_package_shares: "Revoke issue shares"
   button_rollback: "Rollback to this version"
   button_save: "Save"
   button_save_as: "Save as"
@@ -2461,7 +2478,7 @@ en:
   button_upgrade: "Upgrade"
   button_upload: "Upload"
   button_view: "View"
-  button_view_shared_work_packages: "View shared work packages"
+  button_view_shared_work_packages: "View shared issues"
   button_watch: "Watch"
   calculated_values:
     error_dialog:
@@ -2583,7 +2600,7 @@ en:
             description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
             title: "Your list of items is empty"
         delete_dialog:
-          description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid."
+          description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing issues to become invalid."
           heading: "Delete custom field item?"
           title: "Delete custom field item"
         placeholder:
@@ -2613,7 +2630,7 @@ en:
         title: Role Assignment
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
-    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in issues). Are you sure you want to delete it?"
     contained_in_type: "Contained in type"
     enabled_in_project: "Enabled in project"
     instructions:
@@ -2628,7 +2645,7 @@ en:
         project: "Allows the user to add a comment related to the project attribute when selecting the value in the project overview."
       is_filter:
         all: >
-          Allow the custom field to be used in a filter in work package views.
+          Allow the custom field to be used in a filter in issue views.
           Note that only with 'For all projects' selected, the custom field will show up in global views.
       is_for_all:
         all: "Mark the custom field as available in all existing and new projects."
@@ -2657,7 +2674,7 @@ en:
     multi_value_more:
       other: "and %{count} more"
     no_role_assigment: "No role assignment"
-    placeholder_version_select: "Work package or project selection is required first"
+    placeholder_version_select: "Issue or project selection is required first"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
     semantic_keys:
@@ -2842,7 +2859,7 @@ en:
     This field uses autocomplete. While typing the title of a work
     package you will receive a list of possible candidates. Choose one
     using the arrow up and arrow down key and select it with tab or
-    enter. Alternatively you can enter the work package number directly.
+    enter. Alternatively you can enter the issue number directly.
   description_available_columns: "Available Columns"
   description_category_reassign: "Choose category"
   description_choose_project: "Projects"
@@ -2862,14 +2879,14 @@ en:
   description_message_content: "Message content"
   description_my_project: "You are member"
   description_notes: "Notes"
-  description_parent_work_package: "Parent work package of current"
+  description_parent_work_package: "Parent issue of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
   description_query_sort_criteria_direction: "Sort direction"
   description_search: "Searchfield"
-  description_select_work_package: "Select work package"
+  description_select_work_package: "Select issue"
   description_selected_columns: "Selected Columns"
-  description_sub_work_package: "Sub work package of current"
+  description_sub_work_package: "Sub issue of current"
   description_toc_toggle: "Show/Hide table of contents"
   description_wiki_subpages_reassign: "Choose new parent page"
 
@@ -2934,15 +2951,15 @@ en:
       portfolio_management: Portfolio management
       project_creation_wizard: Project initiation request
       project_list_sharing: Project List Sharing
-      readonly_work_packages: Readonly Work Packages
+      readonly_work_packages: Readonly Issues
       scim_api: SCIM server API
       sso_auth_providers: Single Sign-On
       team_planner_view: Team Planner View
       virus_scanning: Antivirus Scanning
       weighted_item_lists: Weighted item lists
-      work_package_query_relation_columns: Work Package Query Relation Columns
-      work_package_sharing: Share work packages with external users
-      work_package_subject_generation: Work Package Subject Generation
+      work_package_query_relation_columns: Issue Query Relation Columns
+      work_package_sharing: Share issues with external users
+      work_package_subject_generation: Issue Subject Generation
     teaser:
       description_html: "You have access to all %{trial_plan} features."
       title:
@@ -2980,7 +2997,7 @@ en:
         installation: "Installation support"
         installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
         premium_features: "Enterprise add-ons"
-        premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+        premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for issue attachments and multi-select custom fields."
         professional_support: "Professional support"
         professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running Neurvo in business-critical environments."
       buy_now_button: "Buy now"
@@ -2989,10 +3006,10 @@ en:
       capture_external_links:
         description: "Prevent social engineering attacks by capturing and warning about external links before users visit them."
       custom_actions:
-        description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
+        description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain issues based on status, role, type or project."
         title: "Custom actions"
       custom_field_hierarchies:
-        description: "Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists."
+        description: "Hierarchy custom fields allow organizing hierarchical structures in issues and projects by making use of multi-level select lists."
       customize_life_cycle:
         description: "Create and organize different project phases than the ones provided by PM2 project cycle planning."
       define_custom_style:
@@ -3003,7 +3020,7 @@ en:
         description: "Customize the form with these additional add-ons:"
         features:
           groups: "Add new attribute sections"
-          related: "Add a table of related work packages"
+          related: "Add a table of related issues"
           rename: "Rename attribute sections"
       hide_banner: "Hide this banner"
       homescreen_description: >
@@ -3024,7 +3041,7 @@ en:
         title: "Single Sign-On for Nextcloud Storage"
       placeholder_users:
         description: >
-          Placeholder users are a way to assign work packages to users who are not part of your project.
+          Placeholder users are a way to assign issues to users who are not part of your project.
           They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available,
           or if you don’t want to give that person access to Neurvo but still want to track tasks assigned to them.
         title: Placeholder users
@@ -3039,7 +3056,7 @@ en:
       project_list_sharing:
         description: "Share project lists with individual users."
       readonly_work_packages:
-        description: "Mark work packages as read-only for specific statuses."
+        description: "Mark issues as read-only for specific statuses."
       scim_api:
         description: "Automate user management in Neurvo by seamlessly integrating external identity services like Microsoft Entra or Keycloak through our SCIM Server API. Available starting with the Enterprise corporate plan."
         title: "SCIM clients"
@@ -3054,7 +3071,7 @@ en:
       weighted_item_lists:
         description: "Weighted item lists allow you to create a list with underlying numeric values associated."
       work_package_sharing:
-        description: "Share work packages with users who are not members of the project."
+        description: "Share issues with users who are not members of the project."
 
       work_package_subject_generation:
         description: "Create automatically generated subjects using referenced attributes and text."
@@ -3078,23 +3095,23 @@ en:
   enumeration_could_not_be_moved: "Enumeration could not be moved."
   enumeration_default_value_caption: "Making this %{model} the default will override the previous default %{model}."
   enumeration_reported_project_statuses: "Reported status"
-  enumeration_work_package_priorities: "Work package priorities"
+  enumeration_work_package_priorities: "Issue priorities"
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
 
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
-  error_can_not_deactivate_type_invisible_projects: "There are also work packages in projects you cannot see."
+  error_can_not_deactivate_type_invisible_projects: "There are also issues in projects you cannot see."
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_entry: "Unable to delete entry"
-  error_can_not_delete_in_use_archived_undisclosed: "There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
-  error_can_not_delete_in_use_archived_work_packages: "There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}"
+  error_can_not_delete_in_use_archived_undisclosed: "There are also issues in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected."
+  error_can_not_delete_in_use_archived_work_packages: "There are also issues in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective issues: %{archived_projects_urls}"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    explanation: 'This type contains issues and cannot be deleted. You can see all affected issues in <a target="_blank" href="%{url}">this view</a>.'
   error_can_not_find_all_resources: "Could not find all related resources to this request."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_remove_type_from_project: "Unable to remove \"%{name}\" from project \"%{project}\" because it's still in use by %{work_packages_link}"
-  error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
+  error_can_not_reopen_work_package_on_closed_version: "An issue assigned to a closed version cannot be reopened"
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Error %{code}"
@@ -3116,13 +3133,13 @@ en:
   error_migrations_are_pending: "Your Neurvo installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
   error_must_be_project_member: "must be project member"
-  error_no_default_work_package_status: 'No default work package status is defined. Please check your configuration (Go to "Administration -> Work package statuses").'
+  error_no_default_work_package_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
   error_omniauth_provider_incomplete: "You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
   error_password_change_failed: "An error occurred when trying to change the password."
-  error_pdf_date_range_too_long: "The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years."
+  error_pdf_date_range_too_long: "The selected issue date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_reminder_not_found: "The reminder was not found or was already notified about."
@@ -3130,8 +3147,8 @@ en:
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
   error_type_could_not_be_saved: "Type could not be saved"
-  error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
-  error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
+  error_unable_delete_default_status: "Unable to delete the default issue status. Please select another default issue status before deleting the current one."
+  error_unable_delete_status: "The issue status cannot be deleted since it is used by at least one issue."
   error_unable_delete_wiki: "Unable to delete the wiki page."
   error_unable_to_connect: "Unable to connect (%{value})"
   error_unable_update_wiki: "Unable to update the wiki page."
@@ -3139,8 +3156,8 @@ en:
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
     with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
-  error_work_package_id_not_found: "The work package was not found."
-  error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
+  error_work_package_id_not_found: "The issue was not found."
+  error_work_package_not_found_in_project: "The issue was not found or does not belong to this project"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
 
@@ -3172,9 +3189,9 @@ en:
       project_html: "Project: %{name}"
       subproject_html: "Subproject: %{name}"
     wiki_page: "Wiki page edited"
-    work_package_closed: "Work Package closed"
-    work_package_edit: "Work Package edited"
-    work_package_note: "Work Package note added"
+    work_package_closed: "Issue closed"
+    work_package_edit: "Issue edited"
+    work_package_note: "Issue note added"
 
   export:
     demo:
@@ -3183,9 +3200,9 @@ en:
       heading: "Demo PDF"
     dialog:
       columns:
-        input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
+        input_caption_report: "By default all attributes added as columns in the issue list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
         input_caption_required: "It is not possible to export the view without any column. Please add at least one column."
-        input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_caption_table: "By default all attributes added as columns in the issue list are selected. Long text fields are not available in table based exports."
         input_label_report: "Add columns to attribute table"
       format:
         label: "File format"
@@ -3208,13 +3225,13 @@ en:
           label: "PDF export type"
           options:
             gantt:
-              caption: "Export the work packages list in a Gantt diagram view."
+              caption: "Export the issues list in a Gantt diagram view."
               label: "Gantt chart"
             report:
-              caption: "Export the work package on a detailed report of all work packages in the list."
+              caption: "Export the issue on a detailed report of all issues in the list."
               label: "Report"
             table:
-              caption: "Export the work packages list in a table with the desired columns."
+              caption: "Export the issues list in a table with the desired columns."
               label: "Table"
         gantt_zoom_levels:
           caption: "Select what is the zoom level for dates displayed in the chart."
@@ -3244,11 +3261,11 @@ en:
           caption: "This option will add a description column in raw format."
           label: "Include descriptions"
         include_relations:
-          caption: "This option will create a duplicate of each work package for every relation this has with another work package."
+          caption: "This option will create a duplicate of each issue for every relation this has with another issue."
           label: "Include relations"
     errors:
-      embedded_table_with_too_many_columns: "This embedded work package table could not fit on the page, please reduce the number of columns."
-    failed: "An error has occurred while trying to export the work packages: %{message}"
+      embedded_table_with_too_many_columns: "This embedded issue table could not fit on the page, please reduce the number of columns."
+    failed: "An error has occurred while trying to export the issues: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -3270,7 +3287,7 @@ en:
       days: d
       hours: h
     your_projects_export: "Projects are being exported"
-    your_work_packages_export: "Work packages are being exported"
+    your_work_packages_export: "Issues are being exported"
   external_link_warning:
     continue_button: "Continue to external website"
     continue_message: "Are you sure you want to proceed to the following external link?"
@@ -3376,8 +3393,8 @@ en:
       project: >
         %{plural} are always attached to a project.
         You can only select projects here where the %{plural} module is active.
-        After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+        After creating a %{singular} you can add issues from other projects to it.
+      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of issue results in that view and depending on their permissions, users may see different results."
 
   homescreen:
     additional:
@@ -3393,10 +3410,10 @@ en:
         # We need to include the version to invalidate outdated translations in other locales
         "17_9":
           new_features_list:
-            line_0: "Create work packages directly in Documents."
-            line_1: "Search and filter work packages in Backlogs."
-            line_2: "Choose whether to keep descendants when deleting a work package."
-            line_3: "Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan)."
+            line_0: "Create issues directly in Documents."
+            line_1: "Search and filter issues in Backlogs."
+            line_2: "Choose whether to keep descendants when deleting an issue."
+            line_3: "Use the MCP Server to track time, search issues by their display ID, and more (Professional plan)."
             line_4: "Enter planned labor in hours, days, weeks, or months."
             line_5: "See the import progress when using the Jira Migrator."
             line_6: "Use Date alerts in the Community Edition."
@@ -3477,17 +3494,17 @@ en:
         target_versions_repaired: >-
           Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: >-
-          Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>.
+          Work and progress totals automatically removed for non-parent issues with <a href="%{href}" target="_blank">version update</a>.
           This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: >-
-        Work values of child work packages are ignored.
+        Work values of child issues are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
-        Child work packages without Work are ignored.
-      unaccessable_work_package_changed: by changes to a related work package
+        Child issues without Work are ignored.
+      unaccessable_work_package_changed: by changes to a related issue
       work_package_children_changed_times: by changes to child %{link}
-      work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
+      work_package_duplicate_closed: The status was automatically updated by the duplicated issue %{link}
       work_package_parent_changed_times: by changes to parent %{link}
-      work_package_parent_deleted: because the parent work package was deleted
+      work_package_parent_deleted: because the parent issue was deleted
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_related_changed_times: by changes to related %{link}
       working_days_changed:
@@ -3516,7 +3533,7 @@ en:
       system_update: "Neurvo system update:"
       total_percent_complete_mode_changed_to_simple_average: "Calculation of % Complete totals now based on a simple average of only % Complete values."
       total_percent_complete_mode_changed_to_work_weighted_average: "Calculation of % Complete totals now weighted by Work."
-      work_package_duplicate_closed: "Duplicate work package updated:"
+      work_package_duplicate_closed: "Duplicate issue updated:"
       work_package_parent_deleted: "Parent removed"
 
     changes_retracted: "The changes were retracted."
@@ -3529,7 +3546,7 @@ en:
       sprint: "a non-visible sprint"
       time_entry_activity: "a non-visible activity"
       version: "a non-visible version"
-      work_package: "a non-visible work package"
+      work_package: "a non-visible issue"
   label_accessibility: "Accessibility"
 
   label_account: "Account"
@@ -3544,7 +3561,7 @@ en:
   label_add_edit_translations: "Add and edit translations"
   label_add_note: "Add a note"
   label_add_projects: "Add projects"
-  label_add_related_work_packages: "Add related work packages"
+  label_add_related_work_packages: "Add related issues"
   label_add_subtask: "Add subtask"
   label_added: "added"
   label_added_by: "Added by %{author}"
@@ -3571,7 +3588,7 @@ en:
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"
-  label_assigned_to_me_work_packages: "Work packages assigned to me"
+  label_assigned_to_me_work_packages: "Issues assigned to me"
   label_associated_revisions: "Associated revisions"
   label_attachment_plural: "Attachments"
   label_attribute: "Attribute"
@@ -3585,8 +3602,8 @@ en:
   label_available_project_forums: "Available forums"
   label_available_project_repositories: "Available repositories"
   label_available_project_versions: "Available versions"
-  label_available_project_work_package_categories: "Available work package categories"
-  label_available_project_work_package_types: "Available work package types"
+  label_available_project_work_package_categories: "Available issue categories"
+  label_available_project_work_package_types: "Available issue types"
   label_available_projects: "Available projects"
   label_backtrace: "Backtrace"
   label_backup: "Backup"
@@ -3602,7 +3619,7 @@ en:
   label_branch: "Branch"
   label_browse: "Browse"
   label_builtin: "Built-in"
-  label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
+  label_bulk_edit_selected_work_packages: "Bulk edit selected issues"
   label_bundled: "(Bundled)"
   label_calculated_value: "Calculated value"
   label_calendar: "Calendar"
@@ -3678,7 +3695,7 @@ en:
     Upload and manage custom image files used in your PDF exports.
   label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
-  label_custom_field_add_no_type: "Add this field to a work package type"
+  label_custom_field_add_no_type: "Add this field to an issue type"
   label_custom_field_default_type: "Empty type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
@@ -3919,7 +3936,7 @@ en:
   label_more_than_ago: "more than days ago"
   label_move_column_left: "Move column left"
   label_move_column_right: "Move column right"
-  label_move_work_package: "Move work package"
+  label_move_work_package: "Move issue"
   label_my_account: "Account settings"
   label_my_account_data: "My account data"
   label_my_activity: "My activity"
@@ -4060,7 +4077,7 @@ en:
   label_register: "Create a new account"
   label_register_with_developer: "Register as developer"
   label_registered_on: "Registered on"
-  label_related_work_packages: "Related work packages"
+  label_related_work_packages: "Related issues"
   label_relates: "related to"
   label_relates_to: "related to"
   label_relation_actions: "Relation actions"
@@ -4076,7 +4093,7 @@ en:
   label_report: "Report"
   label_report_bug: "Report a bug"
   label_report_plural: "Reports"
-  label_reported_work_packages: "Reported work packages"
+  label_reported_work_packages: "Reported issues"
   label_reporting: "Reporting"
   label_reporting_plural: "Reportings"
   label_repository: "Repository"
@@ -4095,7 +4112,7 @@ en:
   label_roadmap: "Roadmap"
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_edit: "Edit roadmap %{name}"
-  label_roadmap_no_work_packages: "No work packages for this version"
+  label_roadmap_no_work_packages: "No issues for this version"
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: "Roles and permissions"
   label_role_grantable: "Grantable role"
@@ -4114,11 +4131,15 @@ en:
   label_select_main_menu_item: Select new main menu item
   label_send_information: "Send new credentials to the user"
   label_send_invitation: Send invitation
+  label_send_password_reset: Send password reset
+  label_edit_user: Edit user
+  notice_password_reset_sent: "A password reset link was sent to %{email}."
+  notice_password_reset_not_possible: "A password reset is not possible for %{name}. The account must be active and use password login."
   label_send_test_email: "Send a test email"
   label_setting_plural: "Settings"
   label_share: "Share"
   label_share_project_list: "Share project list"
-  label_share_work_package: "Share work package"
+  label_share_work_package: "Share issue"
   label_show_all_registered_users: "Show all registered users"
   label_show_completed_versions: "Show completed versions"
   label_show_less: "Show less"
@@ -4216,7 +4237,7 @@ en:
   label_view_diff: "View differences"
   label_view_revisions: "View revisions"
   label_view_x: "View: %{x}"
-  label_watched_work_packages: "Watched work packages"
+  label_watched_work_packages: "Watched issues"
   label_week: "Week"
   label_weighted_item_list: "Weighted item list"
   label_what_is_this: "What is this?"
@@ -4238,20 +4259,20 @@ en:
   label_wiki_toc: "Table of Contents"
   label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
   label_work: "Work"
-  label_work_package: "Work package"
-  label_work_package_attachments: "Work package attachments"
+  label_work_package: "Issue"
+  label_work_package_attachments: "Issue attachments"
   label_work_package_category_new: "New category"
-  label_work_package_category_plural: "Work package categories"
-  label_work_package_comments: "Work package comments"
-  label_work_package_edit: "Edit work package %{name}"
-  label_work_package_hierarchy: "Work package hierarchy"
-  label_work_package_new: "New work package"
-  label_work_package_plural: "Work packages"
+  label_work_package_category_plural: "Issue categories"
+  label_work_package_comments: "Issue comments"
+  label_work_package_edit: "Edit issue %{name}"
+  label_work_package_hierarchy: "Issue hierarchy"
+  label_work_package_new: "New issue"
+  label_work_package_plural: "Issues"
   label_work_package_status_new: "New status"
-  label_work_package_status_plural: "Work package statuses"
-  label_work_package_tracking: "Work package tracking"
-  label_work_package_types: "Work package types"
-  label_work_package_view_all: "View all work packages"
+  label_work_package_status_plural: "Issue statuses"
+  label_work_package_tracking: "Issue tracking"
+  label_work_package_types: "Issue types"
+  label_work_package_view_all: "View all issues"
   label_workflow: "Workflow"
   label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
@@ -4290,9 +4311,9 @@ en:
     other: "%{count} projects"
     zero: "no projects"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 issue"
+    other: "%{count} issues"
+    zero: "No issues"
   label_x_working_days:
     one: "1 working day"
     other: "%{count} working days"
@@ -4392,7 +4413,7 @@ en:
       errors:
         invalid_type: "No type found with name '%{type}' in project '%{project}'."
         no_project_context: "Calling create_work_package_link macro from outside project context."
-      link_name: "New work package"
+      link_name: "New issue"
     errors:
       missing_or_invalid_parameter: "Missing or invalid macro parameter."
     include_wiki_page:
@@ -4426,14 +4447,14 @@ en:
     salutation_full_name: "Full name"
     sharing:
       work_packages:
-        allowed_actions_html: "You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
-        enterprise_text: "Share work packages with users who are not members of the project."
-        open_work_package: "Open work package"
-        subject: "Work package %{id} was shared with you"
+        allowed_actions_html: "You have the following permissions on this issue: %{allowed_actions}. This can change depending on your project role and permissions."
+        create_account: "To access this issue, you will need to create and activate an account on %{instance}."
+        enterprise_text: "Share issues with users who are not members of the project."
+        open_work_package: "Open issue"
+        subject: "Issue %{id} was shared with you"
         summary:
-          group: "%{user} shared a work package with the group %{group} you are a member of"
-          user: "%{user} shared a work package with you with %{role_rights} rights"
+          group: "%{user} shared an issue with the group %{group} you are a member of"
+          user: "%{user} shared an issue with you with %{role_rights} rights"
     storages:
       health:
         email_notification_settings: "Storage email notification settings"
@@ -4469,8 +4490,8 @@ en:
       mentioned: "You have been <b>mentioned in a comment</b>"
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: "There is 1 more work package with notifications."
-        other: "There are %{count} more work packages with notifications."
+        one: "There is 1 more issue with notifications."
+        other: "There are %{count} more issues with notifications."
       open_in_browser: "Open in browser"
       reason:
         assigned: "Assigned"
@@ -4497,7 +4518,7 @@ en:
   mail_body_backup_token_reset_user_info: Your backup token has been reset.
   mail_body_backup_token_warning: If this wasn't you, login to Neurvo immediately and reset it again.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
+  mail_body_group_reminder: '%{count} issue(s) that are assigned to group "%{group}" are due in the next %{days} days:'
   mail_body_incoming_email_error: The email you sent to Neurvo could not be processed.
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
   mail_body_incoming_email_error_logs: "Logs"
@@ -4512,7 +4533,7 @@ en:
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_user: "Dear %{name}, "
-  mail_body_reminder: "%{count} work package(s) that are assigned to you are due in the next %{days} days:"
+  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
   mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_member_added_project:
@@ -4582,21 +4603,21 @@ en:
       however_work_packages_shared_with_user_html:
         one: "However, %{shared_work_packages_link} has also been shared with this user."
         other: "However, %{shared_work_packages_link} have also been shared with this user."
-      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the work package shares too?"
-      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
-      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared work packages. Would you like to remove the shares too?"
+      remove_project_membership_or_work_package_shares_too: "Do you want to remove just the user as a direct member (and keep the shares) or remove the issue shares too?"
+      remove_work_packages_shared_with_group_too: "A group that has been removed as member can still access shared issues. Would you like to remove the shares too?"
+      remove_work_packages_shared_with_user_too: "A user that has been removed as member can still access shared issues. Would you like to remove the shares too?"
       title: "Remove member"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      will_not_affect_inherited_shares: "(This will not affect issues shared with their group)."
       will_remove_all_group_access_priveleges: "Deleting this member will remove all access privileges of the group to the project. The group will still exist as part of the instance."
       will_remove_all_user_access_priveleges: "Deleting this member will remove all access privileges of the user to the project. The user will still exist as part of the instance."
       will_remove_the_groups_role: "This will remove the group role from this project."
       will_remove_the_users_role: "This will remove the user’s role from this project."
     delete_work_package_shares_dialog:
-      cannot_remove_inherited: "The work packages shares shared via groups cannot be removed."
+      cannot_remove_inherited: "The issues shares shared via groups cannot be removed."
       cannot_remove_inherited_note_admin_html: "You can either revoke the share to the group or remove this specific member from the group in the %{administration_settings_link}."
       cannot_remove_inherited_note_non_admin: "You can either revoke the share to the group or contact your administrator to remove this specific member from the group."
-      cannot_remove_inherited_with_role: "The work packages shares with role %{shared_role_name} are shared via groups and cannot be removed."
-      revoke_all_or_with_role: "Would you like to revoke access to all shared work packages, or only those with %{shared_role_name} permissions?"
+      cannot_remove_inherited_with_role: "The issues shares with role %{shared_role_name} are shared via groups and cannot be removed."
+      revoke_all_or_with_role: "Would you like to revoke access to all shared issues, or only those with %{shared_role_name} permissions?"
       shared_with_permission_html:
         one: "Only %{shared_work_packages_link} has been shared with %{shared_role_name} permissions."
         other: "Only %{shared_work_packages_link} have been shared with %{shared_role_name} permissions."
@@ -4606,10 +4627,10 @@ en:
       shared_with_this_user_html:
         one: "%{all_shared_work_packages_link} has been shared with this user."
         other: "%{all_shared_work_packages_link} have been shared with this user."
-      title: "Revoke work package shares"
-      will_not_affect_inherited_shares: "(This will not affect work packages shared with their group)."
+      title: "Revoke issue shares"
+      will_not_affect_inherited_shares: "(This will not affect issues shared with their group)."
       will_revoke_access_to_all: "This action will revoke their access to all of them."
-      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the work packages shared with a group."
+      will_revoke_directly_granted_access: "This action will revoke their access to all of them, but the issues shared with a group."
     filters:
       all_shares: "All shares"
     index:
@@ -4622,7 +4643,7 @@ en:
       invited: "Invited"
       locked: "Locked"
       project_roles: "Project roles"
-      wp_shares: "Work package shares"
+      wp_shares: "Issue shares"
     send_invite_to: "Send invite to"
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
@@ -4681,7 +4702,7 @@ en:
         blank_title: "No iCalendar token"
         disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
         table_title: "iCalendar tokens"
-        text_hint_link: "iCalendar tokens allow users to [subscribe to Neurvo calendars](docs_url) and view up-to-date work package information from external clients."
+        text_hint_link: "iCalendar tokens allow users to [subscribe to Neurvo calendars](docs_url) and view up-to-date issue information from external clients."
         title: "iCalendar"
       indefinite_expiration: "Never"
       no_results:
@@ -4741,7 +4762,7 @@ en:
         time_slot_label: "Reminder time (UTC)"
         title: "Send me daily email reminders for unread notifications"
       email_alerts:
-        description: "Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications."
+        description: "Notifications today are limited to issues. You can choose to continue receiving email alerts for these events until they are included in notifications."
         document_added: "Document added"
         forum_messages: "Forum message posted"
         membership_added: "Membership added"
@@ -4749,7 +4770,7 @@ en:
         news_added: "News added"
         news_commented: "Comment on a news item"
         submit_button: "Update alerts"
-        title: "Email alerts for other items that are not work packages"
+        title: "Email alerts for other items that are not issues"
         wiki_page_added: "Wiki page added"
         wiki_page_updated: "Wiki page updated"
       immediate_reminders:
@@ -4765,7 +4786,7 @@ en:
         title: "Receive email reminders on these days"
     notifications:
       date_alerts:
-        description: "You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines."
+        description: "You can configure date alerts for issues where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines."
         due_date: "Finish date"
         overdue: "Overdue"
         start_date: "Start date"
@@ -4784,13 +4805,13 @@ en:
         submit_button: "Update preferences"
         title: "Non-participating"
         work_package_commented: "All new comments"
-        work_package_created: "New work packages"
+        work_package_created: "New issues"
         work_package_prioritized: "All priority changes"
         work_package_processed: "All status changes"
         work_package_scheduled: "All date changes"
       participating:
         assignee: "Assignee"
-        description: "You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you)."
+        description: "You will always receive a notification whenever you are mentioned, and for changes to issues you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to issues that concern you (where you are assignee, accountable or are shared with you)."
         mentioned: "Mentioned"
         responsible: "Accountable"
         shared: "Shared with me"
@@ -4960,7 +4981,7 @@ en:
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_work_packages: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
 
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
@@ -4995,7 +5016,7 @@ en:
   notice_successful_update: "Successful update."
   notice_successful_update_custom_fields_added_to_project: |
     Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    on the issue form. <a href="%{url}" target="_blank">See more</a>.
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_unsuccessful_create: "Creation failed."
   notice_unsuccessful_create_with_reason: "Creation failed: %{reason}"
@@ -5029,7 +5050,7 @@ en:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
-        created: "The work package was created."
+        created: "The issue was created."
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         subscribed: "You subscribed to %{work_package}"
@@ -5231,7 +5252,7 @@ en:
         drag_handle:
           label: "Drag to reorder"
         menu:
-          label_actions: "Work package actions"
+          label_actions: "Issue actions"
         parent: "Parent"
         undisclosed: "Undisclosed"
   page:
@@ -5257,7 +5278,7 @@ en:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
         default_hint_project_name: When left blank, defaults to the project name.
-        default_hint_subject: When left blank, defaults to the work package's subject.
+        default_hint_subject: When left blank, defaults to the issue's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -5282,20 +5303,20 @@ en:
       submit: Download
       templates:
         label: "Template"
-        none_enabled: "No template has been enabled for this work package type"
+        none_enabled: "No template has been enabled for this issue type"
       title: Generate PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
     page_nr_footer: "Page %{page} of %{total}"
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
+      caption: Issue details rendered as a PMflex Artefact.
       label: "PMflex Artefact"
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: "Attributes and description"
     template_contract:
-      caption: Work package details formatted to the standard German contract form.
+      caption: Issue details formatted to the standard German contract form.
       label: "Contract"
   permission_add_internal_comments: "Write internal comments"
   permission_add_messages: "Post messages"
@@ -5304,21 +5325,21 @@ en:
   permission_add_project: "Create projects"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_attachments: "Add attachments"
-  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
+  permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit issues permission"
 
   permission_add_work_package_comments: "Add comments"
   permission_add_work_package_watchers: "Add watchers"
-  permission_add_work_packages: "Add work packages"
+  permission_add_work_packages: "Add issues"
   permission_archive_project: "Archive project"
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Change issue status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit issues permission"
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
   permission_copy_projects_explanation: "In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template."
-  permission_copy_work_packages: "Duplicate work packages"
+  permission_copy_work_packages: "Duplicate issues"
   permission_create_backup: "Create backups"
   permission_create_user: "Create users"
   permission_delete_messages: "Delete messages"
@@ -5326,7 +5347,7 @@ en:
   permission_delete_reportings: "Delete reportings"
   permission_delete_timelines: "Delete timelines"
   permission_delete_work_package_watchers: "Delete watchers"
-  permission_delete_work_packages: "Delete work packages"
+  permission_delete_work_packages: "Delete issues"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
   permission_edit_messages: "Edit messages"
   permission_edit_others_internal_comments: "Moderate internal comments"
@@ -5345,10 +5366,10 @@ en:
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_edit_work_package_comments: "Moderate comments"
   permission_edit_work_package_comments_explanation: "Caution: Users with this permission are able to edit anyone's comment."
-  permission_edit_work_packages: "Edit work packages"
+  permission_edit_work_packages: "Edit issues"
   permission_export_projects: "Export projects"
-  permission_export_work_packages: "Export work packages"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_export_work_packages: "Export issues"
+  permission_header_for_project_module_work_package_tracking: "Issues and Gantt charts"
   permission_invite_members_by_email: "Invite members by email"
   permission_invite_members_by_email_explanation: >
     Allows users to invite new members by email.
@@ -5356,7 +5377,7 @@ en:
     Depends on the permission to manage members
   permission_log_own_time: "Log own time"
   permission_log_time: "Log time for other users"
-  permission_manage_categories: "Manage work package categories"
+  permission_manage_categories: "Manage issue categories"
   permission_manage_dashboards: "Manage dashboards"
   permission_manage_forums: "Manage forums"
   permission_manage_members: "Manage members"
@@ -5372,16 +5393,16 @@ en:
   permission_manage_public_project_queries: "Manage public project lists"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Manage repository"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Manage issue hierarchies"
   permission_manage_types: "Select types"
   permission_manage_user: "Edit users"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
-  permission_manage_work_package_relations: "Manage work package relations"
+  permission_manage_work_package_relations: "Manage issue relations"
   permission_manage_working_times: "Manage working times for all users"
   permission_manage_working_times_explanation: >
     Allows users to manage working times for all users, including personal non-working days.
-  permission_move_work_packages: "Move work packages"
+  permission_move_work_packages: "Move issues"
   permission_project_identifier_visibility_caution: "Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)"
   permission_save_bcf_queries: "Save BCF queries"
   permission_save_queries: "Save views"
@@ -5391,7 +5412,7 @@ en:
   permission_select_project_modules: "Select project modules"
   permission_select_project_phases: "Select project phases"
   permission_select_project_phases_explanation: "Activate/Deactivate the phases in a project. Enables the user to select the life cycle appropriate for the project as inactive phases will not be visible in the project overview page nor the project list."
-  permission_share_work_packages: "Share work packages"
+  permission_share_work_packages: "Share issues"
   permission_view_all_principals: "View all users and groups"
   permission_view_all_principals_explanation: >
     Allows users to see all users and groups in the system, even if they are not members of any joined projects or groups.
@@ -5408,16 +5429,16 @@ en:
   permission_view_project_phases: "View project phases"
   permission_view_project_query: "View project query"
   permission_view_reportings: "View reportings"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "View issue shares"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
   permission_view_user_email: "View users' mail addresses"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
   permission_view_work_package_watchers: "View watchers list"
-  permission_view_work_packages: "View work packages"
+  permission_view_work_packages: "View issues"
   permission_work_package_assigned: "Become assignee/responsible"
-  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+  permission_work_package_assigned_explanation: "Issues can be assigned to users and groups in possession of this role in the respective project"
   placeholder_users:
     delete_tooltip: "Delete placeholder user"
     deletion_info:
@@ -5470,7 +5491,7 @@ en:
     edit:
       priority_color_text: |
         Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        It can be used for highlighting issues in the table.
 
   program:
     count:
@@ -5523,19 +5544,19 @@ en:
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
-  project_module_work_package_tracking: "Work packages"
+  project_module_work_package_tracking: "Issues"
 
   projects:
     # Contains custom strings for options when copying a project that cannot be found elsewhere.
     copy:
       members: "Project members"
       overviews: "Project overview"
-      queries: "Work packages: saved views"
+      queries: "Issues: saved views"
       wiki_page_attachments: "Wiki pages: attachments"
-      work_package_attachments: "Work packages: attachments"
-      work_package_categories: "Work packages: categories"
-      work_package_file_links: "Work packages: file links"
-      work_package_shares: "Work packages: shares"
+      work_package_attachments: "Issues: attachments"
+      work_package_categories: "Issues: categories"
+      work_package_file_links: "Issues: file links"
+      work_package_shares: "Issues: shares"
     create:
       complete_wizard_link: "Complete the %{artefact_name}"
       notification_email_subject: "Your project '%{project_name}' has been created"
@@ -5577,28 +5598,28 @@ en:
       button_update_parent_project: Update parent project
       button_update_status_description: Update status description
       categories:
-        no_results_content_text: Create a new work package category
-        no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new issue category
+        no_results_title_text: There are currently no issue categories.
       change_identifier: Change identifier
       change_identifier_dialog_title: Change project identifier
       change_identifier_format_hint_legacy: "Only lowercase letters (a–z), numbers, dashes or underscores."
       change_identifier_format_hint_semantic: "Only uppercase letters (A–Z), numbers or underscores. Max 10 characters. Must start with a letter."
       change_identifier_warning: >
-        This will permanently change identifiers and URLs of all work packages in this project.
+        This will permanently change identifiers and URLs of all issues in this project.
         The previous identifiers and URLs will nevertheless continue to work.
       creation_wizard:
         enabled_because_required_html: This project attribute cannot be disabled for this project initiation request since it is defined as required. This can be changed in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance.
         errors:
-          no_status_when_submitted: "Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type."
-          no_work_package_type: "Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project."
+          no_status_when_submitted: "Failed to enable project initiation request because issue type %{type} requires at least one status associated with it. Please enable at least one status workflow for this issue type."
+          no_work_package_type: "Failed to enable project initiation request because it requires at least one active issue type and this project has none. Please add at least one issue type to this project."
         export:
-          description_attachment_export: "The generated artefact will be saved as a PDF attachment to the artefact work package."
-          description_file_link_export: "The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported."
+          description_attachment_export: "The generated artefact will be saved as a PDF attachment to the artefact issue."
+          description_file_link_export: "The artefact issue will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported."
           description_file_storage_selection: "Select which of the configured external file storages should be used."
           external_file_storage: "External file storage"
           label_artifact_export: "Artefact export"
-          label_attachment_export: "Save as work package file attachment"
-          label_file_link_export: "Upload file to external file storage and add file link to work package"
+          label_attachment_export: "Save as issue file attachment"
+          label_file_link_export: "Upload file to external file storage and add file link to issue"
           pdf_file_storage: "PDF file storage"
           unavailable: "unavailable"
         label_request_submission: "Request submission"
@@ -5689,7 +5710,7 @@ en:
         add_variant: "Add a project-specific variant"
         base_type_in_use: "Base type used in this project"
         empty_state:
-          description: "Add a type to let people create work packages of that type in this project."
+          description: "Add a type to let people create issues of that type in this project."
           title: "No types are active in this project"
         form:
           enable_type_in_project: 'Enable type "%{type}"'
@@ -5700,20 +5721,20 @@ en:
           apply: "Apply"
           impact:
             hidden_heading: "Fields that will no longer be shown"
-            missing_statuses_description: "The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on."
-            missing_statuses_heading: "Work packages that get stuck"
+            missing_statuses_description: "The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these issues on."
+            missing_statuses_heading: "Issues that get stuck"
             new_heading: "Fields that become available"
             nothing_affected: "No fields or statuses are affected."
             status_count:
-              one: "1 work package"
-              other: "%{count} work packages"
+              one: "1 issue"
+              other: "%{count} issues"
             table_suffix: "(table)"
             value_count:
-              one: "1 work package has a value"
-              other: "%{count} work packages have a value"
+              one: "1 issue has a value"
+              other: "%{count} issues have a value"
             work_packages:
-              one: "1 work package will use the new configuration"
-              other: "%{count} work packages will use the new configuration"
+              one: "1 issue will use the new configuration"
+              other: "%{count} issues will use the new configuration"
           success: "The project now uses %{type}."
           target_label: "Variant"
           title: "%{type}: Switch variant"
@@ -5725,21 +5746,21 @@ en:
       versions:
         no_results_content_text: Create a new version
         no_results_title_text: There are currently no versions for the project.
-        show_work_packages: Show work packages
-        work_packages_graph: Work packages graph
+        show_work_packages: Show issues
+        work_packages_graph: Issues graph
       work_package_priorities:
         new_label: "New priority"
     status:
       button_edit: Edit status
     wizard:
       create_artifact_storage_error: "Failed to store artefact in file storage"
-      create_artifact_work_package_error: "Failed to create artefact work package"
+      create_artifact_work_package_error: "Failed to create artefact issue"
       no_custom_fields_html: 'This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.'
       no_help_text: "This attribute has no help text defined."
       progress_label: "%{current} of %{total}"
       sections: "Sections"
       sidebar_content_title: "Content"
-      success: "Project attributes saved and artefact work package created successfully."
+      success: "Project attributes saved and artefact issue created successfully."
       title: "Project initiation request"
   queries:
     apply_filter: Apply preconfigured filter
@@ -5936,7 +5957,7 @@ en:
   setting_ai_text_transform_actions_enabled: "Enable text transform actions"
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
-    Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.
+    Allow these protocols to be rendered as links in issue descriptions, long text fields and comments.
     For example, %{tel_code} or %{element_code}. Enter one protocol per line.
     <br/>
     Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
@@ -6000,7 +6021,7 @@ en:
     before leaving the application. This helps protect users from potentially malicious external websites.
   setting_collaborative_editing_hocuspocus_secret: "Hocuspocus server secret"
   setting_collaborative_editing_hocuspocus_url: "Hocuspocus server URL"
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "Default issue lists columns"
   setting_commit_fix_keywords: "Fixing keywords"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Activity for logged time"
@@ -6010,7 +6031,7 @@ en:
   setting_consent_info: "Consent information text"
   setting_consent_required: "Consent required"
   setting_consent_time: "Consent time"
-  setting_cross_project_work_package_relations: "Allow cross-project work package relations"
+  setting_cross_project_work_package_relations: "Allow cross-project issue relations"
   setting_csv_escape_formulas: "Escape formulas in CSV exports"
   setting_csv_escape_formulas_text: >
     Escape spreadsheet formulas in CSV exports by prefixing cells that begin
@@ -6025,7 +6046,7 @@ en:
   setting_default_projects_wiki: "Enable wiki functionality for new projects by default"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
   setting_disable_password_login: "Disable password authentication"
-  setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
+  setting_display_subprojects_work_packages: "Display subprojects issues on main projects by default"
   setting_duration_format: "Duration format"
   setting_duration_format_days_and_hours: "Days and hours"
   setting_duration_format_hours_only: "Hours only"
@@ -6085,10 +6106,10 @@ en:
   setting_percent_complete_on_status_closed: "% Complete when status is closed"
   setting_percent_complete_on_status_closed_no_change: "No change"
   setting_percent_complete_on_status_closed_no_change_caption_html: >-
-    The value of <i>% Complete</i> will not change even when a work package is closed.
+    The value of <i>% Complete</i> will not change even when an issue is closed.
   setting_percent_complete_on_status_closed_set_100p: "Automatically set to 100%"
   setting_percent_complete_on_status_closed_set_100p_caption: >-
-    A closed work package is considered complete.
+    A closed issue is considered complete.
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_project_gantt_query: "Project portfolio Gantt view"
   setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
@@ -6149,11 +6170,11 @@ en:
   setting_total_percent_complete_mode: "Calculation of % Complete hierarchy totals"
   setting_total_percent_complete_mode_simple_average: "Simple average"
   setting_total_percent_complete_mode_simple_average_caption_html: >-
-    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of work packages in the hierarchy.
+    <i>Work</i> is ignored and the <i>total % Complete</i> will be a simple average of <i>% Complete</i> values of issues in the hierarchy.
   setting_total_percent_complete_mode_work_weighted_average: "Weighted by work"
   setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
-    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy.
-    Work packages without <i>Work</i> will be ignored.
+    The <i>total % Complete</i> will be weighted against the <i>Work</i> of each issue in the hierarchy.
+    Issues without <i>Work</i> will be ignored.
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
   setting_user_can_change_email: "Users allowed to change their email address"
   setting_user_default_timezone: "Users default time zone"
@@ -6179,15 +6200,15 @@ en:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_multiple_versions: "Multiple target versions"
-  setting_work_package_properties: "Work package properties"
-  setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
+  setting_work_package_properties: "Issue properties"
+  setting_work_package_startdate_is_adddate: "Use current date as start date for new issues"
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
-  setting_work_packages_identifier_classic_caption: "Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects."
+  setting_work_packages_identifier_classic_caption: "Every issue gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if issues are moved between projects."
   setting_work_packages_identifier_semantic: "Project-based semantic identifiers"
-  setting_work_packages_identifier_semantic_caption: "Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function."
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_identifier_semantic_caption: "Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If an issue is moved to another project, a new identifier is generated but the old one will continue to function."
+  setting_work_packages_projects_export_limit: "Issues / Projects export limit"
   setting_work_packages_projects_export_limit_text: >
-    Maximum number of work packages or projects that can be included in a single
+    Maximum number of issues or projects that can be included in a single
     export. Larger exports are truncated to this limit.
   setting_working_days: "Working days"
 
@@ -6228,8 +6249,8 @@ en:
       title: "Virus scanning"
     attachments:
       show_work_package_attachments: >
-        Deactivating this option will hide the attachments list on the work packages files tab for new projects. The
-        files attached in the description of a work package will still be uploaded in the internal attachments storage.
+        Deactivating this option will hide the attachments list on the issues files tab for new projects. The
+        files attached in the description of an issue will still be uploaded in the internal attachments storage.
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files.
         <br/>
@@ -6285,11 +6306,11 @@ en:
         status: "Entire row by Status"
         type: "Entire row by Type"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to Neurvo calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to Neurvo calendars and access issue information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     language_name_being_default: "%{language_name} (default)"
     notifications:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-      events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
+      events_explanation: "Governs for which event an email is sent out. Issues are excluded from this list as the notifications for them can be configured specifically for every user."
     other: "Other"
     passwords: "Passwords"
     project_attributes:
@@ -6342,27 +6363,27 @@ en:
         not_completed_description: "Provide the necessary information by filling the attributes and get the project started."
         submitted: "%{wizard_name} has been submitted"
         submitted_button: "Open submission request"
-        submitted_description: "Click the button below to go to the work package for the submission process."
+        submitted_description: "Click the button below to go to the issue for the submission process."
       submission:
         assignee: "Assignee when submitted"
-        assignee_caption_html: "The user or group assigned to this project attribute will also become the assignee of the new work package. This list includes active project attributes of type <i>User</i> only."
-        confirmation_email_default: "Hello,\n\nYou submitted a project initiation request for **%{project_name}**. It is now awaiting review.\nClick the link below to access the work package with your request."
+        assignee_caption_html: "The user or group assigned to this project attribute will also become the assignee of the new issue. This list includes active project attributes of type <i>User</i> only."
+        confirmation_email_default: "Hello,\n\nYou submitted a project initiation request for **%{project_name}**. It is now awaiting review.\nClick the link below to access the issue with your request."
         confirmation_email_text: "Confirmation email text"
-        description: "When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package."
+        description: "When a user submits a project initiation request, a new issue will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new issue."
         description_template: >
-          **This work package was automatically created upon completion of the %{wizard_name} workflow.**
+          **This issue was automatically created upon completion of the %{wizard_name} workflow.**
 
-          A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes.
+          A PDF artefact containing all submitted information has been generated and attached to this issue for reference and audit purposes.
 
           If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:
         send_confirmation_email: "Send confirmation email to the user who submitted the project initiation request"
         status_when_submitted: "Status when submitted"
-        status_when_submitted_caption: "The status the generated work package will transition to once the request is submitted."
-        work_package_comment: "Work package comment"
+        status_when_submitted_caption: "The status the generated issue will transition to once the request is submitted."
+        work_package_comment: "Issue comment"
         work_package_comment_caption: "The assignee selected above will automatically be @mentioned in the comment."
         work_package_comment_default: "A project initiation request for **%{project_name}** was submitted and is awaiting review."
-        work_package_type: "Work package type"
-        work_package_type_caption: "The work package type that should be used to store the completed artefact."
+        work_package_type: "Issue type"
+        work_package_type_caption: "The issue type that should be used to store the completed artefact."
       wizard_status_button:
         project_creation_wizard: "Open project creation wizard"
         project_initiation_request: "Open project initiation request"
@@ -6439,7 +6460,7 @@ en:
           [Click here to learn more](docs_url)
 
       not_allowed_text: "You do not have the necessary permissions to view this page."
-      work_package_identifier: "Work package identifiers"
+      work_package_identifier: "Issue identifiers"
     working_days:
       section_holidays_and_closures: "Holidays and closures"
       section_work_week: "Work week"
@@ -6525,18 +6546,18 @@ en:
     edit:
       status_color_text: |
         Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        It is shown in the status button and can be used for highlighting issues in the table.
       status_default_text: |-
-        New work packages are by default set to this type. They cannot be read-only.
+        New issues are by default set to this type. They cannot be read-only.
       status_excluded_from_totals_text: |-
-        Check this option to exclude work packages with this status from totals of Work,
+        Check this option to exclude issues with this status from totals of Work,
         Remaining work, and % Complete in a hierarchy.
       status_percent_complete_text_html: |-
         In [status-based progress calculation mode](setting_url), the % Complete of a work
         package is automatically set to this value when this status is selected.
         Ignored in work-based mode.
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
+        Check this option to mark issues with this status as read-only.
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
@@ -6547,7 +6568,7 @@ en:
         is_default: "Default"
         is_readonly: "Read-only"
       no_results_content_text: Add a new status
-      no_results_title_text: There are currently no work package statuses.
+      no_results_title_text: There are currently no issue statuses.
 
   # Used in array.to_sentence.
   support:
@@ -6560,7 +6581,7 @@ en:
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
-  text_are_you_sure_with_children: "Delete work package and all child work packages?"
+  text_are_you_sure_with_children: "Delete issue and all child issues?"
   text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
   text_are_you_sure_with_project_life_cycle_step: "Deleting this phase will also delete its usages in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Assign to the project"
@@ -6616,7 +6637,7 @@ en:
   text_default_encoding: "Default: UTF-8"
   text_destroy: "Delete"
   text_destroy_what_to_do: "What do you want to do?"
-  text_destroy_with_associated: "There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:"
+  text_destroy_with_associated: "There are additional objects associated with the issue(s) that are to be deleted. Those objects are of the following types:"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
   text_email_delivery_letter_opener: "Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported."
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
@@ -6624,7 +6645,7 @@ en:
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_file_repository_writable: "Attachments directory writable"
   text_form_configuration: >
-    You can customize which fields will be displayed in work package forms.
+    You can customize which fields will be displayed in issue forms.
     You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_formatting:
@@ -6656,8 +6677,8 @@ en:
   text_line_separated: "Multiple values allowed (one line for each value)."
   text_load_default_configuration: "Load the default configuration"
   text_no_access_tokens_configurable: "There are no access tokens which can be configured."
-  text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-  text_no_notes: "There are no comments available for this work package."
+  text_no_configuration_data: "Roles, types, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_notes: "There are no comments available for this issue."
   text_no_roles_defined: There are no roles defined.
   text_notice_security_badge_displayed_html: >
     Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel,
@@ -6676,12 +6697,12 @@ en:
     <ul>
       <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li>
     </ul>
-  text_project_identifier_description: 'The project identifier is prepended to all work package IDs. If the identifier is "PROJ" for example, the work package identifier will be "PROJ-12" or "PROJ-246".'
+  text_project_identifier_description: 'The project identifier is prepended to all issue IDs. If the identifier is "PROJ" for example, the issue identifier will be "PROJ-12" or "PROJ-246".'
   text_project_identifier_format: "Must start with a lowercase letter. Only lowercase letters (a-z), numbers, dashes and underscores are allowed."
   text_project_identifier_handle_format: "Must start with a letter and contain only uppercase letters, numbers, and underscores (max 10 characters)."
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter."
   text_project_identifier_url_description: "The project identifier is included in the URL of the project."
-  text_reassign: "Reassign to work package:"
+  text_reassign: "Reassign to issue:"
   text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
   text_rename_wiki_page: "Rename wiki page"
   text_repository_usernames_mapping: "Select or update the Neurvo user mapped to each username found in the repository log.\nUsers with the same Neurvo and repository username or email are automatically mapped."
@@ -6689,14 +6710,14 @@ en:
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
-  text_tip_work_package_begin_day: "work package beginning this day"
-  text_tip_work_package_begin_end_day: "work package beginning and ending this day"
-  text_tip_work_package_end_day: "work package ending this day"
+  text_tip_work_package_begin_day: "issue beginning this day"
+  text_tip_work_package_begin_end_day: "issue beginning and ending this day"
+  text_tip_work_package_end_day: "issue ending this day"
   text_type_no_workflow: "No workflow defined for this type"
   text_unallowed_characters: "Unallowed characters"
   text_user_invited: The user has been invited and is pending registration.
   text_user_wrote: "%{value} wrote:"
-  text_warn_on_leaving_unsaved: "The work package contains unsaved text that will be lost if you leave this page."
+  text_warn_on_leaving_unsaved: "The issue contains unsaved text that will be lost if you leave this page."
   text_wiki_destroy_confirmation: "Are you sure you want to delete this wiki and all its content?"
   text_wiki_page_comment_caption: "This will only be visible in the wiki history."
   text_wiki_page_comment_placeholder: "Did you change something? Add a comment"
@@ -6704,15 +6725,15 @@ en:
   text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
-  text_work_package_added: "Work package %{id} has been reported by %{author}."
+  text_work_package_added: "Issue %{id} has been reported by %{author}."
   text_work_package_category_destroy_assignments: "Remove category assignments"
-  text_work_package_category_destroy_question: "Some work packages (%{count}) are assigned to this category. What do you want to do?"
-  text_work_package_category_reassign_to: "Reassign work packages to this category"
-  text_work_package_updated: "Work package %{id} has been updated by %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
-  text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
-  text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
+  text_work_package_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
+  text_work_package_category_reassign_to: "Reassign issues to this category"
+  text_work_package_updated: "Issue %{id} has been updated by %{author}."
+  text_work_package_watcher_added: "You have been added as a watcher to Issue %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Issue %{id} by %{watcher_changer}."
+  text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected issue(s)?"
+  text_work_packages_ref_in_commit_messages: "Referencing and fixing issues in commit messages"
   text_workflow_edit: "Select a role and a type to edit the workflow"
   text_wrote: "wrote"
   text_zoom_in: "Zoom in"
@@ -6791,7 +6812,7 @@ en:
       create_type: "Create type"
       create_variant: "Create variant"
       fields:
-        variant_name_caption: "Names this configuration of %{type}. Work packages keep using %{type} itself."
+        variant_name_caption: "Names this configuration of %{type}. Issues keep using %{type} itself."
       finish: "Finish"
       placeholder_description: "This step will be available soon."
       progress_label: "Step %{number} of %{total}"
@@ -6808,13 +6829,13 @@ en:
       breadcrumb_variant: "Variant: %{name}"
       defaults:
         automatically_generated_subjects:
-          caption: "Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects."
+          caption: "Define a pattern using referenced attributes and text to automatically generate issue subjects. Users will not be able to manually edit subjects."
           label: "Automatically generated subjects"
         description:
-          caption: "Add the text that will be added to the description field of all new work packages with this type."
+          caption: "Add the text that will be added to the description field of all new issues with this type."
           label: "Default description text"
         manually_editable_subjects:
-          caption: "Users can manually enter and edit work package subjects without restrictions."
+          caption: "Users can manually enter and edit issue subjects without restrictions."
           label: "Manually editable subjects"
         pattern:
           caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
@@ -6825,23 +6846,23 @@ en:
           context:
             parent: "Parent"
             project: "Project"
-            work_package: "Work package"
+            work_package: "Issue"
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: "For project administrators with the permission to manage variants, this type can be extended or modified within a project."
         inherited_from_type_html: "Inherited from type <b>%{type}</b>."
         tab: "Details"
-        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        type_color_text: The selected color distinguishes different types in Gantt charts or issues tables. It is therefore recommended to use a strong color.
         variant_name_caption_html: "This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members."
       export_configuration:
         artefact_export:
           attachment:
-            caption: "The generated PDF is saved as a file attachment on the work package."
-            label: "Save as work package file attachment"
+            caption: "The generated PDF is saved as a file attachment on the issue."
+            label: "Save as issue file attachment"
           file_link:
-            caption: "The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped."
-            label: "Upload file to external file storage and add file link to work package"
-          intro: "Automatically generate a PDF artefact of a work package of this type whenever its status changes."
+            caption: "The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the issue. Issues in projects without such a storage are skipped."
+            label: "Upload file to external file storage and add file link to issue"
+          intro: "Automatically generate a PDF artefact of an issue of this type whenever its status changes."
           invalid_mode: "Invalid artefact export mode."
           label: "Automatic artefact export"
           off_mode:
@@ -6849,7 +6870,7 @@ en:
             label: "Off"
           section_title: "Automatic artefact export"
           unavailable: "unavailable, no automatically-managed Nextcloud storage is configured"
-        intro: "Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default."
+        intro: "Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of an issue using this type. The first template on the list is selected by default."
         pdf_export_templates:
           actions:
             label_disable_all: "Disable all"
@@ -6866,7 +6887,7 @@ en:
             title: "Settings: %{template}"
       form_configuration:
         add_attribute_group: "Section"
-        add_query_group: "Related work packages table"
+        add_query_group: "Related issues table"
         blankslate_description: "Add groups using the button above or drag attributes from the left panel."
         blankslate_title: "No groups yet"
         confirm_delete_group: "Are you sure you want to delete this section? This action cannot be automatically reversed."
@@ -6890,7 +6911,7 @@ en:
         label_group: "Section"
         no_inactive_attributes: "No inactive attributes"
         not_found: "The requested form item could not be found."
-        query_group_label: "Related work packages table"
+        query_group_label: "Related issues table"
         remove_attribute: "Remove from section"
         rename_group: "Rename section"
         reset_description: >
@@ -6920,7 +6941,7 @@ en:
           manual:
             description: "Once you [create project attributes](administration_url), they will be visible here and can be added to a type."
             title: "No project attributes available"
-        description: "Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there."
+        description: "Select the project attributes that you want to enable for this issue type. Enabled project attributes are displayed in a separate tab in issues of this type. Users with the necessary permissions can view and edit these attributes there."
         disabled: "Disabled"
         exclusions:
           attribute_label: "Inherit %{attribute}"
@@ -6946,7 +6967,7 @@ en:
         copy:
           confirm_dialog:
             check_box: "I understand that this will override the current settings"
-            description_html: "By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
+            description_html: "By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the issues of this type."
             title: "Copy configuration?"
           dialog:
             description: "Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source."
@@ -6983,12 +7004,12 @@ en:
           configure_manually: "Configure manually"
           confirm_dialog:
             change_source:
-              description_html: "By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
+              description_html: "By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the issues of this type."
               heading: "Change source type?"
               title: "Change source type"
             check_box: "I understand that this will override the current settings"
             from_manual:
-              description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
+              description: "All the current selected settings will be overridden and might affect existing information on the issues of this type."
               heading: "Switch configuration mode?"
               title: "Switch configuration mode"
           description: "This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}."
@@ -7005,7 +7026,7 @@ en:
         manual:
           confirm_dialog:
             check_box: "I understand that this will override the current settings"
-            description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
+            description: "All the current selected settings will be overridden and might affect existing information on the issues of this type."
             heading: "Switch configuration mode?"
             title: "Switch configuration mode"
           copy_from_type: "Copy from another type"
@@ -7160,9 +7181,9 @@ en:
         no_roles_found: "No roles were found"
         required: "Please select a role"
       success_message:
-        group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance."
-        placeholder_user: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
-        user: "The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance."
+        group: "The group is now a part of %{project}. Meanwhile you can already plan with that group and assign issues for instance."
+        placeholder_user: "The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign issues for instance."
+        user: "The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign issues for instance."
 
       summary:
         next_button: "Send invitation"
@@ -7265,8 +7286,8 @@ en:
 
   versions:
     overview:
-      no_results_title_text: There are currently no work packages assigned to this version.
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      no_results_title_text: There are currently no issues assigned to this version.
+      work_packages_in_archived_projects: "The version is shared with archived projects which still have issues assigned to this version. These are counted, but will not appear in the linked views."
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   warning_bar:
@@ -7325,17 +7346,17 @@ en:
   # TODO: merge with work_packages top level key
   work_package:
     destroy:
-      info: "Deleting the work package is an irreversible action."
-      title: "Delete the work package"
+      info: "Deleting the issue is an irreversible action."
+      title: "Delete the issue"
     permissions:
       comment: "Comment"
-      comment_description: "Can view and comment this work package."
+      comment_description: "Can view and comment this issue."
       comment_verb: "comment"
       edit: "Edit"
-      edit_description: "Can view, comment and edit this work package."
+      edit_description: "Can view, comment and edit this issue."
       edit_verb: "edit"
       view: "View"
-      view_description: "Can view this work package."
+      view_description: "Can view this issue."
       view_verb: "view"
     progress:
       derivation_hints:
@@ -7357,20 +7378,20 @@ en:
       label_note: "Note:"
       modal:
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
-        status_based_help_text: "% Complete is set by work package status."
+        status_based_help_text: "% Complete is set by issue status."
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
     reminders:
-      create_success_message_html: "Reminder set successfully. You will receive a notification for this work package %{reminder_time}."
+      create_success_message_html: "Reminder set successfully. You will receive a notification for this issue %{reminder_time}."
       label_remind_at: "Date"
       note_placeholder: "Why are you setting this reminder?"
       success_deletion_message: "Reminder deleted successfully."
       success_update_message: "Reminder updated successfully."
     updated_automatically_by_child_changes: |
-      _Updated automatically by changing values within child work package %{child}_
+      _Updated automatically by changing values within child issue %{child}_
   work_package_relations_tab:
     index:
-      action_bar_title: "Add relations to other work packages to create a link between them."
-      blankslate_description: "This work package does not have any relations yet."
+      action_bar_title: "Add relations to other issues to create a link between them."
+      blankslate_description: "This issue does not have any relations yet."
       blankslate_heading: "No relations"
       no_results_title_text: There are currently no relations available.
     label_add_child_button: "Child"
@@ -7379,22 +7400,22 @@ en:
     label_edit_x: "Edit %{x}"
     lag:
       caption: |-
-        The minimum number of working days to keep in between the two work packages.
+        The minimum number of working days to keep in between the two issues.
         It can also be negative.
       subject: "Lag"
     relations:
-      blocked_by_description: "This work package cannot be closed until the related one is closed first"
-      blocked_description: "This work package cannot be closed until the related one is closed first"
-      blocks_description: "The related work package cannot be closed until this one is closed first"
+      blocked_by_description: "This issue cannot be closed until the related one is closed first"
+      blocked_description: "This issue cannot be closed until the related one is closed first"
+      blocks_description: "The related issue cannot be closed until this one is closed first"
       child: "Child"
-      child_description: "Makes the related work package a sub-item of the current (parent) work package"
-      duplicated_by_description: "The related work package is a copy of this"
-      duplicated_description: "The related work package is a copy of this"
-      duplicates_description: "This is a copy of the related work package"
-      follows_description: "The related work package necessarily needs to finish before this one can start"
+      child_description: "Makes the related issue a sub-item of the current (parent) issue"
+      duplicated_by_description: "The related issue is a copy of this"
+      duplicated_description: "The related issue is a copy of this"
+      duplicates_description: "This is a copy of the related issue"
+      follows_description: "The related issue necessarily needs to finish before this one can start"
       ghost_relation_description: "This is not visible to you due to permissions."
-      ghost_relation_title: "Related work package"
-      includes_description: "Marks the related work package as including this one with no additional effect"
+      ghost_relation_title: "Related issue"
+      includes_description: "Marks the related issue as including this one with no additional effect"
       label_blocked__by_plural: "blocked by"
       label_blocked_by_singular: "blocked by"
       label_blocked_plural: "blocked by"
@@ -7414,7 +7435,7 @@ en:
       label_follows_singular: "predecessor (before)"
       label_includes_plural: "includes"
       label_includes_singular: "includes"
-      label_new_child_created: "New work package created and added as a child"
+      label_new_child_created: "New issue created and added as a child"
       label_other_relations: "Other relations"
       label_parent_plural: "parent"
       label_parent_singular: "parent"
@@ -7434,48 +7455,48 @@ en:
       label_requires_plural: "requires"
       label_requires_singular: "requires"
       new_child: "Create new child"
-      new_child_description: "Creates a related work package as a sub-item of the current (parent) work package"
+      new_child_description: "Creates a related issue as a sub-item of the current (parent) issue"
       parent: "Parent"
-      parent_description: "Makes the related work package a parent of the current (child) work package"
-      part_of_description: "Marks the related work package as being part of this one with no additional effect"
-      partof_description: "Marks the related work package as being part of this one with no additional effect"
-      precedes_description: "The related work package necessarily needs to start after this one finishes"
-      relates_description: "Creates a visible link between the two work packages with no additional effect"
-      relates_to_description: "Creates a visible link between the two work packages with no additional effect"
-      required_description: "Marks this work package as being a requirement to the related one"
-      requires_description: "Marks the related work package as a requirement to this one"
+      parent_description: "Makes the related issue a parent of the current (child) issue"
+      part_of_description: "Marks the related issue as being part of this one with no additional effect"
+      partof_description: "Marks the related issue as being part of this one with no additional effect"
+      precedes_description: "The related issue necessarily needs to start after this one finishes"
+      relates_description: "Creates a visible link between the two issues with no additional effect"
+      relates_to_description: "Creates a visible link between the two issues with no additional effect"
+      required_description: "Marks this issue as being a requirement to the related one"
+      requires_description: "Marks the related issue as a requirement to this one"
 
   work_packages:
     bulk:
-      copy_failed: "The work packages could not be copied."
-      could_not_be_deleted: "The following work packages could not be deleted:"
-      could_not_be_saved: "The following work packages could not be saved:"
+      copy_failed: "The issues could not be copied."
+      could_not_be_deleted: "The following issues could not be deleted:"
+      could_not_be_saved: "The following issues could not be saved:"
       deletion_successful:
-        one: "Successfully deleted 1 work package."
-        other: "Successfully deleted %{count} work packages."
+        one: "Successfully deleted 1 issue."
+        other: "Successfully deleted %{count} issues."
       descendant: "descendant of selected"
-      move_failed: "The work packages could not be moved."
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      selected_because_descendants: "While %{selected} work packages were selected, in total %{total} work packages are affected which includes descendants."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      move_failed: "The issues could not be moved."
+      none_could_be_saved: "None of the %{total} issues could be updated."
+      selected_because_descendants: "While %{selected} issues were selected, in total %{total} issues are affected which includes descendants."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} issues could not be updated while %{success} could."
 
     bulk_delete_dialog:
       children_label: "The following descendants will also be deleted:"
-      confirm_deletion: "I confirm that the selected work packages and all associated data will be deleted."
+      confirm_deletion: "I confirm that the selected issues and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
-      cross_project_warning_html: "These work packages span multiple projects: %{projects}"
+      cross_project_warning_html: "These issues span multiple projects: %{projects}"
       descendants_choice:
         heading: "Delete all descendants too?"
-        question: "You are trying to delete work packages that have descendants. Do you want to delete them as well?"
+        question: "You are trying to delete issues that have descendants. Do you want to delete them as well?"
         self_only_caption: "This will not delete descendants but will remove hierarchical relations."
-        self_only_label: "Delete just the selected work packages"
-        with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
-        with_descendants_label: "Delete the selected work packages and their descendants"
-      description: "Are you sure you want to delete the selected work packages and all associated data?"
-      description_with_all_descendants: "Are you sure you want to delete the selected work packages and all of their descendants?"
-      description_with_descendants: "Are you sure you want to delete the selected work packages and all the following descendants?"
-      description_with_visible_descendants: "Are you sure you want to delete the selected work packages and all visible descendants?"
-      heading: "Permanently delete these %{count} work packages?"
+        self_only_label: "Delete just the selected issues"
+        with_descendants_caption: "This will delete all child issues visible to you. You will have a chance to review the full list in the next step."
+        with_descendants_label: "Delete the selected issues and their descendants"
+      description: "Are you sure you want to delete the selected issues and all associated data?"
+      description_with_all_descendants: "Are you sure you want to delete the selected issues and all of their descendants?"
+      description_with_descendants: "Are you sure you want to delete the selected issues and all the following descendants?"
+      description_with_visible_descendants: "Are you sure you want to delete the selected issues and all visible descendants?"
+      heading: "Permanently delete these %{count} issues?"
       hidden_descendants_only_warning:
         one: >-
           There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
@@ -7489,7 +7510,7 @@ en:
         other: >-
           All visible descendants will be removed. However, there are %{count} descendants that you cannot see.
           They will not be deleted but any hierarchical relations will be removed.
-      title: "Delete %{count} work packages"
+      title: "Delete %{count} issues"
       undeletable_descendants_warning:
         one: >-
           You are not able to delete one descendant because you lack the necessary permissions. It will be
@@ -7512,15 +7533,15 @@ en:
           manual_gap_between_predecessors: "There is a gap between this and all predecessors."
           manual_mobile: "Ignoring relations."
           manual_overlap_with_predecessors: "Overlaps with at least one predecessor."
-          manual_with_children: "This has child work packages but their start dates are ignored."
+          manual_with_children: "This has child issues but their start dates are ignored."
         title:
           automatic_mobile: "Automatically scheduled."
-          automatic_with_children: "The dates are determined by child work packages."
+          automatic_with_children: "The dates are determined by child issues."
           automatic_with_predecessor: "The start date is set by a predecessor."
           manual_mobile: "Manually scheduled."
           manually_scheduled: "Manually scheduled. Dates not affected by relations."
       blankslate:
-        description: "To enable automatic scheduling, this work package needs to have at least one predecessor. It will then automatically be scheduled to start after the closest predecessor."
+        description: "To enable automatic scheduling, this issue needs to have at least one predecessor. It will then automatically be scheduled to start after the closest predecessor."
         title: "No predecessors"
       ignore_non_working_days:
         title: "Working days only"
@@ -7533,13 +7554,13 @@ en:
         aria_label: "Datepicker tabs"
         blankslate:
           children:
-            description: "This work package does not have any children."
+            description: "This issue does not have any children."
             title: "No children"
           predecessors:
-            description: "This work package does not have any predecessors."
+            description: "This issue does not have any predecessors."
             title: "No predecessors"
           successors:
-            description: "This work package does not have any successors."
+            description: "This issue does not have any successors."
             title: "No successors"
         children: "Children"
         dates: "Dates"
@@ -7547,33 +7568,33 @@ en:
         successors: "Successors"
       update_inputs_aria_live_message: "Date picker updated. %{message}"
     delete_dialog:
-      confirm_deletion: "I confirm that the work package and all associated data will be deleted."
+      confirm_deletion: "I confirm that the issue and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
-      cross_project_warning_html: "Work packages from the following projects will be deleted: %{projects}"
+      cross_project_warning_html: "Issues from the following projects will be deleted: %{projects}"
       descendants_choice:
         heading: "Delete all descendants too?"
-        question: "This work package has descendants. Do you want to delete them as well?"
+        question: "This issue has descendants. Do you want to delete them as well?"
         self_only_caption: "This will not delete descendants but will remove hierarchical relations."
-        self_only_label: "Delete just this work package"
-        with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
-        with_descendants_label: "Delete this work package and descendants"
+        self_only_label: "Delete just this issue"
+        with_descendants_caption: "This will delete all child issues visible to you. You will have a chance to review the full list in the next step."
+        with_descendants_label: "Delete this issue and descendants"
       description: 'Are you sure you want to delete "%{name}"?'
-      heading: "Permanently delete this work package?"
+      heading: "Permanently delete this issue?"
       hidden_descendants_only_warning:
         one: >-
-          This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation
+          This issue has one descendant that you cannot see. It will not be deleted but the hierarchical relation
           will be removed.
         other: >-
-          This work package has %{count} descendants that you cannot see. They will not be deleted but the
+          This issue has %{count} descendants that you cannot see. They will not be deleted but the
           hierarchical relation will be removed.
       hidden_descendants_warning:
         one: >-
-          All visible descendants will be deleted. However, this work package has one descendant that you
+          All visible descendants will be deleted. However, this issue has one descendant that you
           cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: >-
-          All visible descendants will be deleted. However, this work package has %{count} descendants that you
+          All visible descendants will be deleted. However, this issue has %{count} descendants that you
           cannot see. They will not be deleted but the hierarchical relation will be removed.
-      title: "Delete work package"
+      title: "Delete issue"
       undeletable_descendants_warning:
         one: >-
           You are not able to delete one descendant because you lack the necessary permissions. It will be
@@ -7591,20 +7612,20 @@ en:
 
     move:
       bulk_current_type_not_available_in_target_project: >
-        The types of the work packages or their descendants aren't enabled in the target project.
+        The types of the issues or their descendants aren't enabled in the target project.
         Please enable the missing types in the target project if you'd like them to remain unchanged.
         Otherwise, select an available type in the target project from the list.
       current_type_not_available_in_target_project: >
-        The type of this work package or one of its descendants is not enabled in the target project.
+        The type of this issue or one of its descendants is not enabled in the target project.
         Please enable the missing types in the target project if you'd like them to remain unchanged.
         Otherwise, select an available type in the target project from the list.
-      no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
-      unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
+      no_common_statuses_exists: "There is no status available for all selected issues. Their status cannot be changed."
+      unsupported_for_multiple_projects: "Bulk move/copy is not supported for issues from multiple projects"
     sharing:
       missing_workflow_warning:
         link_message: "Configure the workflows in the administration."
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        title: "Workflow missing for work package sharing"
+        message: "No workflow is configured for the 'Issue editor' role. Without a workflow, the shared with user cannot alter the status of the issue. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Issue editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        title: "Workflow missing for issue sharing"
 
     summary:
       reports:
@@ -7624,18 +7645,18 @@ en:
           no_results_title_text: There are currently no versions available.
 
     x_descendants:
-      one: "One descendant work package"
-      other: "%{count} work package descendants"
+      one: "One descendant issue"
+      other: "%{count} issue descendants"
 
   workflows:
     copies:
       form:
         mode:
           from_role:
-            caption: "Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten."
+            caption: "Copy the current workflow to one or more roles inside the same issue type. If the selected role already has a workflow the current one will be overwritten."
             label: "Copy to other roles"
           from_type:
-            caption: "Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles."
+            caption: "Copy the current workflow to another issues type. If the selected type already has a workflow the current one will be overwritten. This affects all roles."
             label: "Copy to another type"
         source_role_id:
           label: "Source role"
@@ -7669,14 +7690,14 @@ en:
         label: "Filter by type name…"
     page_headers:
       index_component:
-        description: "Configure status transitions for each work package type."
+        description: "Configure status transitions for each issue type."
   working_days:
     change_button: "Change working days"
     dialog:
       confirm_button: "Save and reschedule"
       description: >
         Changing which days of the week are considered working days or non-working days
-        can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+        can affect the start and finish days of all issues and life cycles in all projects in this instance.
       heading: "Change the working days?"
       removed_title: "You will remove the following days from the non-working days list:"
       title: "Change working days"
@@ -7684,10 +7705,10 @@ en:
         The changes might take some time to take effect. You will be notified when all relevant work
         packages and project life cycles have been updated.
     info: >
-      Days that are not selected are skipped when scheduling work packages and project life cycles (and not included in the day count).
-      These can be overridden at a work-package level.
+      Days that are not selected are skipped when scheduling issues and project life cycles (and not included in the day count).
+      These can be overridden at an issue level.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling issues.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       dates:
@@ -7698,6 +7719,6 @@ en:
         working: "%{day} is now working"
     warning: >
       Changing which days of the week are considered working days or non-working days
-      can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+      can affect the start and finish days of all issues and life cycles in all projects in this instance.
 
   you: you

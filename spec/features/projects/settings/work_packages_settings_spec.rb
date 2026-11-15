@@ -56,7 +56,7 @@ RSpec.describe "Projects", "work packages settings menu", :js do
       it "displays the categories tab" do
         work_packages_settings_page.visit!
         expect(page).to have_css(".tabnav-tab", text: "Categories")
-        expect(page).to have_css("span", text: "There are currently no work package categories.")
+        expect(page).to have_css("span", text: "There are currently no issue categories.")
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe "Projects", "work packages settings menu", :js do
 
       it "does not display the menu entry" do
         general_settings_page.visit!
-        expect(page).to have_no_css(".op-menu--item-title", text: "Work packages")
+        expect(page).to have_no_css(".op-menu--item-title", text: "Issues")
       end
     end
   end

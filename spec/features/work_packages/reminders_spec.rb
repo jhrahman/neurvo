@@ -83,7 +83,7 @@ RSpec.describe "Work package reminder modal",
           .to have_css(".spot-modal--header-title", text: "Set a reminder")
         expect(page)
           .to have_css(".spot-modal--subheader",
-                       text: "You will receive a notification for this work package at the chosen time.")
+                       text: "You will receive a notification for this issue at the chosen time.")
         fill_in "Date", with: date
         fill_in "Time", with: time.strftime("%H:%M").to_time
         fill_in "Note", with: "Never forget!"
@@ -117,7 +117,7 @@ RSpec.describe "Work package reminder modal",
           .to have_css(".spot-modal--header-title", text: "Edit reminder")
         expect(page)
           .to have_css(".spot-modal--subheader",
-                       text: "You will receive a notification for this work package at the chosen time.")
+                       text: "You will receive a notification for this issue at the chosen time.")
         expect(page).to have_field("Date", with: date)
         expect(page).to have_field("Time", with: time.strftime("%H:%M"))
         expect(page).to have_field("Note", with: "Never forget!")
@@ -169,7 +169,7 @@ RSpec.describe "Work package reminder modal",
           .to have_css(".spot-modal--header-title", text: "Edit reminder")
         expect(page)
           .to have_css(".spot-modal--subheader",
-                       text: "You will receive a notification for this work package at the chosen time.")
+                       text: "You will receive a notification for this issue at the chosen time.")
       end
 
       perform_enqueued_jobs
@@ -216,7 +216,7 @@ RSpec.describe "Work package reminder modal",
             .to have_css(".spot-modal--header-title", text: "Set a reminder")
           expect(page)
             .to have_css(".spot-modal--subheader",
-                         text: "You will receive a notification for this work package at the chosen time.")
+                         text: "You will receive a notification for this issue at the chosen time.")
 
           # Yesterday 02:00
           fill_in "Date", with: yesterday
@@ -267,7 +267,7 @@ RSpec.describe "Work package reminder modal",
             .to have_css(".spot-modal--header-title", text: "Set a reminder")
           expect(page)
             .to have_css(".spot-modal--subheader",
-                         text: "You will receive a notification for this work package at the chosen time.")
+                         text: "You will receive a notification for this issue at the chosen time.")
 
           # Click the Schedule button without filling in the date or time
           click_link_or_button "Set reminder"
@@ -346,7 +346,7 @@ RSpec.describe "Work package reminder modal",
             .to have_css(".spot-modal--header-title", text: "Edit reminder")
           expect(page)
             .to have_css(".spot-modal--subheader",
-                         text: "You will receive a notification for this work package at the chosen time.")
+                         text: "You will receive a notification for this issue at the chosen time.")
           expect(page).to have_field("Date", with: reminder.remind_at.in_time_zone(current_user.time_zone).to_date)
           expect(page).to have_field("Time", with: reminder.remind_at.in_time_zone(current_user.time_zone).strftime("%H:%M"))
           expect(page).to have_field("Note", with: reminder.note)
@@ -392,7 +392,7 @@ RSpec.describe "Work package reminder modal",
             .to have_css(".spot-modal--header-title", text: "Set a reminder")
           expect(page)
             .to have_css(".spot-modal--subheader",
-                         text: "You will receive a notification for this work package at the chosen time.")
+                         text: "You will receive a notification for this issue at the chosen time.")
           expect(page).to have_field("Date", with: 1.day.from_now.to_date)
           expect(page).to have_field("Time", with: "09:00")
           expect(page).to have_field("Note")

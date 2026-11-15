@@ -45,7 +45,7 @@ RSpec.describe Admin::Settings::ProjectReservedIdentifiers::ReleaseDialogCompone
     it "renders the plain description" do
       expect(rendered_component)
         .to have_text(I18n.t("admin.reserved_identifiers.dialog.description"))
-      expect(rendered_component).to have_no_text("work package")
+      expect(rendered_component).to have_no_text("issue")
     end
   end
 

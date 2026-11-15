@@ -414,6 +414,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_type_plural,
             parent: :admin_work_packages
 
+  menu.push :ticket_fields,
+            { controller: "/admin/ticket_fields", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :"admin.ticket_fields.menu",
+            parent: :admin_work_packages
+
   menu.push :statuses,
             { controller: "/statuses" },
             if: ->(_) { User.current.admin? },

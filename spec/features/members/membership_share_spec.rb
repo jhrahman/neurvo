@@ -94,12 +94,12 @@ RSpec.describe "Shared users in the members table", :js do
     end
 
     members_page.in_user_row(shared_user) do
-      expect(page).to have_text "2 work packages"
+      expect(page).to have_text "2 issues"
       expect(page).to have_css("td.roles", text: "", exact_text: true)
     end
 
     members_page.in_user_row(other_shared_user) do
-      expect(page).to have_text "1 work package"
+      expect(page).to have_text "1 issue"
       expect(page).to have_css("td.roles", text: "", exact_text: true)
     end
 
@@ -109,11 +109,11 @@ RSpec.describe "Shared users in the members table", :js do
     expect(members_page).not_to have_user active_user.name
 
     members_page.in_user_row(shared_user) do
-      expect(page).to have_text "1 work package"
+      expect(page).to have_text "1 issue"
     end
 
     members_page.in_user_row(other_shared_user) do
-      expect(page).to have_text "1 work package"
+      expect(page).to have_text "1 issue"
     end
 
     members_page.click_menu_item "Comment"
@@ -122,7 +122,7 @@ RSpec.describe "Shared users in the members table", :js do
     expect(members_page).not_to have_user active_user.name
 
     members_page.in_user_row(shared_user) do
-      expect(page).to have_text "1 work package"
+      expect(page).to have_text "1 issue"
     end
   end
 end

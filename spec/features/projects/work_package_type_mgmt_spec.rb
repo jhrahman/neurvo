@@ -41,7 +41,7 @@ RSpec.describe "Projects", "work package type mgmt", :js do
     visit projects_path
     click_on "Foo project"
     click_on "Project settings"
-    click_on "Work packages"
+    click_on "Issues"
 
     expect(page).to have_checked_field("Phase", visible: :all)
     expect(page).to have_checked_field("Milestone", visible: :all)

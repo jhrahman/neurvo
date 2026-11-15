@@ -430,14 +430,14 @@ RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_form
 
       it "shows a banner that the relations are ignored" do
         expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
-                                 text: "Manually scheduled. Dates not affected by relations.\nThis has child work packages but their start dates are ignored.")
+                                 text: "Manually scheduled. Dates not affected by relations.\nThis has child issues but their start dates are ignored.")
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
         # Expect banner to switch
         expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
-                                 text: "The dates are determined by child work packages.\nClick on \"Show relations\" for Gantt overview.")
+                                 text: "The dates are determined by child issues.\nClick on \"Show relations\" for Gantt overview.")
 
         new_window = window_opened_by { click_on "Show relations" }
         switch_to_window new_window
@@ -453,13 +453,13 @@ RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_form
 
       it "shows a banner that the dates are are determined by the child" do
         expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
-                                 text: "The dates are determined by child work packages.\nClick on \"Show relations\" for Gantt overview.")
+                                 text: "The dates are determined by child issues.\nClick on \"Show relations\" for Gantt overview.")
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
         expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
-                                 text: "Manually scheduled. Dates not affected by relations.\nThis has child work packages but their start dates are ignored.")
+                                 text: "Manually scheduled. Dates not affected by relations.\nThis has child issues but their start dates are ignored.")
 
         new_window = window_opened_by { click_on "Show relations" }
         switch_to_window new_window
@@ -479,7 +479,7 @@ RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_form
 
         it "allows switching to manual scheduling to set the ignore NWD (Regression #43933)" do
           expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
-                                   text: "The dates are determined by child work packages.\nClick on \"Show relations\" for Gantt overview.")
+                                   text: "The dates are determined by child issues.\nClick on \"Show relations\" for Gantt overview.")
 
           # Expect "Working days only" to be checked
           datepicker.expect_working_days_only_disabled
@@ -488,7 +488,7 @@ RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_form
           # When switching to manually scheduled, "working days only" can be changed
           datepicker.click_manual_scheduling_mode
           expect(page).to have_css(test_selector("op-modal-banner-warning").to_s,
-                                   text: "Manually scheduled. Dates not affected by relations.\nThis has child work packages but their start dates are ignored.")
+                                   text: "Manually scheduled. Dates not affected by relations.\nThis has child issues but their start dates are ignored.")
 
           datepicker.expect_working_days_only_enabled
           datepicker.expect_working_days_only true
@@ -503,7 +503,7 @@ RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_form
           datepicker.expect_working_days_only true
 
           expect(page).to have_css(test_selector("op-modal-banner-info").to_s,
-                                   text: "The dates are determined by child work packages.\nClick on \"Show relations\" for Gantt overview.")
+                                   text: "The dates are determined by child issues.\nClick on \"Show relations\" for Gantt overview.")
         end
       end
     end

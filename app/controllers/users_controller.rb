@@ -57,7 +57,8 @@ class UsersController < ApplicationController
                                      change_status
                                      destroy
                                      deletion_info
-                                     resend_invitation]
+                                     resend_invitation
+                                     send_password_reset]
   # rubocop:enable Rails/LexicallyScopedActionFilter
   # should also contain destroy but post data can not be redirected
   before_action :require_login, only: [:deletion_info]
@@ -289,6 +290,12 @@ class UsersController < ApplicationController
     redirect_to helpers.allowed_management_user_profile_path(@user)
   end
 
+  def send_password_reset
+    flash[password_reset_error ? :error : :notice] = password_reset_error || deliver_password_reset
+
+    redirect_back_or_default(helpers.allowed_management_user_profile_path(@user), status: :see_other)
+  end
+
   def destroy
     # true if the user deletes him/herself
     self_delete = (@user == User.current)
@@ -348,6 +355,22 @@ class UsersController < ApplicationController
 
   def can_manage_or_create_users?
     current_user.allowed_globally?(:manage_user) || current_user.allowed_globally?(:create_user)
+  end
+
+  def password_reset_error
+    if @user.admin? && !current_user.admin?
+      I18n.t("user.error_admin_change_on_non_admin")
+    elsif !@user.active? || !@user.change_password_allowed?
+      I18n.t(:notice_password_reset_not_possible, name: @user.name)
+    end
+  end
+
+  def deliver_password_reset
+    token = Token::Recovery.new(user_id: @user.id)
+    return I18n.t(:notice_internal_server_error, app_title: Setting.app_title) unless token.save
+
+    UserMailer.password_lost(token).deliver_later
+    I18n.t(:notice_password_reset_sent, email: @user.mail)
   end
 
   def find_user

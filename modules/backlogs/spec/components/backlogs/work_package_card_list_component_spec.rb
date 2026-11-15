@@ -69,7 +69,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
       )
     ) do |box|
       box.with_header(**header_arguments) if header_arguments
-      box.with_empty_state(title: "Sprint 1 is empty", description: "Drag work packages here")
+      box.with_empty_state(title: "Sprint 1 is empty", description: "Drag issues here")
       box.with_footer { footer_content } if footer_content
     end
   end
@@ -236,7 +236,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
     it "renders the blankslate when work_packages is empty" do
       expect(rendered_component).to have_text("Sprint 1 is empty")
-      expect(rendered_component).to have_text("Drag work packages here")
+      expect(rendered_component).to have_text("Drag issues here")
     end
 
     it "announces dynamic empty-state updates" do
@@ -248,7 +248,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
       it "treats nil as an empty collection" do
         expect(rendered_component).to have_text("Sprint 1 is empty")
-        expect(rendered_component).to have_text("Drag work packages here")
+        expect(rendered_component).to have_text("Drag issues here")
       end
     end
 
