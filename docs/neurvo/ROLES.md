@@ -51,7 +51,7 @@ Developers, DevOps engineers and Designers cannot move a Story, Bug, Feature Req
 **In QA** or **Done**. They hand work over by setting **Ready for QA**; the QA Engineer verifies it (In QA), then
 sets Done, or Reopened with the failure. Project Managers can do any transition. Tasks, Sub-tasks, Epics, Support
 Requests and Milestones are not gated, so DevOps and design tasks can be closed by their owners. This is enforced by
-the workflow on the server, so boards, the API and the ticket page all behave the same; the status menu only shows
+the workflow on the server, so boards, the API and the issue page all behave the same; the status menu only shows
 the transitions you may make.
 
 ## Tested behaviour
@@ -59,7 +59,7 @@ the transitions you may make.
 Checked against the running app with Playwright and the permission API after seeding (GoFleet project):
 
 - The permission matrix above matches `allowed_in_project?` for one user of each role.
-- Ticket page: the status menu of a *Ready for QA* bug lists In QA and Done for Project Manager and QA only; the
+- Issue page: the status menu of a *Ready for QA* bug lists In QA and Done for Project Manager and QA only; the
   Delete and Move actions appear for the Project Manager only (Move also for Developer, QA, DevOps).
 - Server enforcement: Developer to Done, DevOps to In QA and Designer to Done are rejected ("no valid transition
   exists from old to new status for the current user's roles"); QA and Project Manager to In QA succeed; a

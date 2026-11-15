@@ -1,7 +1,9 @@
 # Running Neurvo locally (macOS, Docker)
 
+The short, step-by-step version is in the [README](../../README.md#run-neurvo-on-your-computer-docker). This page has the details behind it.
+
 Tested target: MacBook Air (Apple Silicon), Docker Desktop with about 8 GB of memory (10 to 12 GB is more comfortable). On Windows,
-use WSL 2 and run everything from the Linux file system; the steps in the [README](../../README.md#try-it-on-your-computer) apply.
+use WSL 2 and run everything from the Linux file system; the steps in the [README](../../README.md#run-neurvo-on-your-computer-docker) apply.
 
 ## One-time setup
 
@@ -29,9 +31,9 @@ bin/compose exec backend bundle exec rake neurvo:seed
 
 Builds a small, realistic dev/QA workspace and removes the upstream demo projects and users (keep them with
 `KEEP_UPSTREAM_DEMO=1`). To set up only the Neurvo workflow, types, fields and roles without people or projects, run it with
-`CONFIG_ONLY=1`; this is what a production instance uses (see [DEPLOY.md](DEPLOY.md)). Safe to re-run: configuration is upserted and the sample projects are rebuilt. Shared
+`CONFIG_ONLY=1`; this is what a production instance uses (see [DEPLOY.md](DEPLOY.md)). Upstream's own development seed data (the "CF DEV ..." custom fields and sample projects) no longer runs with `db:seed`; set `NEURVO_SEED_DEVELOPMENT_DATA=true` to bring it back. Safe to re-run: configuration is upserted and the sample projects are rebuilt. Shared
 configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data.yml`; each project has its own file in
-`lib/neurvo/seed_data/` with its tickets, boards, sprints, comments, saved views, meetings and wiki.
+`lib/neurvo/seed_data/` with its issues, boards, sprints, comments, saved views, meetings and wiki.
 
 | Project | Key | What it shows |
 |---|---|---|
@@ -40,7 +42,7 @@ configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data
 | Platform & DevOps | `OPS` | Infrastructure work, incident postmortem, the engineering handbook |
 | Neurvo | `NEU` | Our own tool, built with the same process |
 
-- About two dozen tickets per product: epics with stories and sub-tasks, bugs at every stage of the bug lifecycle, a
+- About two dozen issues per product: epics with stories and sub-tasks, bugs at every stage of the bug lifecycle, a
   change request, a feature request, support requests, a design task, QA tasks and a release milestone.
 - Boards per product: Sprint board, Bug triage, Release plan (columns are versions) and Support queue.
 - Issue keys like `GOFLEET-15`; types Epic, Story, Task, Sub-task, Bug, Feature Request, Change Request, Support
@@ -49,7 +51,7 @@ configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data
 - Bug fields: Severity, Environment, Platform, Found in build, Fixed in build. Support Request fields: Customer,
   Support channel, Business impact. Per-type description templates.
 - Sprints (previous completed, current active, next in planning) with goals, releases, saved views (My open work, Open
-  bugs, Ready for QA, release scope, Support queue) listed under "Public" in the work package side menu.
+  bugs, Ready for QA, release scope, Support queue) listed under "Public" in the issue side menu.
 - Meetings: daily stand-up, bug triage and sprint planning per product; release go/no-go in Platform & DevOps. Sprints
   run Monday to Friday; all times in Asia/Dhaka.
 - Wiki: per product an overview, architecture, test strategy or requirements and a runbook; the engineering handbook
@@ -58,7 +60,7 @@ configuration (statuses, types, fields, roles, team) is in `lib/neurvo/seed_data
 - Comments contain real @mentions, so inboxes fill up about 5 minutes after seeding (journal aggregation), as long as
   the `worker` container is running.
 - Organization: "Ocean IT Solutions", a fictional company (Administration > System settings > Organization name), shown on the Home page. Change it to your own.
-- QA hand-over: tickets in In QA are assigned to a QA engineer; the QA lead has regression and smoke-test tasks (one
+- QA hand-over: issues in In QA are assigned to a QA engineer; the QA lead has regression and smoke-test tasks (one
   overdue).
 - Roles and permissions: [ROLES.md](ROLES.md).
 - Team: imran.chowdhury, ayesha.karim (product managers), daniel.brooks (tech lead),
@@ -74,6 +76,7 @@ Most edits are picked up on the next page load. These are not:
 | A locale file (`config/locales/*.yml`, `js-en.yml`) | `bin/compose restart backend` | Translations load at boot |
 | A new setting, route, initializer, or `config/schemas/*.json` | `bin/compose restart backend` | Loaded at boot; a schema that does not list a new preference silently drops it |
 | A **new** Stimulus controller file | `bin/compose restart frontend` | The dev bundle lists controllers at build time (editing an existing one needs nothing) |
+| A menu entry (`config/initializers/menus.rb`) or permission (`config/initializers/permissions.rb`) | `bin/compose restart backend` | Initializers load at boot; a new admin page is reachable by URL but missing from the menu until then |
 | The rich text editor build | See [editor/README.md](editor/README.md) | It is built outside this repo and copied in |
 | Seed data (`lib/neurvo/seed_data*`) | Re-run `rake neurvo:seed` or `CONFIG_ONLY=1` | Data, not code |
 
@@ -83,6 +86,9 @@ Most edits are picked up on the next page load. These are not:
 |---|---|
 | Role-based Home cards | `app/components/homescreen/card_catalog.rb` (cards, defaults, role mapping) and `app/views/my/home_cards.html.erb` |
 | Comments tab and threads | `app/components/work_packages/activities_tab/` and `app/controllers/work_packages/activities_tab_controller.rb` |
+| Issue fields page (fields per issue type) | `app/controllers/admin/ticket_fields_controller.rb`, `app/views/admin/ticket_fields/` and `app/services/work_package_types/ticket_fields/` |
+| "Assign to me" link | `frontend/src/app/features/work-packages/components/wp-form-group/` |
+| User list actions, password reset, open search | `app/components/users/row_component.rb`, `index_sub_header_component.rb` and `UsersController#send_password_reset` |
 | Neurvo-only styles | `frontend/src/global_styles/neurvo/` |
 | Preset avatars | `lib/neurvo/avatars/` and `modules/avatars/` |
 | Sample data and roles | `lib/neurvo/seed.rb` and `lib/neurvo/seed_data*` |
@@ -143,6 +149,17 @@ services:
 ```
 
 ## Running specs
+
+> **Careful:** the `backend` container's `DATABASE_URL` points at your **development** database. Never run `rspec` there as it is. Give it a scratch database, as below, or use the `backend-test` container.
+
+Safe way to run specs in the running `backend` container, with a throwaway database:
+
+```bash
+URL='postgresql://postgres:postgres@db:5432/neurvo_spec_scratch?pool=20'
+docker exec -e RAILS_ENV=test -e DATABASE_URL=$URL neurvo-backend-1 bundle exec rails db:create db:schema:load
+docker exec -e RAILS_ENV=test -e DATABASE_URL=$URL neurvo-backend-1 bundle exec rspec spec/controllers/admin/ticket_fields_controller_spec.rb
+docker exec neurvo-db-1 psql -U postgres -c 'drop database neurvo_spec_scratch'
+```
 
 Browser (feature) specs need Selenium images that have no arm64 builds, so `bin/compose rspec` cannot start on Apple
 Silicon. Model, helper, view, component and request specs run fine without them:

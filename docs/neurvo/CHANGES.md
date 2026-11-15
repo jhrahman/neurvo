@@ -280,3 +280,85 @@ Wording: Ocean IT Solutions and all sample people are described as fictional. `a
 ## Demo video
 
 `docs/neurvo/demo/neurvo-demo.webm` is a 3-minute, 1080p, 60 fps tour of the sample workspace. The README plays it through a small player page on GitHub Pages (the `gh-pages` branch), because GitHub only offers repository videos as downloads. It contains no upstream code changes.
+
+## Ticket title placeholder
+
+| File | Reason |
+|---|---|
+| `config/locales/js-en.yml` | `js.placeholders.subject` now reads "Give a ticket title..." (was "Enter subject here") on the new work package form |
+| `frontend/src/app/shared/components/fields/edit/field-types/text-edit-field.component.html` | Binds the field's `placeholder` to the input; it was never rendered, so the title placeholder did not appear |
+
+## Ticket fields matrix (Administration > Work packages > Ticket fields)
+
+| File | Reason |
+|---|---|
+| `app/controllers/admin/ticket_fields_controller.rb`, `app/views/admin/ticket_fields/show.html.erb`, `app/services/work_package_types/ticket_fields/apply_service.rb` (new) | One page with every field (default and custom) against every ticket type, with checkboxes to enable or disable. It reuses the form configuration rules, so it writes the same type configuration as the Form configuration tab |
+| `config/routes.rb`, `config/initializers/menus.rb`, `config/locales/en.yml` | Route `/admin/ticket_fields`, menu entry under Work packages, `admin.ticket_fields.*` strings |
+| `spec/services/work_package_types/ticket_fields/`, `spec/controllers/admin/ticket_fields_controller_spec.rb` | Specs |
+
+## Lower RAM, CPU and disk use in production
+
+| File | Reason |
+|---|---|
+| `docker-compose.prod.yml` | One Puma worker instead of two, 5 job threads instead of 20, smaller GoodJob cache, finished jobs kept 2 days, `MALLOC_ARENA_MAX=2`, 64 MB memcached (alpine), log rotation on every service, and the IMAP `cron` container moved behind the `imap` profile |
+| `docs/neurvo/DEPLOY.md` | Documents the new variables and the `imap` profile |
+
+## Ticket fields page redesign
+
+| File | Reason |
+|---|---|
+| `app/views/admin/ticket_fields/show.html.erb`, `app/controllers/admin/ticket_fields_controller.rb` | Replaced the fields-by-types grid with a type list on the left and the selected type's fields on the right, so many types or fields no longer need horizontal scrolling. Adds search, enable/disable all, copy fields from another type, and a sticky save button. Saves one type at a time |
+| `frontend/src/stimulus/controllers/field-filter.controller.ts` (new), `frontend/src/stimulus/setup.ts` | Search filter and enable/disable-all for visible fields |
+| `frontend/src/global_styles/content/_ticket_fields.sass` (new), `_index.sass` | Layout styles |
+| `config/locales/en.yml` | New `admin.ticket_fields.*` strings |
+
+## No upstream development seed data
+
+| File | Reason |
+|---|---|
+| `app/seeders/root_seeder.rb` | Upstream's development seeder (the "CF DEV …" custom fields and sample projects) no longer runs on `db:seed` in development. Set `NEURVO_SEED_DEVELOPMENT_DATA=true` to bring it back |
+
+## Terminology: "Work package" and "ticket" become "Issue"
+
+| File | Reason |
+|---|---|
+| `config/locales/en.yml`, `config/locales/js-en.yml`, `modules/*/config/locales/en.yml`, `modules/*/config/locales/js-en.yml` (23 files) | Every visible "work package(s)" and "ticket(s)" now reads "issue(s)", including "a/an" and "work package type" becoming "issue type". Keys, interpolations, API paths and other languages are unchanged |
+| `app/models/work_package/pdf_export/wp/attributes.rb`, `lib/open_project/text_formatting/matchers/link_handlers/colon_separator.rb` | Two hard-coded labels ("[No issues]" in PDF exports, the default query link) |
+| `spec/` and `modules/*/spec/` (about 60 files) | Specs that assert on the visible wording follow the new text. Feature specs were updated by search and have not been run |
+
+Left as is on purpose: log messages, API and MCP tool descriptions, JSON schema titles of the PDF styling, and the upstream demo seeders.
+
+## User administration: settings icon, actions menu, password reset, open search
+
+| File | Reason |
+|---|---|
+| `app/components/users/row_component.rb` | A gear icon beside each username opens the user's settings; a per-row actions menu offers Edit, Send password reset and Lock/Unlock/Activate (replacing the single lock link) |
+| `app/components/users/index_sub_header_component.rb` | The name search is always open instead of hiding behind a magnifier icon. It still filters live as you type |
+| `app/controllers/users_controller.rb`, `config/routes.rb`, `config/initializers/permissions.rb` | New `send_password_reset` action (permission `manage_user`) that mails the user a recovery link; refused for locked, invited or external-auth accounts and for admins when the actor is not an admin |
+| `app/components/users/edit_page_header_component.html.erb` | "Send password reset" button on the user edit page |
+| `config/locales/en.yml` | `label_send_password_reset`, `label_edit_user`, `notice_password_reset_sent`, `notice_password_reset_not_possible` |
+| `spec/controllers/users_controller_password_reset_spec.rb` | Specs for the action, permissions and the list |
+
+## "Assign to me" on issues
+
+| File | Reason |
+|---|---|
+| `frontend/src/app/features/work-packages/components/wp-form-group/wp-attribute-group.component.ts`, `.template.html`, `.component.sass` | An "Assign to me" link under the Assignee, Accountable and every single-user custom field (such as Assignee Pair) on the issue form and the issue details. It sets the current user and saves immediately on an existing issue; on the new-issue form it only fills the field. It is hidden when you already hold the field or the field is read-only. The server still checks that you may be assigned |
+| `config/locales/js-en.yml` | `js.work_packages.assign_to_me` |
+
+## Documentation refresh
+
+| File | Reason |
+|---|---|
+| `README.md` | New step-by-step "Run Neurvo on your computer (Docker)" guide with prerequisites, sign-in, everyday commands and troubleshooting; highlights for Issue fields, Assign to me and user administration; "issue" wording throughout |
+| `docs/neurvo/DEVELOPMENT.md`, `DEPLOY.md`, `ROLES.md` | "Issue" wording; where the new features live; restart table for menus and permissions; a warning and a safe recipe for running specs without touching the development database |
+
+## Easier server deployment
+
+| File | Reason |
+|---|---|
+| `docker-compose.prod.yml`, `.env.prod.example` | The first administrator's email and password now come from `.env.prod` (`NEURVO_ADMIN_EMAIL`, `NEURVO_ADMIN_PASSWORD`, optional `NEURVO_ADMIN_NAME`), so a new server never starts with `admin` / `admin`. The stack refuses to start while either is missing. Existing databases are not affected, because the administrator is only created the first time |
+| `bin/neurvo-prod` (new) | Shortcut for `docker compose --env-file .env.prod -f docker-compose.prod.yml` |
+| `docs/neurvo/DEPLOY.md`, `README.md` | Deployment guide rewritten as numbered, copy-and-paste steps with a checklist, backups, updates and troubleshooting |
+
+| `docker-compose.prod.yml` (hardening) | The first administrator's credentials are given only to the one-time `seeder` container, not to `web`, `worker` or `cron` |

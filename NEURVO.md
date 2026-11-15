@@ -33,6 +33,10 @@ It is a customized fork of **OpenProject v17.9.6** (GPLv3), developed with AI-as
 7. **Test every change.** Add or update RSpec and frontend tests for what you change. Run only the relevant specs (`bin/compose rspec <path>`); the full suite is huge. Run the linters for touched files before committing. Tell me how to verify a change manually in the browser.
 8. **Build for integrations and scale.** Neurvo is the hub of a growing toolset: Docmost first, more later. Every feature is API-first, every integration is a pluggable module, and nothing assumes a single server. See "Integrations and scalability" below; it applies to every phase, not only the integration work.
 
+## Terminology
+
+The user interface says **Issue / Issues** (never "work package" or "ticket"). Internal names stay as they are: `WorkPackage`, `work_packages` routes and API paths, and translation keys. In English locale files, write "issue" in new strings.
+
 ## Brand
 
 Brand assets live in `neurvo-brand/` at the repo root. Read `neurvo-brand/README.md` first.

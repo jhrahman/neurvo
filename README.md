@@ -4,11 +4,13 @@
 
 # Neurvo
 
-**The taste of Jira, for free.** A project and ticket tracker for software, QA and DevOps teams, built on the open source [OpenProject](https://www.openproject.org) and reshaped so a dev team can use it on day one.
+**The taste of Jira, for free.** A project and issue tracker for software, QA and DevOps teams, built on the open source [OpenProject](https://www.openproject.org) and reshaped so a dev team can use it on day one.
 
 > Neurvo is a personal project. I took a real open source tool and reshaped it for software, QA and DevOps teams, working inside a large existing codebase and keeping every change documented and easy to upgrade. The screenshots use sample data: **Ocean IT Solutions** and every person in it are fictional.
 
 ![Neurvo home page](docs/neurvo/images/home.png)
+
+**Want to try it?** Jump to [Run Neurvo on your computer](#run-neurvo-on-your-computer-docker). It takes seven steps and needs only Docker.
 
 ## Watch the demo
 
@@ -16,7 +18,7 @@
 
 **[Click the picture to play it in your browser](https://jhrahman.github.io/neurvo/)** (3 minutes, 1080p, 60 fps, with chapter buttons). Prefer a file? [Download the WebM](docs/neurvo/demo/neurvo-demo.webm).
 
-What you will see, in order: signing in, the role-based Home page, switching between light and dark themes with a colour profile for each, the account settings, the project overview, three boards (Bug triage, Sprint board, Support queue) with tickets dragged between statuses, a new task with a comment, a new bug with an @mention, a commenter's profile card, and signing out.
+What you will see, in order: signing in, the role-based Home page, switching between light and dark themes with a colour profile for each, the account settings, the project overview, three boards (Bug triage, Sprint board, Support queue) with issues dragged between statuses, a new task with a comment, a new bug with an @mention, a commenter's profile card, and signing out.
 
 ## The problem I wanted to solve
 
@@ -28,7 +30,7 @@ So I asked a simple question: **what if a developer, a tester and a DevOps engin
 
 I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
 
-1. **Made it work out of the box** for a dev and QA team: the right ticket types, a real bug lifecycle, readable keys like `GOFLEET-15`, Jira-style boards.
+1. **Made it work out of the box** for a dev and QA team: the right issue types, a real bug lifecycle, readable keys like `GOFLEET-15`, Jira-style boards.
 2. **Made it personal**: the Home page shows cards that fit the person's role, and each person can change them.
 3. **Made it pleasant**: a calmer UI, a better comment experience, a modern editor, dark mode, and friendly error messages.
 4. **Kept it upgradable**: every change to upstream code is logged, so new OpenProject releases can still be merged.
@@ -37,10 +39,10 @@ I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
 
 | | OpenProject out of the box | Neurvo |
 |---|---|---|
-| **First impression** | A generic project tool | A Jira-style home, boards and ticket keys |
+| **First impression** | A generic project tool | A Jira-style home, boards and issue keys |
 | **Workflow** | You design it yourself | Ready on day one: To Do, In Progress, In Review, Ready for QA, In QA, Done, plus a QA gate |
 | **Home page** | The same for everyone | **42 cards** that adapt to your role (developer, QA, DevOps, designer, project manager) and that you can customise |
-| **Talking on a ticket** | One mixed activity feed | A dedicated **Comments** tab with threads, replies, copyable deep links and a highlight on the exact comment |
+| **Talking on an issue** | One mixed activity feed | A dedicated **Comments** tab with threads, replies, copyable deep links and a highlight on the exact comment |
 | **Writing** | Standard editor | Modern editor with real code blocks, a language picker and a copy button |
 | **People** | Initials in a circle | Preset avatars, job titles, click-through profile cards, **Reporter** and **Assignee Pair** fields |
 | **Errors** | A raw technical toast in the corner | A clear message in the page: what happened, why, and a **Go back** button |
@@ -55,7 +57,7 @@ I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
 
 **Conversations that are easy to follow.** Comments come first, with the author's job title, threaded replies and a link you can copy for any comment.
 
-![Ticket with comments](docs/neurvo/images/ticket-comments.png)
+![Issue with comments](docs/neurvo/images/issue-comments.png)
 
 **A home page that knows who you are.** Pick up to six of 42 cards, grouped by department, with a live count on each one. QA sees test work, DevOps sees infrastructure and changes, designers see UI work, managers see the team.
 
@@ -107,8 +109,40 @@ I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
 - Light and dark modes with extra colour palettes. Hover a swatch to see its name.
 - A header that works on phones, in-app confirmation dialogs instead of browser pop-ups, and toasts that clear themselves.
 - 32 preset avatars to choose from, or upload your own.
-- A clear "New ticket" button inside a project, so it is never confused with the global "Create".
+- A clear "New issue" button inside a project, so it is never confused with the global "Create".
 - A friendly error panel when a list cannot be loaded, with a way back.
+
+</details>
+
+<details>
+<summary><b>Fields you control, per issue type</b></summary>
+
+<br>
+
+- **Administration > Issues > Issue fields** shows one issue type at a time. Pick Story, Bug or any other type and tick the fields it should show, default and custom.
+- Search the list as you type, enable or disable a whole group, or copy the fields from another type when you add a new one.
+- Custom fields can be created and edited from the same page.
+
+</details>
+
+<details>
+<summary><b>Assign to me, like Jira</b></summary>
+
+<br>
+
+- Under Assignee, Accountable and Assignee Pair there is an **Assign to me** link, on every issue type.
+- On an existing issue it assigns you and saves at once. On the new-issue form it fills the field for you.
+
+</details>
+
+<details>
+<summary><b>Easier user administration</b></summary>
+
+<br>
+
+- A gear icon beside every username opens that person's settings: name, email and more.
+- A row menu offers **Edit user**, **Send password reset** and **Lock or unlock**.
+- The user list has an always-open search bar that filters as you type.
 
 </details>
 
@@ -143,59 +177,125 @@ I built Neurvo on my own, working with an AI coding assistant (Claude Code) as a
 
 ---
 
-## Try it on your computer
+## Run Neurvo on your computer (Docker)
 
-You need **Docker Desktop** with about 8 GB of memory (10 to 12 GB is more comfortable), 20 GB of free disk and Git. The first setup takes 15 to 30 minutes, and later starts take a minute or two.
+Everything runs in Docker, so you do not install Ruby, Node or PostgreSQL yourself.
 
-### 1. Get the code
+### What you need
 
-**Mac**
+| | |
+|---|---|
+| **Docker** | Docker Desktop (Mac or Windows) or Docker Engine with Compose (Linux) |
+| **Memory** | 8 GB given to Docker (10 to 12 GB is more comfortable) |
+| **Disk** | About 20 GB free |
+| **Other** | Git. Apple Silicon Macs work. On Windows use WSL 2 |
+| **Time** | 15 to 30 minutes for the first setup, one or two minutes for later starts |
+
+### Step by step
+
+**1. Install and start Docker**
+
+- **Mac:** `brew install --cask docker`, open Docker Desktop, then set *Settings > Resources > Memory* to 8 GB or more.
+- **Windows:** install Docker Desktop with the **WSL 2** backend and [WSL](https://learn.microsoft.com/windows/wsl/install) (`wsl --install` in an admin PowerShell, then restart). In Docker Desktop enable your Ubuntu distro under *Settings > Resources > WSL integration*, and give it 8 GB or more. Do every following step in the **Ubuntu** terminal.
+- **Linux:** install Docker Engine and the Compose plugin.
+
+**2. Get the code**
 
 ```bash
-brew install --cask docker        # then open Docker Desktop and give it 8 GB or more
-git clone https://github.com/jhrahman/neurvo.git neurvo && cd neurvo
+git clone https://github.com/jhrahman/neurvo.git
+cd neurvo
 git checkout neurvo
 ```
 
-**Windows**
+On Windows, clone inside the Linux file system (for example `~/neurvo`), not under `/mnt/c`, or everything is very slow.
 
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) with the **WSL 2** backend, and [WSL](https://learn.microsoft.com/windows/wsl/install) (`wsl --install` in an admin PowerShell, then restart).
-2. In Docker Desktop, enable your Ubuntu distro under Settings > Resources > WSL integration, and give it 8 GB or more.
-3. Open the **Ubuntu** terminal and clone **inside the Linux file system** (for example `~/neurvo`), not under `/mnt/c`, or everything will be very slow.
-
-### 2. Start it (same on both)
+**3. Prepare Docker, once**
 
 ```bash
 docker network create gateway
 cp docker-compose.override.example.yml docker-compose.override.yml
-bin/compose setup                  # builds, installs, migrates (15 to 30 minutes, once)
-bin/compose start
-bin/compose up -d backend worker
-bin/compose exec backend bundle exec rake neurvo:seed    # the sample company (recommended)
 ```
 
-Open <http://localhost:3000>.
+If Docker says the network `gateway` already exists, that is fine. The second command publishes the app on port 3000.
 
-### 3. Sign in
+**4. Build and install, once (15 to 30 minutes)**
 
-The administrator account is `admin` and you are asked to change its password at the first login. The sample seed also creates one account per role (developer, QA, DevOps, designer, project manager and a general team member). Their usernames and the seed password are in `lib/neurvo/seed_data.yml` and `lib/neurvo/seed.rb`.
+```bash
+bin/compose setup
+```
 
-Sign in as different people and compare the Home page: the cards change with the role.
+This builds the images, installs the dependencies and sets up the database. Warnings about `DEV_UID` and `DEV_GID` are harmless.
 
-**Daily use:** `bin/compose start && bin/compose up -d backend worker` to start, `bin/compose stop` to stop. If a page looks unstyled, the frontend ran out of memory: `bin/compose up -d frontend`. More tips, memory settings and sharing a local copy: [DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md).
+**5. Start Neurvo**
+
+```bash
+bin/compose start
+bin/compose up -d backend worker
+```
+
+**6. Load the sample company (recommended)**
+
+```bash
+bin/compose exec backend bundle exec rake neurvo:seed
+```
+
+This creates the Neurvo workflow, issue types, fields and roles, plus four fictional projects and a sample team. Skip it if you want an empty workspace. It is safe to run again.
+
+**7. Open the app**
+
+Go to <http://localhost:3000>. The first page can take a few minutes while the frontend compiles. To watch progress, run `bin/compose logs -f backend`.
+
+### Sign in
+
+| Account | Details |
+|---|---|
+| Administrator | `admin` / `admin`. You are asked to change the password at the first login |
+| Sample people | One account per role (developer, QA, DevOps, designer, project manager, team member). Usernames and the seed password are listed in [USERS.md](docs/neurvo/USERS.md) |
+
+Sign in as different people and compare the Home page: the cards change with the role. These accounts are for local use only, so never create them on a real server.
+
+### Everyday commands
+
+| I want to | Run |
+|---|---|
+| Start Neurvo | `bin/compose start && bin/compose up -d backend worker` |
+| Stop it (keeps your data) | `bin/compose stop` |
+| See what is running | `bin/compose ps` |
+| Follow the logs | `bin/compose logs -f backend` |
+| Restart after a settings, menu or language-file change | `bin/compose restart backend` |
+| Open a Rails console | `bin/compose exec backend bundle exec rails console` |
+| Reload the sample data | `bin/compose exec backend bundle exec rake neurvo:seed` |
+| **Delete everything** and start over | `bin/compose reset`, then step 4 again |
+
+### If something goes wrong
+
+| What you see | Fix |
+|---|---|
+| The page loads but has no styling, or the frontend container stopped | The frontend ran out of memory. Give Docker more memory, then `bin/compose up -d frontend` |
+| "Found local `config/database.yml`" | Rename or delete that file. The Docker setup does not work with it |
+| Port 3000 is already in use | Stop the other program using it, or change the port in `docker-compose.override.yml` |
+| A new menu entry or language change does not show up | `bin/compose restart backend` |
+| Very slow on Windows | The code is under `/mnt/c`. Clone it again inside WSL |
+| Sample emails never arrive | Dev emails open at <http://localhost:3000/letter_opener> |
+
+More tips, memory settings, running specs safely and sharing your local copy: [DEVELOPMENT.md](docs/neurvo/DEVELOPMENT.md).
 
 ## Deploy it on a server
 
-Production runs on one Linux server with Docker Compose and automatic HTTPS. As a rough guide, plan for about 8 GB of memory, 4 CPUs and 40 GB of disk for a team of around 100. This is a sizing estimate, not a measured production figure.
+Production runs on one Linux server with Docker Compose and automatic HTTPS. As a rough guide, plan for about 8 GB of memory, 4 CPUs and 40 GB of disk for a team of around 100. This is a sizing estimate, not a measured production figure. You need a domain name pointing at the server and ports 80 and 443 open.
 
 ```bash
 curl -fsSL https://get.docker.com | sh
-git clone https://github.com/jhrahman/neurvo.git neurvo && cd neurvo
-cp .env.prod.example .env.prod && nano .env.prod     # host name, database password, secret key
-docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --build
+git clone https://github.com/jhrahman/neurvo.git && cd neurvo && git checkout neurvo
+cp .env.prod.example .env.prod
+nano .env.prod                       # your domain, admin email and admin password
+./bin/neurvo-prod up -d --build      # 20 to 40 minutes the first time
+./bin/neurvo-prod exec web bundle exec rake neurvo:seed CONFIG_ONLY=1
 ```
 
-Open `https://<your host>`, sign in as `admin` / `admin` and change the password straight away. The full guide covers what to set up next, the Neurvo workflow without sample data, backups and updates: [DEPLOY.md](docs/neurvo/DEPLOY.md).
+Open `https://<your domain>` and sign in as `admin` with the password you chose. The production stack is tuned to be light: one web process, a small cache, rotated logs, and the incoming-email job off by default.
+
+The full step-by-step guide covers installing Docker, creating the secrets, email, backups, updates and troubleshooting: **[DEPLOY.md](docs/neurvo/DEPLOY.md)**. The production stack has been checked with `docker compose config` only, so try it on a test server first.
 
 ## Documentation
 
