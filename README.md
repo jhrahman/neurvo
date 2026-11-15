@@ -57,7 +57,7 @@ I took OpenProject (v17.9.6) as the engine and built a Neurvo layer on top:
 
 **Conversations that are easy to follow.** Comments come first, with the author's job title, threaded replies and a link you can copy for any comment.
 
-![Issue with comments](docs/neurvo/images/issue-comments.png)
+![Issue with comments](docs/neurvo/images/ticket-comments.png)
 
 **A home page that knows who you are.** Pick up to six of 42 cards, grouped by department, with a live count on each one. QA sees test work, DevOps sees infrastructure and changes, designers see UI work, managers see the team.
 
