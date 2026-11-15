@@ -995,6 +995,8 @@ en:
       wiki_link: "Link to a Wiki page"
     work_packages:
       assign_to_me: "Assign to me"
+      collapse_side_panel: "Collapse the comments and files panel"
+      expand_side_panel: "Expand the comments and files panel"
       baseline:
         addition_label: "Added to view within the comparison time period"
         column_incompatible: "This column does not show changes in Baseline mode."

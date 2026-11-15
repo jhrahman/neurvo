@@ -43,6 +43,17 @@
                />
             </li>
           }
+          <li class="toolbar-item work-packages-full-view--panel-toggle">
+            <button type="button"
+              class="button toolbar-icon"
+              data-test-selector="wp-toggle-side-panel"
+              [attr.title]="sidePanelCollapsed ? text.fullView.expandSidePanel : text.fullView.collapseSidePanel"
+              [attr.aria-label]="sidePanelCollapsed ? text.fullView.expandSidePanel : text.fullView.collapseSidePanel"
+              [attr.aria-pressed]="sidePanelCollapsed"
+              (click)="toggleSidePanel()">
+              <op-icon icon-classes="button--icon icon-view-split" />
+            </button>
+          </li>
           <li class="toolbar-item hidden-for-tablet">
             <opce-zen-mode-toggle-button />
           </li>
@@ -57,13 +68,22 @@
         </ul>
       </div>
     </div>
-    <div class="work-packages-full-view--split-container">
+    <div class="work-packages-full-view--split-container"
+      [class.-side-panel-collapsed]="sidePanelCollapsed">
       <div class="work-packages-full-view--split-left">
         <div class="work-packages--panel-inner">
           <wp-single-view [workPackage]="workPackage" />
         </div>
       </div>
       <div class="work-packages-full-view--split-right work-packages-tab-view--overflow">
+        <button type="button"
+          class="work-packages-full-view--expand hide-when-print"
+          data-test-selector="wp-expand-side-panel"
+          [attr.title]="text.fullView.expandSidePanel"
+          [attr.aria-label]="text.fullView.expandSidePanel"
+          (click)="toggleSidePanel()">
+          <op-icon icon-classes="button--icon icon-arrow-left2" />
+        </button>
         <div class="work-packages--panel-inner">
           <span class="sr-only" tabindex="-1"  [textContent]="focusAnchorLabel"></span>
           <op-wp-tabs [workPackage]="workPackage"

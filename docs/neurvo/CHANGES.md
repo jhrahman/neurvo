@@ -362,3 +362,11 @@ Left as is on purpose: log messages, API and MCP tool descriptions, JSON schema 
 | `docs/neurvo/DEPLOY.md`, `README.md` | Deployment guide rewritten as numbered, copy-and-paste steps with a checklist, backups, updates and troubleshooting |
 
 | `docker-compose.prod.yml` (hardening) | The first administrator's credentials are given only to the one-time `seeder` container, not to `web`, `worker` or `cron` |
+
+## Collapsible side panel on the issue page
+
+| File | Reason |
+|---|---|
+| `frontend/src/app/features/work-packages/routing/wp-full-view/wp-full-view.component.ts`, `wp-full-view.html` | A toolbar button and an edge strip collapse and expand the right panel (Comments, Files, Relations, Activity) so the issue can be read full width. The choice is remembered in the browser. The panel stays mounted while collapsed, so a half-written comment is kept |
+| `frontend/src/global_styles/layout/work_packages/_full_view.sass` | Collapsed layout, active only above the xl breakpoint (below it the panel is stacked under the issue) |
+| `config/locales/js-en.yml` | `js.work_packages.collapse_side_panel`, `expand_side_panel` |

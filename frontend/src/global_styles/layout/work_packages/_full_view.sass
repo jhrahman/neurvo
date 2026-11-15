@@ -115,6 +115,40 @@
       &.inline-edit
         width: 75%
 
+// Collapsing the side panel is a desktop-only feature: below the xl breakpoint the panel is stacked under the issue.
+.work-packages-full-view--panel-toggle,
+.work-packages-full-view--expand
+  display: none
+
+@media only screen and (min-width: $breakpoint-xl + 1)
+  .work-packages-full-view--panel-toggle
+    display: list-item
+
+  .work-packages-full-view--split-container.-side-panel-collapsed
+    .work-packages-full-view--split-right
+      flex: 0 0 44px !important
+      min-width: 44px
+      overflow: hidden
+
+      .work-packages--panel-inner,
+      .work-packages-full-view--resizer
+        display: none
+
+    .work-packages-full-view--expand
+      display: flex
+      align-items: flex-start
+      justify-content: center
+      width: 100%
+      padding: var(--base-size-12, 12px) 0
+      border: 0
+      background: none
+      color: var(--fgColor-muted)
+      cursor: pointer
+
+      &:hover
+        color: var(--fgColor-accent)
+        background: var(--bgColor-muted)
+
 @media only screen and (max-width: $breakpoint-xl)
   .work-packages--details
     @at-root

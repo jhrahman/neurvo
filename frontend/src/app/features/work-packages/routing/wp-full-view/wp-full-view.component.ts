@@ -75,8 +75,24 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public text = {
     fullView: {
       buttonMore: this.i18n.t('js.button_more'),
+      collapseSidePanel: this.i18n.t('js.work_packages.collapse_side_panel'),
+      expandSidePanel: this.i18n.t('js.work_packages.expand_side_panel'),
     },
   };
+
+  public sidePanelCollapsed = false;
+
+  private readonly sidePanelStorageKey = 'neurvo-wp-side-panel-collapsed';
+
+  public toggleSidePanel():void {
+    this.sidePanelCollapsed = !this.sidePanelCollapsed;
+    try {
+      window.localStorage.setItem(this.sidePanelStorageKey, String(this.sidePanelCollapsed));
+    } catch {
+      // Storage can be unavailable (private windows); the choice then only lasts for this page.
+    }
+    this.cdRef.markForCheck();
+  }
 
   public onTabSelected(tab:TabDefinition):void {
     if (!this.routedFromAngular) {
@@ -94,6 +110,11 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   }
 
   ngOnInit():void {
+    try {
+      this.sidePanelCollapsed = window.localStorage.getItem(this.sidePanelStorageKey) === 'true';
+    } catch {
+      this.sidePanelCollapsed = false;
+    }
     this.observeWorkPackage();
   }
 
