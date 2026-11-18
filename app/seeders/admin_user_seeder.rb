@@ -52,7 +52,14 @@ class AdminUserSeeder < Seeder
     "No need to seed an admin as there already is one."
   end
 
+  INSECURE_PASSWORDS = %w[admin change-me].freeze
+
   def new_admin # rubocop:disable Metrics/AbcSize
+    if Rails.env.production? && INSECURE_PASSWORDS.include?(Setting.seed_admin_user_password)
+      raise "Refusing to seed the admin user with a default password. " \
+            "Set OPENPROJECT_SEED_ADMIN_USER_PASSWORD to a strong, unique password."
+    end
+
     User.new.tap do |user|
       user.admin = true
       user.login = "admin"
