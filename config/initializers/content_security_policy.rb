@@ -53,32 +53,14 @@ Rails.application.config.after_initialize do
       # Attachment uploaders
       default_src += OpenProject::Configuration.remote_storage_hosts
 
-      # Chargebee self-service
-      chargebee_src = ["https://*.chargebee.com"]
-
-      assets_src += chargebee_src
-      frame_src += chargebee_src
-      default_src += chargebee_src
-
-      # Allow requests to CLI in dev mode
-      connect_src = default_src + [OpenProject::Configuration.enterprise_trial_creation_host]
+      connect_src = default_src.dup
 
       # Allow connections to asset host for source maps
       connect_src << asset_host if asset_host.present?
 
       # Rules for media (e.g. video sources)
-      media_src = default_src
+      media_src = default_src.dup
       media_src << asset_host if asset_host.present?
-      # Getting started video
-      onboarding = Addressable::URI.parse(OpenProject::Static::Links.url_for(:onboarding_video_url))
-      media_src << "#{onboarding.scheme}://#{onboarding.host}"
-      enterprise_video = Addressable::URI.parse(OpenProject::Static::Links.url_for(:enterprise_welcome_video))
-      media_src << "#{enterprise_video.scheme}://#{enterprise_video.host}"
-      media_src.uniq!
-
-      if OpenProject::Configuration.appsignal_frontend_key
-        connect_src += ["https://appsignal-endpoint.net"]
-      end
 
       # Add proxy configuration for Angular CLI to csp
       if FrontendAssetHelper.assets_proxied?
@@ -90,7 +72,7 @@ Rails.application.config.after_initialize do
       end
 
       # Allow to extend the script-src in specific situations
-      script_src = assets_src + %w(js.chargebee.com)
+      script_src = assets_src.dup
 
       # Allow unsafe-eval for rack-mini-profiler
       if Rails.env.development? && ENV.fetch("OPENPROJECT_RACK_PROFILER_ENABLED", false)
@@ -131,7 +113,7 @@ Rails.application.config.after_initialize do
       policy.script_src(*script_src)
       policy.script_src_attr("'none'")
       policy.style_src(*assets_src, "'unsafe-inline'")
-      policy.object_src(OpenProject::Configuration[:security_badge_url])
+      policy.object_src(:none)
       policy.connect_src(*connect_src)
       policy.media_src(*media_src)
     end

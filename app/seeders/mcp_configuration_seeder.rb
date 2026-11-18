@@ -49,7 +49,7 @@ class McpConfigurationSeeder < Seeder
       identifier: McpConfiguration::SERVER_CONFIGURATION_IDENTIFIER,
       title: Setting.app_title,
       description: "Performs project management tasks on the given installation of OpenProject.",
-      enabled: true
+      enabled: false
     )
   end
 

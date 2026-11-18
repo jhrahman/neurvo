@@ -35,8 +35,11 @@
 insecure_secret_key_bases = [
   "OVERWRITE_ME", # default value in Dockerfile
   "secret", # old sample from documentation
-  "<your-secret-key-base>" # new sample from documentation
+  "<your-secret-key-base>", # new sample from documentation
+  "change-me" # placeholder in .env.prod.example
 ].freeze
+
+minimum_secret_length = 32
 
 no_rake_task = !(Rake.respond_to?(:application) && Rake.application.top_level_tasks.present?)
 no_override = ENV["OPENPROJECT_DISABLE__SECRET_KEY_BASE__CHECK"] != "true"
@@ -47,6 +50,8 @@ if Rails.env.production? && no_rake_task && no_override
       "SECRET_KEY_BASE is not set."
     elsif insecure_secret_key_bases.include?(secret)
       "SECRET_KEY_BASE is set to a well-known default value (#{secret.inspect})."
+    elsif secret.length < minimum_secret_length
+      "SECRET_KEY_BASE is shorter than #{minimum_secret_length} characters."
     end
 
   if fatal_reason

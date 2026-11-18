@@ -250,7 +250,7 @@ module Settings
       },
       brute_force_block_after_failed_logins: {
         description: "Number of login attempts per user before assuming brute force attack",
-        default: 20
+        default: 10
       },
       cache_expires_in_seconds: {
         description: "Expiration time for memcache entries, empty for no expiration be default",

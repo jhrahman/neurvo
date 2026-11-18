@@ -30,15 +30,11 @@
 
 require "spec_helper"
 
-# Rails registers ActiveSupport::SafeBuffer as MessagePack ext type 18 with
-# packer: :to_s, unpacker: :new. Ext payloads are raw bytes (BINARY), so the
-# default unpacker reconstructs SafeBuffer with ASCII-8BIT encoding even when
-# the original was UTF-8. The patch (mirroring rails/rails#57429) switches to
-# recursive: true with nested packer.write / unpacker.read so the MessagePack
-# string codec preserves the original encoding across the round-trip.
-RSpec.describe OpenProject::Patches::MessagePackSafeBufferFix do
+# Rails before 8.1.4 reconstructed cached SafeBuffers as ASCII-8BIT (rails/rails#57429).
+# The fix ships with Rails now, so this guards against a regression.
+RSpec.describe ActiveSupport::MessagePack::CacheSerializer, "SafeBuffer round-trip" do
   # Use the same serializer the cache store uses to cover the real path.
-  let(:serializer) { ActiveSupport::MessagePack::CacheSerializer }
+  let(:serializer) { described_class }
   let(:html) { "<p>Héllo &amp; wörld — «quoted»</p>" }
 
   def round_trip(value)
