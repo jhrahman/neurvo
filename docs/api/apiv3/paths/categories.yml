@@ -1,0 +1,39 @@
+# /api/v3/categories
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      project:
+                        href: "/api/v3/projects/11"
+                        title: Example project
+                      self:
+                        href: "/api/v3/categories/10"
+                        title: Foo
+                    _type: Category
+                    id: 10
+                    name: Foo
+                _links:
+                  self:
+                    href: "/api/v3/categories"
+                _type: Collection
+                count: 1
+                total: 1
+          schema:
+            "$ref": "../components/schemas/categories_by_workspace_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Categories
+  description: |-
+    List the categories of all projects the client can see, ordered by name.
+    Used for filtering across projects.
+  operationId: List_categories
+  summary: List categories

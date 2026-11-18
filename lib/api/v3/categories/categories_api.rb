@@ -27,12 +27,19 @@
 #++
 
 require "api/v3/categories/category_representer"
+require "api/v3/categories/category_collection_representer"
 
 module API
   module V3
     module Categories
       class CategoriesAPI < ::API::OpenProjectAPI
         resources :categories do
+          get do
+            categories = Category.where(project_id: Project.visible(current_user).select(:id)).order(:name)
+
+            CategoryCollectionRepresenter.new(categories, self_link: api_v3_paths.categories, current_user:)
+          end
+
           route_param :id, type: Integer, desc: "Category ID" do
             after_validation do
               @category = Category.find(params[:id])

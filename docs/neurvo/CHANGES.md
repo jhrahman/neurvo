@@ -370,3 +370,25 @@ Left as is on purpose: log messages, API and MCP tool descriptions, JSON schema 
 | `frontend/src/app/features/work-packages/routing/wp-full-view/wp-full-view.component.ts`, `wp-full-view.html` | A toolbar button and an edge strip collapse and expand the right panel (Comments, Files, Relations, Activity) so the issue can be read full width. The choice is remembered in the browser. The panel stays mounted while collapsed, so a half-written comment is kept |
 | `frontend/src/global_styles/layout/work_packages/_full_view.sass` | Collapsed layout, active only above the xl breakpoint (below it the panel is stacked under the issue) |
 | `config/locales/js-en.yml` | `js.work_packages.collapse_side_panel`, `expand_side_panel` |
+
+## Security hardening and dependency patches
+
+| File | Reason |
+|---|---|
+| `modules/avatars/lib/open_project/avatars/engine.rb` | Gravatar is off by default, so no email hashes leave the instance |
+| `config/initializers/content_security_policy.rb` | Removed Chargebee, the enterprise trial host, the onboarding video hosts and AppSignal from the policy; `object-src` is `none` |
+| `config/initializers/02-secret_key_base_check.rb` | Production refuses the `change-me` placeholder and a `SECRET_KEY_BASE` shorter than 32 characters |
+| `app/seeders/admin_user_seeder.rb` | Production refuses to seed the admin user with `admin` or `change-me` as password |
+| `app/seeders/mcp_configuration_seeder.rb` | The MCP server (inbound API for AI clients, Enterprise feature) is seeded disabled |
+| `config/constants/settings/definition.rb` | Accounts lock after 10 failed logins instead of 20 |
+| `lib/open_project/patches/message_pack_safe_buffer.rb` (removed) | Rails 8.1.4.1 ships the fix this backport waited for, and keeps the `html_safe` flag the backport dropped. Its spec now lives in `spec/lib/active_support/message_pack/` as a guard against Rails |
+| `Gemfile.lock`, `frontend/package-lock.json` | Patch releases only (Rails 8.1.4.1, Rack, Nokogiri, sanitizers, omniauth 2.3, Angular 22.2.6, Mantine, Hocuspocus, qs). puma and dalli wait for the 7-day gem cooldown |
+
+## "All projects" issue list
+
+| File | Reason |
+|---|---|
+| `lib/api/v3/categories/categories_api.rb` | New `GET /api/v3/categories`: categories of every project the user can see, ordered by name |
+| `lib/api/v3/queries/schemas/category_filter_dependency_representer.rb` | Without a project the category filter points at `/api/v3/categories` instead of crashing, which made the "All projects" list fail with a 500 error |
+| `docs/api/apiv3/paths/categories.yml`, `docs/api/apiv3/openapi-spec.yml` | Documents the new endpoint |
+| `modules/avatars/app/controllers/avatars/presets_controller.rb` | Preset avatar images are cached privately, not by shared proxies |

@@ -89,6 +89,36 @@ RSpec.describe "API v3 Category resource" do
     end
   end
 
+  describe "GET categories" do
+    subject(:response) { last_response }
+
+    context "for a member of one project" do
+      current_user { privileged_user }
+
+      before do
+        get api_v3_paths.categories
+      end
+
+      it_behaves_like "API V3 collection response", 7, 7, "Category"
+    end
+
+    context "for a user who is not a member of any project" do
+      current_user { non_member_user }
+
+      before do
+        get api_v3_paths.categories
+      end
+
+      it_behaves_like "API V3 collection response", 2, 2, "Category"
+
+      it "only lists categories of projects the user can see" do
+        project_ids = JSON.parse(last_response.body).dig("_embedded", "elements").map { |c| c.dig("_links", "project", "href") }
+
+        expect(project_ids.uniq).to eq([api_v3_paths.project(public_project.id)])
+      end
+    end
+  end
+
   describe "GET categories/:id" do
     subject(:response) { last_response }
 

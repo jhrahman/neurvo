@@ -39,7 +39,7 @@ module ::Avatars
       file = ::Avatars::PresetService.path(params[:key])
       return head :not_found unless file
 
-      expires_in 1.day, public: true
+      expires_in 1.day, public: false
       send_file file, type: "image/png", disposition: "inline"
     end
 

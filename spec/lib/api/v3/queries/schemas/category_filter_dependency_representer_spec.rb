@@ -65,6 +65,14 @@ RSpec.describe API::V3::Queries::Schemas::CategoryFilterDependencyRepresenter do
           it_behaves_like "filter dependency with allowed link"
         end
 
+        context "for a query that is not scoped to a project" do
+          let(:query) { build_stubbed(:query, project: nil) }
+          let(:operator) { Queries::Operators::Equals }
+          let(:href) { api_v3_paths.categories }
+
+          it_behaves_like "filter dependency with allowed link"
+        end
+
         context "for operator 'Queries::Operators::All'" do
           let(:operator) { Queries::Operators::All }
 

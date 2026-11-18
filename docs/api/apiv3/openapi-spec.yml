@@ -213,6 +213,8 @@ paths:
     "$ref": "./paths/capabilities_context_global.yml"
   "/api/v3/capabilities/{id}":
     "$ref": "./paths/capability.yml"
+  "/api/v3/categories":
+    "$ref": "./paths/categories.yml"
   "/api/v3/categories/{id}":
     "$ref": "./paths/category.yml"
   "/api/v3/configuration":
