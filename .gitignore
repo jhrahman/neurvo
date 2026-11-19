@@ -156,3 +156,6 @@ acme.json
 
 # Sample account list kept locally
 /docs/neurvo/USERS.md
+
+# Local editor workspace file
+*.code-workspace
