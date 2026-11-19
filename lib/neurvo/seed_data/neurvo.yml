@@ -35,7 +35,6 @@ project:
   lead: ayesha
   status: { code: on_track, explanation: "MVP scope done except the command palette." }
   members: [ayesha, daniel, priya, sofia, nusrat, tanvir, general]
-  categories: ["UI", "Workflow", "Integrations"]
   sprints:
     prefix: "Neurvo"
     number: 1
@@ -51,8 +50,8 @@ project:
 
 work_packages:
   - { ref: neu_epic_jira, type: epic, subject: "Jira-style workflow for the team", status: in_progress, assignee: daniel, author: ayesha, priority: High, version: "Neurvo 0.1 (MVP)", start: -14, due: 14 }
-  - { ref: neu_keys, parent: neu_epic_jira, type: story, subject: "Readable issue keys like NEU-123", status: done, assignee: priya, author: ayesha, sprint: current, points: 3, version: "Neurvo 0.1 (MVP)", category: "Workflow" }
-  - { ref: neu_boards, parent: neu_epic_jira, type: story, subject: "Sprint, bug triage, release and workload boards for every product", status: done, assignee: priya, author: nusrat, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", category: "Workflow" }
-  - { ref: neu_palette, parent: neu_epic_jira, type: story, subject: "Command palette (Ctrl+K) for search and navigation", status: in_progress, assignee: priya, author: daniel, priority: Medium, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", category: "UI" }
-  - { ref: neu_bug_menu, type: bug, subject: "User menu does not close when clicking outside", status: done, assignee: sofia, author: nusrat, priority: Medium, sprint: current, version: "Neurvo 0.1 (MVP)", category: "UI", severity: Minor, environment: QA, platform: Web, found_in: "0.1.0-dev", fixed_in: "0.1.0-dev" }
+  - { ref: neu_keys, parent: neu_epic_jira, type: story, subject: "Readable issue keys like NEU-123", status: done, assignee: priya, author: ayesha, sprint: current, points: 3, version: "Neurvo 0.1 (MVP)", module: "Workflow" }
+  - { ref: neu_boards, parent: neu_epic_jira, type: story, subject: "Sprint, bug triage, release and workload boards for every product", status: done, assignee: priya, author: nusrat, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", module: "Workflow" }
+  - { ref: neu_palette, parent: neu_epic_jira, type: story, subject: "Command palette (Ctrl+K) for search and navigation", status: in_progress, assignee: priya, author: daniel, priority: Medium, sprint: current, points: 5, version: "Neurvo 0.1 (MVP)", module: "UI" }
+  - { ref: neu_bug_menu, type: bug, subject: "User menu does not close when clicking outside", status: done, assignee: sofia, author: nusrat, priority: Medium, sprint: current, version: "Neurvo 0.1 (MVP)", module: "UI", severity: Minor, environment: QA, platform: Web, found_in: "0.1.0-dev", fixed_in: "0.1.0-dev" }
   - { ref: neu_fr_slack, type: feature_request, subject: "Slack notifications for status changes", status: todo, author: nusrat, priority: Medium, version: "Neurvo 0.2", requested_by: "QA team", impact: "Medium" }

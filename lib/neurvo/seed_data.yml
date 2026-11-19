@@ -131,6 +131,7 @@ templates:
     - [ ]
 
 custom_fields:
+  - { key: module,       name: "Module",         format: list,   group: details, options: ["Checkout", "Search", "Catalogue", "Inventory", "Returns", "Payments", "Accounts", "Dispatch", "Tracking", "Driver app", "Billing", "Platform", "UI", "Workflow", "Integrations", "CI/CD", "Kubernetes", "Database", "Monitoring", "Security", "Cost"], types: [epic, story, task, subtask, bug, feature_request, change_request, support_request] }
   - { key: severity,     name: "Severity",       format: list,   options: ["Critical", "Major", "Minor", "Trivial"],            types: [bug] }
   - { key: environment,  name: "Environment",    format: list,   options: ["Development", "QA", "Staging", "Production"],       types: [bug] }
   - { key: platform,     name: "Platform",       format: list,   options: ["Web", "iOS", "Android", "API", "Infrastructure"],   types: [bug] }

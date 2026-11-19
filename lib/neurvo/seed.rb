@@ -43,7 +43,7 @@ module Neurvo
     RETIRED_SAMPLE_IDENTIFIERS = %w[WEB MOB SHOP].freeze
     KEPT_LOGINS = %w[admin qa].freeze
     FORM_SECTIONS = {
-      details: %w[priority sprint target_versions category date],
+      details: %w[priority sprint target_versions date],
       people: %w[author assignee responsible],
       estimates_and_progress: %w[story_points estimated_time remaining_time percentage_done]
     }.freeze
@@ -198,7 +198,7 @@ module Neurvo
       @custom_fields = data["custom_fields"].to_h do |conf|
         field = WorkPackageCustomField.find_or_initialize_by(name: conf["name"])
         field.field_format = conf["format"] if field.new_record?
-        field.assign_attributes(is_for_all: true, is_filter: true,
+        field.assign_attributes(is_for_all: true, multi_value: true, is_filter: true,
                                 searchable: conf["format"] == "string", is_required: false)
         Array(conf["options"]).each_with_index do |value, index|
           option = field.custom_options.detect { |o| o.value == value } || field.custom_options.build(value:)
@@ -219,9 +219,11 @@ module Neurvo
         variant = @types.fetch(conf["key"]).default_variant.reload
         type_fields = data["custom_fields"].select { |f| f["types"].include?(conf["key"]) }
         fields = type_fields.reject { |f| f["group"] }.map { |f| @custom_fields.fetch(f["key"]).attribute_name }
-        people_fields = type_fields.select { |f| f["group"] == "people" }.map { |f| @custom_fields.fetch(f["key"]).attribute_name }
+        grouped = lambda do |group|
+          type_fields.select { |f| f["group"] == group }.map { |f| @custom_fields.fetch(f["key"]).attribute_name }
+        end
         sections = FORM_SECTIONS.except(*(conf["milestone"] ? [:estimates_and_progress] : []))
-                                .to_h { |name, attrs| [name, name == :people ? attrs + people_fields : attrs] }.to_a
+                                .to_h { |name, attrs| [name, attrs + grouped.call(name.to_s)] }.to_a
         sections.unshift([conf["form_section"], fields]) if fields.any?
         variant.attribute_groups = sections
         variant.save!
@@ -360,7 +362,6 @@ module Neurvo
         Member.create!(project:, principal: user(key), roles: [role_for(key)])
         Favorite.create!(user: user(key), favorited: project)
       end
-      conf["categories"].each { |name| project.categories.create!(name:) }
       create_versions(project, conf["versions"] || [])
       create_sprints(project, conf["sprints"]) if conf["sprints"]
       say "Project #{project.identifier} #{project.name}"
@@ -420,7 +421,6 @@ module Neurvo
         responsible: user(project_lead(project)),
         parent: conf["parent"] && @refs.fetch(conf["parent"]),
         target_versions: conf["version"] && [@versions.fetch(conf["version"])],
-        category: conf["category"] && project.categories.find_by!(name: conf["category"]),
         sprint:,
         story_points: conf["points"],
         start_date: conf["start"] ? today + conf["start"] : sprint&.start_date,
@@ -440,7 +440,7 @@ module Neurvo
     def custom_values(conf)
       {
         "severity" => conf["severity"], "environment" => conf["environment"], "platform" => conf["platform"],
-        "found_in" => conf["found_in"], "fixed_in" => conf["fixed_in"],
+        "found_in" => conf["found_in"], "module" => conf["module"], "fixed_in" => conf["fixed_in"],
         "requested_by" => conf["requested_by"], "impact" => conf["impact"],
         "customer" => conf["customer"], "channel" => conf["channel"]
       }.compact.to_h do |key, value|

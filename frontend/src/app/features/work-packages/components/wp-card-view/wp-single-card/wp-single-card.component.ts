@@ -281,12 +281,23 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return isBlockedStatus((this.workPackage.status as StatusResource|undefined)?.name);
   }
 
-  /** The parent (usually the epic) or, failing that, the category, shown as a coloured label. */
-  public get lozenge():{ label:string, tone:number }|null {
+  /** The parent (usually the epic) or, failing that, the "Module" values, shown as coloured labels. */
+  public get lozenges():{ label:string, tone:number }[] {
     const links = (this.workPackage.$source as { _links?:HalLinkMap })._links;
-    const label = [links?.parent?.title, links?.category?.title].find((title) => !!title);
+    const parent = links?.parent?.title;
+    const labels = parent ? [parent] : this.moduleTitles(links);
 
-    return label ? { label, tone: lozengeTone(label) } : null;
+    return labels.map((label) => ({ label, tone: lozengeTone(label) }));
+  }
+
+  private moduleTitles(links:HalLinkMap|undefined):string[] {
+    const schema = this.schemaCache.of(this.workPackage) as unknown as Record<string, { name?:string }|undefined>;
+    const key = Object.keys(links ?? {}).find((name) => /^customField\d+$/.test(name) && schema[name]?.name === 'Module');
+    const value = key ? (links as Record<string, unknown>)[key] : undefined;
+
+    return (Array.isArray(value) ? value as { title?:string }[] : [])
+      .map((link) => link.title)
+      .filter((title):title is string => !!title);
   }
 
   public get glyph():TypeGlyph {

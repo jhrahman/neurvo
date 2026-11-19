@@ -35,7 +35,6 @@ project:
   lead: daniel
   status: { code: off_track, explanation: "Backups failed silently for 3 days; fix and restore verification in progress (OPS-4)." }
   members: [daniel, tanvir, rafi, priya, nusrat, general]
-  categories: ["CI/CD", "Kubernetes", "Database", "Monitoring", "Security", "Cost"]
   sprints:
     prefix: "Platform"
     number: 31
@@ -48,8 +47,8 @@ project:
 
 work_packages:
   - { ref: ops_epic_zero, type: epic, subject: "Zero-downtime deployments", status: in_progress, assignee: tanvir, author: daniel, priority: High, start: -21, due: 21 }
-  - { ref: ops_bluegreen, parent: ops_epic_zero, type: task, subject: "Blue/green deployment for the API on Kubernetes", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 8, category: "Kubernetes" }
-  - { ref: ops_alerts, type: task, subject: "Page on-call when the checkout error rate exceeds 2% for 5 minutes (QuickCart)", status: todo, assignee: tanvir, author: nusrat, priority: High, sprint: current, points: 2, category: "Monitoring" }
+  - { ref: ops_bluegreen, parent: ops_epic_zero, type: task, subject: "Blue/green deployment for the API on Kubernetes", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 8, module: "Kubernetes" }
+  - { ref: ops_alerts, type: task, subject: "Page on-call when the checkout error rate exceeds 2% for 5 minutes (QuickCart)", status: todo, assignee: tanvir, author: nusrat, priority: High, sprint: current, points: 2, module: "Monitoring" }
   - ref: ops_bug_backup
     type: bug
     subject: "Nightly database backup fails silently when the volume is more than 90% full"
@@ -58,16 +57,16 @@ work_packages:
     author: tanvir
     priority: Critical
     sprint: current
-    category: "Database"
+    module: "Database"
     severity: Critical
     environment: Production
     platform: Infrastructure
     found_in: "n/a"
     description: "**Summary**\nThe 02:00 backup CronJob exits 0 even when `pg_dump` fails for lack of disk space. The last good backup is from 3 days ago.\n\n**Expected result**\nJob fails, alert fires, backup is retried on the secondary volume.\n\n**Actual result**\nJob reports success; no alert."
-  - { ref: ops_cr_pg17, type: change_request, subject: "Upgrade PostgreSQL 15 to 17 on staging", status: blocked, assignee: tanvir, author: daniel, priority: Medium, sprint: next, points: 5, category: "Database", requested_by: "Engineering", impact: "Medium" }
-  - { ref: ops_alert_tracking, type: task, subject: "Alert when GoFleet live-tracking latency p95 exceeds 5 seconds", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 2, category: "Monitoring" }
-  - { ref: ops_pm_restore, type: task, subject: "Postmortem action: restore the latest backup weekly and alert on backup age and size", status: todo, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 3, category: "Database" }
-  - { ref: ops_pm_runbook, type: task, subject: "Postmortem action: write the backup and restore runbook", status: in_review, assignee: tanvir, author: daniel, sprint: current, points: 2, category: "Database" }
+  - { ref: ops_cr_pg17, type: change_request, subject: "Upgrade PostgreSQL 15 to 17 on staging", status: blocked, assignee: tanvir, author: daniel, priority: Medium, sprint: next, points: 5, module: "Database", requested_by: "Engineering", impact: "Medium" }
+  - { ref: ops_alert_tracking, type: task, subject: "Alert when GoFleet live-tracking latency p95 exceeds 5 seconds", status: in_progress, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 2, module: "Monitoring" }
+  - { ref: ops_pm_restore, type: task, subject: "Postmortem action: restore the latest backup weekly and alert on backup age and size", status: todo, assignee: tanvir, author: daniel, priority: High, sprint: current, points: 3, module: "Database" }
+  - { ref: ops_pm_runbook, type: task, subject: "Postmortem action: write the backup and restore runbook", status: in_review, assignee: tanvir, author: daniel, sprint: current, points: 2, module: "Database" }
 relations:
   - { from: ops_bug_backup, to: ops_alerts, type: relates }
   - { from: ops_pm_restore, to: ops_bug_backup, type: relates }
@@ -81,7 +80,7 @@ comments:
     - { by: tanvir, text: "Dashboard is live; the alert rule is in review. @Priya can you confirm the metric name from the tracking gateway?" }
 
 queries:
-  - { name: "Open infrastructure work", open: true, sort: [[priority, desc]], columns: [id, subject, type, status, assigned_to, priority, category] }
+  - { name: "Open infrastructure work", open: true, sort: [[priority, desc]], columns: [id, subject, type, status, assigned_to, priority, cf_module] }
 
 meetings:
   - { title: "Release go/no-go: QuickCart 5.9.0", day: 10, time: "14:00", duration: 30, author: daniel,

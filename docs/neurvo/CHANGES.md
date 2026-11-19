@@ -398,3 +398,10 @@ Left as is on purpose: log messages, API and MCP tool descriptions, JSON schema 
 | File | Reason |
 |---|---|
 | `frontend/src/app/features/boards/board/board-partitioned-page/board-list-container.component.sass` | The board no longer uses the shared `styled-scroll-bar` mixin, which made the scrollbar transparent and hid the thumb until hover, so mouse users had no bar to drag. A parent sets a transparent `scrollbar-color`, which is inherited and makes Chrome and Safari keep the invisible macOS overlay bar, so the board resets it to `auto`. It now shows a classic, always visible, theme-aware scrollbar (`::-webkit-scrollbar` with Primer colour variables, and a standard-property fallback for Firefox) and `overscroll-behavior-x: contain`, so a trackpad swipe past the last column no longer triggers the browser's back navigation |
+
+## Module replaces Category
+
+| File | Reason |
+|---|---|
+| `lib/neurvo/seed_data.yml`, `lib/neurvo/seed.rb`, `lib/neurvo/seed_data/*.yml` | Category is no longer in the work package form. A multi-select custom field "Module" (Details section, every type except Milestone) replaces it, with product module names as options. Admins edit the names in Administration > Custom fields > Module |
+| `frontend/src/app/features/work-packages/components/wp-card-view/wp-single-card/wp-single-card.component.ts` | The board card label is the parent title, else the "Module" values (one label each). The field is found by its name, so renaming it hides the label |

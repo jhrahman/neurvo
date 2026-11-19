@@ -184,11 +184,15 @@
         data-test-selector="op-wp-single-card--content-subject"
         [textContent]="wpSubject(workPackage)"></div>
 
-      @if (lozenge; as label) {
-        <span class="op-board-card--lozenge"
-          data-test-selector="op-board-card--lozenge"
-          [attr.data-tone]="label.tone"
-          [title]="label.label">{{ label.label }}</span>
+      @if (lozenges.length) {
+        <div class="op-board-card--lozenges">
+          @for (lozenge of lozenges; track lozenge.label) {
+            <span class="op-board-card--lozenge"
+              data-test-selector="op-board-card--lozenge"
+              [attr.data-tone]="lozenge.tone"
+              [title]="lozenge.label">{{ lozenge.label }}</span>
+          }
+        </div>
       }
 
       @if (cardCoverImageShown(workPackage)) {

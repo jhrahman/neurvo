@@ -36,7 +36,6 @@ project:
   lead: ayesha
   status: { code: on_track, explanation: "5.9.0 on schedule; the payment error on expiring cards (QCART-14) and the reopened cart bug (QCART-17) are the release risks." }
   members: [ayesha, daniel, rafi, arif, maya, marco, nusrat, tanvir, general]
-  categories: ["Checkout", "Search", "Catalogue", "Inventory", "Returns", "Payments", "Accounts"]
   sprints:
     prefix: "QuickCart"
     number: 52
@@ -77,7 +76,7 @@ work_packages:
     sprint: current
     points: 8
     version: "QuickCart 5.9.0"
-    category: "Checkout"
+    module: "Checkout"
     description: |
       **As a** returning shopper **I want** to pick one of my saved cards **so that** I can pay without typing card details.
 
@@ -90,10 +89,10 @@ work_packages:
 
       **Out of scope**
       Adding a new card during checkout (separate story).
-  - { ref: qc_cards_ui, parent: qc_saved_cards, type: subtask, subject: "Saved-card selector component", status: in_review, assignee: arif, author: arif, sprint: current, points: 3, category: "Checkout" }
-  - { ref: qc_cards_api, parent: qc_saved_cards, type: subtask, subject: "GET /payment-methods endpoint with PSP token lookup", status: done, assignee: rafi, author: rafi, sprint: current, points: 3, category: "Payments", fixed_in: "5.9.0-rc.1" }
-  - { ref: qc_promo, parent: qc_epic_checkout, type: story, subject: "Apply a promo code inline without a page reload", status: ready_qa, assignee: marco, author: ayesha, priority: Medium, sprint: current, points: 5, version: "QuickCart 5.9.0", category: "Checkout", fixed_in: "5.9.0-rc.2" }
-  - { ref: qc_guest, parent: qc_epic_checkout, type: story, subject: "Guest checkout with an email-only account", status: todo, author: ayesha, sprint: next, points: 8, version: "QuickCart 5.10.0", category: "Checkout" }
+  - { ref: qc_cards_ui, parent: qc_saved_cards, type: subtask, subject: "Saved-card selector component", status: in_review, assignee: arif, author: arif, sprint: current, points: 3, module: "Checkout" }
+  - { ref: qc_cards_api, parent: qc_saved_cards, type: subtask, subject: "GET /payment-methods endpoint with PSP token lookup", status: done, assignee: rafi, author: rafi, sprint: current, points: 3, module: "Payments", fixed_in: "5.9.0-rc.1" }
+  - { ref: qc_promo, parent: qc_epic_checkout, type: story, subject: "Apply a promo code inline without a page reload", status: ready_qa, assignee: marco, author: ayesha, priority: Medium, sprint: current, points: 5, version: "QuickCart 5.9.0", module: "Checkout", fixed_in: "5.9.0-rc.2" }
+  - { ref: qc_guest, parent: qc_epic_checkout, type: story, subject: "Guest checkout with an email-only account", status: todo, author: ayesha, sprint: next, points: 8, version: "QuickCart 5.10.0", module: "Checkout" }
   - ref: qc_epic_search
     type: epic
     subject: "Search relevance improvements"
@@ -114,7 +113,7 @@ work_packages:
     sprint: current
     points: 5
     version: "QuickCart 5.9.0"
-    category: "Search"
+    module: "Search"
     description: |
       **As a** shopper **I want** "iphne case" to find iPhone cases **so that** a typo does not end my visit.
 
@@ -133,8 +132,8 @@ work_packages:
     version: "QuickCart 5.9.0"
     start: -21
     due: 39
-  - { ref: qc_stock_sync, parent: qc_epic_inventory, type: story, subject: "Real-time stock sync between the warehouse system and the storefront", status: in_progress, assignee: rafi, author: ayesha, priority: High, sprint: current, points: 8, version: "QuickCart 5.9.0", category: "Inventory" }
-  - { ref: qc_design_checkout, type: task, subject: "Design: one-page checkout wireframes and clickable prototype", status: done, assignee: maya, author: ayesha, sprint: previous, points: 3, version: "QuickCart 5.8.0", category: "Checkout" }
+  - { ref: qc_stock_sync, parent: qc_epic_inventory, type: story, subject: "Real-time stock sync between the warehouse system and the storefront", status: in_progress, assignee: rafi, author: ayesha, priority: High, sprint: current, points: 8, version: "QuickCart 5.9.0", module: "Inventory" }
+  - { ref: qc_design_checkout, type: task, subject: "Design: one-page checkout wireframes and clickable prototype", status: done, assignee: maya, author: ayesha, sprint: previous, points: 3, version: "QuickCart 5.8.0", module: "Checkout" }
   - ref: qc_qa_plan
     type: task
     subject: "Regression test plan for the QuickCart 5.9.0 release candidate"
@@ -144,9 +143,9 @@ work_packages:
     priority: High
     sprint: current
     points: 3
-    category: "Checkout"
+    module: "Checkout"
     description: "**What needs to be done**\nCover checkout v2, promo codes, search, stock and account flows on the release candidate; agree the scope with Daniel.\n\n**Definition of done**\n- [x] Test cases reviewed\n- [ ] Executed on staging with the payment test cards from the test strategy\n- [ ] Results shared at the go/no-go meeting"
-  - { ref: qc_qa_smoke, type: task, subject: "Smoke-test checklist for the 5.9.0 go/no-go", status: todo, assignee: nusrat, author: daniel, priority: Medium, start: -4, due: -1, category: "Checkout" }
+  - { ref: qc_qa_smoke, type: task, subject: "Smoke-test checklist for the 5.9.0 go/no-go", status: todo, assignee: nusrat, author: daniel, priority: Medium, start: -4, due: -1, module: "Checkout" }
 
   - ref: qc_bug_expiry
     type: bug
@@ -156,7 +155,7 @@ work_packages:
     author: nusrat
     priority: Critical
     sprint: current
-    category: "Payments"
+    module: "Payments"
     severity: Critical
     environment: Staging
     platform: Web
@@ -175,8 +174,8 @@ work_packages:
 
       **Evidence**
       `CardExpiredError` in the payment service log; the card is valid until the last day of the month but the check compares against the 1st.
-  - { ref: qc_bug_promo, type: bug, subject: "Order total not updated after removing a promo code", status: in_progress, assignee: arif, author: marco, priority: High, sprint: current, category: "Checkout", severity: Major, environment: QA, platform: Web, found_in: "5.9.0-rc.1" }
-  - { ref: qc_bug_lcp, type: bug, subject: "Category page LCP 6.2 s on mobile: images not lazy-loaded", status: ready_qa, assignee: arif, author: marco, priority: Medium, sprint: current, category: "Catalogue", severity: Major, environment: Staging, platform: Web, found_in: "5.9.0-rc.1", fixed_in: "5.9.0-rc.2" }
+  - { ref: qc_bug_promo, type: bug, subject: "Order total not updated after removing a promo code", status: in_progress, assignee: arif, author: marco, priority: High, sprint: current, module: "Checkout", severity: Major, environment: QA, platform: Web, found_in: "5.9.0-rc.1" }
+  - { ref: qc_bug_lcp, type: bug, subject: "Category page LCP 6.2 s on mobile: images not lazy-loaded", status: ready_qa, assignee: arif, author: marco, priority: Medium, sprint: current, module: "Catalogue", severity: Major, environment: Staging, platform: Web, found_in: "5.9.0-rc.1", fixed_in: "5.9.0-rc.2" }
   - ref: qc_bug_badge
     type: bug
     subject: "Cart badge shows items from the previous session after logout"
@@ -185,7 +184,7 @@ work_packages:
     author: marco
     priority: High
     sprint: current
-    category: "Checkout"
+    module: "Checkout"
     severity: Major
     environment: QA
     platform: Web
@@ -201,16 +200,16 @@ work_packages:
 
       **Actual result**
       Badge still shows 2 until the page is reloaded.
-  - { ref: qc_bug_postcode, type: bug, subject: "Address form accepts invalid UK postcodes", status: in_qa, assignee: marco, author: marco, priority: Medium, sprint: current, category: "Accounts", severity: Minor, environment: QA, platform: Web, found_in: "5.9.0-rc.1", fixed_in: "5.9.0-rc.2" }
-  - { ref: qc_bug_stock, type: bug, subject: "Product page shows In stock for sold-out variants", status: in_progress, assignee: rafi, author: nusrat, priority: High, sprint: current, category: "Inventory", severity: Major, environment: Production, platform: Web, found_in: "5.8.0" }
+  - { ref: qc_bug_postcode, type: bug, subject: "Address form accepts invalid UK postcodes", status: in_qa, assignee: marco, author: marco, priority: Medium, sprint: current, module: "Accounts", severity: Minor, environment: QA, platform: Web, found_in: "5.9.0-rc.1", fixed_in: "5.9.0-rc.2" }
+  - { ref: qc_bug_stock, type: bug, subject: "Product page shows In stock for sold-out variants", status: in_progress, assignee: rafi, author: nusrat, priority: High, sprint: current, module: "Inventory", severity: Major, environment: Production, platform: Web, found_in: "5.8.0" }
   - { ref: qc_fr_wishlist, type: feature_request, subject: "Share a wishlist via link", status: todo, author: ayesha, priority: Medium, requested_by: "Customer survey", impact: "Medium" }
-  - { ref: qc_cr_shipping, type: change_request, subject: "Raise the free-shipping threshold from $50 to $75", status: in_progress, assignee: rafi, author: ayesha, priority: Medium, sprint: current, points: 2, category: "Checkout", requested_by: "Finance", impact: "Medium",
+  - { ref: qc_cr_shipping, type: change_request, subject: "Raise the free-shipping threshold from $50 to $75", status: in_progress, assignee: rafi, author: ayesha, priority: Medium, sprint: current, points: 2, module: "Checkout", requested_by: "Finance", impact: "Medium",
       description: "**Requested change**\nFree shipping from $75 instead of $50.\n\n**Reason for change**\nShipping costs rose 12%; the lower threshold now loses money on small baskets.\n\n**Impact**\nConfig change plus new banner copy; expected -1.5% conversion on baskets between $50 and $75.\n\n**Approval**\nApproved by Ayesha Karim and the finance lead." }
   - { ref: qc_release_59, type: milestone, subject: "QuickCart 5.9.0 release", status: todo, assignee: daniel, author: daniel, version: "QuickCart 5.9.0", start: 11, due: 11 }
 
-  - { ref: qc_sr_expiry, type: support_request, subject: "Customer sees \"Something went wrong\" when paying with a card that expires this month", status: in_progress, assignee: marco, author: marco, priority: Critical, category: "Payments", customer: "Contoso Retail", channel: "Email", impact: "High",
+  - { ref: qc_sr_expiry, type: support_request, subject: "Customer sees \"Something went wrong\" when paying with a card that expires this month", status: in_progress, assignee: marco, author: marco, priority: Critical, module: "Payments", customer: "Contoso Retail", channel: "Email", impact: "High",
       description: "**Customer request**\nThree of their buyers could not complete an order today. Card expires 11/2026.\n\n**Customer and account**\nContoso Retail, Business plan, about 40 buyers.\n\n**Already tried**\nReproduced with a test card that expires this month; the payment request returns a 500.\n\n**Escalation**\nBlocked by the open payment bug; told the customer to use another card for now." }
-  - { ref: qc_sr_refund, type: support_request, subject: "Refund for a duplicate charge on order #48213 has not arrived", status: reopened, assignee: marco, author: marco, priority: High, category: "Payments", customer: "Brightside Cafe", channel: "Live chat", impact: "High",
+  - { ref: qc_sr_refund, type: support_request, subject: "Refund for a duplicate charge on order #48213 has not arrived", status: reopened, assignee: marco, author: marco, priority: High, module: "Payments", customer: "Brightside Cafe", channel: "Live chat", impact: "High",
       description: "**Customer request**\nCharged twice for the same order. A refund was issued 5 days ago but the customer still does not see it.\n\n**Customer and account**\nBrightside Cafe, Starter plan.\n\n**Already tried**\nRefund reference confirmed in the payment dashboard." }
 relations:
   - { from: qc_bug_promo, to: qc_promo, type: relates }
