@@ -3,6 +3,7 @@
 // Column width (320px) plus the gutter between columns
 $board-list-max-width: 328px
 $board-list-top-offset: 18px
+$board-scrollbar-size: 14px
 
 .boards-list--container
   display: flex
@@ -11,9 +12,35 @@ $board-list-top-offset: 18px
   flex-grow: 1
   height: 100%
 
-  // Make it scrollable
+  overflow-x: auto
   overflow-y: auto
-  @include styled-scroll-bar
+  // A trackpad swipe past the last column must not trigger the browser's back/forward navigation
+  overscroll-behavior-x: contain
+
+  // A parent sets a transparent scrollbar-color, which is inherited. Any non-auto value makes Chrome and Safari
+  // ignore the pseudo-elements below and keep the invisible macOS overlay bar, so it has to be reset here.
+  scrollbar-width: auto
+  scrollbar-color: auto
+
+  // Classic, always visible bar, so mouse users have something to grab
+  &::-webkit-scrollbar
+    height: $board-scrollbar-size
+    width: $board-scrollbar-size
+
+  &::-webkit-scrollbar-track
+    background: var(--bgColor-muted)
+
+  &::-webkit-scrollbar-thumb
+    background: var(--borderColor-emphasis)
+    border: 3px solid var(--bgColor-muted)
+    border-radius: $board-scrollbar-size
+
+  &::-webkit-scrollbar-thumb:hover
+    background: var(--fgColor-muted)
+
+  @supports not selector(::-webkit-scrollbar)
+    scrollbar-width: auto
+    scrollbar-color: var(--borderColor-emphasis) var(--bgColor-muted)
 
 .boards-list-item-handle
   position: absolute

@@ -392,3 +392,9 @@ Left as is on purpose: log messages, API and MCP tool descriptions, JSON schema 
 | `lib/api/v3/queries/schemas/category_filter_dependency_representer.rb` | Without a project the category filter points at `/api/v3/categories` instead of crashing, which made the "All projects" list fail with a 500 error |
 | `docs/api/apiv3/paths/categories.yml`, `docs/api/apiv3/openapi-spec.yml` | Documents the new endpoint |
 | `modules/avatars/app/controllers/avatars/presets_controller.rb` | Preset avatar images are cached privately, not by shared proxies |
+
+## Visible horizontal scrollbar on boards
+
+| File | Reason |
+|---|---|
+| `frontend/src/app/features/boards/board/board-partitioned-page/board-list-container.component.sass` | The board no longer uses the shared `styled-scroll-bar` mixin, which made the scrollbar transparent and hid the thumb until hover, so mouse users had no bar to drag. A parent sets a transparent `scrollbar-color`, which is inherited and makes Chrome and Safari keep the invisible macOS overlay bar, so the board resets it to `auto`. It now shows a classic, always visible, theme-aware scrollbar (`::-webkit-scrollbar` with Primer colour variables, and a standard-property fallback for Firefox) and `overscroll-behavior-x: contain`, so a trackpad swipe past the last column no longer triggers the browser's back navigation |
