@@ -50,9 +50,23 @@ export class WorkPackageBreadcrumbComponent {
   public text = {
     parent: this.I18n.t('js.relations_hierarchy.parent_headline'),
     hierarchy: this.I18n.t('js.relations_hierarchy.hierarchy_headline'),
+    issues: this.I18n.t('js.label_work_package_plural'),
   };
 
   public inputActive = false;
+
+  public get projectName():string|undefined {
+    return (this.workPackage.project as { name?:string }|undefined)?.name;
+  }
+
+  public get projectPath():string|null {
+    const identifier = this.workPackage.project?.identifier as string|undefined;
+    return identifier ? this.pathHelper.projectPath(identifier) : null;
+  }
+
+  public get issuesPath():string|null {
+    return this.projectPath && `${this.projectPath}/work_packages`;
+  }
 
   public get hierarchyCount() {
     return this.workPackage.getAncestors().length;

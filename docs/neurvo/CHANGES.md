@@ -405,3 +405,9 @@ Left as is on purpose: log messages, API and MCP tool descriptions, JSON schema 
 |---|---|
 | `lib/neurvo/seed_data.yml`, `lib/neurvo/seed.rb`, `lib/neurvo/seed_data/*.yml` | Category is no longer in the work package form. A multi-select custom field "Module" (Details section, every type except Milestone) replaces it, with product module names as options. Admins edit the names in Administration > Custom fields > Module |
 | `frontend/src/app/features/work-packages/components/wp-card-view/wp-single-card/wp-single-card.component.ts` | The board card label is the parent title, else the "Module" values (one label each). The field is found by its name, so renaming it hides the label |
+
+## Breadcrumb on the issue page
+
+| File | Reason |
+|---|---|
+| `frontend/src/app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb.{component.ts,html,sass}` | The issue header only showed the parent link ("Set parent"). It now reads `Project / Issues / [Parent: ancestors /] KEY`, with `/` separators like the Primer breadcrumb on boards, followed by the existing set/change parent control |

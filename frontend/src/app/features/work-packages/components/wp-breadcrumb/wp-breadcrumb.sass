@@ -4,6 +4,15 @@
   @include global-breadcrumb-styles
   height: initial
 
+  ul.op-breadcrumb li:not(:first-child):not(:has(wp-breadcrumb-parent))::before,
+  ul.op-breadcrumb li:has(wp-breadcrumb-parent a)::before
+    content: "/"
+    margin-right: 5px
+    color: var(--fgColor-muted)
+
+  &--current
+    font-weight: var(--base-text-weight-semibold, 600)
+
   &--ellipsed
     max-width: 600px
     @include text-shortener

@@ -4,6 +4,28 @@
     >
     <ul class="op-breadcrumb"
       data-test-selector="op-breadcrumb">
+      <ng-template #current>
+        @if (!inputActive && workPackage.displayId) {
+          <li class="op-wp-breadcrumb--current"
+            data-test-selector="op-wp-breadcrumb--current"
+            aria-current="page">{{ workPackage.displayId }}</li>
+        }
+      </ng-template>
+      @if (projectPath && projectName) {
+        <li class="op-wp-breadcrumb--ellipsed">
+          <a [attr.title]="projectName"
+             [textContent]="projectName"
+             data-test-selector="op-wp-breadcrumb--project"
+             [href]="projectPath"
+             data-turbo="false"></a>
+        </li>
+        <li>
+          <a [textContent]="text.issues"
+             data-test-selector="op-wp-breadcrumb--issues"
+             [href]="issuesPath"
+             data-turbo="false"></a>
+        </li>
+      }
       @if (!inputActive && hierarchyCount > 0) {
         <li>
           <span>{{ hierarchyLabel }}: </span>
@@ -12,7 +34,7 @@
           @if (!last) {
             <li
               class="op-wp-breadcrumb--ellipsed"
-              [ngClass]="{ 'icon4 icon-small icon-arrow-right5': !first }">
+              >
               <a [attr.title]="ancestor.name"
                  [textContent]="ancestor.name"
                  data-test-selector="op-wp-breadcrumb--hierarchy-element"
@@ -22,10 +44,16 @@
           }
         }
       }
+      @if (hierarchyCount === 0) {
+        <ng-container *ngTemplateOutlet="current" />
+      }
       <li
-        [ngClass]="{ 'op-wp-breadcrumb--active-parent-select': inputActive, 'icon4 icon-small icon-arrow-right5': !inputActive && hierarchyCount > 1 }">
+        [ngClass]="{ 'op-wp-breadcrumb--active-parent-select': inputActive }">
         <wp-breadcrumb-parent (onSwitch)="updateActiveInput($event)" [workPackage]="workPackage" />
       </li>
+      @if (hierarchyCount > 0) {
+        <ng-container *ngTemplateOutlet="current" />
+      }
     </ul>
   </div>
 }
