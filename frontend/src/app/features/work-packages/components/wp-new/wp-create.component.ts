@@ -104,8 +104,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     this.closeEditFormWhenNewWorkPackageSaved();
 
     this.showForm();
-
-    window.OpenProject.pageState = 'edited';
   }
 
   public ngOnDestroy() {

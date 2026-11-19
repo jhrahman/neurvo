@@ -47,7 +47,8 @@ module API
 
             redirect build_gravatar_image_url(@user)
           else
-            status 404
+            # The frontend asks for every user's avatar and falls back to initials; an empty answer avoids a failed request
+            status 204
           end
         rescue StandardError => e
           # Exceptions may happen due to invalid mails in the avatar builder

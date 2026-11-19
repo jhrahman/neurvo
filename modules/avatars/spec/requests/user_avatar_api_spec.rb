@@ -58,8 +58,8 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       let(:gravatars) { false }
       let(:local_avatars) { false }
 
-      it "renders a 404" do
-        expect(response).to have_http_status :not_found
+      it "renders an empty 204" do
+        expect(response).to have_http_status :no_content
       end
     end
 

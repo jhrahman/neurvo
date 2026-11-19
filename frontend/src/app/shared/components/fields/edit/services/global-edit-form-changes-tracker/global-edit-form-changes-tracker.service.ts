@@ -40,6 +40,7 @@ export class GlobalEditFormChangesTrackerService {
   private activeForms = new Map<EditFormComponent, boolean>();
   private abortController = new AbortController();
   private visitApproved = false;
+  private userEditedNewResource = false;
 
   get thereAreFormsWithUnsavedChanges() {
     return Array
@@ -47,12 +48,21 @@ export class GlobalEditFormChangesTrackerService {
       .some((form) => (
         form.editing
         && !form.change.inFlight
-        && (isNewResource(form.resource) || !form.change.isEmpty())
+        && (isNewResource(form.resource) ? this.userEditedNewResource : !form.change.isEmpty())
       ));
   }
 
   constructor() {
     const { signal } = this.abortController;
+
+    // A new resource always carries defaults in its changeset, so only real input counts as unsaved work
+    ['input', 'change', 'paste'].forEach((type) => {
+      document.addEventListener(type, (event) => {
+        if (this.activeForms.size && this.isInsideEditForm(event.target)) {
+          this.userEditedNewResource = true;
+        }
+      }, { signal, capture: true });
+    });
 
     window.OpenProject.editFormsContainUnsavedChanges = () => this.thereAreFormsWithUnsavedChanges;
 
@@ -91,5 +101,13 @@ export class GlobalEditFormChangesTrackerService {
 
   public removeFromActiveForms(form:EditFormComponent) {
     this.activeForms.delete(form);
+
+    if (!this.activeForms.size) {
+      this.userEditedNewResource = false;
+    }
+  }
+
+  private isInsideEditForm(target:EventTarget|null):boolean {
+    return target instanceof Element && !!target.closest('edit-form, [edit-form], .ng-dropdown-panel');
   }
 }

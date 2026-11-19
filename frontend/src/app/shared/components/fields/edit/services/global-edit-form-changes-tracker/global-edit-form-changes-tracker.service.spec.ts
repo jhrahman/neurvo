@@ -127,12 +127,39 @@ describe('GlobalEditFormChangesTrackerService', () => {
     expect(service.thereAreFormsWithUnsavedChanges).toBe(false);
   });
 
-  it('should report changes when an unchanged form tracks a new resource', () => {
+  it('should report no changes when a new resource form was not touched', () => {
     const form = createForm(false, false, null);
 
     service.addToActiveForms(form);
 
+    expect(service.thereAreFormsWithUnsavedChanges).toBe(false);
+  });
+
+  it('should report changes when the user typed into a new resource form', () => {
+    const form = createForm(false, false, null);
+    const host = document.createElement('div');
+    host.setAttribute('edit-form', '');
+    const input = document.createElement('input');
+    host.appendChild(input);
+    document.body.appendChild(host);
+
+    service.addToActiveForms(form);
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    host.remove();
+
     expect(service.thereAreFormsWithUnsavedChanges).toBe(true);
+  });
+
+  it('should ignore input outside of edit forms for a new resource', () => {
+    const form = createForm(false, false, null);
+    const input = document.createElement('input');
+    document.body.appendChild(input);
+
+    service.addToActiveForms(form);
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.remove();
+
+    expect(service.thereAreFormsWithUnsavedChanges).toBe(false);
   });
 
   it('should report no changes when a new resource form is no longer editing', () => {

@@ -411,3 +411,11 @@ Left as is on purpose: log messages, API and MCP tool descriptions, JSON schema 
 | File | Reason |
 |---|---|
 | `frontend/src/app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb.{component.ts,html,sass}` | The issue header only showed the parent link ("Set parent"). It now reads `Project / Issues / [Parent: ancestors /] KEY`, with `/` separators like the Primer breadcrumb on boards, followed by the existing set/change parent control |
+
+## Quieter avatars and no false "unsaved changes" prompt
+
+| File | Reason |
+|---|---|
+| `modules/avatars/lib/api/v3/users/user_avatar_api.rb`, `modules/avatars/spec/requests/user_avatar_api_spec.rb` | `GET /api/v3/users/:id/avatar` answers 204 instead of 404 for users without an avatar. The frontend asks for every user's avatar and falls back to initials, so this removes a failed request (and console error) per user, such as System in the activity list |
+| `frontend/src/app/features/work-packages/components/wp-new/wp-create.component.ts`, `.../routing/wp-split-create/wp-split-create-entry.component.ts` | The new-issue form no longer marks the page as edited on mount, so leaving an untouched form does not ask to discard changes. The split-view reset that worked around it is removed |
+| `frontend/src/app/shared/components/fields/edit/services/global-edit-form-changes-tracker/*` | A new resource always has defaults in its changeset, so it counts as unsaved only after the user typed or changed something in an edit form. Spec updated |

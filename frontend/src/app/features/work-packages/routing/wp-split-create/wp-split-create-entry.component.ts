@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -49,7 +49,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDestroy {
+export class WorkPackageSplitCreateEntryComponent implements OnDestroy {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() projectIdentifier?:string;
@@ -58,13 +58,6 @@ export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDe
   constructor() {
     populateInputsFromDataset(this);
     document.body.classList.add('router--work-packages-partitioned-split-view-new');
-  }
-
-  ngAfterViewInit():void {
-    // wp-new-split-view sets pageState = 'edited' unconditionally on mount,
-    // which would block Turbo navigation in the split panel context.
-    // Reset it here after all children have initialized.
-    window.OpenProject.pageState = 'pristine';
   }
 
   ngOnDestroy():void {
