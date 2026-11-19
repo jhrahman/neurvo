@@ -177,6 +177,50 @@ I built Neurvo on my own, working with an AI coding assistant (Claude Code) as a
 
 ---
 
+## Your data stays on your server
+
+Neurvo is built to be hosted by a private organization on its own server. Issues, comments, files, accounts and backups live in the PostgreSQL database and storage of the machine you run it on. **There is no tracker in Neurvo, and nothing is sent to OpenProject or to any other third party.**
+
+*Last reviewed in November 2026, on Neurvo built from OpenProject 17.9.6.*
+
+### What does not leave your server
+
+- **No telemetry, no usage statistics, no update check.** The code contains none. Enterprise tokens are checked locally, with no call to a license server.
+- **No analytics, session recording, chat widgets, ads or third-party scripts.** There are no fonts or scripts from a CDN either. Every page loads only from your own server.
+- **No Gravatar.** Email address hashes are never sent to gravatar.com. People pick one of 32 built-in avatars or upload a picture.
+- **No error reporting to a vendor.** The AppSignal, Airbrake and OpenTelemetry integrations ship switched off and stay silent unless an administrator sets them up on purpose.
+- **No "security badge".** The upstream badge that reports your instance ID and version to OpenProject is off.
+- **No AI provider.** Neurvo has none built in. The MCP server (an inbound API for outside AI tools) is off by default and needs an administrator to turn it on.
+- **Links are only links.** Help and documentation links to openproject.org, YouTube and so on send nothing until someone clicks them. The production setup also hides the Enterprise banners and the trial form, which is the one upstream feature that would contact OpenProject, and only when an administrator submits it.
+
+Neurvo talks to other systems only when an administrator connects them: your mail server, LDAP or single sign-on, GitHub or GitLab, webhooks and file storages such as Nextcloud. By design, the production stack makes two other kinds of outbound requests: the Caddy proxy asks Let's Encrypt for your free HTTPS certificate, and Docker pulls images when you install or update.
+
+### How this was checked
+
+- **Code review** for every outbound call, tracker and third-party script, in the core code and in all 30 bundled modules.
+- **Live network monitoring.** The backend and the background worker were watched for about five minutes while every scheduled job ran once and 30 pages were opened in a browser, including every administration page. Neither container made a single connection to a public address, and the browser only ever talked to the Neurvo server. A deliberate test connection was caught by the same monitor, so an empty result can be trusted.
+
+You can check it yourself: open your browser's developer tools, switch to the **Network** tab, and use Neurvo. Every request goes to your own host. For a hard guarantee, block outbound traffic from the server in your firewall (keep Let's Encrypt and your mail server if you use them). Neurvo works without internet access.
+
+### Security
+
+- **Sign-in is required.** Nothing is visible to anonymous visitors, and the API answers 401 without a login.
+- **Strong defaults.** Passwords need at least 10 characters. An account is locked for 30 minutes after 10 failed sign-ins. Session cookies are `HttpOnly`, `SameSite=Lax` and `Secure` over HTTPS. Forms are protected against CSRF.
+- **Strict browser policy.** A tight Content-Security-Policy, `X-Frame-Options`, `nosniff` and a referrer policy are sent on every page. Outgoing webhooks are protected against requests to internal addresses (SSRF).
+- **No default credentials in production.** The stack refuses to start without your own administrator email and password and a long random `SECRET_KEY_BASE`, and it rejects the `admin`, `change-me` and weak-secret placeholders. The administrator's credentials are visible only to the one-time seeder container.
+- **Reviewed and patched.** The review found no critical issue in Neurvo's own code and no committed secrets, and Neurvo's changes removed no permission check. Dependencies were brought to the latest patch releases on 18 November 2026, including Rails 8.1.4.1, Rack 2.2.25 and Nokogiri 1.19.7, which fixed all published advisories at that time except those listed below. The full list of Neurvo's changes to upstream code is in [docs/neurvo/CHANGES.md](docs/neurvo/CHANGES.md).
+
+### Known limits and your part
+
+No software can promise zero vulnerabilities, and Neurvo inherits the strengths and the risks of the OpenProject code it is built on.
+
+- Two server dependencies, `puma` and `dalli`, have advisories whose fixed releases are still inside the project's seven-day supply-chain cooldown. A few advisories remain in front-end build tooling and in the optional BIM viewer, and need releases from their maintainers. These are tracked and will be updated as fixes ship.
+- The `/health_checks/` page is reachable without a login and shows the database schema version. On a public server, block it at your reverse proxy.
+- Keep it updated: pull new images, apply upstream OpenProject security releases, and re-run a dependency scan from time to time.
+- Use HTTPS (the production stack does this for you), unique passwords for every person, a firewall, and regular backups. The [deployment guide](docs/neurvo/DEPLOY.md) has a checklist.
+
+---
+
 ## Run Neurvo on your computer (Docker)
 
 Everything runs in Docker, so you do not install Ruby, Node or PostgreSQL yourself.
